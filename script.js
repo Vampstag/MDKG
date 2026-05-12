@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Kenapa Banyak UMKM Gagal di Sosial Media?",
             excerpt: "Menganalisis kesalahan umum dalam strategi visual UMKM dan bagaimana cara memperbaikinya dengan pendekatan data-driven.",
             image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop", // Placeholder: Optimal untuk rasio potret 4:5
-            link: "journal/umkm-gagal.html",
+            link: "journal/umkm-gagal",
             isTextOnly: false,
             aspectRatio: "4/5"
         },
