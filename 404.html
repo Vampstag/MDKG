@@ -46,6 +46,8 @@
             const counter = document.getElementById('counter');
             const bar = document.getElementById('bar');
             const preloader = document.getElementById('preloader');
+            const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
+            const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
             let currentProgress = 0;
             function updateCounter() {
                 const jump = Math.floor(Math.random() * 45) + 25;
@@ -53,6 +55,11 @@
                 if (currentProgress > 100) currentProgress = 100;
                 if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                 if(bar) bar.style.width = currentProgress + "%";
+                if(phraseEl) {
+                    let pIndex = Math.floor((currentProgress / 100) * phrases.length);
+                    if (pIndex >= phrases.length) pIndex = phrases.length - 1;
+                    phraseEl.innerText = phrases[pIndex];
+                }
                 let delay = Math.floor(Math.random() * 150) + 20;
                 if (currentProgress < 100) { setTimeout(updateCounter, delay); } 
                 else {

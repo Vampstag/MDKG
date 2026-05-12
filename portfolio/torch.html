@@ -256,11 +256,17 @@
             <section id="showreel" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <!-- [FIXED] Replaced Lottie placeholder with a functional video player -->
                         <div class="showreel-wrapper">
-                            <video class="showreel-video" autoplay loop muted playsinline>
-                                <source src="../assets/videos/project/torch/campaign_launch.webm" type="video/webm">
-                            </video>
+                            <lottie-player 
+                                src="../assets/videos/project/torch/lottie/showreel(placeholder).json" 
+                                background="transparent" 
+                                speed="1" 
+                                loop 
+                                autoplay 
+                                class="showreel-lottie"
+                                style="width: 100%; height: 100%; object-fit: cover;"
+                                preserveAspectRatio="xMidYMid slice">
+                            </lottie-player>
                         </div>
                     </div>
                 </div>
