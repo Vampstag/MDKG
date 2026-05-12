@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Content & Editing"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
-                link: "case-study/torch.html", // Ganti dengan link detail proyek jika ada
+                link: "case-study/torch", // Ganti dengan link detail proyek jika ada
                 description: "Bringing the Gundam universe to life for Torch’s biggest collaboration.", // Ganti dengan deskripsi proyek
                 brandInfo: "Founded in Bandung in 2015, Torch is an Indonesian outdoor and travel gear brand. Inspired by its name, it aims to be a guiding light for travelers through simple, innovative, and practical products.",
                 image: "assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Digital Content",
                 industry: "F&B",
                 roles: ["Video Content & Editing", "Visual & Brand Design"],
-                link: "case-study/tsukamie.html",
+                link: "case-study/tsukamie",
                 description: "Visual design and video production driving +148K new audience reach.",
                 brandInfo: "Tsukamie is an authentic Japanese noodle bar based in Bandung, focusing on premium taste with a vibrant, modern dining experience.",
                 image: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg",
