@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
                 description: "Bringing the Gundam universe to life for Torch’s biggest collaboration.", // Ganti dengan deskripsi proyek
                 brandInfo: "Founded in Bandung in 2015, Torch is an Indonesian outdoor and travel gear brand. Inspired by its name, it aims to be a guiding light for travelers through simple, innovative, and practical products.",
-                image: "assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
+                image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
             },
             {

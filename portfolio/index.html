@@ -68,11 +68,11 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="css/style.css">
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 // [OPTIMIZATION] Start fetching footer immediately
-                const footerPromise = fetch('../footer.html').then(response => response.text());
+                const footerPromise = fetch('footer.html').then(response => response.text());
 
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
@@ -287,11 +287,11 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <script defer src="../script.js"></script>
-        <script defer src="../custom.js"></script>
-        <link rel="stylesheet" href="../widget.css">
-        <script defer src="../widget.js"></script>
+        <script defer src="script.js"></script>
+        <script defer src="custom.js"></script>
+        <link rel="stylesheet" href="widget.css">
+        <script defer src="widget.js"></script>
 
-        <script defer src="../portfolio.js"></script>
+        <script defer src="portfolio.js"></script>
     </body>
 </html>
