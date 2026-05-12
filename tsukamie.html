@@ -26,6 +26,64 @@
         <link rel="stylesheet" href="../widget.css">
         
         <style>
+            /* Anti-Flicker Inline CSS */
+            body.preloader-active { overflow: hidden; }
+            #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader.finished { transform: translateY(-100%); }
+            .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
+            .counter-wrapper.fade-out { opacity: 0; }
+            #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
+            .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
+            .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
+            .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
+            .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
+            .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
+            @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const footerPromise = fetch('../footer.html').then(response => response.text());
+                const counter = document.getElementById('counter');
+                const bar = document.getElementById('bar');
+                const preloader = document.getElementById('preloader');
+                let currentProgress = 0;
+                function updateCounter() {
+                    const jump = Math.floor(Math.random() * 45) + 25;
+                    currentProgress += jump;
+                    if (currentProgress > 100) currentProgress = 100;
+                    if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
+                    if(bar) bar.style.width = currentProgress + "%";
+                    let delay = Math.floor(Math.random() * 150) + 20;
+                    if (currentProgress < 100) { setTimeout(updateCounter, delay); } 
+                    else {
+                        const counterWrapper = document.querySelector('.counter-wrapper');
+                        if (counterWrapper) counterWrapper.classList.add('fade-out');
+                        footerPromise.then((footerData) => {
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = footerData;
+                            tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));
+                            const footerContainer = document.getElementById('footer-container');
+                            if (footerContainer) footerContainer.innerHTML = tempDiv.innerHTML;
+                            requestAnimationFrame(() => {
+                                if (window.Webflow) { Webflow.destroy(); Webflow.ready(); if (Webflow.require('ix2')) { Webflow.require('ix2').init(); } }
+                                if (typeof window.initFooterGSAP === 'function') { window.initFooterGSAP(); }
+                                if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
+                                setTimeout(finishLoading, 200);
+                            });
+                        }).catch(error => { finishLoading(); });
+                    }
+                }
+                function finishLoading() {
+                    if(preloader) preloader.classList.add('finished');
+                    document.body.style.overflow = "auto";
+                    if (window.lenis) window.lenis.start();
+                    window.dispatchEvent(new CustomEvent('preloaderDone'));
+                }
+                document.body.classList.add('preloader-active');
+                setTimeout(updateCounter, 500);
+            });
+        </script>
+        <style>
             /* KUSTOMISASI GAMBAR LATAR HERO TSUKAMIE */
             .hero-bg-image {
                 background-image: url('../assets/images/portfolio/tsukamie/tsukamie-1.webp'); /* Gunakan gambar mangkuk ramen atau vibe kedai Jepang yang estetik */
@@ -82,6 +140,22 @@
         </script>
     </head>
     <body class="body-2">
+        <div id="preloader">
+            <div class="top-corners">
+                <div class="corner-text">LOADING</div>
+                <div class="corner-text">PLEASE WAIT</div>
+            </div>
+            <div class="counter-wrapper">
+                <span id="counter">0%</span>
+            </div>
+            <div class="bottom-corners">
+                <div class="corner-text">SYSTEM CHECK</div>
+                <div class="corner-text">DOWNLOADING ASSETS</div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="bar"></div>
+            </div>
+        </div>
         
         <!-- [NEW] Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Case Study Navigation">
@@ -522,7 +596,7 @@
 
             <section class="next-project-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <a href="/portfolio/torch" class="next-project-link">
+                    <a href="torch" class="next-project-link">
                         <span class="next-label">Next Case Study</span>
                         <h2 class="next-title">Torch x Gundam</h2>
                     </a>
@@ -553,7 +627,7 @@
         <script defer src="../widget.js"></script>
         
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('preloaderDone', () => {
                 const initCSHero = () => {
                     if (typeof gsap === 'undefined') {
                         setTimeout(initCSHero, 50);
