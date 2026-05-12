@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Kenapa Banyak UMKM Gagal di Sosial Media?",
             excerpt: "Menganalisis kesalahan umum dalam strategi visual UMKM dan bagaimana cara memperbaikinya dengan pendekatan data-driven.",
             image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop", // Placeholder: Optimal untuk rasio potret 4:5
-            link: "journal/umkm-gagal",
+            link: "/journal/umkm-gagal",
             isTextOnly: false,
             aspectRatio: "4/5"
         },
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const journalGrid = document.getElementById('journal-grid');
         
         // Otomatis menyesuaikan path folder
-        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/');
+        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
         const prefix = isSubPage ? '../' : '';
 
         // 1. Render untuk Halaman Home (Ambil 3 teratas)
@@ -321,7 +321,7 @@ function loadNavbar() {
     if (!container) return Promise.resolve();
     // choose path relative to current location; case study pages are one level deep
     let url = 'navbar.html';
-    if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/')) {
+    if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
         url = '../navbar.html';
     }
     return fetch(url)
@@ -330,7 +330,7 @@ function loadNavbar() {
             container.innerHTML = html;
 
             // fix relative link paths when the page is inside a subfolder
-            if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/')) {
+            if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
                 container.querySelectorAll('a').forEach(link => {
                     const href = link.getAttribute('href');
                     if (href && !href.startsWith('http') && !href.startsWith('../') && !href.startsWith('/')) {
@@ -339,13 +339,21 @@ function loadNavbar() {
                 });
             }
 
-                // [NEW] Dynamic Active State for Navbar Links
-                let currentPage = window.location.pathname.split('/').pop() || 'index.html';
-                if (currentPage === '') currentPage = 'index.html';
+                // [NEW] Smart Dynamic Active State for Navbar Links
+                const pathname = window.location.pathname;
                 
                 container.querySelectorAll('.navigation-link, .mobile-link').forEach(link => {
                     const href = link.getAttribute('href');
-                    if (href && href.split('/').pop() === currentPage) {
+                    if (!href) return;
+                    
+                    let isActive = false;
+                    if (href === '/' && (pathname === '/' || pathname === '/index.html' || pathname === '')) {
+                        isActive = true;
+                    } else if (href !== '/' && pathname.startsWith(href)) {
+                        isActive = true;
+                    }
+                    
+                    if (isActive) {
                         link.classList.add('w--current', 'active');
                         link.setAttribute('aria-current', 'page');
                     }
@@ -376,7 +384,7 @@ function loadFooter() {
     if (!container || document.getElementById('preloader')) return Promise.resolve();
 
     let url = 'footer.html';
-    const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/');
+    const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
     
     if (isSubPage) {
         url = '../footer.html';
@@ -398,8 +406,8 @@ function loadFooter() {
                     const href = el.getAttribute('href');
                     const src = el.getAttribute('src');
                     // Fix links that are relative (not http, mailto, hash, or already corrected)
-                    if (href && !href.match(/^(http|#|mailto:|\.\.\/)/)) el.setAttribute('href', '../' + href);
-                    if (src && !src.match(/^(http|data:|\.\.\/)/)) el.setAttribute('src', '../' + src);
+                    if (href && !href.match(/^(http|#|mailto:|\.\.\/|\/)/)) el.setAttribute('href', '../' + href);
+                    if (src && !src.match(/^(http|data:|\.\.\/|\/)/)) el.setAttribute('src', '../' + src);
                 });
             }
 

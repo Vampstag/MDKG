@@ -10,7 +10,7 @@ const projectsData = [
         title: "Tsukamie Noodle Bar",
         role: "Video Content & Editing", // Role (bisa ditampilkan jika mau)
         image: "assets/images/portfolio/tsukamie/tsukamie-1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
-        link: "project-detail?id=latest-work", // Link dinamis ke halaman detail
+        link: "/project-detail?id=latest-work", // Link dinamis ke halaman detail
         stats: [
             "+148K New Audience",
             "+237K Impressions"
@@ -31,7 +31,7 @@ const projectsData = [
         title: "Neon Brand Identity",
         role: "Visual & Brand Design",
         image: "assets/images/home/dimas-profile-2.webp", // Pastikan file gambar ada
-        link: "project-detail?id=project-2",
+        link: "/project-detail?id=project-2",
         stats: [],
         description: "Sebuah eksplorasi identitas visual untuk brand fashion futuristik.",
         challenge: "Menciptakan logo yang terlihat modern namun tetap terbaca di berbagai media.",

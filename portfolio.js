@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Content & Editing"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
-                link: "case-study/torch", // Ganti dengan link detail proyek jika ada
+                link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
                 description: "Bringing the Gundam universe to life for Torch’s biggest collaboration.", // Ganti dengan deskripsi proyek
                 brandInfo: "Founded in Bandung in 2015, Torch is an Indonesian outdoor and travel gear brand. Inspired by its name, it aims to be a guiding light for travelers through simple, innovative, and practical products.",
                 image: "assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Digital Content",
                 industry: "F&B",
                 roles: ["Video Content & Editing", "Visual & Brand Design"],
-                link: "case-study/tsukamie",
+                link: "/portfolio/tsukamie",
                 description: "Visual design and video production driving +148K new audience reach.",
                 brandInfo: "Tsukamie is an authentic Japanese noodle bar based in Bandung, focusing on premium taste with a vibrant, modern dining experience.",
                 image: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg",
@@ -341,56 +341,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 
                 // 4. Render ulang grid dengan animasi
                 renderProjects('normal');
-            });
-        }
-
-        // 3. FAQ Accordion Logic
-        const faqLinks = document.querySelectorAll('.tab-link-faq');
-        faqLinks.forEach(link => {
-            // Initialize closed state
-            const bottom = link.querySelector('.expandable-bottom');
-            if(bottom) gsap.set(bottom, { height: 0, overflow: 'hidden', opacity: 0 });
-            
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const bottom = this.querySelector('.expandable-bottom');
-                const isClosed = bottom.style.height === '0px';
-
-                // Close others
-                faqLinks.forEach(otherLink => {
-                    if(otherLink !== link) {
-                        const otherBottom = otherLink.querySelector('.expandable-bottom');
-                        gsap.to(otherBottom, { height: 0, opacity: 0, duration: 0.3, ease: "power2.inOut" });
-                    }
-                });
-
-                // Toggle current
-                if(isClosed) {
-                    gsap.to(bottom, { height: 'auto', opacity: 1, duration: 0.4, ease: "power2.out" });
-                } else {
-                    gsap.to(bottom, { height: 0, opacity: 0, duration: 0.3, ease: "power2.inOut" });
-                }
-            });
-        });
-
-        // 4. Parallax Images (Dihapus agar tidak ada zoom mendadak)
-        // Efek parallax telah dimatikan untuk tampilan yang lebih bersih dan premium.
-
-        // 5. Premium Card Hover Effect (Subtle & Smooth)
-        function initCardHover() {
-            // Effect is now fully handled by CSS to match Insights Card style
-        }
-
-        // 7. Footer Marquee (Text Rotator)
-        // Note: If footer is loaded via fetch, this might need to run after fetch completes.
-        // Since we have a preloader that fetches footer, we can try to init this here or rely on custom.js
-        const rotator = document.querySelector('.text-rotator-main');
-        if(rotator) {
-            gsap.to(rotator, {
-                x: "-50%", 
-                ease: "linear",
-                duration: 20,
-                repeat: -1
             });
         }
 
