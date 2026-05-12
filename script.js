@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 16. Share Buttons (Web Share API)
         initShareButtons();
 
-        // 18. Page Transitions
+        // 17. Page Transitions
         initPageTransitions();
 
         // 10. Refresh ScrollTrigger when preloader is done to ensure correct positions
@@ -569,6 +569,47 @@ function initNavbar() {
             }
         });
     }
+}
+//#endregion
+
+//#region PAGE TRANSITION
+// =========================================
+// 18. SEAMLESS PAGE TRANSITION
+// =========================================
+function initPageTransitions() {
+    if (typeof gsap === 'undefined') return;
+
+    // Buat elemen tirai transisi (overlay) secara dinamis
+    const overlay = document.createElement('div');
+    overlay.className = 'page-transition-overlay';
+    document.body.appendChild(overlay);
+
+    // Animasi Keluar (Exit) saat tautan diklik
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const targetUrl = link.getAttribute('href');
+        const isExternal = targetUrl && targetUrl.startsWith('http') && !targetUrl.includes(window.location.hostname);
+        
+        if (
+            !targetUrl || targetUrl === '#' || targetUrl.startsWith('#') || 
+            targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:') || 
+            targetUrl.startsWith('javascript:') || link.getAttribute('target') === '_blank' || isExternal ||
+            link.classList.contains('lightbox-close') || link.classList.contains('video-modal-close')
+        ) return;
+
+        e.preventDefault();
+        gsap.to(overlay, {
+            top: "0%", duration: 0.5, ease: "power3.inOut",
+            onComplete: () => window.location.href = targetUrl
+        });
+    });
+
+    // Fallback BFCache (Safari Back Button Fix)
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) gsap.set(overlay, { top: "100%" });
+    });
 }
 //#endregion
 
@@ -985,65 +1026,6 @@ function initBitsSlider() {
             const card = activeSlide.querySelector('.photo-card');
             if (card) gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.8, ease: "power3.out" });
         }
-    });
-}
-//#endregion
-
-//#region PAGE TRANSITION
-// =========================================
-// 18. SEAMLESS PAGE TRANSITION
-// =========================================
-function initPageTransitions() {
-    if (typeof gsap === 'undefined') return;
-
-    // 1. Buat elemen tirai transisi (overlay) secara dinamis
-    const overlay = document.createElement('div');
-    overlay.className = 'page-transition-overlay';
-    document.body.appendChild(overlay);
-
-    // 2. Animasi Masuk (Entrance) saat halaman baru dimuat
-    const hasPreloader = document.getElementById('preloader');
-    if (hasPreloader) {
-        // Jika ada preloader (seperti di Home), sembunyikan tirai, biarkan preloader yang bekerja
-        gsap.set(overlay, { top: "-100%" });
-    } else {
-        // Jika tidak ada preloader (misal di Case Study), jalankan efek tirai menyapu ke atas
-        gsap.set(overlay, { top: "0%" });
-        gsap.to(overlay, { 
-            top: "-100%", 
-            duration: 0.8, 
-            ease: "power3.inOut",
-            delay: 0.1 
-        });
-    }
-
-    // 3. Animasi Keluar (Exit) saat tautan (link) apa saja diklik
-    document.addEventListener('click', (e) => {
-        const link = e.target.closest('a');
-        if (!link) return;
-
-        const targetUrl = link.getAttribute('href');
-        const isExternal = targetUrl && targetUrl.startsWith('http') && !targetUrl.includes(window.location.hostname);
-        
-        // Bypass kondisi: Jangan jalan jika link berupa anchor (#), email, telepon, atau tab baru
-        if (
-            !targetUrl || targetUrl === '#' || targetUrl.startsWith('#') || 
-            targetUrl.startsWith('mailto:') || targetUrl.startsWith('tel:') || 
-            targetUrl.startsWith('javascript:') || link.getAttribute('target') === '_blank' || isExternal ||
-            link.classList.contains('lightbox-close')
-        ) return;
-
-        // Tunda pindah halaman, jalankan animasi tirai naik menutupi layar dulu
-        e.preventDefault();
-        gsap.to(overlay, {
-            top: "0%", duration: 0.6, ease: "power3.inOut",
-            onComplete: () => window.location.href = targetUrl
-        });
-    });
-
-    // 4. Fallback BFCache (Reset layar jika user menekan tombol "Back" / "Mundur" di browser)
-    window.addEventListener("pageshow", (event) => {
-        if (event.persisted) gsap.set(overlay, { top: "-100%" });
     });
 }
 //#endregion

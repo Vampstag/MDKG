@@ -1796,22 +1796,6 @@ html.lenis, html.lenis body { height: auto; }
 }
 /* #endregion */
 
-/* #region 48. PAGE TRANSITION */
-/* =========================================
-   48. SEAMLESS PAGE TRANSITION
-   ========================================= */
-.page-transition-overlay {
-    position: fixed;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: #000; /* Disamakan dengan hitam pekat Preloader agar seamless */
-    z-index: 999999; /* Pastikan selalu menutupi seluruh elemen */
-    will-change: top;
-}
-/* #endregion */
-
 /* #region 23. LATEST WORK */
 /* =========================================
    23. LATEST WORK TYPOGRAPHY
@@ -4876,6 +4860,22 @@ a.social-icon:hover img {
     .bento-stats-panel { gap: 8px; }
     .stat-val { font-size: 1rem; }
     .bento-title { font-size: 1.25rem; }
+}
+/* #endregion */
+
+/* #region 48. PAGE TRANSITION */
+/* =========================================
+   48. SEAMLESS PAGE TRANSITION
+   ========================================= */
+.page-transition-overlay {
+    position: fixed;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000; /* Pure black untuk menyatu sempurna dengan Preloader */
+    z-index: 999999;
+    will-change: top;
 }
 /* #endregion */
 
