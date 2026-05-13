@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     injectJournalSchema();
 
     function renderJournal() {
-        const homeGrid = document.getElementById('latest-insights-grid');
+        const homeGrid = document.getElementById('latest-journal-grid');
         const journalGrid = document.getElementById('journal-grid');
         
         // Otomatis menyesuaikan path folder
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const linkPath = post.link.startsWith('http') || post.link.startsWith('/') || post.link === '#' ? post.link : prefix + post.link;
                 
                 html += `
-                <div class="latest-insight-card-wrap">
+                <div class="latest-journal-card-wrap">
                     <a href="${linkPath}" class="journal-card ${post.isTextOnly ? 'text-only-card' : ''}">
                         ${!post.isTextOnly ? `
                         <div class="journal-card__image-wrapper">
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
             homeGrid.innerHTML = html;
         }
 
-        // 2. Render untuk Halaman Insights (Semua)
+        // 2. Render untuk Halaman Journal (Semua)
         if (journalGrid) {
             let html = '';
             journalData.forEach(post => {
@@ -167,12 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Jalankan render data HTML sebelum elemen GSAP menginisialisasi animasi scroll
     renderJournal();
 
-    // [NEW] Premium Mobile Snap untuk Latest Insights (Scale & Blur Center)
-    function initMobileInsightsSnap() {
-        const container = document.getElementById('latest-insights-grid');
+    // [NEW] Premium Mobile Snap untuk Latest Journal (Scale & Blur Center)
+    function initMobileJournalSnap() {
+        const container = document.getElementById('latest-journal-grid');
         if (!container) return;
 
-        const cards = container.querySelectorAll('.latest-insight-card-wrap');
+        const cards = container.querySelectorAll('.latest-journal-card-wrap');
         if (!cards.length) return;
 
         // Use IntersectionObserver to detect which card is in the center
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cards.forEach(card => observer.observe(card));
     }
-    initMobileInsightsSnap();
+    initMobileJournalSnap();
 
     // first, pull in shared navbar AND footer if placeholders exist
     Promise.all([loadNavbar(), loadFooter()]).then(() => {
@@ -277,9 +277,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 7. Lightbox
         initLightbox();
-
-        // [NEW] Intro Video Modal
-        initVideoModal();
 
         // 8. FAQ Accordion
         initFAQ();
@@ -683,9 +680,9 @@ function initObserverAnimations(context = document) {
                 else if (entry.target.classList.contains('experience-item')) {
                     animateExperienceItem(entry.target);
                 }
-                        // [NEW] Handle specific Latest Insights reveal (Slower fade-in)
-                        else if (entry.target.id === 'latest-insights') {
-                            animateInsightsSection(entry.target);
+                        // [NEW] Handle specific Latest Journal reveal (Slower fade-in)
+                        else if (entry.target.id === 'latest-journal') {
+                            animateJournalSection(entry.target);
                         }
                 // Handle simple fade-in animations
                 else {
@@ -735,17 +732,17 @@ function animateExperienceItem(item) {
 }
 
 /**
- * Slower, grander reveal for Latest Insights section
- * @param {HTMLElement} section The insights section element.
+ * Slower, grander reveal for Latest Journal section
+ * @param {HTMLElement} section The journal section element.
  */
-function animateInsightsSection(section) {
+function animateJournalSection(section) {
     // Matikan transisi CSS bawaan agar tidak bentrok dengan GSAP
     section.classList.remove('fade-in-section');
     section.style.opacity = 1;
     section.style.transform = 'none';
     
     const headline = section.querySelector('.section-headline-margin');
-    const cards = section.querySelectorAll('.latest-insight-card-wrap');
+    const cards = section.querySelectorAll('.latest-journal-card-wrap');
     
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } }); // Kurva ease lebih snappy
     
@@ -1028,44 +1025,6 @@ function initBitsSlider() {
             const card = activeSlide.querySelector('.photo-card');
             if (card) gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.8, ease: "power3.out" });
         }
-    });
-}
-//#endregion
-
-//#region VIDEO MODAL
-// =========================================
-// 17. GLOBAL VIDEO MODAL LOGIC
-// =========================================
-function initVideoModal() {
-    const videoModal = document.getElementById('video-modal');
-    const modalVideo = document.getElementById('modal-video-player');
-    const introBtns = document.querySelectorAll('.video-intro-btn');
-    
-    if (!videoModal || !modalVideo || introBtns.length === 0) return;
-
-    const closeVideoModal = () => {
-        videoModal.classList.remove('active');
-        modalVideo.pause();
-        modalVideo.src = '';
-        document.body.style.overflow = '';
-    };
-
-    videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideoModal(); });
-    const closeBtn = videoModal.querySelector('.video-modal-close');
-    if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
-    document.addEventListener('keydown', (e) => { if (e.key === "Escape" && videoModal.classList.contains('active')) closeVideoModal(); });
-
-    introBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const src = btn.getAttribute('data-video-src');
-            if (src) {
-                modalVideo.src = src;
-                videoModal.classList.add('active');
-                modalVideo.play();
-                document.body.style.overflow = 'hidden';
-            }
-        });
     });
 }
 //#endregion

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html data-wf-domain="mdkg.webflow.io" data-wf-page="6933c25b0996b0f96f5c2c8e" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Studio Berka | Portfolio | MDKG Portfolio</title>
+        <meta content="Web design and development portfolio project for Studio Berka, featuring custom UI/UX, GSAP animations, and optimized performance." name="description"/>
+        <meta content="Studio Berka | Portfolio" property="og:title"/>
+        <meta content="Web design and development portfolio project for Studio Berka, featuring custom UI/UX, GSAP animations, and optimized performance." property="og:description"/>
+        <meta property="og:type" content="website"/>
+        <meta content="summary_large_image" name="twitter:card"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="Webflow" name="generator"/>
+        
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-57RMNL3S4P"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-57RMNL3S4P');
+        </script>
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
+        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="../widget.css">
+        
+        <style>
+            /* KUSTOMISASI GAMBAR LATAR HERO STUDIO BERKA */
+            .hero-bg-image {
+                background-image: url('../assets/images/project/studi-berka/hero-bg.webp'); /* Ganti dengan mockup website / hero image Studio Berka */
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center center;
+                z-index: 0;
+                animation: kenBurns 20s ease-out forwards;
+            }
+            
+            @keyframes kenBurns {
+                from { transform: scale(1.15); }
+                to { transform: scale(1.0); }
+            }
+            
+            /* Mockup Web Showcase Wrapper */
+            .web-mockup-wrapper {
+                background-color: #f5f5f7;
+                border-radius: 16px;
+                padding: 40px;
+                box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                border: 1px solid rgba(0,0,0,0.05);
+            }
+            .web-mockup-wrapper img, .web-mockup-wrapper video {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+        </style>
+        
+        <link href="https://fonts.googleapis.com" rel="preconnect"/>
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            WebFont.load({ google: { families: ["Inter:100,200,300,regular,500,600,700,800,900"] } });
+        </script>
+    </head>
+    <body class="body-2">
+        
+        <!-- Sticky Dot Navigation -->
+        <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
+            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot"></div></a>
+            <a href="#showreel" class="cs-nav-item"><span class="cs-nav-label">Showreel</span><div class="cs-nav-dot"></div></a>
+            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot"></div></a>
+            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Solution</span><div class="cs-nav-dot"></div></a>
+            <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot"></div></a>
+            <a href="#process" class="cs-nav-item"><span class="cs-nav-label">Process</span><div class="cs-nav-dot"></div></a>
+            <a href="#testimonial" class="cs-nav-item"><span class="cs-nav-label">Testimonial</span><div class="cs-nav-dot"></div></a>
+            <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Takeaways</span><div class="cs-nav-dot"></div></a>
+            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot"></div></a>
+        </nav>
+
+        <div class="body-wrapper">
+            <div id="navbar-container"></div>
+
+            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
+                <div class="hero-bg-image"></div>
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1;"></div>
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
+                    <div class="global-padding">
+                        <div class="cs-hero-wrapper">
+                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">STUDIO BERKA</h1>
+                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">WEB DESIGN & DEVELOPMENT</div>
+                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
+                                <span>2025</span>
+                                <span class="cs-meta-separator">•</span>
+                                <span>UI/UX / Frontend / GSAP</span>
+                            </div>
+                            
+                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
+                                <button class="cs-share-btn" aria-label="Share this project">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                    Share Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="overview" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid"> 
+                            <div class="about-sidebar">
+                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
+                            </div>
+                            <div class="about-main-content">
+                                <div class="audio-narrator-wrapper">
+                                    <div class="audio-label">Listen to Project</div>
+                                    <div class="audio-player-container">
+                                        <audio id="audio-narrator" preload="metadata">
+                                            <source src="../assets/audio/studi-berka-case-study.mp3" type="audio/mpeg">
+                                        </audio>
+                                        <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
+                                            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+                                        <div class="audio-time-current">0:00</div>
+                                        <div class="audio-progress-container"><div class="audio-progress-fill"></div><div class="audio-tooltip">0:00</div></div>
+                                        <div class="audio-time-total">0:00</div>
+                                        <button class="audio-control-btn speed-btn">1x</button>
+                                    </div>
+                                </div>
+
+                                <div class="about-text-block">
+                                    <p class="about-paragraph">
+                                        Studio Berka is a forward-thinking creative agency that required a digital home as innovative as their projects. Their previous website was slow, difficult to manage, and failed to reflect their premium branding.
+                                    </p>
+                                    <p class="about-paragraph">
+                                        The objective was to design and develop a custom, high-performance website from scratch. By focusing on a clean UI, smooth GSAP micro-interactions, and a lightweight code architecture, we delivered an immersive digital experience that captivates visitors while achieving near-perfect Lighthouse performance scores.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Web Walkthrough / Showreel -->
+            <section id="showreel" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="showreel-wrapper" style="border-radius: 24px;">
+                            <video class="showreel-video" autoplay loop muted playsinline poster="../assets/images/project/studi-berka/hero-bg.webp">
+                                <source src="../assets/videos/project/studi-berka/web-walkthrough.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hardskills" class="hardskills-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="whjy-choose-me-section-wrapper">
+                            <div class="skills--headline-content-wrapper section-headline-margin">
+                                <div class="why-choose-me-headline">
+                                    <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
+                                </div>
+                            </div>                          
+                            <div class="skills-grid fade-in-section">
+                                <div class="skill-card">
+                                    <div class="skill-card__wrapper">
+                                        <div class="skill-card__header"><div class="skill-card__number">[01]</div></div>
+                                        <div class="skill-card__divider"></div>
+                                        <div class="skill-card__body">
+                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Performance Bottlenecks</div></div>
+                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">The old platform relied heavily on bloated templates and unoptimized assets, resulting in slow load times and high bounce rates.</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skill-card">
+                                    <div class="skill-card__wrapper">
+                                        <div class="skill-card__header"><div class="skill-card__number">[02]</div></div>
+                                        <div class="skill-card__divider"></div>
+                                        <div class="skill-card__body">
+                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Static User Experience</div></div>
+                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">A creative agency needs a dynamic feel. The previous site lacked interactive feedback, making the portfolio presentation feel stiff and generic.</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skill-card">
+                                    <div class="skill-card__wrapper">
+                                        <div class="skill-card__header"><div class="skill-card__number">[03]</div></div>
+                                        <div class="skill-card__divider"></div>
+                                        <div class="skill-card__body">
+                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Complex Content Management</div></div>
+                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">The internal team struggled to update their growing portfolio due to a rigid and confusing backend infrastructure.</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <blockquote style="font-family: var(--font-primary); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 22ch; margin: 0 auto; color: #111;">
+                            "A great website is the perfect balance between beautiful aesthetics and robust, invisible engineering."
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headlne-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Solution</h2>
+                            </div>
+                        </div>
+                        
+                        <div class="solution-showcase">
+                            <!-- Solution 1: UI/UX Design -->
+                            <div class="solution-video-item">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[01]</span>
+                                    <h3 class="sol-title">Intentional UI/UX Design</h3>
+                                    <p class="sol-desc">Starting with wireframes in Figma, we established a clean, grid-based layout that prioritizes high-quality visuals and typography. Whitespace was utilized strategically to guide the user's eye and highlight Studio Berka's portfolio.</p>
+                                </div>
+                                <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
+                                    <div class="web-mockup-wrapper">
+                                        <img src="../assets/images/project/studi-berka/figma-design.webp" alt="Figma UI/UX Mockups" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Solution 2: GSAP & Interactions -->
+                            <div class="solution-video-item has-reel">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[02]</span>
+                                    <h3 class="sol-title">Fluid Micro-Interactions</h3>
+                                    <p class="sol-desc">To bring the design to life, we integrated GSAP (GreenSock) for custom scroll-triggered animations and Lenis for buttery-smooth scrolling. This added a premium, "Apple-like" feel without sacrificing page load speed.</p>
+                                </div>
+                                <div class="solution-video-player">
+                                    <div class="video-player-wrapper is-reel">
+                                        <video class="video-element" playsinline loop muted poster="../assets/images/project/studi-berka/interaction-poster.webp">
+                                            <source src="../assets/videos/project/studi-berka/scroll-interaction.mp4" type="video/mp4">
+                                        </video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Solution 3: Architecture & CMS -->
+                            <div class="solution-video-item">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[03]</span>
+                                    <h3 class="sol-title">Scalable Architecture</h3>
+                                    <p class="sol-desc">We moved away from bloated monolithic templates to a modern, custom HTML/CSS/JS build. By structuring the codebase efficiently and integrating a streamlined CMS, the client can now publish new projects in minutes without touching a single line of code.</p>
+                                </div>
+                                <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
+                                    <div class="web-mockup-wrapper" style="background: #1e1e1e;">
+                                        <img src="../assets/images/project/studi-berka/code-snippet.webp" alt="Code Architecture" loading="lazy" style="box-shadow: none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="impact" class="data-validation-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headlne-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Impact</h2>
+                            </div>
+                        </div>
+                        <div class="data-grid">
+                            <div class="data-item">
+                                <div class="data-number">1.2s</div>
+                                <div class="data-label">Avg. Load Time</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-number">100</div>
+                                <div class="data-label">Lighthouse Score</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-number">+40%</div>
+                                <div class="data-label">User Retention</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="process" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headlne-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Process & Craft</h2>
+                            </div>
+                        </div>
+                        <div class="swiper bits-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-1.webp" alt="Wireframing" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-2.webp" alt="UI Design" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-3.webp" alt="Development" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-4.webp" alt="Final Launch" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                
+                                <!-- Duplicate slides for seamless loop -->
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-1.webp" alt="Wireframing" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-2.webp" alt="UI Design" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-3.webp" alt="Development" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/studi-berka/bts-4.webp" alt="Final Launch" class="photo-img" loading="lazy">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="testimonial" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 40px 0;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 32px; color: rgba(0,0,0,0.1);">
+                                <path d="M9 11V16C9 17.6569 7.65685 19 6 19C4.34315 19 3 17.6569 3 16C3 14.3431 4.34315 13 6 13C6.46328 13 6.90117 13.1053 7.29177 13.2926C7.42084 12.637 7.5 11.854 7.5 11V8L9 8V11ZM19 11V16C19 17.6569 17.6569 19 16 19C14.3431 19 13 17.6569 13 16C13 14.3431 14.3431 13 16 13C16.4633 13 16.9012 13.1053 17.2918 13.2926C17.4208 12.637 17.5 11.854 17.5 11V8L19 8V11Z" fill="currentColor"/>
+                            </svg>
+                            
+                            <h3 style="font-family: var(--font-primary); font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 500; line-height: 1.4; letter-spacing: -0.02em; color: #111; margin-bottom: 40px;">
+                                "Dimas translated our creative vision into a flawless digital experience. The new website is incredibly fast, looks stunning on all devices, and the custom animations elevate our brand identity completely."
+                            </h3>
+                            
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                                <img src="../assets/images/project/studi-berka/client.webp" alt="Client Avatar" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);">
+                                <span style="font-family: var(--font-primary); font-weight: 700; font-size: 1.1rem; color: #111;">Berka Team</span>
+                                <span style="font-family: var(--font-primary); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: #888;">Founders, Studio Berka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="key-takeaways" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid"> 
+                            <div class="about-sidebar">
+                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Key Takeaways</div>
+                            </div>
+                            <div class="about-main-content">
+                                <div class="about-text-block">
+                                    <p class="about-paragraph">This project highlights the importance of custom development tailored to a brand's specific needs. By prioritizing performance optimization and semantic HTML structure alongside creative GSAP animations, we achieved a digital presence that is both aesthetically engaging and highly functional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="credits" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="credits-divider"></div>
+                        <div class="section-headlne-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
+                            </div>
+                        </div>
+                        <div class="credits-grid">
+                            <div class="credits-group">
+                                <h4 class="credits-role">Web Development</h4>
+                                <ul class="credits-list">
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">Dimas Krisnadhita</a></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h4 class="credits-role">UI/UX Design</h4>
+                                <ul class="credits-list">
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">Dimas Krisnadhita</a></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h4 class="credits-role">Client</h4>
+                                <ul class="credits-list">
+                                    <li>Studio Berka</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="premium-soft-cta">
+                            <h2 class="premium-soft-cta-title">Need a high-performance digital presence?</h2>
+                            <p class="premium-soft-cta-desc">Let's discuss how custom web design and modern architecture can elevate your brand.</p>
+                            <a href="../contact.html" class="premium-soft-cta-btn">
+                                Start a Project
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="next-project-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <a href="tsukamie" class="next-project-link">
+                        <span class="next-label">Next Project</span>
+                        <h2 class="next-title">Tsukamie Noodle Bar</h2>
+                    </a>
+                </div>
+            </section>
+
+            <div id="footer-container"></div>
+        </div>
+
+        <div id="mdkg-widget-container"></div>
+
+        <div id="lightbox-modal" class="lightbox-modal">
+            <span class="lightbox-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </span>
+            <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
+        </div>
+
+        <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6933c25a0996b0f96f5c2bc3" type="text/javascript" crossorigin="anonymous"></script>
+        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.68ccafdb.96c19bd230e42fc3.js" type="text/javascript" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+        <script defer src="../script.js"></script>
+        <script defer src="../custom.js"></script>
+        <script defer src="../widget.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const initCSHero = () => {
+                    if (typeof gsap === 'undefined') {
+                        setTimeout(initCSHero, 50);
+                        return;
+                    }
+                    gsap.fromTo('.cs-anim-el', 
+                        { y: 30, opacity: 0, filter: 'blur(10px)', scale: 0.98 },
+                        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.5, stagger: 0.2, ease: "power3.out", delay: 0.1 }
+                    );
+                };
+                initCSHero();
+            });
+            
+            // Script for Video Players & Observer
+            document.addEventListener('DOMContentLoaded', () => {
+                const formatTime = (time) => new Date(time * 1000).toISOString().slice(14, 19);
+                document.querySelectorAll('.video-player-wrapper').forEach(playerWrapper => {
+                    const video = playerWrapper.querySelector('.video-element');
+                    const playPauseBtn = playerWrapper.querySelector('.video-play-pause-btn');
+                    const muteBtn = playerWrapper.querySelector('.video-mute-btn');
+                    const timeline = playerWrapper.querySelector('.video-timeline');
+                    const currentTimeEl = playerWrapper.querySelector('.video-time-current');
+                    const durationEl = playerWrapper.querySelector('.video-time-duration');
+                    const fullscreenBtn = playerWrapper.querySelector('.video-fullscreen-btn');
+
+                    if (!video) return;
+                    playPauseBtn?.addEventListener('click', () => video.paused ? video.play() : video.pause());
+                    video.addEventListener('play', () => playPauseBtn?.classList.add('is-playing'));
+                    video.addEventListener('pause', () => playPauseBtn?.classList.remove('is-playing'));
+                    muteBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation(); video.muted = !video.muted; muteBtn.classList.toggle('is-muted', video.muted);
+                    });
+                    video.addEventListener('loadedmetadata', () => {
+                        if (durationEl) durationEl.textContent = formatTime(video.duration);
+                        if (timeline) timeline.max = video.duration;
+                    });
+                    video.addEventListener('timeupdate', () => {
+                        if (currentTimeEl) currentTimeEl.textContent = formatTime(video.currentTime);
+                        if (timeline) timeline.value = video.currentTime;
+                    });
+                    timeline?.addEventListener('input', () => video.currentTime = timeline.value);
+                    fullscreenBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!document.fullscreenElement) { playerWrapper.requestFullscreen().catch(err => console.error(err)); }
+                        else if (document.exitFullscreen) { document.exitFullscreen().catch(err => console.error(err)); }
+                    });
+
+                    const feedbackContainer = playerWrapper.querySelector('.video-center-feedback');
+                    const playFeedback = feedbackContainer?.querySelector('.icon-feedback-play');
+                    const pauseFeedback = feedbackContainer?.querySelector('.icon-feedback-pause');
+                    const triggerFeedback = (action) => {
+                        if (!playFeedback || !pauseFeedback) return;
+                        playFeedback.classList.remove('animate'); pauseFeedback.classList.remove('animate');
+                        void playFeedback.offsetWidth; 
+                        (action === 'play' ? playFeedback : pauseFeedback).classList.add('animate');
+                    };
+                    const togglePlay = () => { if (video.paused) { video.play(); triggerFeedback('play'); } else { video.pause(); triggerFeedback('pause'); } };
+                    video.addEventListener('click', togglePlay);
+                    playerWrapper.querySelector('.video-hover-overlay')?.addEventListener('click', (e) => {
+                        if (e.target.closest('button') || e.target.closest('input')) return;
+                        togglePlay();
+                    });
+                });
+
+                const items = document.querySelectorAll('.solution-video-item');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+                    });
+                }, { threshold: 0.2, rootMargin: "0px 0px -100px 0px" });
+                items.forEach(item => observer.observe(item));
+            });
+        </script>
+        <script>
+            // Script for Sticky Dot Navigation Scrollspy
+            document.addEventListener('DOMContentLoaded', () => {
+                const sections = document.querySelectorAll('section[id]');
+                const navItems = document.querySelectorAll('.cs-nav-item');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            navItems.forEach(item => {
+                                item.classList.remove('active');
+                                if (item.getAttribute('href') === `#${entry.target.id}`) {
+                                    item.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, { rootMargin: "-40% 0px -60% 0px" });
+
+                sections.forEach(sec => observer.observe(sec));
+            });
+        </script>
+    </body>
+</html>

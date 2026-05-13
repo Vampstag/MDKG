@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 year: "2026",
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
-                roles: ["Video Content & Editing"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
+                roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
                 description: "Bringing the Gundam universe to life for Torch’s biggest collaboration.", // Ganti dengan deskripsi proyek
                 brandInfo: "Founded in Bandung in 2015, Torch is an Indonesian outdoor and travel gear brand. Inspired by its name, it aims to be a guiding light for travelers through simple, innovative, and practical products.",
@@ -35,12 +35,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 srcset: "" // Kosongkan jika tidak ada srcset
             },
             {
+                id: 6,
+                title: "Studio Berka",
+                year: "2025",
+                category: "Web Design",
+                industry: "Agency",
+                roles: ["Web Solutions & Support", "Brand & Visual Design"],
+                link: "/portfolio/studi-berka",
+                description: "Web design and development project featuring custom UI/UX, GSAP animations, and optimized performance.",
+                brandInfo: "Studio Berka is a forward-thinking creative agency that required a digital home as innovative as their projects.",
+                image: "../assets/images/project/studi-berka/hero-bg.webp",
+                srcset: ""
+            },
+            {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
                 category: "Digital Content",
                 industry: "F&B",
-                roles: ["Video Content & Editing", "Visual & Brand Design"],
+                roles: ["Video Production", "Brand & Visual Design"],
                 link: "/portfolio/tsukamie",
                 description: "Visual design and video production driving +148K new audience reach.",
                 brandInfo: "Tsukamie is an authentic Japanese noodle bar based in Bandung, focusing on premium taste with a vibrant, modern dining experience.",
