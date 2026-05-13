@@ -74,7 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 "@context": "https://schema.org",
                 "@type": "ItemList",
                 "itemListElement": journalData.map((post, index) => {
-                    const absoluteUrl = post.link.startsWith('http') ? post.link : `https://hellodimas.my.id/${post.link.replace('../', '')}`;
+                    const cleanPath = post.link.startsWith('/') ? post.link.substring(1) : post.link.replace('../', '');
+                    const absoluteUrl = post.link.startsWith('http') ? post.link : `https://hellodimas.my.id/${cleanPath}`;
                     return {
                         "@type": "ListItem",
                         "position": index + 1,
@@ -105,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let html = '';
             latestThree.forEach(post => {
                 const imgPath = post.image ? (post.image.startsWith('http') ? post.image : prefix + post.image) : '';
-                const linkPath = post.link.startsWith('http') || post.link === '#' ? post.link : prefix + post.link;
+                const linkPath = post.link.startsWith('http') || post.link.startsWith('/') || post.link === '#' ? post.link : prefix + post.link;
                 
                 html += `
                 <div class="latest-insight-card-wrap">
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let html = '';
             journalData.forEach(post => {
                 const imgPath = post.image ? (post.image.startsWith('http') ? post.image : prefix + post.image) : '';
-                const linkPath = post.link.startsWith('http') || post.link === '#' ? post.link : prefix + post.link;
+                const linkPath = post.link.startsWith('http') || post.link.startsWith('/') || post.link === '#' ? post.link : prefix + post.link;
                 
                 html += `
                 <div class="masonry-item journal-anim-item" style="opacity: 0; transform: translateY(40px);">
@@ -723,7 +724,8 @@ function animateExperienceItem(item) {
     tl.to(item, {
         opacity: 1,
         x: 0,
-        duration: 0.8
+        duration: 0.8,
+        clearProps: "transform" // [FIX] Cegah bentrok dengan CSS hover transition
     })
     .fromTo([title, company, meta], 
         { y: 20, opacity: 0 },
@@ -1585,8 +1587,9 @@ function initVideoCards() {
      });
  
      // 2. Initialize Each Card
-     videoCards.forEach(card => {
-         const video = card.querySelector('.work-card__video');
+     const allVideoContainers = document.querySelectorAll('.work-card, .video-player-wrapper, .bento-item');
+     allVideoContainers.forEach(card => {
+         const video = card.querySelector('video');
          const muteBtn = card.querySelector('.work-card__mute-btn');
  
          if (video) {

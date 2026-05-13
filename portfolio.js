@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         // Premium Entrance Animation (Clip-Path Reveal)
                         gsap.fromTo(gridContainer.children, 
                             { opacity: 0, y: 30, clipPath: "inset(100% 0 0 0)" },
-                            { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.6, stagger: 0.05, ease: "power2.out" }
+                            { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.6, stagger: 0.05, ease: "power2.out", clearProps: "transform,clipPath" }
                         );
                     }
                 });

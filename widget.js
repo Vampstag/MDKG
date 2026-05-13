@@ -40,7 +40,7 @@ class MdkgWidget {
         const rawPlaylist = options.playlist || [{ src: 'audio/bgmusic.mp3' }];
         
         // [FIX] Otomatis perbaiki path audio jika dibuka dari dalam folder case-study
-        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/');
+        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
         const pathPrefix = isSubPage ? '../' : '';
         
         this.playlist = rawPlaylist.map(track => {
