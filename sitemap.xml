@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- Halaman Utama (Prioritas Tertinggi) -->
   <url>
     <loc>https://hellodimas.my.id/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- Halaman Inti -->
   <url>
     <loc>https://hellodimas.my.id/portfolio</loc>
     <changefreq>weekly</changefreq>
@@ -34,8 +30,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Portfolio / Case Studies -->
   <url>
     <loc>https://hellodimas.my.id/portfolio/torch</loc>
     <changefreq>monthly</changefreq>
@@ -51,12 +45,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Artikel Journal -->
   <url>
     <loc>https://hellodimas.my.id/journal/umkm-gagal</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
 </urlset>
