@@ -608,7 +608,7 @@ function initPageTransitions() {
 
     // Fallback BFCache (Safari Back Button Fix)
     window.addEventListener("pageshow", (event) => {
-        if (event.persisted) gsap.set(overlay, { top: "100%" });
+        if (event.persisted) gsap.set(overlay, { top: "150vh" });
     });
 }
 //#endregion

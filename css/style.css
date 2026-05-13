@@ -4666,7 +4666,7 @@ a.social-icon:hover img {
     transform: translateZ(0); /* Anti-blur fix untuk teks di dalam kartu */
 }
 
-.bento-item:hover {
+.bento-item:hover, .bento-item.is-active {
     transform: translate3d(0, -8px, 0); /* Animasi lebih halus & didukung akselerasi hardware */
     box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.15);
 }
@@ -4684,7 +4684,7 @@ a.social-icon:hover img {
     z-index: 5;
     pointer-events: none;
 }
-.bento-item:hover::after {
+.bento-item:hover::after, .bento-item.is-active::after {
     animation: bentoShimmer 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 @keyframes bentoShimmer {
@@ -4699,12 +4699,13 @@ a.social-icon:hover img {
     height: 100%;
     object-fit: cover; /* Fill the bento box, cropping if necessary */
     transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
-    opacity: 0.7;
+    opacity: 0; /* Sembunyikan video saat diam (0%) */
+    z-index: 1;
 }
 
-.bento-item:hover .bento-video {
+.bento-item:hover .bento-video, .bento-item.is-active .bento-video {
     transform: scale(1.05);
-    opacity: 0.4;
+    opacity: 0.9; /* Munculkan video dengan elegan saat di-hover (80%) */
 }
 
 .bento-overlay {
@@ -4734,10 +4735,10 @@ a.social-icon:hover img {
 .bento-icon-wrapper svg {
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.bento-item:hover .bento-icon-wrapper {
+.bento-item:hover .bento-icon-wrapper, .bento-item.is-active .bento-icon-wrapper {
     background: rgba(255,255,255,0.15);
 }
-.bento-item:hover .bento-icon-wrapper svg {
+.bento-item:hover .bento-icon-wrapper svg, .bento-item.is-active .bento-icon-wrapper svg {
     transform: scale(1.15);
     filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
 }
@@ -4758,7 +4759,7 @@ a.social-icon:hover img {
     }
 }
 
-.bento-item:hover .bento-title {
+.bento-item:hover .bento-title, .bento-item.is-active .bento-title {
     transform: translateY(0);
 }
 
@@ -4773,6 +4774,7 @@ a.social-icon:hover img {
 }
 
 .bento-item:hover .bento-actions,
+.bento-item.is-active .bento-actions,
 .bento-item.stats-open .bento-actions {
     transform: translateY(0);
     opacity: 1;
@@ -4869,10 +4871,10 @@ a.social-icon:hover img {
    ========================================= */
 .page-transition-overlay {
     position: fixed;
-    top: 100%;
+    top: 150vh; /* Mendorong tirai jauh ke bawah area aman layar HP */
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 150vh; /* Memberi ekstra panjang agar layar tertutup penuh saat naik */
     background-color: #000000; /* Pure black untuk menyatu sempurna dengan Preloader */
     z-index: 999999;
     will-change: top;
