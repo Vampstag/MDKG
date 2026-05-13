@@ -98,6 +98,29 @@
             .services-bento-grid .bento-item.is-active .bento-title {
                 transform: none;
             }
+
+            @media (min-width: 992px) {
+                .services-bento-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-auto-rows: 420px;
+                }
+                .services-bento-grid .bento-item {
+                    min-height: 420px;
+                }
+                .services-bento-grid .bento-item:nth-child(1),
+                .services-bento-grid .bento-item:nth-child(2),
+                .services-bento-grid .bento-item:nth-child(3),
+                .services-bento-grid .bento-item:nth-child(4) {
+                    grid-column: span 1;
+                    grid-row: span 1;
+                }
+                .services-bento-grid .bento-item:nth-child(1) .bento-title {
+                    font-size: 2.25rem;
+                }
+                .services-bento-grid .bento-item:nth-child(1) .bento-desc {
+                    font-size: 1.25rem;
+                }
+            }
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
