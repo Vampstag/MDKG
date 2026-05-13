@@ -6,7 +6,7 @@ const projectsData = [
     {
         id: "latest-work",
         featured: true, // Set true jika ingin ini muncul di Home sebagai "Latest Work"
-        category: "Marketing", // Kategori: Marketing, Design, atau Photography
+        category: "Visuals", // Kategori: Visuals, Design, atau Photography
         title: "Tsukamie Noodle Bar",
         role: "Video Content & Editing", // Role (bisa ditampilkan jika mau)
         image: "assets/images/portfolio/tsukamie/tsukamie-1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
