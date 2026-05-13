@@ -108,6 +108,8 @@ h1, h2, h3, h4, h5, h6,
     letter-spacing: -0.03em; /* Konsisten dengan headline lain */
     line-height: 1.2;
     color: #000000; /* Pure Black untuk kontras maksimal */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important; /* [FIX] Mencegah margin default mendorong teks ke atas (merusak alignment vertikal dengan CTA) */
 }
 
 .home-hero-headline-wrapper {
@@ -437,6 +439,16 @@ body.preloader-active { overflow: hidden; }
     margin-bottom: var(--space-32) !important; /* Consistent 128px spacing */
 }
 .section-headline-margin { margin-bottom: var(--space-20) !important; }
+
+/* [FIX] Wrapper khusus untuk Judul Section yang bersebelahan dengan Tombol CTA */
+/* Tambahkan class 'headline-with-cta' pada div pembungkusnya agar rata tengah (simetris) */
+.headline-with-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center !important;
+    flex-wrap: wrap;
+    gap: 24px;
+}
 
 @media (max-width: 767px) {
     .section-margin {
@@ -3723,7 +3735,7 @@ a.social-icon:hover img {
     margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
 }
 .pricing-tier-title { font-size: 1.15rem; font-weight: 600; color: #111; margin: 0; letter-spacing: -0.02em; }
-.pricing-tier-price { font-size: 0.85rem; font-weight: 600; color: #333; background: #f5f5f7; padding: 6px 12px; border-radius: 8px; letter-spacing: 0.02em; }
+.pricing-tier-price { font-size: 0.85rem; font-weight: 600; color: #fff; background: #111; padding: 6px 14px; border-radius: 8px; letter-spacing: 0.04em; font-feature-settings: "tnum" on; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 .pricing-tier-scope { font-size: 0.95rem; color: #555; margin: 0; line-height: 1.65; font-weight: 400; }
 
 /* Pricing Meta & Badges */
@@ -3749,6 +3761,16 @@ a.social-icon:hover img {
     font-weight: 600;
     letter-spacing: 0.02em;
     border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.3s var(--ease-smooth);
+    cursor: default;
+}
+
+.pricing-badge:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* Premium CTA Button Glow Override */
@@ -3798,9 +3820,10 @@ a.social-icon:hover img {
     letter-spacing: -0.02em;
 }
 .service-accordion__num {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #888;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.05em;
     transform: translateY(-4px);
 }
 .service-accordion__icon {
@@ -4257,10 +4280,10 @@ a.social-icon:hover img {
 }
 
 .article-content p {
-    font-size: 1.125rem;
+    font-size: 1.1875rem; /* ~19px untuk kenyamanan baca ekstra */
     line-height: 1.8;
-    color: #444;
-    margin-bottom: 24px;
+    color: #333333; /* Kontras lebih baik dan tajam dari #444 */
+    margin-bottom: 32px; /* Spasi antar paragraf lebih lega (breathing room) */
     max-width: 65ch; /* Constrain width for optimal reading */
     margin-left: auto;
     margin-right: auto;
@@ -4269,10 +4292,11 @@ a.social-icon:hover img {
 
 /* [PREMIUM] Lead Paragraph (First Paragraph) */
 .article-content > p.lead-paragraph {
-    font-size: 1.25rem; /* Lebih besar dari teks biasa */
-    line-height: 1.7;
+    font-size: 1.35rem; /* Jauh lebih menarik perhatian */
+    line-height: 1.6;
     color: #111; /* Lebih hitam */
-    font-weight: 500; /* Sedikit lebih tebal */
+    font-weight: 400; /* Tetap tipis elegan */
+    letter-spacing: -0.01em;
 }
 
 .article-content h2 {
@@ -4285,15 +4309,15 @@ a.social-icon:hover img {
 }
 
 .article-content blockquote {
-    margin: 40px auto;
+    margin: 48px auto; /* Tambahan ruang agar kutipan lebih standout */
     max-width: 65ch;
     padding: 0;
     border: none;
     text-align: center;
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 500;
+    font-weight: 400; /* Bobot font elegan untuk kutipan */
     font-style: italic;
-    line-height: 1.3;
+    line-height: 1.4;
     letter-spacing: -0.02em;
     color: #111;
 }
@@ -4364,10 +4388,10 @@ a.social-icon:hover img {
 .article-content ul, .article-content ol {
     max-width: 65ch;
     margin: 0 auto 32px;
-    padding-left: 20px;
-    font-size: 1.125rem;
+    padding-left: 24px;
+    font-size: 1.1875rem; /* Disamakan dengan paragraf */
     line-height: 1.8;
-    color: #444;
+    color: #333333;
 }
 
 .article-content li {

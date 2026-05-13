@@ -16,9 +16,9 @@ const projectsData = [
             "+237K Impressions"
         ],
         // Data Tambahan untuk Halaman Detail
-        description: "Tsukamie Noodle Bar adalah restoran mie Jepang otentik yang ingin meningkatkan brand awareness dan penjualan melalui media sosial. Proyek ini berfokus pada pembuatan konten visual yang menggugah selera dan strategi interaksi audiens.",
-        challenge: "Tantangan utama adalah persaingan ketat di industri F&B Bandung dan algoritma media sosial yang terus berubah. Kami perlu menciptakan identitas visual yang unik agar menonjol.",
-        solution: "Kami menerapkan strategi 'Visual Storytelling' dengan fotografi high-contrast dan video pendek (Reels/TikTok) yang menonjolkan tekstur makanan. Kami juga mengadakan kampanye giveaway untuk memicu viralitas.",
+        description: "High-impact social video and design strategy driving +148K new audience reach.",
+        challenge: "Fierce F&B competition and shifting algorithms demanded a unique, scroll-stopping visual identity.",
+        solution: "Executed a 'Visual Storytelling' strategy using high-contrast photography and dynamic short-form videos to highlight textures, paired with viral campaigns.",
         gallery: [
             "assets/images/portfolio/tsukamie/tsukamie-1.webp",
             "assets/images/home/dimas-profile-2.webp" // Ganti dengan foto proyek lainnya
@@ -33,9 +33,9 @@ const projectsData = [
         image: "assets/images/home/dimas-profile-2.webp", // Pastikan file gambar ada
         link: "/project-detail?id=project-2",
         stats: [],
-        description: "Sebuah eksplorasi identitas visual untuk brand fashion futuristik.",
-        challenge: "Menciptakan logo yang terlihat modern namun tetap terbaca di berbagai media.",
-        solution: "Menggunakan tipografi kustom dengan efek neon glow yang konsisten.",
+        description: "A futuristic brand identity exploration for a modern fashion label.",
+        challenge: "Designing a sleek, recognizable logo that scales flawlessly across digital and physical mediums.",
+        solution: "Developed a custom typographic system featuring a consistent, premium neon-glow aesthetic.",
         gallery: []
     }
 ];

@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
-                description: "Bringing the Gundam universe to life for Torch’s biggest collaboration.", // Ganti dengan deskripsi proyek
-                brandInfo: "Founded in Bandung in 2015, Torch is an Indonesian outdoor and travel gear brand. Inspired by its name, it aims to be a guiding light for travelers through simple, innovative, and practical products.",
+                description: "Cinematic product launch for Torch's biggest IP collaboration.", // Ganti dengan deskripsi proyek
+                brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
             },
@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 industry: "Agency",
                 roles: ["Web Solutions & Support", "Brand & Visual Design"],
                 link: "/portfolio/studi-berka",
-                description: "Web design and development project featuring custom UI/UX, GSAP animations, and optimized performance.",
-                brandInfo: "Studio Berka is a forward-thinking creative agency that required a digital home as innovative as their projects.",
+                description: "Custom UI/UX and web development powered by GSAP for a high-performance digital presence.",
+                brandInfo: "Forward-thinking creative agency specializing in innovative design and brand strategy.",
                 image: "../assets/images/project/studi-berka/hero-bg.webp",
                 srcset: ""
             },
@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 industry: "F&B",
                 roles: ["Video Production", "Brand & Visual Design"],
                 link: "/portfolio/tsukamie",
-                description: "Visual design and video production driving +148K new audience reach.",
-                brandInfo: "Tsukamie is an authentic Japanese noodle bar based in Bandung, focusing on premium taste with a vibrant, modern dining experience.",
+                description: "High-impact social video and design driving +148K new audience reach.",
+                brandInfo: "Authentic Japanese noodle bar delivering premium taste wrapped in a modern dining experience.",
                 image: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg",
                 srcset: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-500.jpg 500w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-800.jpg 800w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-1080.jpg 1080w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg 1200w"
             },
