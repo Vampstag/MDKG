@@ -339,17 +339,6 @@ function loadNavbar() {
                 });
             }
             
-            // [FIX] Update "Insights" to "Journal" and correct the href link dynamically
-            container.querySelectorAll('a').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href.includes('/journal/journal')) {
-                    link.setAttribute('href', href.replace('/journal/journal', '/journal'));
-                }
-                if (link.textContent.trim().toLowerCase() === 'insights') {
-                    link.textContent = 'Journal';
-                }
-            });
-
                 // [NEW] Smart Dynamic Active State for Navbar Links
                 const pathname = window.location.pathname;
                 
@@ -809,6 +798,12 @@ function animateTextReveal(element) {
  * Animates the NEW Interactive Hero section.
  */
 function initInteractiveHero() {
+    // Cek apakah section hero interaktif dan plugin Draggable tersedia
+    if (!document.querySelector('.hero-playground-section') || typeof Draggable === 'undefined') {
+        initObserverAnimations(); // Tetap jalankan animasi scroll standar
+        return;
+    }
+
     // 1. Register Draggable
     gsap.registerPlugin(Draggable);
 

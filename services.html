@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8"/>
         <title>Services | M. Dimas K. G.</title>
-        <meta content="Professional digital services by MDKG: Video Production, Visual & Brand Design, Web Development, and Web Management tailored for modern brands." name="description"/>
+        <meta content="Professional digital services by M. Dimas (MDKG) based in Bandung. Specializing in video production, visual design, and modern web experiences for brands." name="description"/>
         <meta content="Services | M. Dimas K. G." property="og:title"/>
-        <meta content="Professional digital services by MDKG: Video Production, Visual & Brand Design, Web Development, and Web Management tailored for modern brands." property="og:description"/>
+        <meta content="Professional digital services by M. Dimas (MDKG) based in Bandung. Specializing in video production, visual design, and modern web experiences for brands." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
         <meta content="Services | M. Dimas K. G." property="twitter:title"/>
-        <meta content="Professional digital services by MDKG: Video Production, Visual & Brand Design, Web Development, and Web Management tailored for modern brands." property="twitter:description"/>
+        <meta content="Professional digital services by M. Dimas (MDKG) based in Bandung. Specializing in video production, visual design, and modern web experiences for brands." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
         <meta property="og:type" content="website"/>
         <meta content="summary_large_image" name="twitter:card"/>
@@ -36,8 +36,8 @@
           "@context": "https://schema.org",
           "@type": "Service",
           "name": "Visual Creative Services",
-          "serviceType": "Video Production, Brand Design & Web Development",
-          "description": "Professional digital services including cinematic video production, brand identity design, and custom web development.",
+          "serviceType": "Video Production, Visual Design & Web Development",
+          "description": "Professional digital services including video production, visual design, and modern web experiences for brands.",
           "image": "https://hellodimas.my.id/assets/images/open-graphimage.png",
           "provider": {
             "@type": "Person",
@@ -176,6 +176,15 @@
         <link rel="manifest" href="/manifest.json">
     </head>
     <body class="body-2">
+        <!-- Sticky Dot Navigation -->
+        <nav class="cs-sticky-nav" aria-label="Services Navigation">
+            <a href="#top" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot"></div></a>
+            <a href="#core-services" class="cs-nav-item"><span class="cs-nav-label">Core Services</span><div class="cs-nav-dot"></div></a>
+            <a href="#rate-card" class="cs-nav-item"><span class="cs-nav-label">Rate Card</span><div class="cs-nav-dot"></div></a>
+            <a href="#project-terms" class="cs-nav-item"><span class="cs-nav-label">Project Terms</span><div class="cs-nav-dot"></div></a>
+            <a href="#faq" class="cs-nav-item"><span class="cs-nav-label">FAQ</span><div class="cs-nav-dot"></div></a>
+        </nav>
+
         <div id="preloader">
             <div class="top-corners">
                 <div class="corner-text">LOADING</div>
@@ -203,31 +212,13 @@
                         <div class="home-hero-wrapper">
                             <div class="home-hero-headline-wrapper page-portfolio">
                                 <h1 class="home-hero-headline-text-2 cs-anim-el" style="opacity: 0;">Services</h1>
-                                <p class="subtitle cs-anim-el" style="opacity: 0;">End-to-end creative execution. From cinematic storytelling to robust digital experiences, crafted to elevate your brand.</p>
-                                
-                                <!-- Audio Player CTA -->
-                                <div class="audio-narrator-wrapper cs-anim-el" style="display: flex; flex-direction: column; align-items: center; opacity: 0; margin-top: 16px; margin-bottom: 0;">
-                                    <div class="audio-label">Listen to Service Guide</div>
-                            <div class="audio-player-container" style="min-width: 320px;">
-                                <audio id="audio-narrator" preload="metadata">
-                                    <!-- Ganti dengan file podcast Anda -->
-                                    <source src="assets/audio/service-guide.mp3" type="audio/mpeg">
-                                </audio>
-                                <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
-                                    <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                                    <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                                </button>
-                                <div class="audio-time-current">0:00</div>
-                                <div class="audio-progress-container"><div class="audio-progress-fill"></div><div class="audio-tooltip">0:00</div></div>
-                                <div class="audio-time-total">0:00</div>
-                            </div>
-                        </div>
+                                <p class="subtitle cs-anim-el" style="opacity: 0;">End-to-end creative execution across video production, visual design, and modern web experiences to elevate your brand.</p>
                     </div>
                 </div>
             </section>
 
             <!-- 2. THE SPECIALIST PILLARS (BENTO GRID) -->
-            <section class="section-margin fade-in-section">
+            <section id="core-services" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="section-headline-margin">
@@ -373,7 +364,7 @@
             </section>
 
             <!-- 4. INVESTMENT TIERS (PREMIUM ACCORDION) -->
-            <section class="section-margin fade-in-section">
+            <section id="rate-card" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="section-headline-margin">
@@ -747,7 +738,7 @@
             </section>
 
             <!-- 5. PROJECT TERMS -->
-            <section class="section-margin fade-in-section">
+            <section id="project-terms" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="section-headline-margin">
@@ -774,8 +765,69 @@
                 </div>
             </section>
 
-            <!-- 6. CLOSING CTA -->
-            <section class="section-margin fade-in-section">
+            <!-- 6. FAQ SECTION -->
+            <section id="faq" class="faq-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="faq-section-wrapper">
+                            <div class="section-headlne-content-wrapper section-headline-margin">
+                                <div class="section-headline">
+                                    <h2 class="section-headline-text text-reveal">FAQ</h2>
+                                </div>
+                            </div>
+                            <div class="faq__list">
+                                <div class="faq__item">
+                                    <button class="faq__trigger" aria-expanded="false">
+                                        <span class="faq__question">How does the payment structure work?</span>
+                                        <div class="faq__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
+                                        </div>
+                                    </button>
+                                    <div class="faq__content" aria-hidden="true">
+                                        <div class="faq__answer"><p>Standard projects require a 50% upfront deposit to secure your slot, with the remaining 50% due upon project completion and before final assets are handed over. Retainer packages are billed monthly in advance.</p></div>
+                                    </div>
+                                </div>
+                                <div class="faq__item">
+                                    <button class="faq__trigger" aria-expanded="false">
+                                        <span class="faq__question">Do you offer custom packages outside the rate card?</span>
+                                        <div class="faq__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
+                                        </div>
+                                    </button>
+                                    <div class="faq__content" aria-hidden="true">
+                                        <div class="faq__answer"><p>Absolutely. The rate card serves as a baseline for typical requests. If your project has unique requirements, a hybrid of services, or a different scale, I will provide a custom quote tailored exactly to your scope.</p></div>
+                                    </div>
+                                </div>
+                                <div class="faq__item">
+                                    <button class="faq__trigger" aria-expanded="false">
+                                        <span class="faq__question">What happens if I need more revisions?</span>
+                                        <div class="faq__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
+                                        </div>
+                                    </button>
+                                    <div class="faq__content" aria-hidden="true">
+                                        <div class="faq__answer"><p>Each package includes a set number of revision rounds. If additional changes are needed beyond that scope, they will be billed at an hourly rate or as a pre-agreed flat fee per additional round.</p></div>
+                                    </div>
+                                </div>
+                                <div class="faq__item">
+                                    <button class="faq__trigger" aria-expanded="false">
+                                        <span class="faq__question">How do we communicate during the project?</span>
+                                        <div class="faq__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
+                                        </div>
+                                    </button>
+                                    <div class="faq__content" aria-hidden="true">
+                                        <div class="faq__answer"><p>I maintain direct, transparent communication. Most project discussions and asset deliveries happen via Email or dedicated project management tools, with quick updates via WhatsApp and scheduled Google Meet calls for major milestones.</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. CLOSING CTA -->
+            <section id="cta" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="premium-soft-cta">
@@ -990,6 +1042,29 @@
                         }
                     });
                 });
+            });
+            
+            // Script for Sticky Dot Navigation Scrollspy
+            window.addEventListener('preloaderDone', () => {
+                const sections = document.querySelectorAll('section[id]');
+                const navItems = document.querySelectorAll('.cs-nav-item');
+
+                if (sections.length > 0 && navItems.length > 0) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                navItems.forEach(item => {
+                                    item.classList.remove('active');
+                                    if (item.getAttribute('href') === `#${entry.target.id}`) {
+                                        item.classList.add('active');
+                                    }
+                                });
+                            }
+                        });
+                    }, { rootMargin: "-40% 0px -60% 0px" });
+
+                    sections.forEach(sec => observer.observe(sec));
+                }
             });
         </script>
     </body>
