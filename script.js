@@ -2,6 +2,16 @@
 // =========================================
 // 1. CORE SETUP & EVENT LISTENERS
 // =========================================
+
+// [NEW] PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => {
+            console.log('Service Worker registration failed: ', err);
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // --- CENTRALIZED JOURNAL DATA (HEADLESS CMS) ---
     // Tambahkan artikel baru di bawah ini, urutan bebas karena akan di-sort otomatis by date!
@@ -194,62 +204,57 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     initMobileJournalSnap();
 
-    // first, pull in shared navbar AND footer if placeholders exist
-    Promise.all([loadNavbar(), loadFooter()]).then(() => {
-        // 1. Initialize Lenis (Smooth Scroll)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
-        window.lenis = lenis;
+    // [OPTIMIZATION] 1. Initialize Lenis (Smooth Scroll) & GSAP Secara Sinkronus!
+    // Jangan menunggu fetch navbar/footer selesai agar user bisa langsung scroll jika koneksi lambat.
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+    });
+    window.lenis = lenis;
 
-        // --- GSAP & SCROLLTRIGGER INTEGRATION ---
-        gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.config({ ignoreMobileResize: true });
+    // --- GSAP & SCROLLTRIGGER INTEGRATION ---
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    lenis.on('scroll', ScrollTrigger.update);
 
-        // Connect Lenis to ScrollTrigger. This is the crucial part.
-        lenis.on('scroll', ScrollTrigger.update);
-
-        // [FIX] Handle anchor links smoothly with Lenis (Fixes Back to Top jump)
-        // Intercepts clicks on hash links and uses Lenis to scroll smoothly
-        // Menggunakan parameter 'true' (Capture Phase) untuk mencegat klik sebelum script Webflow berjalan
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#"], .back-to-top');
-            if (link) {
-                const targetId = link.getAttribute('href');
-                
-                // Skenario "Back to Top" (Class .back-to-top, atau href "#", atau href "#top")
-                if (link.classList.contains('back-to-top') || targetId === '#' || targetId === '#top') {
-                    e.preventDefault();
-                    e.stopPropagation(); // Mencegah Webflow ikut mengatur scroll
-                    lenis.scrollTo(0, { 
-                        duration: 1.5, // Durasi scroll lebih lambat dan mewah
-                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) // Curve easing halus
-                    });
-                } 
-                // Skenario anchor section normal (contoh: #about, #portfolio)
-                else if (targetId && targetId.startsWith('#') && document.querySelector(targetId)) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Mencegah Webflow ikut mengatur scroll
-                    lenis.scrollTo(targetId, { duration: 1.2 });
-                }
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href^="#"], .back-to-top');
+        if (link) {
+            const targetId = link.getAttribute('href');
+            if (link.classList.contains('back-to-top') || targetId === '#' || targetId === '#top') {
+                e.preventDefault();
+                e.stopPropagation();
+                lenis.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+            } else if (targetId && targetId.startsWith('#') && document.querySelector(targetId)) {
+                e.preventDefault();
+                e.stopPropagation();
+                lenis.scrollTo(targetId, { duration: 1.2 });
             }
-        }, true);
+        }
+    }, true);
 
-        // Ensure GSAP animations are synchronized with Lenis's render loop.
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-        });
-        
-        // OPTIMIZED: Dihapus agar GSAP bisa menangani frame-drop dengan lebih halus
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
 
-        // 2. Navbar Logic (Scroll & Mobile)
+    // Refresh ScrollTrigger when preloader is done to ensure correct positions
+    window.addEventListener('preloaderDone', () => {
+        if (document.readyState === 'complete') {
+            ScrollTrigger.refresh();
+        } else {
+            window.addEventListener('load', () => ScrollTrigger.refresh());
+        }
+    });
+
+    // 2. Async Loading: Pull in shared navbar AND footer if placeholders exist
+    Promise.all([loadNavbar(), loadFooter()]).then(() => {
+        // 3. Navbar Logic (Scroll & Mobile)
         initNavbar();
 
         // 3. Render Projects
@@ -305,14 +310,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // 17. Page Transitions
         initPageTransitions();
 
-        // 10. Refresh ScrollTrigger when preloader is done to ensure correct positions
-        window.addEventListener('preloaderDone', () => {
-            if (document.readyState === 'complete') {
-                ScrollTrigger.refresh();
-            } else {
-                window.addEventListener('load', () => ScrollTrigger.refresh());
-            }
-        });
+        // Refresh ScrollTrigger after async elements are injected
+        ScrollTrigger.refresh();
     });
 });
 
