@@ -70,6 +70,22 @@
             .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
             .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
             @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+
+            /* Services Bento Grid Overrides */
+            .services-bento-grid .bento-desc {
+                max-height: none;
+                opacity: 1;
+                margin-top: 16px;
+                transform: none;
+            }
+            .services-bento-grid .bento-title {
+                margin-bottom: 0px;
+                transform: none;
+            }
+            .services-bento-grid .bento-item:hover .bento-title,
+            .services-bento-grid .bento-item.is-active .bento-title {
+                transform: none;
+            }
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -180,7 +196,7 @@
                             <h2 class="section-headline-text text-reveal">Core Services</h2>
                         </div>
                         
-                        <div class="bento-grid">
+                        <div class="bento-grid services-bento-grid">
                             <!-- Card 1 (Large) -->
                             <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
                                 <video class="bento-video" loop muted playsinline preload="metadata">
@@ -193,7 +209,6 @@
                                     <div>
                                         <h3 class="bento-title">
                                             <span>Video Production</span>
-                                            <span class="bento-plus-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span>
                                         </h3>
                                         <p class="bento-desc">Cinematic editing and color grading for brand campaigns, social content, and visual storytelling.</p>
                                     </div>
@@ -212,7 +227,6 @@
                                     <div>
                                         <h3 class="bento-title">
                                             <span>Brand & Visual Design</span>
-                                            <span class="bento-plus-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span>
                                         </h3>
                                         <p class="bento-desc">Visual assets and identity systems designed for consistent communication across digital platforms.</p>
                                     </div>
@@ -231,7 +245,6 @@
                                     <div>
                                         <h3 class="bento-title">
                                             <span>Web Solutions & Support</span>
-                                            <span class="bento-plus-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span>
                                         </h3>
                                         <p class="bento-desc">Custom responsive websites built with modern code, complete with ongoing technical maintenance and content updates.</p>
                                     </div>
@@ -250,7 +263,6 @@
                                     <div>
                                         <h3 class="bento-title">
                                             <span>Creative Content Support</span>
-                                            <span class="bento-plus-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></span>
                                         </h3>
                                         <p class="bento-desc">Ongoing visual content, carousel designs, and short-form video adaptation to sustain your brand's active social media presence.</p>
                                     </div>
@@ -690,32 +702,26 @@
                     item.addEventListener('mouseleave', () => {
                         if (window.matchMedia("(hover: hover)").matches) {
                             stopBentoVideo(item, video);
-                            item.classList.remove('is-expanded'); // Auto collapse saat kursor keluar
                         }
                     });
 
-                    // Click to Expand Text (Desktop & Mobile)
+                    // Tap to play on mobile
                     item.addEventListener('click', () => {
-                        const isExpanded = item.classList.contains('is-expanded');
-                        
-                        // Close others
-                        bentoItems.forEach(other => {
-                            if (other !== item) {
-                                other.classList.remove('is-expanded');
-                                if (window.matchMedia("(hover: none)").matches) {
+                        if (window.matchMedia("(hover: none)").matches) {
+                            const isActive = item.classList.contains('is-active');
+                            
+                            bentoItems.forEach(other => {
+                                if (other !== item) {
                                     const otherVid = other.querySelector('.bento-video');
                                     if (otherVid) stopBentoVideo(other, otherVid);
                                 }
+                            });
+                            
+                            if (!isActive) {
+                                playBentoVideo(item, video);
+                            } else {
+                                stopBentoVideo(item, video);
                             }
-                        });
-                        
-                        // Toggle current
-                        if (!isExpanded) {
-                            item.classList.add('is-expanded');
-                            if (window.matchMedia("(hover: none)").matches) playBentoVideo(item, video);
-                        } else {
-                            item.classList.remove('is-expanded');
-                            if (window.matchMedia("(hover: none)").matches) stopBentoVideo(item, video);
                         }
                     });
                 });
