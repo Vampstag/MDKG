@@ -8,21 +8,21 @@
     bottom: 40px;
     right: 40px;
     z-index: 9999;
-    --w-bg: rgba(255, 255, 255, 0.7);
+    --w-bg: rgba(255, 255, 255, 0.65);
     --w-text: #111111;
     --w-sub: #666666;
     background: var(--w-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
-    padding: 10px 18px;
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 6px 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     cursor: pointer;
     transition: all 0.5s ease, background 0.8s ease;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     color: var(--w-text);
     will-change: transform;
     transform: translateZ(0);
@@ -42,31 +42,34 @@
 /* --- [NEW] PLAYER COVER & TRACK INFO --- */
 .mdkg-player-cover {
     width: 0; /* Default tertutup */
-    height: 36px; /* Sedikit lebih besar agar premium */
+    height: 28px; /* Lebih kecil agar compact */
     border-radius: 50%; /* [UPDATE] Diubah menjadi lingkaran penuh */
     flex-shrink: 0;
-    /* [UPDATE] Shadow dan outline hitam untuk efek pinggiran piringan hitam */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3), 0 0 0 2px #111; 
+    /* [FIX] Background dihapus, border ditangani langsung oleh image */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     margin-right: 0;
     position: relative;
-    background-color: #111;
     opacity: 0;
     transform: scale(0.5) rotate(-90deg);
     transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Mencegah gambar bocor saat transisi */
 }
 
 /* [NEW] Efek Pantulan Cahaya di Piringan Hitam */
 .mdkg-player-cover::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0; left: 0;
+    width: 28px; height: 28px; /* [FIX] Ukuran absolut agar silau tidak gepeng */
     border-radius: 50%;
-    /* Garis diagonal terang meniru pantulan cahaya pada record vinyl */
-    background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.35) 100%);
+    /* Pantulan dibuat lebih transparan dan soft */
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.1) 100%);
     z-index: 2;
     pointer-events: none;
-    mix-blend-mode: overlay;
 }
 
 /* [NEW] Titik tengah (hole) piringan hitam dibuat lebih detail */
@@ -83,14 +86,17 @@
     transform: translate(-50%, -50%);
     z-index: 3;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+    box-sizing: border-box; /* [FIX] Memastikan titik tengah bulat sempurna */
 }
 
 /* [NEW] State Terbuka saat Play */
 .mdkg-widget-player.playing .mdkg-player-cover {
-    width: 36px;
-    margin-right: 8px;
+    width: 28px;
+    margin-right: 6px;
     opacity: 1;
     transform: scale(1) rotate(0deg);
+    pointer-events: auto; /* [FIX] Aktifkan klik/hover di cover saat play */
+    cursor: zoom-in; /* [NEW] Kursor khusus menandakan bisa di-zoom */
 }
 
 @keyframes mdkgSpinRecord {
@@ -99,14 +105,18 @@
 }
 
 .mdkg-track-cover {
-    width: 100%;
-    height: 100%;
+    min-width: 28px; /* [FIX] Paksa bentuk bulat konsisten di 28px */
+    height: 28px;
+    border: 2px solid #111; /* [FIX] Symmetrical sempurna */
+    box-sizing: border-box;
     object-fit: cover;
     /* [NEW] Animasi putar yang di-pause secara default */
     animation: mdkgSpinRecord 4s linear infinite;
     animation-play-state: paused; 
     border-radius: 50%;
     z-index: 1;
+    display: block; /* [FIX] Menghilangkan space kosong/miring bawaan elemen image */
+    background-color: #111;
 }
 
 /* [NEW] Piringan berputar hanya saat lagu sedang play */
@@ -128,13 +138,13 @@
 }
 
 .mdkg-widget-player.playing .mdkg-track-info {
-    max-width: 140px;
+    max-width: 110px;
     opacity: 1;
 }
 
 .mdkg-track-title {
     font-family: inherit;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--w-text);
     white-space: nowrap;
@@ -145,7 +155,7 @@
 
 .mdkg-track-artist {
     font-family: inherit;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
     color: var(--w-sub);
     white-space: nowrap;
@@ -160,6 +170,11 @@
     justify-content: center;
 }
 
+.mdkg-player-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
 .mdkg-player-content {
     display: flex;
     align-items: center;
@@ -168,14 +183,14 @@
 
 .mdkg-player-text {
     font-family: inherit;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
     color: var(--w-text);
     letter-spacing: 0.5px;
     user-select: none;
     text-align: center;
-    max-width: 80px; /* Cukup menampung kata PLAY/PAUSED */
+    max-width: 60px; /* Cukup menampung kata PLAY/PAUSED */
     opacity: 1;
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
@@ -191,8 +206,8 @@
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 14px;
-    width: 16px;
+    height: 12px;
+    width: 14px;
 }
 
 .mdkg-bar {
@@ -221,8 +236,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 8px;
     transition: all 0.2s ease;
     margin-left: 4px;
@@ -234,6 +249,98 @@
     opacity: 1;
     transform: scale(1.1);
 }
+.mdkg-next-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* --- [NEW] MDKG WIDGET LIGHTBOX & TOOLTIP --- */
+.mdkg-cover-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 14px;
+    transform: translateY(-8px) scale(0.95);
+    background: rgba(17, 17, 17, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.mdkg-cover-tooltip::after {
+    content: ''; position: absolute; top: 100%; left: 14px;
+    border: 4px solid transparent; border-top-color: rgba(17, 17, 17, 0.95);
+}
+
+/* Menampilkan Tooltip saat cover di-hover */
+.mdkg-player-cover:hover ~ .mdkg-cover-tooltip {
+    opacity: 1; visibility: visible;
+    transform: translateY(-12px) scale(1);
+}
+
+/* Lightbox Styles */
+#mdkg-widget-lightbox {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000;
+    display: none; align-items: center; justify-content: center; opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#mdkg-widget-lightbox.active { opacity: 1; }
+
+.mdkg-lightbox-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    cursor: zoom-out;
+}
+
+.mdkg-lightbox-content {
+    position: relative; z-index: 2; max-width: 90vw; max-height: 90vh;
+    transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#mdkg-widget-lightbox.active .mdkg-lightbox-content { transform: scale(1); }
+
+.mdkg-lightbox-content img {
+    max-width: 100%; max-height: 90vh; border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: block; object-fit: contain;
+}
+
+.mdkg-lightbox-close {
+    position: absolute;
+    top: 32px;
+    right: 40px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 10001;
+}
+
+.mdkg-lightbox-close svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.mdkg-lightbox-close:hover { background: #fff; color: #000; transform: scale(1.05); }
+.mdkg-lightbox-close:hover svg { transform: rotate(90deg); }
 
 /* --- LIVE STATUS WIDGET --- */
 .mdkg-widget-status {
@@ -396,49 +503,49 @@
     .mdkg-widget-player {
         bottom: 20px;
         right: 20px;
-        padding: 6px 10px;
-        gap: 6px;
-        border-radius: 20px;
-        max-width: calc(100vw - 160px); /* Batas aman jarak dari widget kiri */
-    }
-    .mdkg-player-text {
-        display: none !important; /* Hide text on mobile */
+        padding: 6px 12px;
+        gap: 8px;
+        border-radius: 50px;
+        max-width: max-content;
     }
 
-    .mdkg-widget-player.playing .mdkg-track-info {
-        max-width: 70px; /* Lebar diperkecil agar tidak nabrak widget kiri */
-    }
-
-    .mdkg-track-title {
-        font-size: 11px;
-    }
-
-    .mdkg-track-artist {
-        font-size: 9px;
-    }
-
-    .mdkg-player-cover {
-        height: 26px;
-    }
-
+    .mdkg-player-text,
+    .mdkg-track-info,
+    .mdkg-widget-player.playing .mdkg-track-info,
+    .mdkg-player-cover,
     .mdkg-widget-player.playing .mdkg-player-cover {
-        width: 26px;
-        margin-right: 4px;
+        display: none !important;
     }
 
     .mdkg-visualizer {
-        display: none; /* Sembunyikan equalizer di mobile untuk menghemat ruang */
+        display: flex !important;
+        margin: 0 4px;
     }
 
     .mdkg-player-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
     }
 
     .mdkg-next-btn {
+        width: 16px;
+        height: 16px;
+        margin-left: 2px;
+    }
+    
+    .mdkg-cover-tooltip {
+        display: none !important; /* Tooltip tak relevan di Mobile Touch */
+    }
+
+    .mdkg-lightbox-close {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+    .mdkg-lightbox-close svg {
         width: 18px;
         height: 18px;
-        margin-left: 2px;
     }
 
     /* Compact Live Status Widget */

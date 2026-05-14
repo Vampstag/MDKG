@@ -104,6 +104,33 @@ class MdkgWidget {
         this.initMagneticButton();
     }
 
+    // --- [NEW] Fungsi Lightbox Cover ---
+    showLightbox(src) {
+        let lightbox = document.getElementById('mdkg-widget-lightbox');
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.id = 'mdkg-widget-lightbox';
+            lightbox.innerHTML = `
+                <div class="mdkg-lightbox-overlay"></div>
+                <button class="mdkg-lightbox-close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                <div class="mdkg-lightbox-content">
+                    <img src="" alt="Cover Besar">
+                </div>
+            `;
+            document.body.appendChild(lightbox);
+            
+            const closeLightbox = () => { lightbox.classList.remove('active'); setTimeout(() => { if(lightbox) lightbox.style.display = 'none'; }, 400); };
+            lightbox.querySelector('.mdkg-lightbox-overlay').addEventListener('click', closeLightbox);
+            lightbox.querySelector('.mdkg-lightbox-close').addEventListener('click', closeLightbox);
+        }
+        lightbox.style.display = 'flex';
+        lightbox.offsetHeight; // Force reflow
+        lightbox.querySelector('img').src = src;
+        lightbox.classList.add('active');
+    }
+
     // --- Ekstraksi Warna Dominan Gambar ---
     getAverageRGB(imgEl) {
         const blockSize = 5; // Hanya cek setiap 5 pixel agar ringan di performa
@@ -177,6 +204,8 @@ class MdkgWidget {
                 <div class="mdkg-player-cover">
                     <img src="" alt="Cover" class="mdkg-track-cover">
                 </div>
+                <!-- [NEW] Hover Tooltip -->
+                <div class="mdkg-cover-tooltip">Now Playing</div>
                 
                 <div class="mdkg-player-icon">
                     <!-- Muted Icon -->
@@ -268,6 +297,7 @@ class MdkgWidget {
     // --- Feature: Music Player ---
     initMusicPlayer() {
         const player = document.querySelector('.mdkg-widget-player');
+        
         const audio = player ? player.querySelector('.mdkg-bg-music') : null;
         const text = player ? player.querySelector('.mdkg-player-text') : null;
         const iconMuted = player ? player.querySelector('.mdkg-icon-muted') : null;
@@ -282,6 +312,24 @@ class MdkgWidget {
         const trackArtist = player ? player.querySelector('.mdkg-track-artist') : null;
 
         if (player && audio) {
+            // [NEW] State Management untuk Auto-Resume Pintar
+            let isUserPaused = true;
+            let isFooterIntersecting = false;
+
+            const evaluatePlayback = () => {
+                if (isUserPaused) return; // Jika user sengaja pause secara manual, jangan di-resume otomatis
+                
+                // Cek apakah ada video yang sedang diputar DAN tidak di-mute (bersuara)
+                const anyVideoPlaying = Array.from(document.querySelectorAll('video')).some(v => !v.paused && !v.muted && v.volume > 0);
+                const shouldPause = isFooterIntersecting || anyVideoPlaying;
+
+                if (shouldPause && !audio.paused) {
+                    audio.pause(); updateUI(false);
+                } else if (!shouldPause && audio.paused) {
+                    audio.play().then(() => updateUI(true)).catch(e => console.error("Auto-resume failed:", e));
+                }
+            };
+            
             audio.volume = this.currentVolume;
             
             // Set src tanpa auto-load
@@ -294,8 +342,14 @@ class MdkgWidget {
             
             const updateTrackMetadata = () => {
                 const track = this.playlist[this.currentTrackIndex];
-                if (trackTitle) trackTitle.innerText = track.title;
-                if (trackArtist) trackArtist.innerText = track.artist;
+                if (trackTitle) {
+                    trackTitle.innerText = track.title;
+                    trackTitle.title = track.title; // [NEW] Memunculkan full judul saat di-hover
+                }
+                if (trackArtist) {
+                    trackArtist.innerText = track.artist;
+                    trackArtist.title = track.artist; // [NEW] Memunculkan full band saat di-hover
+                }
                 if (coverImg && track.cover) {
                     coverImg.crossOrigin = "Anonymous"; // Mencegah error keamanan canvas
                     
@@ -306,7 +360,7 @@ class MdkgWidget {
                         const isDark = brightness < 125; // Jika warna gelap, teks akan diputihkan
                         
                         // Inject CSS Variables langsung ke elemen Widget
-                        player.style.setProperty('--w-bg', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.85)`);
+                        player.style.setProperty('--w-bg', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.65)`);
                         player.style.setProperty('--w-text', isDark ? '#ffffff' : '#111111');
                         player.style.setProperty('--w-sub', isDark ? 'rgba(255, 255, 255, 0.7)' : '#666666');
                     };
@@ -337,10 +391,18 @@ class MdkgWidget {
             player.addEventListener('click', (e) => {
                 if (e.target.closest('.mdkg-next-btn')) return; // Ignore next button clicks
 
+                // [NEW] Jika piringan diklik, buka Lightbox (bukan play/pause)
+                if (e.target.closest('.mdkg-player-cover') && !audio.paused) {
+                    this.showLightbox(this.playlist[this.currentTrackIndex].cover);
+                    return;
+                }
+
                 if (audio.paused) {
+                    isUserPaused = false; // [UPDATE] Tandai bahwa user menekan play
                     audio.preload = "auto"; // Mulai download *hanya* jika user memutar
                     audio.play().then(() => updateUI(true)).catch(e => console.error("Playback failed:", e));
                 } else {
+                    isUserPaused = true; // [UPDATE] Tandai bahwa user menekan pause
                     audio.pause();
                     updateUI(false);
                 }
@@ -351,7 +413,10 @@ class MdkgWidget {
                 // Fitur Loop: Jika cuma 1 lagu, tombol Next akan me-replay lagu dari awal
                 if (this.playlist.length === 1) {
                     audio.currentTime = 0;
-                    audio.play().then(() => updateUI(true)).catch(e => console.error("Replay failed:", e));
+                    audio.play().then(() => {
+                        isUserPaused = false;
+                        updateUI(true);
+                    }).catch(e => console.error("Replay failed:", e));
                     return;
                 }
                 
@@ -363,7 +428,10 @@ class MdkgWidget {
                 audio.src = this.playlist[this.currentTrackIndex].src;
                 audio.preload = "auto"; // User sudah klik interaksi next, aman untuk diload
                 audio.load(); // [FIX] Wajib dipanggil untuk Safari iOS agar src baru dikenali
-                audio.play().then(() => updateUI(true)).catch(e => console.error("Next track failed:", e));
+                audio.play().then(() => {
+                    isUserPaused = false;
+                    updateUI(true);
+                }).catch(e => console.error("Next track failed:", e));
             };
 
             if (nextBtn) nextBtn.addEventListener('click', playNext);
@@ -374,6 +442,23 @@ class MdkgWidget {
             } else {
                 audio.addEventListener('ended', playNext); // Auto-advance ke lagu selanjutnya
             }
+
+            // [NEW] Fitur Auto-pause saat mencapai footer
+            const footerContainer = document.getElementById('footer-container');
+            if (footerContainer && audio) {
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        isFooterIntersecting = entry.isIntersecting;
+                        evaluatePlayback(); // Kalkulasi ulang state musik
+                    });
+                }, { threshold: 0.1 }); // Aktif ketika 10% elemen footer muncul di layar
+                footerObserver.observe(footerContainer);
+            }
+
+            // [NEW] Global Video Listeners: Menangkap aksi play/pause/mute pada SEMUA video di website
+            document.addEventListener('play', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
+            document.addEventListener('pause', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
+            document.addEventListener('volumechange', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
         }
     }
 
