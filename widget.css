@@ -36,6 +36,98 @@
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* --- [NEW] PLAYER COVER & TRACK INFO --- */
+.mdkg-player-cover {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* [UPDATE] Diubah menjadi lingkaran penuh */
+    overflow: hidden;
+    flex-shrink: 0;
+    /* [UPDATE] Shadow dan outline hitam untuk efek pinggiran piringan hitam */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 0 2px #111; 
+    margin-right: 4px;
+    animation: mdkgFadeInCover 0.4s ease;
+    position: relative;
+    background-color: #111;
+}
+
+/* [NEW] Titik tengah (hole) piringan hitam */
+.mdkg-player-cover::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #fcfcfc;
+    border: 1px solid #444;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+@keyframes mdkgFadeInCover {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mdkgSpinRecord {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.mdkg-track-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* [NEW] Animasi putar yang di-pause secara default */
+    animation: mdkgSpinRecord 4s linear infinite;
+    animation-play-state: paused; 
+}
+
+/* [NEW] Piringan berputar hanya saat lagu sedang play */
+.mdkg-widget-player.playing .mdkg-track-cover {
+    animation-play-state: running;
+}
+
+.mdkg-track-info {
+    display: none; /* Diatur JS ke flex */
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    line-height: 1.2;
+    min-width: 80px;
+    max-width: 140px;
+    animation: mdkgSlideInText 0.4s ease;
+}
+
+@keyframes mdkgSlideInText {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.mdkg-track-title {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
+
+.mdkg-track-artist {
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    color: #666;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
+
 .mdkg-player-icon {
     display: flex;
     align-items: center;
@@ -262,6 +354,10 @@
     }
     .mdkg-player-text {
         display: none; /* Hide text on mobile */
+    }
+
+    .mdkg-track-info {
+        max-width: 100px; /* Lebar lebih kecil di mobile agar tidak mentok tepi */
     }
 
     /* Compact Live Status Widget */

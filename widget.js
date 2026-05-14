@@ -11,11 +11,13 @@ const widgetConfig = {
     initialVolume: 0.4,                   // Volume awal (0.0 sampai 1.0)
     
     // DAFTAR LAGU (PLAYLIST)
-    // Tambahkan lagu baru dengan format: { src: 'folder/nama-file.mp3' },
+    // Tambahkan lagu baru dengan format: { src: 'file.mp3', title: 'Judul', artist: 'Band', cover: 'gambar.jpg' },
     playlist: [
-        { src: 'audio/bgmusic.mp3' },
-        { src: 'audio/bgmusic2.mp3' },
-        { src: 'audio/bgmusic3.mp3' }
+        { src: 'audio/bgmusic.mp3', title: 'Smells Like Teen Spirit', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'audio/bgmusic2.mp3', title: 'Come As You Are', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'audio/bgmusic3.mp3', title: 'Something In The Way', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        // Lagu baru yang ke-4 ditambahkan di bawah ini (Ganti gambar dan teksnya sesuai kebutuhan)
+        { src: 'audio/bgmusic4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' }
     ]
 };
 //#endregion
@@ -46,7 +48,16 @@ class MdkgWidget {
         this.playlist = rawPlaylist.map(track => {
             let src = track.src;
             if (src.startsWith('/')) src = src.substring(1); // Hapus leading slash (mencegah error di GitHub Pages)
-            return { src: src.startsWith('http') ? src : pathPrefix + src };
+            
+            let cover = track.cover || '';
+            if (cover.startsWith('/')) cover = cover.substring(1);
+            
+            return { 
+                src: src.startsWith('http') ? src : pathPrefix + src,
+                title: track.title || 'Unknown Track',
+                artist: track.artist || 'Unknown Artist',
+                cover: cover ? (cover.startsWith('http') ? cover : pathPrefix + cover) : ''
+            };
         });
         
         // Load last played index from localStorage
@@ -115,7 +126,14 @@ class MdkgWidget {
 
             <!-- Music Player Widget -->
             <div class="mdkg-widget-player hover-trigger">
-                <audio class="mdkg-bg-music" src="${currentTrack.src}" preload="auto"></audio>
+                <!-- [OPTIMIZATION] preload="none" memastikan file 3-5MB TIDAK di-load sampai user memutar lagunya (Anti-Lag) -->
+                <audio class="mdkg-bg-music" preload="none"></audio>
+                
+                <!-- [NEW] Cover Image -->
+                <div class="mdkg-player-cover" style="display: none;">
+                    <img src="" alt="Cover" class="mdkg-track-cover">
+                </div>
+                
                 <div class="mdkg-player-icon">
                     <!-- Muted Icon -->
                     <svg class="mdkg-icon-muted" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,6 +150,11 @@ class MdkgWidget {
                 </div>
                 <div class="mdkg-player-content">
                     <span class="mdkg-player-text">PLAY</span>
+                    <!-- [NEW] Track Info (Judul & Band) -->
+                    <div class="mdkg-track-info" style="display: none;">
+                        <span class="mdkg-track-title">Title</span>
+                        <span class="mdkg-track-artist">Artist</span>
+                    </div>
                     <div class="mdkg-visualizer">
                         <div class="mdkg-bar"></div>
                         <div class="mdkg-bar"></div>
@@ -206,24 +229,52 @@ class MdkgWidget {
         const iconMuted = player ? player.querySelector('.mdkg-icon-muted') : null;
         const iconPlaying = player ? player.querySelector('.mdkg-icon-playing') : null;
         const nextBtn = player ? player.querySelector('.mdkg-next-btn') : null;
+        
+        // [NEW] Element Identifiers untuk Cover & Info
+        const coverContainer = player ? player.querySelector('.mdkg-player-cover') : null;
+        const coverImg = player ? player.querySelector('.mdkg-track-cover') : null;
+        const trackInfo = player ? player.querySelector('.mdkg-track-info') : null;
+        const trackTitle = player ? player.querySelector('.mdkg-track-title') : null;
+        const trackArtist = player ? player.querySelector('.mdkg-track-artist') : null;
 
         if (player && audio) {
             audio.volume = this.currentVolume;
+            
+            // Set src tanpa auto-load
+            audio.src = this.playlist[this.currentTrackIndex].src;
             
             // Save volume to localStorage whenever it changes
             audio.addEventListener('volumechange', () => {
                 localStorage.setItem('mdkg_volume', audio.volume);
             });
             
+            const updateTrackMetadata = () => {
+                const track = this.playlist[this.currentTrackIndex];
+                if (trackTitle) trackTitle.innerText = track.title;
+                if (trackArtist) trackArtist.innerText = track.artist;
+                if (coverImg && track.cover) {
+                    coverImg.src = track.cover;
+                }
+            };
+            
+            // Load UI awal
+            updateTrackMetadata();
+            
             const updateUI = (isPlaying) => {
+                const track = this.playlist[this.currentTrackIndex];
+                
                 if (isPlaying) {
                     player.classList.add('playing');
-                    if (text) text.innerText = "PAUSE";
+                    if (text) text.style.display = 'none'; // Sembunyikan teks PLAY
+                    if (trackInfo) trackInfo.style.display = 'flex'; // Tampilkan Judul & Band
+                    if (coverContainer && track.cover) coverContainer.style.display = 'block'; // Tampilkan Cover
                     if (iconMuted) iconMuted.style.display = 'none';
                     if (iconPlaying) iconPlaying.style.display = 'block';
                 } else {
                     player.classList.remove('playing');
-                    if (text) text.innerText = "PLAY";
+                    if (text) { text.style.display = 'block'; text.innerText = "PAUSED"; }
+                    if (trackInfo) trackInfo.style.display = 'none'; // Sembunyikan Info
+                    if (coverContainer) coverContainer.style.display = 'none'; // Sembunyikan Cover
                     if (iconMuted) iconMuted.style.display = 'block';
                     if (iconPlaying) iconPlaying.style.display = 'none';
                 }
@@ -234,6 +285,7 @@ class MdkgWidget {
                 if (e.target.closest('.mdkg-next-btn')) return; // Ignore next button clicks
 
                 if (audio.paused) {
+                    audio.preload = "auto"; // Mulai download *hanya* jika user memutar
                     audio.play().then(() => updateUI(true)).catch(e => console.error("Playback failed:", e));
                 } else {
                     audio.pause();
@@ -245,7 +297,11 @@ class MdkgWidget {
             const playNext = () => {
                 this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
                 localStorage.setItem('mdkg_last_track_index', this.currentTrackIndex); // Save to localStorage
+                
+                updateTrackMetadata(); // Update Teks & Gambar di UI dulu
+                
                 audio.src = this.playlist[this.currentTrackIndex].src;
+                audio.preload = "auto"; // User sudah klik interaksi next, aman untuk diload
                 audio.load(); // [FIX] Wajib dipanggil untuk Safari iOS agar src baru dikenali
                 audio.play().then(() => updateUI(true)).catch(e => console.error("Next track failed:", e));
             };
