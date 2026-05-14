@@ -279,7 +279,8 @@ class MdkgWidget {
                 
                 // Cek apakah ada video yang sedang diputar DAN tidak di-mute (bersuara)
                 const anyVideoPlaying = Array.from(document.querySelectorAll('video')).some(v => !v.paused && !v.muted && v.volume > 0);
-                const shouldPause = isFooterIntersecting || anyVideoPlaying;
+                const anyAudioPlaying = Array.from(document.querySelectorAll('audio:not(.mdkg-bg-music)')).some(a => !a.paused && !a.muted && a.volume > 0);
+                const shouldPause = isFooterIntersecting || anyVideoPlaying || anyAudioPlaying;
 
                 if (shouldPause && !audio.paused) {
                     audio.pause(); updateUI(false);
@@ -399,10 +400,15 @@ class MdkgWidget {
                 footerObserver.observe(footerContainer);
             }
 
-            // [NEW] Global Video Listeners: Menangkap aksi play/pause/mute pada SEMUA video di website
-            document.addEventListener('play', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
-            document.addEventListener('pause', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
-            document.addEventListener('volumechange', (e) => { if (e.target.tagName === 'VIDEO') evaluatePlayback(); }, true);
+            // [NEW] Global Media Listeners: Menangkap aksi play/pause/mute pada SEMUA media bersuara di website
+            const handleMediaPlayback = (e) => {
+                if (e.target.tagName === 'VIDEO' || (e.target.tagName === 'AUDIO' && !e.target.classList.contains('mdkg-bg-music'))) {
+                    evaluatePlayback();
+                }
+            };
+            document.addEventListener('play', handleMediaPlayback, true);
+            document.addEventListener('pause', handleMediaPlayback, true);
+            document.addEventListener('volumechange', handleMediaPlayback, true);
         }
     }
 

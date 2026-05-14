@@ -1090,7 +1090,7 @@ function initAudioNarrator() {
     const speedBtn = player.querySelector('.speed-btn');
 
     // --- WEB AUDIO API VARIABLES ---
-    let audioCtx, analyser, dataArray, source;
+    let audioCtx, analyser, dataArray, source, gainNode;
     let animationId;
     const staticHeights = []; // To store original waveform shape for pause state
 
@@ -1141,9 +1141,14 @@ function initAudioNarrator() {
                 analyser = audioCtx.createAnalyser();
                 analyser.fftSize = 128; // Balance between detail and performance
                 
+                // --- NEW GAIN NODE (Volume Booster) ---
+                gainNode = audioCtx.createGain();
+                gainNode.gain.value = 2.5; // Boost volume 2.5x (karena native suaranya kecil)
+
                 // Create Source from HTML Audio Element
                 source = audioCtx.createMediaElementSource(audio);
-                source.connect(analyser);
+                source.connect(gainNode);
+                gainNode.connect(analyser);
                 analyser.connect(audioCtx.destination);
                 
                 const bufferLength = analyser.frequencyBinCount;
