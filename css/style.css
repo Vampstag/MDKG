@@ -285,6 +285,14 @@ html, body { /* [REFINEMENT] Hindari !important. Jika terjadi overflow, cari ele
 /* =========================================
    PERFORMANCE OPTIMIZATIONS
    ========================================= */
+/* [NEW] Video Fade-in from Poster */
+.video-fade {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 1.2s var(--ease-smooth);
+}
+.video-fade.is-ready {
+    opacity: 1;
+}
 .hero-card, .paralax-image {
     will-change: transform;
     transform: translateZ(0); /* Force GPU Layer */
@@ -2062,8 +2070,7 @@ html.lenis, html.lenis body { height: auto; }
 .work-card__image-wrapper {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 21/9; /* Cinematic Ratio - Lebih pendek secara vertikal */
-    aspect-ratio: 16/9; /* Mobile: Standard Ratio agar detail tetap terlihat */
+    aspect-ratio: 4/3; /* 4:3 Ratio agar WebM tidak terpotong */
     background-color: #f5f5f7;
 }
 
@@ -2089,7 +2096,7 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (min-width: 768px) {
     .work-card__image-wrapper {
-        aspect-ratio: 21/9; /* Desktop/Tablet: Cinematic/Ultrawide agar terlihat sleek */
+        aspect-ratio: 4/3; /* Desktop/Tablet: 4:3 Ratio agar WebM tidak terpotong */
     }
 }
 
@@ -2817,6 +2824,11 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: -0.04em;
     color: #000000;
     margin-bottom: 24px;
+}
+
+.data-number.data-text {
+    font-size: clamp(1.75rem, 4vw, 3rem); /* Smaller responsive text for long strings */
+    letter-spacing: -0.02em;
 }
 
 .data-label {
@@ -4572,7 +4584,7 @@ a.social-icon:hover img {
    ========================================= */
 .data-item {
     position: relative;
-    cursor: help;
+    cursor: default;
     -webkit-tap-highlight-color: transparent;
     outline: none;
 }

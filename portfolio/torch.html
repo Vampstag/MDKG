@@ -69,6 +69,9 @@
         }
         </script>
         
+        <!-- Preload Showreel Video -->
+        <link rel="preload" as="video" href="../assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm" fetchpriority="high">
+        
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
         <link href="../css/style.css" rel="stylesheet" type="text/css"/>
@@ -304,17 +307,10 @@
             <section id="showreel" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="showreel-wrapper">
-                            <lottie-player 
-                                src="../assets/videos/project/torch/lottie/showreel(placeholder).json" 
-                                background="transparent" 
-                                speed="1" 
-                                loop 
-                                autoplay 
-                                class="showreel-lottie"
-                                style="width: 100%; height: 100%; object-fit: cover;"
-                                preserveAspectRatio="xMidYMid slice">
-                            </lottie-player>
+                        <div class="showreel-wrapper" style="background-image: url('../assets/images/project/torch/poster_showreel_torchxgundam.webp'); background-size: cover; background-position: center;">
+                            <video autoplay loop muted playsinline preload="auto" poster="../assets/images/project/torch/poster_showreel_torchxgundam.webp" class="showreel-video video-fade" style="width: 100%; height: 100%; object-fit: cover;" onloadeddata="this.classList.add('is-ready')">
+                                <source src="../assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                            </video>
                         </div>
                     </div>
                 </div>
@@ -640,12 +636,12 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-1.webp" alt="Content Brainstorming" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-1.webp" alt="Shooting Teaser Video" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-2.jpeg" alt="Production Setup" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-2.webp" alt="Production Setup" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
@@ -655,29 +651,29 @@
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/torch-model-backpack.webp" alt="Final Output" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-4.webp" alt="Color Grading" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 
                                 <!-- Next 4 slides for a full 8-item showcase -->
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-5.webp" alt="Lighting Setup" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-5.webp" alt="Editing Process" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-6.webp" alt="Camera Angles" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-6.webp" alt="Shooting Using Green Screen" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-7.webp" alt="Color Grading" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-7.webp" alt="Shooting in Studio" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-8.webp" alt="Review Session" class="photo-img" loading="lazy">
+                                        <img src="../assets/images/project/torch/bts-8.webp" alt="Shooting in Studio" class="photo-img" loading="lazy">
                                     </div>
                                 </div>
                             </div>
@@ -762,9 +758,9 @@
                             <div class="credits-group">
                                 <h4 class="credits-role">Strategic & Creative Direction</h4>
                                 <ul class="credits-list">
-                                    <li><a href="https://linkedin.com/in/rezalazuardi" target="_blank" rel="noopener noreferrer">Reza Lazuardi</a> <span>(Senior Brand & Creative Manager)</span></li>
-                                    <li><a href="https://linkedin.com/in/aldobanggapermana" target="_blank" rel="noopener noreferrer">Aldo Bangga Permana</a> <span>(Branding Creative Lead)</span></li>
-                                    <li><a href="https://linkedin.com/in/irfan" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Ass. Manager BNC Operations)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/reza-lazuardi-42279732/?skipRedirect=true" target="_blank" rel="noopener noreferrer">Reza Lazuardi</a> <span>(Senior Brand & Creative Manager)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/aldo-bangga-permana-42737840/" target="_blank" rel="noopener noreferrer">Aldo Bangga Permana</a> <span>(Branding Creative Lead)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/irfan-noormansyah-9170b6113/" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Ass. Manager BNC Operations)</span></li>
                                 </ul>
                             </div>
 
@@ -772,7 +768,7 @@
                             <div class="credits-group">
                                 <h4 class="credits-role">Production Management</h4>
                                 <ul class="credits-list">
-                                    <li>Ridwan <span>(Project Manager)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/ridwan-pradana-mail/" target="_blank" rel="noopener noreferrer">Ridwan Pradana</a> <span>(Project Manager)</span></li>
                                     <li><a href="https://linkedin.com/in/alfenda" target="_blank" rel="noopener noreferrer">Alfenda</a> <span>(Content Video Producer)</span></li>
                                 </ul>
                             </div>
@@ -860,9 +856,6 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        
-        <!-- Lottie Web Player -->
-        <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
         <script defer src="../script.js"></script>
         <script defer src="../custom.js"></script>

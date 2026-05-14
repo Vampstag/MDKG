@@ -275,6 +275,9 @@
     <!-- 1. Performance: Preload LCP Image -->
     <link rel="preload" as="image" href="assets/images/home/dimas4.webp" fetchpriority="high">
 
+    <!-- 2. Performance: Preload Showreel Video -->
+    <link rel="preload" as="video" href="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm" fetchpriority="high">
+
     </head>
     <body class="body-2">
         <div id="preloader">
@@ -392,17 +395,10 @@
                             </div>
                             <!-- 2. Refactored Latest Work Section -->
                             <a href="/portfolio/torch" class="work-card">
-                                <div class="work-card__image-wrapper">
-                                    <!-- Lottie Player Element -->
-                                    <lottie-player 
-                                        src="assets/videos/project/torch/lottie/showreel(placeholder).json" 
-                                        background="transparent" 
-                                        speed="1" 
-                                        loop 
-                                        autoplay 
-                                        class="work-card__video"
-                                        preserveAspectRatio="xMidYMid slice">
-                                    </lottie-player>
+                                <div class="work-card__image-wrapper" style="background-image: url('assets/images/project/torch/poster_showreel_torchxgundam.webp'); background-size: cover; background-position: center;">
+                                    <video autoplay loop muted playsinline preload="auto" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp" class="work-card__video video-fade" onloadeddata="this.classList.add('is-ready')">
+                                        <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                                    </video>
                                     <!-- Existing Overlay -->
                                     <div class="work-card__overlay"> 
                                         <div class="work-card__metrics">
@@ -590,17 +586,20 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="data-grid">
-                            <div class="data-item">
-                                <div class="data-number">+4.7K</div>
-                                <div class="data-label">ORGANIC ENGAGEMENT</div>
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number">1.8M</div>
+                                <div class="data-label">Organic Views Generated</div>
+                                <div class="metric-tooltip">Generated across successful client campaigns without ad spend.</div>
                             </div>
-                            <div class="data-item">
-                                <div class="data-number">3</div>
-                                <div class="data-label">CORE SPECIALIZATIONS</div>
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number data-text">Video &bull; Design &bull; Web</div>
+                                <div class="data-label">Multi-Disciplinary Practice</div>
+                                <div class="metric-tooltip">Integrated approach combining multiple creative disciplines.</div>
                             </div>
-                            <div class="data-item">
-                                <div class="data-number">100%</div>
-                                <div class="data-label">Direct Collaboration</div>
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number data-text">Independent Creative</div>
+                                <div class="data-label">Direct Collaboration Workflow</div>
+                                <div class="metric-tooltip">No account managers, just direct collaboration with the creator.</div>
                             </div>
                         </div>
                     </div>
@@ -785,8 +784,6 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <!-- Lottie Web Player -->
-        <script defer src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <script defer src="script.js"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js"></script>
