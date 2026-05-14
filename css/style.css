@@ -3457,11 +3457,11 @@ html.lenis, html.lenis body { height: auto; }
 
 .credits-role {
     font-family: var(--font-primary);
-    font-size: 0.75rem; /* 12px */
+    font-size: 0.65rem; /* 10.4px - Premium film credit size */
     line-height: 1.4;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em; /* Premium tracking */
+    letter-spacing: 0.15em; /* Wider tracking for premium look */
     color: #999;
     margin: 0;
 }
@@ -3472,12 +3472,12 @@ html.lenis, html.lenis body { height: auto; }
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Breathing room between names */
+    gap: 6px; /* Slightly tighter gap for smaller text */
 }
 
 .credits-list li {
     font-family: var(--font-primary);
-    font-size: 1rem; /* 16px */
+    font-size: 0.8rem; /* 12.8px - Crisp and small */
     font-weight: 500;
     color: #111;
     line-height: 1.5;
@@ -3487,6 +3487,7 @@ html.lenis, html.lenis body { height: auto; }
 .credits-list li span {
     color: #888;
     font-weight: 400;
+    font-size: 0.75rem; /* 12px */
     margin-left: 4px;
 }
 /* #endregion */
@@ -5032,8 +5033,18 @@ a.social-icon:hover img {
     .bento-item { min-height: 380px; }
     .bento-overlay { padding: 32px; }
     .bento-icon-wrapper { width: 48px; height: 48px; margin-bottom: 32px; }
-    .bento-stats-panel { gap: 8px; }
-    .stat-val { font-size: 1rem; }
+    .bento-stats-panel {
+        gap: 16px 8px; /* Jarak vertikal lebih besar, horizontal lebih rapat */
+        grid-template-columns: repeat(3, 1fr); /* [FIX] Paksa 3 kolom agar simetris 3x2 */
+    }
+    .stat-val {
+        font-size: 0.9rem; /* [FIX] Sedikit diperkecil agar tidak terlalu padat */
+    }
+    .stat-label {
+        font-size: 0.6rem; /* [FIX] Sedikit diperkecil */
+        gap: 3px;
+    }
+    .stat-label svg { width: 10px; height: 10px; } /* [FIX] Ikon diperkecil */
     .bento-title { font-size: 1.25rem; }
     .bento-desc { font-size: 0.9rem; }
     .bento-plus-icon { width: 32px; height: 32px; }
