@@ -396,33 +396,49 @@
     .mdkg-widget-player {
         bottom: 20px;
         right: 20px;
-        padding: 8px 12px;
-        gap: 8px;
-        border-radius: 16px;
+        padding: 6px 10px;
+        gap: 6px;
+        border-radius: 20px;
+        max-width: calc(100vw - 160px); /* Batas aman jarak dari widget kiri */
     }
     .mdkg-player-text {
-        display: none; /* Hide text on mobile */
+        display: none !important; /* Hide text on mobile */
     }
 
     .mdkg-widget-player.playing .mdkg-track-info {
-        max-width: 90px; /* Lebar lebih kecil di mobile agar tidak mentok tepi */
+        max-width: 70px; /* Lebar diperkecil agar tidak nabrak widget kiri */
     }
 
     .mdkg-track-title {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .mdkg-track-artist {
-        font-size: 10px;
+        font-size: 9px;
     }
 
     .mdkg-player-cover {
-        height: 32px;
+        height: 26px;
     }
 
     .mdkg-widget-player.playing .mdkg-player-cover {
-        width: 32px;
-        margin-right: 6px;
+        width: 26px;
+        margin-right: 4px;
+    }
+
+    .mdkg-visualizer {
+        display: none; /* Sembunyikan equalizer di mobile untuk menghemat ruang */
+    }
+
+    .mdkg-player-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .mdkg-next-btn {
+        width: 18px;
+        height: 18px;
+        margin-left: 2px;
     }
 
     /* Compact Live Status Widget */
@@ -434,21 +450,21 @@
         z-index: 990;
         width: auto;
         min-width: 0;
-        max-width: calc(100% - 150px); /* Jarak aman agar tidak nabrak music player */
-        padding: 8px 12px;
-        border-radius: 16px;
+        max-width: 140px; /* Paksa batas lebar maksimal yang ketat di mobile */
+        padding: 6px 10px;
+        border-radius: 20px;
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
     .mdkg-widget-header { display: none; } /* Hide clock on mobile */
-    .mdkg-widget-status-row { margin-bottom: 0; margin-right: auto; }
-    .mdkg-status-text { font-size: 11px; }
+    .mdkg-widget-status-row { margin-bottom: 0; margin-right: auto; min-width: 0; overflow: hidden; }
+    .mdkg-status-text { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     .mdkg-book-btn {
-        width: 36px; height: 36px; padding: 0; border-radius: 12px; flex-shrink: 0;
+        width: 32px; height: 32px; padding: 0; border-radius: 12px; flex-shrink: 0;
         display: flex; align-items: center; justify-content: center; gap: 0;
         background: #111; color: #fff;
     }
