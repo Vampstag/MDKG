@@ -10,6 +10,9 @@ const widgetConfig = {
     bookingLink: 'https://calendar.app.google/q8vcfvD79osZvTKa8', // Link tombol booking
     initialVolume: 0.4,                   // Volume awal (0.0 sampai 1.0)
     
+    // CACHE BUSTER: Ubah angka ini (misal ke '1.1') setiap kali kamu mengganti file mp3 agar browser otomatis memuat lagu baru.
+    audioVersion: '1.0',
+    
     // DAFTAR LAGU (PLAYLIST)
     // Tambahkan lagu baru dengan format: { src: 'file.mp3', title: 'Judul', artist: 'Band', cover: 'gambar.jpg' },
     playlist: [
@@ -52,8 +55,12 @@ class MdkgWidget {
             let cover = track.cover || '';
             if (cover.startsWith('/')) cover = cover.substring(1);
             
+            // [NEW] Tambahkan Cache Buster Parameter
+            let finalSrc = src.startsWith('http') ? src : pathPrefix + src;
+            finalSrc += `?v=${options.audioVersion || '1.0'}`;
+            
             return { 
-                src: src.startsWith('http') ? src : pathPrefix + src,
+                src: finalSrc,
                 title: track.title || 'Unknown Track',
                 artist: track.artist || 'Unknown Artist',
                 cover: cover ? (cover.startsWith('http') ? cover : pathPrefix + cover) : ''
@@ -97,6 +104,43 @@ class MdkgWidget {
         this.initMagneticButton();
     }
 
+    // --- Ekstraksi Warna Dominan Gambar ---
+    getAverageRGB(imgEl) {
+        const blockSize = 5; // Hanya cek setiap 5 pixel agar ringan di performa
+        const defaultRGB = { r: 255, g: 255, b: 255 }; // Default fallback (Putih)
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext && canvas.getContext('2d');
+        let data, width, height;
+        let i = -4, count = 0;
+        let rgb = { r: 0, g: 0, b: 0 };
+
+        if (!context) return defaultRGB;
+
+        height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || 100;
+        width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || 100;
+
+        try {
+            context.drawImage(imgEl, 0, 0);
+            data = context.getImageData(0, 0, width, height);
+        } catch(e) {
+            // Fallback aman jika terkena blokir keamanan browser (CORS)
+            return defaultRGB;
+        }
+
+        const length = data.data.length;
+        while ((i += blockSize * 4) < length) {
+            ++count;
+            rgb.r += data.data[i];
+            rgb.g += data.data[i+1];
+            rgb.b += data.data[i+2];
+        }
+
+        rgb.r = Math.floor(rgb.r / count);
+        rgb.g = Math.floor(rgb.g / count);
+        rgb.b = Math.floor(rgb.b / count);
+        return rgb;
+    }
+
     // --- Render HTML ---
     render(container) {
         const currentTrack = this.playlist[this.currentTrackIndex];
@@ -130,7 +174,7 @@ class MdkgWidget {
                 <audio class="mdkg-bg-music" preload="none"></audio>
                 
                 <!-- [NEW] Cover Image -->
-                <div class="mdkg-player-cover" style="display: none;">
+                <div class="mdkg-player-cover">
                     <img src="" alt="Cover" class="mdkg-track-cover">
                 </div>
                 
@@ -151,7 +195,7 @@ class MdkgWidget {
                 <div class="mdkg-player-content">
                     <span class="mdkg-player-text">PLAY</span>
                     <!-- [NEW] Track Info (Judul & Band) -->
-                    <div class="mdkg-track-info" style="display: none;">
+                    <div class="mdkg-track-info">
                         <span class="mdkg-track-title">Title</span>
                         <span class="mdkg-track-artist">Artist</span>
                     </div>
@@ -253,7 +297,21 @@ class MdkgWidget {
                 if (trackTitle) trackTitle.innerText = track.title;
                 if (trackArtist) trackArtist.innerText = track.artist;
                 if (coverImg && track.cover) {
+                    coverImg.crossOrigin = "Anonymous"; // Mencegah error keamanan canvas
+                    
+                    coverImg.onload = () => {
+                        const rgb = this.getAverageRGB(coverImg);
+                        // Kalkulasi kecerahan warna (Luminance formula)
+                        const brightness = Math.round(((rgb.r * 299) + (rgb.g * 587) + (rgb.b * 114)) / 1000);
+                        const isDark = brightness < 125; // Jika warna gelap, teks akan diputihkan
+                        
+                        // Inject CSS Variables langsung ke elemen Widget
+                        player.style.setProperty('--w-bg', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.85)`);
+                        player.style.setProperty('--w-text', isDark ? '#ffffff' : '#111111');
+                        player.style.setProperty('--w-sub', isDark ? 'rgba(255, 255, 255, 0.7)' : '#666666');
+                    };
                     coverImg.src = track.cover;
+                    if (coverImg.complete) coverImg.onload(); // Panggil manual jika gambar dari cache
                 }
             };
             
@@ -265,16 +323,11 @@ class MdkgWidget {
                 
                 if (isPlaying) {
                     player.classList.add('playing');
-                    if (text) text.style.display = 'none'; // Sembunyikan teks PLAY
-                    if (trackInfo) trackInfo.style.display = 'flex'; // Tampilkan Judul & Band
-                    if (coverContainer && track.cover) coverContainer.style.display = 'block'; // Tampilkan Cover
                     if (iconMuted) iconMuted.style.display = 'none';
                     if (iconPlaying) iconPlaying.style.display = 'block';
                 } else {
                     player.classList.remove('playing');
-                    if (text) { text.style.display = 'block'; text.innerText = "PAUSED"; }
-                    if (trackInfo) trackInfo.style.display = 'none'; // Sembunyikan Info
-                    if (coverContainer) coverContainer.style.display = 'none'; // Sembunyikan Cover
+                    if (text) { text.innerText = "PAUSED"; }
                     if (iconMuted) iconMuted.style.display = 'block';
                     if (iconPlaying) iconPlaying.style.display = 'none';
                 }
@@ -295,6 +348,13 @@ class MdkgWidget {
 
             // Next Track Logic
             const playNext = () => {
+                // Fitur Loop: Jika cuma 1 lagu, tombol Next akan me-replay lagu dari awal
+                if (this.playlist.length === 1) {
+                    audio.currentTime = 0;
+                    audio.play().then(() => updateUI(true)).catch(e => console.error("Replay failed:", e));
+                    return;
+                }
+                
                 this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
                 localStorage.setItem('mdkg_last_track_index', this.currentTrackIndex); // Save to localStorage
                 
@@ -307,7 +367,13 @@ class MdkgWidget {
             };
 
             if (nextBtn) nextBtn.addEventListener('click', playNext);
-            audio.addEventListener('ended', playNext); // Auto-advance
+            
+            // Fitur Auto Loop jika 1 Lagu (Gunakan 'loop' native agar transisinya super mulus)
+            if (this.playlist.length === 1) {
+                audio.loop = true;
+            } else {
+                audio.addEventListener('ended', playNext); // Auto-advance ke lagu selanjutnya
+            }
         }
     }
 

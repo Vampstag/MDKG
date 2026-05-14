@@ -8,7 +8,10 @@
     bottom: 40px;
     right: 40px;
     z-index: 9999;
-    background: rgba(255, 255, 255, 0.7);
+    --w-bg: rgba(255, 255, 255, 0.7);
+    --w-text: #111111;
+    --w-sub: #666666;
+    background: var(--w-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -18,17 +21,17 @@
     align-items: center;
     gap: 12px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease, background 0.8s ease;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-    color: #111;
+    color: var(--w-text);
     will-change: transform;
     transform: translateZ(0);
 }
 
 .mdkg-widget-player:hover {
-    background: rgba(255, 255, 255, 0.3);
     transform: translateY(-3px);
     box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15);
+    filter: brightness(1.05);
 }
 
 .mdkg-widget-player:active, .mdkg-widget-player.playing:active {
@@ -38,20 +41,35 @@
 
 /* --- [NEW] PLAYER COVER & TRACK INFO --- */
 .mdkg-player-cover {
-    width: 32px;
-    height: 32px;
+    width: 0; /* Default tertutup */
+    height: 36px; /* Sedikit lebih besar agar premium */
     border-radius: 50%; /* [UPDATE] Diubah menjadi lingkaran penuh */
-    overflow: hidden;
     flex-shrink: 0;
     /* [UPDATE] Shadow dan outline hitam untuk efek pinggiran piringan hitam */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 0 0 2px #111; 
-    margin-right: 4px;
-    animation: mdkgFadeInCover 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3), 0 0 0 4px #111; 
+    margin-right: 0;
     position: relative;
     background-color: #111;
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    pointer-events: none;
 }
 
-/* [NEW] Titik tengah (hole) piringan hitam */
+/* [NEW] Efek Pantulan Cahaya di Piringan Hitam */
+.mdkg-player-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    /* Garis diagonal terang meniru pantulan cahaya pada record vinyl */
+    background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.35) 100%);
+    z-index: 2;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+/* [NEW] Titik tengah (hole) piringan hitam dibuat lebih detail */
 .mdkg-player-cover::after {
     content: '';
     position: absolute;
@@ -59,16 +77,20 @@
     left: 50%;
     width: 6px;
     height: 6px;
-    background: #fcfcfc;
-    border: 1px solid #444;
+    background: #e0e0e0;
+    border: 2px solid #111;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 3;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
 }
 
-@keyframes mdkgFadeInCover {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
+/* [NEW] State Terbuka saat Play */
+.mdkg-widget-player.playing .mdkg-player-cover {
+    width: 36px;
+    margin-right: 8px;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
 @keyframes mdkgSpinRecord {
@@ -83,6 +105,8 @@
     /* [NEW] Animasi putar yang di-pause secara default */
     animation: mdkgSpinRecord 4s linear infinite;
     animation-play-state: paused; 
+    border-radius: 50%;
+    z-index: 1;
 }
 
 /* [NEW] Piringan berputar hanya saat lagu sedang play */
@@ -91,26 +115,28 @@
 }
 
 .mdkg-track-info {
-    display: none; /* Diatur JS ke flex */
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     line-height: 1.2;
-    min-width: 80px;
-    max-width: 140px;
-    animation: mdkgSlideInText 0.4s ease;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    margin-left: 0;
 }
 
-@keyframes mdkgSlideInText {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
+.mdkg-widget-player.playing .mdkg-track-info {
+    max-width: 140px;
+    opacity: 1;
 }
 
 .mdkg-track-title {
     font-family: inherit;
     font-size: 13px;
     font-weight: 700;
-    color: #111;
+    color: var(--w-text);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -121,7 +147,7 @@
     font-family: inherit;
     font-size: 11px;
     font-weight: 500;
-    color: #666;
+    color: var(--w-sub);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -145,11 +171,20 @@
     font-size: 14px;
     font-weight: 800;
     text-transform: uppercase;
-    color: #000000;
+    color: var(--w-text);
     letter-spacing: 0.5px;
     user-select: none;
-    min-width: 45px;
     text-align: center;
+    max-width: 80px; /* Cukup menampung kata PLAY/PAUSED */
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+}
+
+.mdkg-widget-player.playing .mdkg-player-text {
+    max-width: 0;
+    opacity: 0;
+    margin: 0;
 }
 
 .mdkg-visualizer {
@@ -162,7 +197,7 @@
 
 .mdkg-bar {
     width: 3px;
-    background-color: #000000;
+    background-color: var(--w-text);
     height: 2px;
     transition: height 0.2s ease;
 }
@@ -192,6 +227,7 @@
     transition: all 0.2s ease;
     margin-left: 4px;
     opacity: 0.7;
+    color: var(--w-text);
 }
 .mdkg-next-btn:hover {
     background: rgba(0,0,0,0.08);
