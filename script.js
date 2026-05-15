@@ -144,7 +144,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = container.querySelectorAll('.latest-journal-card-wrap');
         
         // [OPTIMIZATION] Batalkan observer snap mobile jika artikel <= 1 (karena tidak bisa di-scroll)
-        if (cards.length <= 1) return;
+        if (cards.length <= 1) {
+            if (cards.length === 1) cards[0].classList.add('is-center');
+            return;
+        }
 
         // Use IntersectionObserver to detect which card is in the center
         const observer = new IntersectionObserver((entries) => {
