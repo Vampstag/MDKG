@@ -12,13 +12,13 @@ const projectsData = [
         image: "assets/images/portfolio/tsukamie/tsukamie-1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
         link: "/project-detail?id=latest-work", // Link dinamis ke halaman detail
         stats: [
-            "+148K New Audience",
-            "+237K Impressions"
+            "+10,896% Impressions",
+            "162.3K Peak Views"
         ],
         // Data Tambahan untuk Halaman Detail
-        description: "High-impact social video and design strategy driving +148K new audience reach.",
-        challenge: "Fierce F&B competition and shifting algorithms demanded a unique, scroll-stopping visual identity.",
-        solution: "Executed a 'Visual Storytelling' strategy using high-contrast photography and dynamic short-form videos to highlight textures, paired with viral campaigns.",
+        description: "Revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.",
+        challenge: "Inconsistent engagement and declining content performance due to inactive posting and lack of structured content direction.",
+        solution: "Built a modular content system focused on culture, relatability, and educational storytelling alongside influencer collaborations.",
         gallery: [
             "assets/images/portfolio/tsukamie/tsukamie-1.webp",
             "assets/images/home/dimas-profile-2.webp" // Ganti dengan foto proyek lainnya

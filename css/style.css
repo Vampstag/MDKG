@@ -220,6 +220,34 @@ p, li, span, .paragraph, .about-text {
     align-items: center;
 }
 
+/* Navbar Rolling Text Animation */
+.nav-text-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.nav-text {
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    transform: translateY(0%) !important;
+    color: #111;
+    font-weight: 500;
+}
+
+.nav-text:nth-child(2) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+
+.navigation-link:hover .nav-text,
+.navigation-link.w--current .nav-text,
+.navigation-link.active .nav-text {
+    transform: translateY(-100%) !important;
+}
+
 /* Hover Line Animation Polish */
 .navigation-link .line-below {
     height: 2px;
@@ -4608,7 +4636,7 @@ a.social-icon:hover img {
     font-weight: 500;
     line-height: 1.4;
     width: max-content;
-    max-width: 240px;
+    max-width: 280px;
     text-align: center;
     opacity: 0;
     visibility: hidden;
