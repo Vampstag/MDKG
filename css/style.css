@@ -5075,12 +5075,16 @@ a.social-icon:hover img {
 
 /* Mobile Specific Refinements for Bento Grid */
 @media (max-width: 767px) {
-    .bento-item { min-height: 380px; }
-    .bento-overlay { padding: 32px; }
-    .bento-icon-wrapper { width: 48px; height: 48px; margin-bottom: 32px; }
+    .bento-grid { gap: 16px; } /* Jarak antar kartu lebih rapat di mobile */
+    .bento-item { 
+        min-height: 380px; 
+        border-radius: 20px; /* Radius sedikit dikecilkan agar proporsional */
+    }
+    .bento-overlay { padding: 24px; } /* Padding dikurangi agar konten lebih lega */
+    .bento-icon-wrapper { width: 44px; height: 44px; margin-bottom: 24px; }
     .bento-stats-panel {
-        gap: 16px 8px; /* Jarak vertikal lebih besar, horizontal lebih rapat */
-        grid-template-columns: repeat(3, 1fr); /* [FIX] Paksa 3 kolom agar simetris 3x2 */
+        gap: 12px 8px;
+        grid-template-columns: repeat(3, 1fr);
     }
     .stat-val {
         font-size: 0.9rem; /* [FIX] Sedikit diperkecil agar tidak terlalu padat */

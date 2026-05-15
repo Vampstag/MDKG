@@ -120,6 +120,127 @@
             .grade-dot:hover { background: rgba(255,255,255,0.8); }
             .grade-dot.active { background: rgba(255,255,255,1); transform: scale(1.3); }
             
+            /* [NEW] Output Tabs specific layout (GLOBAL / BASE) */
+            .outputs-tabs-nav { display: flex; justify-content: center; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
+            .output-tab-btn {
+                appearance: none; -webkit-appearance: none; font-family: var(--font-primary, inherit); padding: 12px 28px; border-radius: 10px; border: 1px solid #e5e5e5; background: #f9f9f9; color: #666; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+            .output-tab-btn:hover { background: #fff; color: #111; border-color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
+            .output-tab-btn.active { border-color: #111; background: #111; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transform: translateY(-2px); }
+            .output-tab-pane { display: none; opacity: 0; }
+            .output-tab-pane.active { display: block; opacity: 1; }
+            
+            /* [NEW] Sub Tabs specific layout (Squircle Segmented Control) */
+            .sub-tab-nav-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 40px; }
+            .sub-tab-nav {
+                display: inline-flex; background: #f9f9f9; padding: 6px; border-radius: 14px; border: 1px solid #e5e5e5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); gap: 4px; flex-wrap: wrap; justify-content: center;
+            }
+            .sub-tab-btn {
+                appearance: none; -webkit-appearance: none; font-family: var(--font-primary, inherit); padding: 10px 24px; border-radius: 10px; border: none; background: transparent; color: #666; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+            .sub-tab-btn:hover { color: #111; background: rgba(0,0,0,0.03); }
+            .sub-tab-btn.active { background: #fff; color: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+            .sub-tab-pane { display: none; opacity: 0; }
+            .sub-tab-pane.active { display: block; opacity: 1; }
+
+            /* [NEW] Horizontal Sticky Workflow Flowchart */
+            .solution-video-item.is-fullwidth {
+                display: block;
+                width: 100%;
+                margin-bottom: 40px;
+            }
+            .solution-video-item.is-fullwidth .solution-video-content {
+                max-width: 700px;
+                margin: 0 0 60px 0;
+                text-align: left;
+            }
+            .solution-video-item.is-fullwidth .sol-desc { margin: 0; }
+            
+            .workflow-sticky-wrapper {
+                width: 100vw;
+                margin-left: calc(-50vw + 50%);
+                background-color: #fcfcfc;
+                border-top: 1px solid rgba(0,0,0,0.04);
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+                padding: 80px 0;
+                overflow: hidden; /* Dikelola GSAP di Desktop */
+            }
+            .workflow-horizontal-track {
+                display: flex;
+                gap: 32px;
+                padding: 0 5vw;
+                width: max-content;
+                position: relative;
+            }
+            .workflow-line-bg, .workflow-line-progress {
+                content: '';
+                position: absolute;
+                top: 24px;
+                left: 5vw;
+                right: 5vw;
+                height: 2px;
+                background: #e5e5e5;
+                z-index: 0;
+            }
+            .workflow-line-progress {
+                background: #111;
+                transform-origin: left center;
+                transform: scaleX(0);
+                z-index: 1;
+            }
+            .workflow-h-node {
+                width: 320px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                position: relative;
+                z-index: 2;
+                flex-shrink: 0; /* [FIX] Mencegah kartu menyusut (gepeng) ke dalam layar */
+            }
+            .workflow-h-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                background-color: #fff;
+                border: 2px solid #111;
+                display: flex; align-items: center; justify-content: center;
+                flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #111;
+            }
+            .workflow-h-icon svg { width: 20px; height: 20px; }
+            .workflow-h-content {
+                background: #fff;
+                border-radius: 16px;
+                padding: 32px 24px;
+                border: 1px solid rgba(0,0,0,0.06);
+                box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+                height: 100%;
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+            }
+            .workflow-h-node:hover .workflow-h-content {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+            }
+            .workflow-h-title {
+                font-family: var(--font-primary, sans-serif); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; color: #111; text-transform: uppercase; margin: 0 0 12px 0; line-height: 1.3;
+            }
+            .workflow-h-desc { font-family: var(--font-primary, sans-serif); font-size: 0.9rem; color: #666; line-height: 1.5; font-weight: 400; margin: 0; }
+            
+            @media (max-width: 991px) {
+                .workflow-sticky-wrapper {
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    scroll-snap-type: x mandatory;
+                    scrollbar-width: none;
+                    padding: 60px 0;
+                }
+                .workflow-sticky-wrapper::-webkit-scrollbar { display: none; }
+                .workflow-horizontal-track { padding: 0 5vw; gap: 20px; width: max-content; }
+                .workflow-h-node { scroll-snap-align: start; width: 85vw; max-width: 320px; flex-shrink: 0; }
+                .workflow-line-bg, .workflow-line-progress { left: 5vw; right: 5vw; }
+                .workflow-line-progress { display: none; } /* Nonaktifkan garis progres di mobile */
+                .workflow-line-bg { background: linear-gradient(to right, #111, rgba(0,0,0,0.05)); }
+            }
+
             /* Balanced 2x2 Grid for 4 Impact items */
             @media (min-width: 768px) {
                 #impact .data-grid {
@@ -128,37 +249,13 @@
                     margin: 0 auto;
                 }
                 
-                /* [NEW] Output Tabs specific layout */
-                .output-tab-btn {
-                    padding: 12px 28px; border-radius: 10px; border: 1px solid #e5e5e5; background: #f9f9f9; color: #666; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-                }
-                .output-tab-btn:hover { background: #fff; color: #111; border-color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
-                .output-tab-btn.active { border-color: #111; background: #111; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.15); transform: translateY(-2px); }
-                .output-tab-pane { display: none; opacity: 0; }
-                .output-tab-pane.active { display: block; opacity: 1; }
-                
-                /* [NEW] Sub Tabs specific layout (Squircle Segmented Control) */
-                .sub-tab-nav-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 40px; }
-                .sub-tab-nav {
-                    display: inline-flex; background: #f9f9f9; padding: 6px; border-radius: 14px; border: 1px solid #e5e5e5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); gap: 4px; flex-wrap: wrap; justify-content: center;
-                }
-                .sub-tab-btn {
-                    padding: 10px 24px; border-radius: 10px; border: none; background: transparent; color: #666; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-                }
-                .sub-tab-btn:hover { color: #111; background: rgba(0,0,0,0.03); }
-                .sub-tab-btn.active { background: #fff; color: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-                .sub-tab-pane { display: none; opacity: 0; }
-                .sub-tab-pane.active { display: block; opacity: 1; }
-                
                 @media (min-width: 992px) {
                     #outputs-tiktok .bento-grid, #ig-carousel .bento-grid, #outputs-kol .bento-grid { grid-template-rows: auto; }
                     #outputs-tiktok .bento-item:nth-child(1) { grid-column: span 2; grid-row: auto; min-height: 640px; }
                     #outputs-tiktok .bento-item:nth-child(2) { grid-column: span 1; grid-row: auto; min-height: 640px; }
                     
-                    #ig-carousel .bento-grid { grid-template-columns: repeat(3, 1fr); }
-                    #ig-carousel .bento-item { grid-column: span 1; min-height: 480px; }
-                    #ig-carousel .bento-item:nth-child(1) { grid-column: span 2; min-height: 560px; }
-                    #ig-carousel .bento-item:nth-child(2) { grid-column: span 1; min-height: 560px; }
+                    #ig-carousel .bento-item:nth-child(1) { grid-column: span 1; grid-row: auto; min-height: 600px; }
+                    #ig-carousel .bento-item:nth-child(2) { grid-column: span 2; grid-row: auto; min-height: 600px; }
                     
                     #ig-reels .bento-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; }
                     #ig-reels .bento-item { grid-column: span 1; grid-row: auto; min-height: 680px; } /* Proporsi layar penuh untuk Reels 9:16 */
@@ -166,13 +263,46 @@
                     #outputs-kol .bento-item { grid-column: 1 / -1; grid-row: auto; min-height: 640px; }
                 }
                 
-                /* [NEW] Lightbox Swiper Styles */
-                .lightbox-swiper { position: relative; width: 100%; height: 100%; }
-                .lightbox-swiper .swiper-slide { display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; cursor: grab; }
-                .lightbox-swiper .swiper-slide:active { cursor: grabbing; }
-                .lightbox-swiper .swiper-slide img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); pointer-events: none; }
-                .lightbox-modal.active .lightbox-swiper .swiper-slide-active img { transform: scale(1); }
-            }
+                /* [NEW] Responsive Bento Grid adjustments for Tablet */
+                @media (min-width: 768px) and (max-width: 991px) {
+                    #outputs-tiktok .bento-item { grid-column: span 1; min-height: 540px; }
+                    #ig-carousel .bento-item { grid-column: span 1; min-height: 420px; }
+                    #ig-carousel .bento-item:nth-child(1) { grid-column: span 2; min-height: 480px; }
+                    #ig-reels .bento-item { grid-column: span 1; min-height: 560px; }
+                    #ig-reels .bento-item:nth-child(3) { grid-column: span 2; min-height: 560px; }
+                }
+                
+                /* [NEW] Responsive Bento Grid adjustments for Mobile */
+                @media (max-width: 767px) {
+                    #outputs-tiktok .bento-item, #ig-reels .bento-item { min-height: 520px; } /* Sedikit dikurangi agar item berikutnya mengintip */
+                    #ig-carousel .bento-item, #outputs-kol .bento-item { min-height: 400px; }
+                    
+                    /* TABS PREMIUM MOBILE FIX - EXACT MATCH WITH DESKTOP */
+                    .outputs-tabs-nav {
+                        gap: 12px;
+                        margin-bottom: 32px;
+                    }
+                    
+                    .output-tab-btn {
+                        /* Mengembalikan ukuran font & padding besar seperti desktop agar premium */
+                        padding: 12px 24px;
+                        font-size: 0.95rem;
+                        flex: 1 1 auto;
+                        text-align: center;
+                    }
+                    
+                    /* SUB TABS SEGMENTED CONTROL MOBILE FIX */
+                    .sub-tab-nav-wrapper { margin-bottom: 32px; width: 100%; }
+                    .sub-tab-nav { display: flex; width: 100%; }
+                    .sub-tab-btn {
+                        /* Membagi tombol persis 50:50 dengan ukuran padding besar ala desktop */
+                        padding: 10px 16px;
+                        font-size: 0.85rem;
+                        flex: 1;
+                        text-align: center;
+                        white-space: nowrap;
+                    }
+                }
         </style>
         
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -348,20 +478,94 @@
                         
                         <div class="solution-showcase">
                             <!-- Item 1: Reels/TikTok -->
-                            <div class="solution-video-item has-reel">
+                            <div class="solution-video-item is-fullwidth">
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
-                                    <h3 class="sol-title">Structured Content Workflow</h3>
-                                    <p class="sol-desc">Built a more consistent content workflow through audience research, visual planning, production systems, and ongoing content evaluation.</p>
+                                    <h3 class="sol-title">Content Planning & Execution Workflow</h3>
+                                    <p class="sol-desc">Developed a structured workflow for planning, producing, and publishing content to ensure consistency across social media platforms.</p>
                                 </div>
-                                <div class="solution-video-player">
-                                    <div class="video-player-wrapper is-reel">
-                                        <video class="video-element" playsinline loop muted poster="https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=600&auto=format&fit=crop"><source src="https://assets.mixkit.co/videos/preview/mixkit-chef-pouring-broth-into-a-bowl-of-noodles-42772-large.mp4" type="video/mp4"></video>
-                                        <div class="video-center-feedback">
-                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
-                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                <div class="workflow-sticky-wrapper" id="workflow-wrapper">
+                                    <div class="workflow-horizontal-track" id="workflow-track">
+                                        <div class="workflow-line-bg"></div>
+                                        <div class="workflow-line-progress" id="workflow-line-progress"></div>
+                                        
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Insight Discovery</h4>
+                                                <p class="workflow-h-desc">Audience behavior, trend scan, brand objective</p>
+                                            </div>
                                         </div>
-                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Content Strategy Definition</h4>
+                                                <p class="workflow-h-desc">Goal setting: awareness / engagement / conversion</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Content Pillar Mapping</h4>
+                                                <p class="workflow-h-desc">Education / Brand Story / Engagement / Promotion</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 21h1M9 18h6M12 2a5 5 0 0 0-5 5c0 1.5.8 2.8 2 3.6V15h6v-4.4c1.2-.8 2-2.1 2-3.6a5 5 0 0 0-5-5z"></path></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Idea Development</h4>
+                                                <p class="workflow-h-desc">Angle exploration, hook creation, content framing</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Pre-Production Planning</h4>
+                                                <p class="workflow-h-desc">Script, caption direction, visual reference, talent coordination</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Production Execution</h4>
+                                                <p class="workflow-h-desc">Photo / video / design asset creation</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Post-Production & Optimization</h4>
+                                                <p class="workflow-h-desc">Edit, copy refinement, format adaptation per platform</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Scheduling & Distribution</h4>
+                                                <p class="workflow-h-desc">Platform timing, feed consistency, posting execution</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Community Response Loop</h4>
+                                                <p class="workflow-h-desc">Comment handling, DM, engagement tracking</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Performance Analysis</h4>
+                                                <p class="workflow-h-desc">Reach, engagement, retention, content insight</p>
+                                            </div>
+                                        </div>
+                                        <div class="workflow-h-node">
+                                            <div class="workflow-h-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg></div>
+                                            <div class="workflow-h-content">
+                                                <h4 class="workflow-h-title">Iteration Feedback Loop</h4>
+                                                <p class="workflow-h-desc">Insight → refinement for next content cycle</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,8 +574,8 @@
                             <div class="solution-video-item">
                                 <div class="solution-video-content">
                                     <span class="sol-number">[02]</span>
-                                    <h3 class="sol-title">Strategic Content Pillars</h3>
-                                    <p class="sol-desc">Built a modular content system focused on culture, relatability, and educational storytelling to create stronger long-term audience connection.</p>
+                                    <h3 class="sol-title">Content Pillar System</h3>
+                                    <p class="sol-desc">Defined clear content categories to maintain consistency in messaging, balancing brand communication, engagement content, and informational posts.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
                                     <!-- CSS Grid representation of an Instagram Feed -->
@@ -390,8 +594,8 @@
                             <div class="solution-video-item has-reel">
                                 <div class="solution-video-content">
                                     <span class="sol-number">[03]</span>
-                                    <h3 class="sol-title">Community Activation & Outreach</h3>
-                                    <p class="sol-desc">Supported organic reach expansion through micro-influencer collaborations and audience-focused campaign content.</p>
+                                    <h3 class="sol-title">Community & Content Support</h3>
+                                    <p class="sol-desc">Supported day-to-day content operations including posting execution, community interaction, and collaboration-based content initiatives to maintain audience engagement.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -419,7 +623,7 @@
                             </div>
                         </div>
                         
-                        <div class="outputs-tabs-nav" style="display: flex; justify-content: center; gap: 16px; margin-bottom: 48px; flex-wrap: wrap;">
+                        <div class="outputs-tabs-nav">
                             <button class="output-tab-btn active" data-target="outputs-tiktok">TikTok</button>
                             <button class="output-tab-btn" data-target="outputs-instagram">Instagram</button>
                             <button class="output-tab-btn" data-target="outputs-kol">KOL & Partnerships</button>
@@ -499,13 +703,15 @@
                                     <!-- IG CAROUSEL TAB -->
                                     <div id="ig-carousel" class="sub-tab-pane active">
                                         <div class="bento-grid">
-                                            <!-- Item 1 (Wide Carousel) -->
+                                            <!-- Item 1 (Carousel) -->
                                             <div class="bento-item">
                                                 <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
                                                     <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=800&auto=format&fit=crop" alt="Carousel 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=800&auto=format&fit=crop" alt="Carousel 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1614563637806-1d0e645e0940?q=80&w=800&auto=format&fit=crop" alt="Carousel 3" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=600&auto=format&fit=crop" alt="Carousel 1" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600&auto=format&fit=crop" alt="Carousel 2" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1614563637806-1d0e645e0940?q=80&w=600&auto=format&fit=crop" alt="Carousel 3" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb431?q=80&w=600&auto=format&fit=crop" alt="Carousel 4" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1600803907087-f56d462fd26b?q=80&w=600&auto=format&fit=crop" alt="Carousel 5" class="bento-video" loading="lazy"></div>
                                                     </div>
                                                     <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
                                                     <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
@@ -522,95 +728,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Item 2 (Menu Highlights) -->
+                                            <!-- Item 2 (Content Mapping) -->
                                             <div class="bento-item">
-                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
-                                                    <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb431?q=80&w=600&auto=format&fit=crop" alt="Menu 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1600803907087-f56d462fd26b?q=80&w=600&auto=format&fit=crop" alt="Menu 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1525648199074-cee30ba79a4a?q=80&w=600&auto=format&fit=crop" alt="Menu 3" class="bento-video" loading="lazy"></div>
-                                                    </div>
-                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-pagination" style="bottom: auto; top: 20px; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
-                                                </div>
+                                                <img src="https://images.unsplash.com/photo-1507925922837-1c26414a14fa?q=80&w=800&auto=format&fit=crop" alt="Content Planning Board" class="bento-video" style="object-position: top center;" loading="lazy">
                                                 <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Menu Highlights</h3>
-                                                    <p class="bento-desc">Showcasing signature dishes with high-contrast aesthetic photography.</p>
+                                                    <h3 class="bento-title">Content Mapping & Transformation</h3>
+                                                    <p class="bento-desc">Revamping the visual identity from hard-selling product shots to a cohesive, aesthetic storytelling feed driven by strategic content pillars and modular grids.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-stats-toggle">
+                                                            Growth Stats
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                                                         </button>
-                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Item 3 (Brand Storytelling) -->
-                                            <div class="bento-item">
-                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
-                                                    <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1507925922837-1c26414a14fa?q=80&w=600&auto=format&fit=crop" alt="Story 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" alt="Story 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=600&auto=format&fit=crop" alt="Story 3" class="bento-video" loading="lazy"></div>
-                                                    </div>
-                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-pagination" style="bottom: auto; top: 20px; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
-                                                </div>
-                                                <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Brand Storytelling</h3>
-                                                    <p class="bento-desc">Narrative-driven image sequence detailing the origin of our recipes.</p>
-                                                    <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
-                                                        </button>
-                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Item 4 (Behind the Scenes) -->
-                                            <div class="bento-item">
-                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
-                                                    <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=600&auto=format&fit=crop" alt="BTS 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600&auto=format&fit=crop" alt="BTS 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=600&auto=format&fit=crop" alt="BTS 3" class="bento-video" loading="lazy"></div>
-                                                    </div>
-                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-pagination" style="bottom: auto; top: 20px; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
-                                                </div>
-                                                <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Behind the Scenes</h3>
-                                                    <p class="bento-desc">Glimpses into the kitchen and the craft behind every bowl.</p>
-                                                    <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
-                                                        </button>
-                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Item 5 (Community & Vibe) -->
-                                            <div class="bento-item">
-                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
-                                                    <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1525648199074-cee30ba79a4a?q=80&w=600&auto=format&fit=crop" alt="Vibe 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=600&auto=format&fit=crop" alt="Vibe 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600&auto=format&fit=crop" alt="Vibe 3" class="bento-video" loading="lazy"></div>
-                                                    </div>
-                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-pagination" style="bottom: auto; top: 20px; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
-                                                </div>
-                                                <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Community & Vibe</h3>
-                                                    <p class="bento-desc">Capturing the authentic atmosphere and our loyal customers.</p>
-                                                    <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
-                                                        </button>
-                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                    <div class="bento-stats-panel" style="pointer-events: auto;">
+                                                        <div class="bento-stat"><span class="stat-val">+304%</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Audience</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">+441%</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Profile Visits</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">3</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Core Pillars</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -952,19 +1085,6 @@
             <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
         </div>
 
-        <!-- [NEW] Carousel Lightbox Modal -->
-        <div id="carousel-lightbox-modal" class="lightbox-modal">
-            <span class="lightbox-close carousel-lightbox-close">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </span>
-            <div class="swiper lightbox-swiper">
-                <div class="swiper-wrapper" id="carousel-lightbox-wrapper"></div>
-                <div class="swiper-button-prev" style="color: #fff;"></div>
-                <div class="swiper-button-next" style="color: #fff;"></div>
-                <div class="swiper-pagination" style="bottom: 30px; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
-            </div>
-        </div>
-
         <!-- [NEW] Video Modal (For Bento Grid Vertical Videos) -->
         <div id="video-modal" class="lightbox-modal">
             <span class="lightbox-close video-modal-close">
@@ -1059,6 +1179,40 @@
                     });
                 }, { threshold: 0.2, rootMargin: "0px 0px -100px 0px" });
                 items.forEach(item => observer.observe(item));
+                
+                // Horizontal Workflow Scroll (Desktop Only - Sticky Reveal)
+                let mm = gsap.matchMedia();
+                mm.add("(min-width: 992px)", () => {
+                    const workflowWrapper = document.getElementById('workflow-wrapper');
+                    const workflowTrack = document.getElementById('workflow-track');
+                    const lineProgress = document.getElementById('workflow-line-progress');
+                    
+                    if (workflowWrapper && workflowTrack) {
+                        // Menghitung berapa banyak track harus digeser ke kiri (Sisa lebar track dikurangi layar + padding)
+                        const getScrollAmount = () => -(workflowTrack.scrollWidth - window.innerWidth + (window.innerWidth * 0.1));
+                        
+                        gsap.to(workflowTrack, {
+                            x: getScrollAmount,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: workflowWrapper,
+                                start: "center center",
+                                end: () => `+=${workflowTrack.scrollWidth - window.innerWidth}`,
+                                pin: true,
+                                scrub: 1,
+                                invalidateOnRefresh: true
+                            }
+                        });
+
+                        if (lineProgress) {
+                            gsap.to(lineProgress, {
+                                scaleX: 1,
+                                ease: "none",
+                                scrollTrigger: { trigger: workflowWrapper, start: "center center", end: () => `+=${workflowTrack.scrollWidth - window.innerWidth}`, scrub: 1 }
+                            });
+                        }
+                    }
+                });
             });
         </script>
         <script>
@@ -1084,22 +1238,6 @@
                     const closeBtn = videoModal.querySelector('.video-modal-close');
                     if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
                     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && videoModal.classList.contains('active')) closeVideoModal(); });
-                }
-
-                const carouselModal = document.getElementById('carousel-lightbox-modal');
-                if (carouselModal) {
-                    const closeCarouselModal = () => {
-                        carouselModal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    };
-                    carouselModal.addEventListener('click', (e) => {
-                        if (e.target === carouselModal || e.target.closest('.carousel-lightbox-close') || e.target.classList.contains('swiper-slide')) {
-                            closeCarouselModal();
-                        }
-                    });
-                    document.addEventListener('keydown', (e) => {
-                        if (e.key === "Escape" && carouselModal.classList.contains('active')) closeCarouselModal();
-                    });
                 }
 
                 if (bentoGrids.length > 0) {
@@ -1182,59 +1320,15 @@
                         if (fsBtn) {
                             e.preventDefault();
                             const bentoItem = fsBtn.closest('.bento-item');
-                            const swiperContainer = bentoItem.querySelector('.swiper.bento-carousel');
-                            const lightboxModal = document.getElementById('carousel-lightbox-modal');
-                            const lightboxWrapper = document.getElementById('carousel-lightbox-wrapper');
+                            const activeSlide = bentoItem.querySelector('.swiper-slide-active');
+                            const img = activeSlide ? activeSlide.querySelector('img') : bentoItem.querySelector('img');
+                            const lightboxModal = document.getElementById('lightbox-modal');
+                            const lightboxImg = document.getElementById('lightbox-img');
                             
-                            if (lightboxModal && lightboxWrapper) {
-                                lightboxWrapper.innerHTML = ''; // Reset the slides
-                                let activeIndex = 0;
-
-                                if (swiperContainer) {
-                                    // Duplicate the slides from the source carousel into the lightbox
-                                    const slides = swiperContainer.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate) img');
-                                    slides.forEach(img => {
-                                        const slideDiv = document.createElement('div');
-                                        slideDiv.className = 'swiper-slide';
-                                        const newImg = document.createElement('img');
-                                        newImg.src = img.currentSrc || img.src;
-                                        slideDiv.appendChild(newImg);
-                                        lightboxWrapper.appendChild(slideDiv);
-                                    });
-
-                                    const sourceSwiper = swiperContainer.swiper;
-                                    if (sourceSwiper) activeIndex = sourceSwiper.realIndex;
-                                } else {
-                                    // Fallback for single static images (e.g. Content Mapping)
-                                    const img = bentoItem.querySelector('img');
-                                    if (img) {
-                                        lightboxWrapper.innerHTML = `<div class="swiper-slide"><img src="${img.currentSrc || img.src}"></div>`;
-                                    }
-                                }
-
+                            if (img && lightboxModal && lightboxImg) {
+                                lightboxImg.src = img.currentSrc || img.src;
                                 lightboxModal.classList.add('active');
                                 document.body.style.overflow = 'hidden';
-
-                                // Initialize or Update the Fullscreen Swiper
-                                if (!window.lightboxSwiperInstance) {
-                                    window.lightboxSwiperInstance = new Swiper('.lightbox-swiper', {
-                                        loop: swiperContainer ? true : false,
-                                        grabCursor: true,
-                                        spaceBetween: 30,
-                                        initialSlide: activeIndex,
-                                        pagination: { el: '.lightbox-swiper .swiper-pagination', clickable: true },
-                                        navigation: { nextEl: '.lightbox-swiper .swiper-button-next', prevEl: '.lightbox-swiper .swiper-button-prev' },
-                                        keyboard: { enabled: true }
-                                    });
-                                } else {
-                                    window.lightboxSwiperInstance.params.loop = swiperContainer ? true : false;
-                                    window.lightboxSwiperInstance.update();
-                                    if (swiperContainer) {
-                                        window.lightboxSwiperInstance.slideToLoop(activeIndex, 0);
-                                    } else {
-                                        window.lightboxSwiperInstance.slideTo(0, 0);
-                                    }
-                                }
                             }
                         }
                     });
