@@ -944,7 +944,7 @@ function initBitsSlider() {
     if (!slider || typeof Swiper === 'undefined') return;
 
     const swiper = new Swiper('.bits-slider', {
-        loop: true,
+        loop: slider.getAttribute('data-loop') !== 'false',
         slidesPerView: "auto", // Allows CSS width to control how many show
         centeredSlides: true,
         spaceBetween: 20,
