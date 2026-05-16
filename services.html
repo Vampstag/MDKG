@@ -101,24 +101,28 @@
 
             @media (min-width: 992px) {
                 .services-bento-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                    grid-auto-rows: 420px;
+                    grid-template-columns: repeat(3, 1fr);
+                    grid-template-rows: auto;
+                    grid-auto-rows: 360px; /* [FIX] Mengurangi tinggi grid */
                 }
                 .services-bento-grid .bento-item {
-                    min-height: 420px;
+                    min-height: 360px !important; /* [FIX] Mengatasi tinggi 640px bawaan dari global CSS */
                 }
-                .services-bento-grid .bento-item:nth-child(1),
-                .services-bento-grid .bento-item:nth-child(2),
-                .services-bento-grid .bento-item:nth-child(3),
-                .services-bento-grid .bento-item:nth-child(4) {
+                .services-bento-grid .bento-item:nth-child(1) {
+                    grid-column: span 2;
+                    grid-row: auto;
+                }
+                .services-bento-grid .bento-item:nth-child(2) {
                     grid-column: span 1;
-                    grid-row: span 1;
+                    grid-row: auto;
                 }
-                .services-bento-grid .bento-item:nth-child(1) .bento-title {
-                    font-size: 2.25rem;
+                .services-bento-grid .bento-item:nth-child(3) {
+                    grid-column: span 1;
+                    grid-row: auto;
                 }
-                .services-bento-grid .bento-item:nth-child(1) .bento-desc {
-                    font-size: 1.25rem;
+                .services-bento-grid .bento-item:nth-child(4) {
+                    grid-column: span 2;
+                    grid-row: auto;
                 }
             }
         </style>
@@ -222,12 +226,13 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="section-headline-margin">
-                            <h2 class="section-headline-text text-reveal">Core Services</h2>
+                            <h2 class="section-headline-text text-reveal">Services & Capabilities</h2>
+                            <p class="about-paragraph fade-in-section" style="margin-top: 16px; max-width: 65ch;">End-to-end creative execution for brands that want their content to look intentional, feel consistent, and actually perform.</p>
                         </div>
                         
                         <div class="bento-grid services-bento-grid">
-                            <!-- Card 1 (Large) -->
-                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
+                            <!-- Card 1 (Production) -->
+                            <div class="bento-item is-wide" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
                                 <video class="bento-video" loop muted playsinline preload="metadata">
                                     <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
                                 </video>
@@ -236,15 +241,35 @@
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
                                     </div>
                                     <div>
+                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Production</div>
                                         <h3 class="bento-title">
-                                            <span>Video Production</span>
+                                            <span>Cinematic Video Production</span>
                                         </h3>
-                                        <p class="bento-desc">Cinematic editing and color grading for brand campaigns, social content, and visual storytelling.</p>
+                                        <p class="bento-desc">From on-set capture to final color grade — cinematic video production built for campaign launches, social content, and brand storytelling that holds attention.</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Card 2 -->
+                            <!-- Card 2 (Production) -->
+                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
+                                <video class="bento-video" loop muted playsinline preload="metadata">
+                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
+                                </video>
+                                <div class="bento-overlay" style="justify-content: space-between;">
+                                    <div class="bento-icon-wrapper">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Production</div>
+                                        <h3 class="bento-title">
+                                            <span>Content & Campaign Support</span>
+                                        </h3>
+                                        <p class="bento-desc">Ongoing visual content and campaign execution for brands that need consistent, cohesive output — from individual assets to full rollout support across platforms.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 (Creative & Digital) -->
                             <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
                                 <video class="bento-video" loop muted playsinline preload="metadata">
                                     <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
@@ -254,16 +279,17 @@
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                                     </div>
                                     <div>
+                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Creative & Digital</div>
                                         <h3 class="bento-title">
-                                            <span>Brand & Visual Design</span>
+                                            <span>Visual Design</span>
                                         </h3>
-                                        <p class="bento-desc">Visual assets and identity systems designed for consistent communication across digital platforms.</p>
+                                        <p class="bento-desc">Supporting visual assets for digital platforms — social carousels, promotional layouts, and lightweight design systems that extend your brand across content.</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Card 3 -->
-                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
+                            <!-- Card 4 (Creative & Digital) -->
+                            <div class="bento-item is-wide" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
                                 <video class="bento-video" loop muted playsinline preload="metadata">
                                     <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
                                 </video>
@@ -272,28 +298,11 @@
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
                                     </div>
                                     <div>
+                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Creative & Digital</div>
                                         <h3 class="bento-title">
-                                            <span>Web Solutions & Support</span>
+                                            <span>Web Experiences</span>
                                         </h3>
-                                        <p class="bento-desc">Custom responsive websites built with modern code, complete with ongoing technical maintenance and content updates.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 4 (Wide) -->
-                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
-                                <video class="bento-video" loop muted playsinline preload="metadata">
-                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
-                                </video>
-                                <div class="bento-overlay" style="justify-content: space-between;">
-                                    <div class="bento-icon-wrapper">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="bento-title">
-                                            <span>Creative Content Support</span>
-                                        </h3>
-                                        <p class="bento-desc">Ongoing visual content, carousel designs, and short-form video adaptation to sustain your brand's active social media presence.</p>
+                                        <p class="bento-desc">Custom portfolio and landing page development — responsive, motion-considered, and built to make a strong first impression on the people who matter most to your business.</p>
                                     </div>
                                 </div>
                             </div>
@@ -369,16 +378,16 @@
                     <div class="global-padding">
                         <div class="section-headline-margin">
                             <h2 class="section-headline-text text-reveal">Rate Card</h2>
-                            <p style="font-family: var(--font-primary); font-weight: 400; font-size: 1rem; color: #555; margin-top: 12px; max-width: 65ch; line-height: 1.6; letter-spacing: -0.01em;">Prices shown are baseline estimates in IDR. Final scopes and deliverables are tailored to your strategic needs. Detailed project terms apply at the bottom of this page.</p>
+                            <p style="font-family: var(--font-primary); font-weight: 400; font-size: 1rem; color: #555; margin-top: 12px; max-width: 65ch; line-height: 1.6; letter-spacing: -0.01em;">Prices shown are baseline estimates in IDR. Final deliverables, timelines, and production scope may vary depending on project complexity and campaign requirements.</p>
                         </div>
                         
                         <div class="service-accordion">
-                            <!-- Video Production -->
+                            <!-- 01 Cinematic Video Production -->
                             <div class="service-accordion__item" style="opacity: 0;">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">01</span>
-                                        Video Production
+                                        Cinematic Video Production
                                     </div>
                                     <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                                 </button>
@@ -388,9 +397,9 @@
                                         <div class="pricing-tier">
                                             <div class="pricing-tier-header">
                                                 <h4 class="pricing-tier-title">Short-form Content</h4>
-                                                <span class="pricing-tier-price">IDR 500K – 1M</span>
+                                                <span class="pricing-tier-price">IDR 500K – 1M / video</span>
                                             </div>
-                                            <p class="pricing-tier-scope">High-impact social video (under 60s). Includes precise editing, basic color grading, and light motion graphics.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Rate scales with duration and footage volume.</i></p>
+                                            <p class="pricing-tier-scope">Short-form social content focused on pacing, clarity, and audience retention for Reels, TikTok, Shorts, and digital campaigns.</p>
                                             <div class="pricing-tier-meta">
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -405,16 +414,16 @@
                                                 <span class="pricing-badge">Reels</span>
                                                 <span class="pricing-badge">TikTok</span>
                                                 <span class="pricing-badge">Shorts</span>
-                                                <span class="pricing-badge">Color Grade</span>
-                                                <span class="pricing-badge">Motion Graphics</span>
+                                                <span class="pricing-badge">Color Grading</span>
+                                                <span class="pricing-badge">Light Motion Graphics</span>
                                             </div>
                                         </div>
                                         <div class="pricing-tier">
                                             <div class="pricing-tier-header">
                                                 <h4 class="pricing-tier-title">Specialist Cinematic</h4>
-                                                <span class="pricing-tier-price">IDR 1.5M – 3M</span>
+                                                <span class="pricing-tier-price">IDR 1.5M – 3M / project</span>
                                             </div>
-                                            <p class="pricing-tier-scope">Premium cinematic production—from shooting to advanced DaVinci Resolve color grading and sound design.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Location, transport, and talent billed separately. Rate scales based on locations and shoot days.</i></p>
+                                            <p class="pricing-tier-scope">Cinematic production with a stronger focus on atmosphere, editing rhythm, visual tone, and polished post-production.</p>
                                             <div class="pricing-tier-meta">
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -426,18 +435,19 @@
                                                 </div>
                                             </div>
                                             <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Shooting Included</span>
+                                                <span class="pricing-badge">Videography</span>
                                                 <span class="pricing-badge">DaVinci Resolve</span>
+                                                <span class="pricing-badge">Color Grading</span>
                                                 <span class="pricing-badge">Sound Design</span>
                                                 <span class="pricing-badge">Post-Production</span>
                                             </div>
                                         </div>
                                         <div class="pricing-tier">
                                             <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Campaign Package</h4>
+                                                <h4 class="pricing-tier-title">Campaign Visual Support</h4>
                                                 <span class="pricing-tier-price">IDR 5M – 9M</span>
                                             </div>
-                                            <p class="pricing-tier-scope">End-to-end campaign execution. Includes creative direction, one hero video, up to 3 platform cutdowns, and organized asset delivery.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Location, transport, and talent billed separately. Rate scales based on shoot days and additional outputs.</i></p>
+                                            <p class="pricing-tier-scope">Multi-asset visual execution for launches and campaign rollouts, including one hero edit, supporting cutdowns, and organized asset delivery across platforms.</p>
                                             <div class="pricing-tier-meta">
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -449,11 +459,11 @@
                                                 </div>
                                             </div>
                                             <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Creative Direction</span>
+                                                <span class="pricing-badge">Campaign Visuals</span>
                                                 <span class="pricing-badge">Hero Video</span>
-                                                <span class="pricing-badge">Cutdowns</span>
-                                                <span class="pricing-badge">Asset Library</span>
-                                                <span class="pricing-badge">Multi-format</span>
+                                                <span class="pricing-badge">Platform Cutdowns</span>
+                                                <span class="pricing-badge">Asset Delivery</span>
+                                                <span class="pricing-badge">Multi-format Outputs</span>
                                             </div>
                                         </div>
                                       </div>
@@ -461,234 +471,24 @@
                                 </div>
                             </div>
 
-                            <!-- Visual & Brand Identity -->
+                            <!-- 02 Content & Campaign Support -->
                             <div class="service-accordion__item" style="opacity: 0;">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">02</span>
-                                        Visual & Brand Design
+                                        Content & Campaign Support
                                     </div>
                                     <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                                 </button>
                                 <div class="service-accordion__content">
                                     <div class="service-accordion__inner">
-                                      <div class="pricing-grid">
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Social Content Design</h4>
-                                                <span class="pricing-tier-price">IDR 400K – 900K</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">A cohesive set of social assets (carousels or promos) under a single brief.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*(3–6 assets per set). Rate scales with content volume and layout complexity.</i></p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    2–4 business days
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    3 revisions
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Carousels</span>
-                                                <span class="pricing-badge">Promo Assets</span>
-                                                <span class="pricing-badge">Motion Layouts</span>
-                                            </div>
-                                        </div>
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Essential Identity</h4>
-                                                <span class="pricing-tier-price">IDR 1.5M – 2.5M</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Core visual foundation. Includes a primary logo, color palette, typography, and essential mockups. Delivered with 2 initial concept directions.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    10–14 business days
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    3 revisions
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Primary Logo</span>
-                                                <span class="pricing-badge">Color Palette</span>
-                                                <span class="pricing-badge">Typography</span>
-                                                <span class="pricing-badge">Visual App</span>
-                                            </div>
-                                        </div>
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Brand System</h4>
-                                                <span class="pricing-tier-price">IDR 3M – 5M</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Comprehensive brand architecture. Includes logo variations, extensive guidelines, social direction, and an asset library. 2 concept directions.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    21–30 business days
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    3 rounds
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Logo Variations</span>
-                                                <span class="pricing-badge">Guidelines</span>
-                                                <span class="pricing-badge">Social Direction</span>
-                                                <span class="pricing-badge">Visual Assets</span>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Web Solutions -->
-                            <div class="service-accordion__item" style="opacity: 0;">
-                                <button class="service-accordion__trigger">
-                                    <div class="service-accordion__title">
-                                        <span class="service-accordion__num">03</span>
-                                        Web Solutions
-                                    </div>
-                                    <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                                </button>
-                                <div class="service-accordion__content">
-                                    <div class="service-accordion__inner">
-                                      <div class="pricing-grid">
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">UI Design Only</h4>
-                                                <span class="pricing-tier-price">IDR 800K – 1.5M / page</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Responsive interface design crafted in Figma. Covers desktop and mobile layouts with clean, developer-ready asset exports.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    5–10 business days per page
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    3 revisions
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Figma Delivery</span>
-                                                <span class="pricing-badge">Responsive</span>
-                                                <span class="pricing-badge">Asset Export</span>
-                                            </div>
-                                        </div>
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Custom Website</h4>
-                                                <span class="pricing-tier-price">IDR 4M – 7M</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Hand-coded, responsive web development with tailored design, deployment setup, and baseline SEO. Rate scales from 5 to 10+ pages.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    21–45 business days
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    3 rounds
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Hand-coded</span>
-                                                <span class="pricing-badge">Deployment Setup</span>
-                                                <span class="pricing-badge">Basic SEO</span>
-                                                <span class="pricing-badge">Responsive UI</span>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Web Management -->
-                            <div class="service-accordion__item" style="opacity: 0;">
-                                <button class="service-accordion__trigger">
-                                    <div class="service-accordion__title">
-                                        <span class="service-accordion__num">04</span>
-                                        Web Management
-                                    </div>
-                                    <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                                </button>
-                                <div class="service-accordion__content">
-                                    <div class="service-accordion__inner">
-                                      <p style="font-family: var(--font-primary); font-weight: 400; font-size: 0.9rem; color: #555; margin-top: 0; margin-bottom: 24px; font-style: italic; letter-spacing: -0.01em;">*Available exclusively for websites developed through this service.</p>
-                                      <div class="pricing-grid">
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Lite Maintenance</h4>
-                                                <span class="pricing-tier-price">IDR 500K – 800K / month</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Routine monitoring and minor content updates (text, image, data). Ideal for static sites requiring occasional adjustments.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                                    48h turnaround
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                                    Max 4 requests/mo
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Content Updates</span>
-                                                <span class="pricing-badge">Uptime Monitoring</span>
-                                                <span class="pricing-badge">Basic Support</span>
-                                            </div>
-                                        </div>
-                                        <div class="pricing-tier">
-                                            <div class="pricing-tier-header">
-                                                <h4 class="pricing-tier-title">Growth Support</h4>
-                                                <span class="pricing-tier-price">IDR 900K – 1.5M / month</span>
-                                            </div>
-                                            <p class="pricing-tier-scope">Proactive maintenance for evolving platforms. Includes portfolio updates, new pages, and ongoing visual refinements.</p>
-                                            <div class="pricing-tier-meta">
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                                    24h turnaround
-                                                </div>
-                                                <div class="pricing-meta-item">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                                    Unlimited minor req
-                                                </div>
-                                            </div>
-                                            <div class="pricing-tier-badges">
-                                                <span class="pricing-badge">Portfolio Updates</span>
-                                                <span class="pricing-badge">New Pages</span>
-                                                <span class="pricing-badge">Visual Refinements</span>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Creative Content Support -->
-                            <div class="service-accordion__item" style="opacity: 0;">
-                                <button class="service-accordion__trigger">
-                                    <div class="service-accordion__title">
-                                        <span class="service-accordion__num">05</span>
-                                        Creative Content Support
-                                    </div>
-                                    <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                                </button>
-                                <div class="service-accordion__content">
-                                    <div class="service-accordion__inner">
-                                      <p style="font-family: var(--font-primary); font-weight: 400; font-size: 0.9rem; color: #555; margin-top: 0; margin-bottom: 24px; letter-spacing: -0.01em;">Ongoing visual content support designed to maintain a consistent and engaging digital presence across social platforms.</p>
                                       <div class="pricing-grid">
                                         <div class="pricing-tier">
                                             <div class="pricing-tier-header">
                                                 <h4 class="pricing-tier-title">Monthly Content Support</h4>
-                                                <span class="pricing-tier-price">IDR 2.5M – 4M / month</span>
+                                                <span class="pricing-tier-price">IDR 3M – 4M / month</span>
                                             </div>
-                                            <p class="pricing-tier-scope">Structured content production for brands that require consistent visual output across social media.<br><br><strong>Includes:</strong><br>&bull; Short-form video editing<br>&bull; Carousel &amp; visual design<br>&bull; Social content adaptation</p>
+                                            <p class="pricing-tier-scope">Consistent visual content support for brands that require active and cohesive social media output.<br><br><strong>Includes:</strong><br>&bull; 4–6 visual assets or carousel posts<br>&bull; 2 short-form edited videos<br>&bull; Content adaptation &amp; resizing<br>&bull; Ongoing creative support</p>
                                             <div class="pricing-tier-meta">
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -696,7 +496,7 @@
                                                 </div>
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                                    Flexible revisions
+                                                    2 rounds per deliverable
                                                 </div>
                                             </div>
                                             <div class="pricing-tier-badges">
@@ -711,7 +511,7 @@
                                                 <h4 class="pricing-tier-title">Campaign Content Support</h4>
                                                 <span class="pricing-tier-price">IDR 6M – 10M / month</span>
                                             </div>
-                                            <p class="pricing-tier-scope">End-to-end content support for campaign periods, from planning to execution and rollout across platforms.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Designed for product launches and narrative-driven content cycles.</i><br><strong>Includes:</strong><br>&bull; Content direction &amp; planning<br>&bull; Visual production<br>&bull; Campaign asset development<br>&bull; Multi-platform rollout support</p>
+                                            <p class="pricing-tier-scope">Structured content support for launches, collaborations, and rollout-focused campaign periods.<br><br><strong>Includes:</strong><br>&bull; Content planning support<br>&bull; 4–8 visual assets or campaign materials<br>&bull; 3–5 short-form edited videos<br>&bull; Multi-platform rollout support</p>
                                             <div class="pricing-tier-meta">
                                                 <div class="pricing-meta-item">
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -733,6 +533,78 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- 03 Additional Capabilities -->
+                            <div class="service-accordion__item" style="opacity: 0;">
+                                <button class="service-accordion__trigger">
+                                    <div class="service-accordion__title">
+                                        <span class="service-accordion__num">03</span>
+                                        Additional Capabilities
+                                    </div>
+                                    <div class="service-accordion__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                </button>
+                                <div class="service-accordion__content">
+                                    <div class="service-accordion__inner">
+                                      <div class="pricing-grid">
+                                        <div class="pricing-tier">
+                                            <div class="pricing-tier-header">
+                                                <h4 class="pricing-tier-title">Visual Design</h4>
+                                                <span class="pricing-tier-price">IDR 400K – 2.5M</span>
+                                            </div>
+                                            <p class="pricing-tier-scope">Supporting visual assets including social carousels, promotional layouts, and lightweight identity systems for digital platforms.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Social carousel: from IDR 400K &middot; Promo layout: from IDR 800K &middot; Visual system: from IDR 1.5M</i></p>
+                                            <div class="pricing-tier-meta">
+                                                <div class="pricing-meta-item">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    2–7 business days
+                                                </div>
+                                            </div>
+                                            <div class="pricing-tier-badges">
+                                                <span class="pricing-badge">Carousels</span>
+                                                <span class="pricing-badge">Social Assets</span>
+                                                <span class="pricing-badge">Promo Layouts</span>
+                                                <span class="pricing-badge">Visual Systems</span>
+                                            </div>
+                                        </div>
+                                        <div class="pricing-tier">
+                                            <div class="pricing-tier-header">
+                                                <h4 class="pricing-tier-title">Web Experiences</h4>
+                                                <span class="pricing-tier-price">IDR 6M – 10M</span>
+                                            </div>
+                                            <p class="pricing-tier-scope">Responsive portfolio and landing page development with modern layouts, motion-focused presentation, and deployment setup.</p>
+                                            <div class="pricing-tier-meta">
+                                                <div class="pricing-meta-item">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    21–45 business days
+                                                </div>
+                                                <div class="pricing-meta-item">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                                    2 rounds of revisions included
+                                                </div>
+                                            </div>
+                                            <div class="pricing-tier-badges">
+                                                <span class="pricing-badge">Responsive UI</span>
+                                                <span class="pricing-badge">Custom Development</span>
+                                                <span class="pricing-badge">Deployment Setup</span>
+                                                <span class="pricing-badge">Basic SEO</span>
+                                            </div>
+                                        </div>
+                                        <div class="pricing-tier">
+                                            <div class="pricing-tier-header">
+                                                <h4 class="pricing-tier-title">Website Support</h4>
+                                                <span class="pricing-tier-price">IDR 500K – 1.5M / month</span>
+                                            </div>
+                                            <p class="pricing-tier-scope">Ongoing maintenance and visual refinements for websites developed through this service. Includes up to 5 update requests per month, covering content updates, portfolio additions, copy edits, and minor visual refinements.<br><i style="display: block; margin-top: 8px; font-size: 0.85em; opacity: 0.8;">*Structural changes, new sections, or redesigns are outside this scope and will be quoted separately.</i></p>
+                                            <div class="pricing-tier-badges">
+                                                <span class="pricing-badge">Content Updates</span>
+                                                <span class="pricing-badge">Portfolio Updates</span>
+                                                <span class="pricing-badge">Visual Refinements</span>
+                                                <span class="pricing-badge">Basic Maintenance</span>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -748,18 +620,33 @@
                         <div class="why-grid">
                             <div class="why-item">
                                 <div class="why-number">01</div>
-                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Deliverables</h3>
-                                <p class="why-desc">Deliverables are provided as final output files (MP4, PDF, PNG/JPG, or agreed format). Source files are not included and are available upon request at an additional fee.</p>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Payment Terms</h3>
+                                <p class="why-desc">A 50% deposit is required before production begins. Remaining payment is due before final deliverables are sent. Final invoices are due within 7 business days of delivery.</p>
                             </div>
                             <div class="why-item">
                                 <div class="why-number">02</div>
-                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Revisions Scope</h3>
-                                <p class="why-desc">Revisions cover minor adjustments within an approved creative direction — such as text, color, or visual element changes. Concept or creative direction changes are treated as a new brief.</p>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Deliverables</h3>
+                                <p class="why-desc">Final deliverables are provided in agreed export formats (MP4, PDF, PNG/JPG, or equivalent). Source files are not included unless requested separately.</p>
                             </div>
                             <div class="why-item">
                                 <div class="why-number">03</div>
-                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Pricing & Terms</h3>
-                                <p class="why-desc">All pricing is in IDR and subject to confirmation after briefing.</p>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Revision Scope</h3>
+                                <p class="why-desc">Revisions cover minor adjustments within the approved visual direction, including text, color, timing, or layout refinements. Major concept changes may require a revised scope.</p>
+                            </div>
+                            <div class="why-item">
+                                <div class="why-number">04</div>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg> Additional Requests</h3>
+                                <p class="why-desc">Requests outside the agreed scope will be reviewed and quoted separately before execution.</p>
+                            </div>
+                            <div class="why-item">
+                                <div class="why-number">05</div>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Usage Rights</h3>
+                                <p class="why-desc">Final deliverables are licensed for client use upon full payment. Portfolio and showcase rights remain with Dimas unless otherwise agreed.</p>
+                            </div>
+                            <div class="why-item">
+                                <div class="why-number">06</div>
+                                <h3 class="why-title"><svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> Project Cancellation</h3>
+                                <p class="why-desc">Deposits are non-refundable once production or development has started. Partial progress completed before cancellation may still be billed accordingly.</p>
                             </div>
                         </div>
                     </div>
@@ -779,46 +666,46 @@
                             <div class="faq__list">
                                 <div class="faq__item">
                                     <button class="faq__trigger" aria-expanded="false">
-                                        <span class="faq__question">How does the payment structure work?</span>
-                                        <div class="faq__icon">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
-                                        </div>
-                                    </button>
-                                    <div class="faq__content" aria-hidden="true">
-                                        <div class="faq__answer"><p>Standard projects require a 50% upfront deposit to secure your slot, with the remaining 50% due upon project completion and before final assets are handed over. Retainer packages are billed monthly in advance.</p></div>
-                                    </div>
-                                </div>
-                                <div class="faq__item">
-                                    <button class="faq__trigger" aria-expanded="false">
                                         <span class="faq__question">Do you offer custom packages outside the rate card?</span>
                                         <div class="faq__icon">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
                                         </div>
                                     </button>
                                     <div class="faq__content" aria-hidden="true">
-                                        <div class="faq__answer"><p>Absolutely. The rate card serves as a baseline for typical requests. If your project has unique requirements, a hybrid of services, or a different scale, I will provide a custom quote tailored exactly to your scope.</p></div>
+                                        <div class="faq__answer"><p>Absolutely. The listed rate card serves as a baseline estimate. If your project has unique requirements, a hybrid of services, or a different scale, I will provide a custom quote tailored exactly to your scope.</p></div>
                                     </div>
                                 </div>
                                 <div class="faq__item">
                                     <button class="faq__trigger" aria-expanded="false">
-                                        <span class="faq__question">What happens if I need more revisions?</span>
+                                        <span class="faq__question">What happens if I need more revisions or a change in direction?</span>
                                         <div class="faq__icon">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
                                         </div>
                                     </button>
                                     <div class="faq__content" aria-hidden="true">
-                                        <div class="faq__answer"><p>Each package includes a set number of revision rounds. If additional changes are needed beyond that scope, they will be billed at an hourly rate or as a pre-agreed flat fee per additional round.</p></div>
+                                        <div class="faq__answer"><p>Included revision rounds cover minor adjustments (text, color, timing) within the approved visual direction. Major concept changes, or revisions beyond the included rounds, will be treated as a new brief or billed as a revised scope.</p></div>
                                     </div>
                                 </div>
                                 <div class="faq__item">
                                     <button class="faq__trigger" aria-expanded="false">
-                                        <span class="faq__question">How do we communicate during the project?</span>
+                                        <span class="faq__question">Are source files included in the final delivery?</span>
                                         <div class="faq__icon">
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
                                         </div>
                                     </button>
                                     <div class="faq__content" aria-hidden="true">
-                                        <div class="faq__answer"><p>I maintain direct, transparent communication. Most project discussions and asset deliveries happen via Email or dedicated project management tools, with quick updates via WhatsApp and scheduled Google Meet calls for major milestones.</p></div>
+                                        <div class="faq__answer"><p>Final deliverables are provided in ready-to-use export formats (such as MP4, PDF, or PNG/JPG). Project source files (like DaVinci Resolve or Figma files) are not included by default but can be handed over for an additional fee upon request.</p></div>
+                                    </div>
+                                </div>
+                                <div class="faq__item">
+                                    <button class="faq__trigger" aria-expanded="false">
+                                        <span class="faq__question">How does the payment structure work?</span>
+                                        <div class="faq__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 0V16" stroke="currentColor" stroke-width="1.5"/><path d="M0 8H16" stroke="currentColor" stroke-width="1.5"/></svg>
+                                        </div>
+                                    </button>
+                                    <div class="faq__content" aria-hidden="true">
+                                        <div class="faq__answer"><p>Standard projects require a 50% upfront deposit to secure your slot, with the remaining 50% due upon project completion and before final assets are handed over. Monthly retainer packages are billed in advance at the start of each period.</p></div>
                                     </div>
                                 </div>
                             </div>

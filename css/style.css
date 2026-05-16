@@ -419,7 +419,7 @@ body.preloader-active { overflow: hidden; }
     background-color: var(--bg-color); color: var(--text-color);
     z-index: 99999;
     display: flex; justify-content: center; align-items: center; flex-direction: column;
-    transition: transform 1.6s var(--ease-smooth);
+    transition: transform 0.8s var(--ease-smooth); /* Dipercepat 2x lipat agar lebih responsif */
     transform-origin: top;
 }
 #preloader.finished { transform: translateY(-100%); }
@@ -4132,28 +4132,26 @@ a.social-icon:hover img {
    39. JOURNAL MASONRY LAYOUT
    ========================================= */
 .masonry-grid {
-    column-count: 1;
-    column-gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
     width: 100%;
+    align-items: start; /* Mencegah kartu memanjang (stretch) jika tingginya berbeda */
 }
 
 @media (min-width: 768px) {
     .masonry-grid {
-        column-count: 2;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     .masonry-grid {
-        column-count: 3;
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 .masonry-item {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 40px;
-    display: inline-block; /* Fix for some browsers ignoring break-inside */
     width: 100%;
 }
 

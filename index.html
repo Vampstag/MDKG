@@ -128,7 +128,7 @@
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
-            #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
             #preloader.finished { transform: translateY(-100%); }
             .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
             .counter-wrapper.fade-out { opacity: 0; }
@@ -155,9 +155,8 @@
                 let currentProgress = 0;
 
                 function updateCounter() {
-                    // UBAH DI SINI: Angka lompatan (jump).
-                    // Increased jump range for faster perceived loading
-                    const jump = Math.floor(Math.random() * 45) + 25;
+                    // Jump range diperbesar agar progress bar melesat sangat cepat
+                    const jump = Math.floor(Math.random() * 40) + 30;
                     currentProgress += jump;
                     if (currentProgress > 100) currentProgress = 100;
 
@@ -170,9 +169,8 @@
                         phraseEl.innerText = phrases[pIndex];
                     }
 
-                    // UBAH DI SINI: Delay dasar (dalam milidetik).
-                    // Semakin kecil angkanya, semakin cepat angkanya berganti.
-                    let delay = Math.floor(Math.random() * 40) + 5;
+                    // Delay sangat minim (10-30ms)
+                    let delay = Math.floor(Math.random() * 20) + 10;
 
                     if (currentProgress < 100) {
                         setTimeout(updateCounter, delay);
@@ -214,8 +212,22 @@
                                 if (window.ScrollTrigger) {
                                     ScrollTrigger.refresh();
                                 }
-                                // Selesaikan proses loading setelah semuanya siap.
-                                setTimeout(finishLoading, 100); // Kurangi delay
+                                
+                                // Pastikan halaman dirender utuh (gambar & aset) agar tidak abu-abu
+                                const hidePreloader = () => {
+                                    setTimeout(finishLoading, 50);
+                                };
+                                
+                                if (document.readyState === 'complete') {
+                                    hidePreloader();
+                                } else {
+                                    // Fallback aman: jika internet berat, paksa buka dalam 1 detik
+                                    const fallbackTimer = setTimeout(hidePreloader, 1000);
+                                    window.addEventListener('load', () => {
+                                        clearTimeout(fallbackTimer);
+                                        hidePreloader();
+                                    });
+                                }
                             });
                         }).catch(error => {
                             console.error("Error fetching content:", error);
@@ -229,6 +241,7 @@
                         preloader.classList.add('finished');
                     }
                     document.body.style.overflow = "auto";
+                    document.body.classList.remove('preloader-active');
                     // Mulai Lenis scroll setelah loading selesai
                     if (window.lenis) window.lenis.start();
                     // Dispatch event agar custom.js tahu preloader sudah selesai
@@ -236,7 +249,7 @@
                 }
 
                 document.body.classList.add('preloader-active');
-                setTimeout(updateCounter, 500);
+                setTimeout(updateCounter, 50); // Start hampir seketika (dulu delay 500ms)
             });
         </script>
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -277,6 +290,8 @@
 
     <!-- 2. Performance: Preload Showreel Video -->
     <link rel="preload" as="video" href="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm" fetchpriority="high">
+    <!-- 3. Performance: Preload Poster Image -->
+    <link rel="preload" as="image" href="assets/images/project/torch/poster_showreel_torchxgundam.webp" fetchpriority="high">
 
     </head>
     <body class="body-2">
@@ -429,12 +444,12 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="whjy-choose-me-section-wrapper">
-                            <div class="skills--headline-content-wrapper section-headline-margin headline-with-cta">
+                            <div class="skills--headline-content-wrapper headline-with-cta" style="margin-bottom: 24px;">
                                 <div class="why-choose-me-headline" style="margin: 0;">
                                     <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Services</h2>
                                 </div>
                                 <div data-w-id="17981745-b76c-fdb8-d5a0-45626b3a1038" style="opacity:0; margin: 0; display: flex; align-items: center;" class="why-choose-me-button-wrappe">
-                                    <a href="/services" class="button-normal-white-wrapper-2 w-inline-block">
+                                    <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="button-normal-white-wrapper-2 w-inline-block">
                                         <div class="button-normal-white-text-2 text-sm text-weight-medium text-style-no_wrap text-color-black-900">Start a Project</div>
                                         <div class="button-normal-white-arrow-block-2">
                                             <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="Arrow Image" class="button-white-arrow-image-black-2"/>
@@ -443,68 +458,77 @@
                                     </a>
                                 </div>
                             </div>                          
-                            <div class="skills-grid fade-in-section">
+                            
+                            <p class="about-paragraph fade-in-section" style="max-width: 65ch; margin-bottom: 48px;">
+                                End-to-end creative execution for brands that want their content to look intentional, feel consistent, and actually perform.
+                            </p>
+
+                            <h3 class="fade-in-section" style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin-bottom: 20px; letter-spacing: -0.02em;">Production</h3>
+                            <div class="skills-grid fade-in-section" style="margin-bottom: 40px;">
                                 <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
+                                    <div class="skill-card__wrapper">
                                         <div class="skill-card__header">
                                             <div class="skill-card__number">01</div>
                                         </div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
                                             <div class="skill-card__title-wrapper">
-                                                <div class="skill-card__title">Video Production</div>
+                                                <div class="skill-card__title">Cinematic Video Production</div>
                                             </div>
                                             <div class="skill-card__text-block">
-                                                <p class="skill-card__paragraph">Cinematic editing and color grading for brand campaigns and social content.</p>
+                                                <p class="skill-card__paragraph">From on-set capture to final color grade — cinematic video production built for campaign launches, social content, and brand storytelling that holds attention.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
+                                    <div class="skill-card__wrapper">
                                         <div class="skill-card__header">
                                             <div class="skill-card__number">02</div>
                                         </div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
                                             <div class="skill-card__title-wrapper">
-                                                <div class="skill-card__title">Visual & Brand Design</div>
+                                                <div class="skill-card__title">Content & Campaign Support</div>
                                             </div>
                                             <div class="skill-card__text-block">
-                                                <p class="skill-card__paragraph">Visual assets and identity systems designed for consistent communication.</p>
+                                                <p class="skill-card__paragraph">Ongoing visual content and campaign execution for brands that need consistent, cohesive output — from individual assets to full rollout support across platforms.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <h3 class="fade-in-section" style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin-bottom: 20px; letter-spacing: -0.02em;">Creative & Digital</h3>
+                            <div class="skills-grid fade-in-section">
                                 <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
+                                    <div class="skill-card__wrapper">
                                         <div class="skill-card__header">
                                             <div class="skill-card__number">03</div>
                                         </div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
                                             <div class="skill-card__title-wrapper">
-                                                <div class="skill-card__title">Web Solutions & Support</div>
+                                                <div class="skill-card__title">Visual Design</div>
                                             </div>
                                             <div class="skill-card__text-block">
-                                                <p class="skill-card__paragraph">Custom responsive websites built with modern code and ongoing maintenance.</p>
+                                                <p class="skill-card__paragraph">Supporting visual assets for digital platforms — social carousels, promotional layouts, and lightweight design systems that extend your brand across content.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- New Card: Creative Content Support -->
                                 <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
+                                    <div class="skill-card__wrapper">
                                         <div class="skill-card__header">
                                             <div class="skill-card__number">04</div>
                                         </div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
                                             <div class="skill-card__title-wrapper">
-                                                <div class="skill-card__title">Creative Content Support</div>
+                                                <div class="skill-card__title">Web Experiences</div>
                                             </div>
                                             <div class="skill-card__text-block">
-                                                <p class="skill-card__paragraph">Ongoing visual content and adaptations to sustain your active social presence.</p>
+                                                <p class="skill-card__paragraph">Custom portfolio and landing page development — responsive, motion-considered, and built to make a strong first impression on the people who matter most to your business.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -519,33 +543,33 @@
                     <div class="global-padding">
                         <div class="section-headlne-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Why Work With Me</h2>
+                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">What You Get</h2>
                             </div>
                         </div>
                         <div class="why-grid">
                             <div class="why-item">
                                 <div class="why-number">01</div>
                                 <h3 class="why-title">
-                                    Streamlined Workflow
+                                    One Creative, Full Ownership
                                     <svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </h3>
-                                <p class="why-desc">Video, visuals, and web handled within one creative workflow — making the process faster, clearer, and more consistent.</p>
+                                <p class="why-desc">Video, visuals, and web handled by one person — which means faster turnaround, fewer miscommunications, and a consistent visual language across every deliverable.</p>
                             </div>
                             <div class="why-item">
                                 <div class="why-number">02</div>
                                 <h3 class="why-title">
-                                    Thoughtful Visual Execution
+                                    Built for How People Actually Watch
                                     <svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </h3>
-                                <p class="why-desc">Every project is built with attention to pacing, atmosphere, clarity, and how people actually experience the content.</p>
+                                <p class="why-desc">Every project is crafted with attention to pacing, atmosphere, and clarity — because content that feels right gets watched longer, shared more, and remembered.</p>
                             </div>
                             <div class="why-item">
                                 <div class="why-number">03</div>
                                 <h3 class="why-title">
-                                    Direct Collaboration
+                                    You Talk to the Person Doing the Work
                                     <svg class="why-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </h3>
-                                <p class="why-desc">No middle layers or complicated handovers. You work directly with the person creating and refining the work from start to finish.</p>
+                                <p class="why-desc">No account managers, no handovers. You work directly with the person making every creative decision — which means faster feedback loops and a final result that actually reflects your brief.</p>
                             </div>
                         </div>
                     </div>
@@ -635,7 +659,7 @@
             <section id="bits-and-pieces" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="section-headlne-content-wrapper section-headline-margin" style="display: flex; justify-content: center; width: 100%;">
+                        <div class="section-headlne-content-wrapper" style="display: flex; justify-content: center; width: 100%; margin-bottom: 32px;">
                             <div class="section-headline" style="display: flex; justify-content: center; width: 100%;">
                                 <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal" style="max-width: 25ch; line-height: 1.3; font-style: italic; text-align: center; margin: 0 auto;">
                                     “Move well, study well, play well, eat well, rest well.”

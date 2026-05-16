@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
-                description: "Cinematic product launch for Torch's biggest IP collaboration.", // Ganti dengan deskripsi proyek
+                description: "Videography, editing, and cinematic visual execution for Torch’s biggest IP collaboration campaign.", // Ganti dengan deskripsi proyek
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 industry: "F&B",
                 roles: ["Creative Content Support"],
                 link: "/portfolio/tsukamie",
-                description: "Revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.",
+                description: "Content strategy, short-form production, and visual direction for Tsukamie’s social media growth.",
                 brandInfo: "Authentic Japanese noodle bar delivering premium taste wrapped in a modern dining experience.",
                 image: "../assets/images/project/tsukamie/tsukamie1.webp",
                 srcset: ""

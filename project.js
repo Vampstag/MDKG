@@ -16,7 +16,7 @@ const projectsData = [
             "162.3K Peak Views"
         ],
         // Data Tambahan untuk Halaman Detail
-        description: "Revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.",
+        description: "Content strategy, short-form production, and visual direction for Tsukamie’s social media growth.",
         challenge: "Inconsistent engagement and declining content performance due to inactive posting and lack of structured content direction.",
         solution: "Built a modular content system focused on culture, relatability, and educational storytelling alongside influencer collaborations.",
         gallery: [

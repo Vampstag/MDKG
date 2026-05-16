@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const bar = document.getElementById('bar');
     
     let count = 0;
-    const duration = 800; // Optimized load time
+    const duration = 300; // Ultra-fast load time
     const intervalTime = 15;
     const steps = duration / intervalTime;
     const increment = 100 / steps;
@@ -15,7 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (count >= 100) {
             count = 100;
             clearInterval(timer);
-            finishPreloader();
+            
+            // Tunggu render halaman tapi maskimal 1 detik
+            const hidePreloader = () => {
+                finishPreloader();
+            };
+            
+            if (document.readyState === 'complete') {
+                hidePreloader();
+            } else {
+                const fallbackTimer = setTimeout(hidePreloader, 1000);
+                window.addEventListener('load', () => {
+                    clearTimeout(fallbackTimer);
+                    hidePreloader();
+                });
+            }
         }
 
         // Update UI
@@ -25,14 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, intervalTime);
 
     function finishPreloader() {
-        // Add class to body to enable scroll if hidden
         document.body.classList.remove('preloader-active');
+        window.dispatchEvent(new CustomEvent('preloaderDone')); // Trigger elemen JS lainnya
         
-        // Animate out
         if (preloader) {
             setTimeout(() => {
                 preloader.classList.add('finished');
-            }, 500);
+            }, 100);
         }
     }
 });

@@ -13,6 +13,12 @@ if ('serviceWorker' in navigator) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // [NEW] Lacak status preloader agar animasi Hero tidak dimainkan saat layar masih hitam
+    let isPreloaderDone = !document.body.classList.contains('preloader-active');
+    window.addEventListener('preloaderDone', () => {
+        isPreloaderDone = true;
+    });
+
     // --- CENTRALIZED JOURNAL DATA (HEADLESS CMS) ---
     const journalData = [
         {
@@ -31,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             displayDate: "May 15, 2025",
             readTime: "3 Min Read",
             title: "The Weight of Atmosphere",
-            excerpt: "A personal reflection on cinematic storytelling, emotional gravity, and the unseen details in creative work.",
+            excerpt: "Maybe creative life is simply learning how to leave traces of feeling inside the things we make.",
             image: "assets/images/project/torch/bts-5.webp",
             link: "journal/weight-of-atmosphere",
             isTextOnly: false,
@@ -235,11 +241,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // 3. Render Projects
         // renderProjects(); // This function is for portfolio.html, not index.html
 
-        // 4. Animations
-        initInteractiveHero(); // Changed from initHeroAnimation
+        // 4. & 5. Animations - Tunggu Preloader beres dulu agar tidak flickering kosong!
+        const runAnimations = () => {
+            initInteractiveHero(); 
+            initAboutStickyFlip();
+        };
         
-        // 5. About Sticky Flip Anim
-        initAboutStickyFlip();
+        if (!isPreloaderDone) {
+            window.addEventListener('preloaderDone', runAnimations, { once: true });
+        } else {
+            runAnimations();
+        }
 
         // 6. Lazy Load Bits Slider (Hanya jalankan Swiper saat elemen mendekati viewport)
         const bitsSliderEl = document.querySelector('.bits-slider');
