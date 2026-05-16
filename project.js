@@ -9,7 +9,7 @@ const projectsData = [
         category: "Creative Content Support", // Kategori: Visuals, Design, atau Photography
         title: "Tsukamie Noodle Bar",
         role: "Creative Content Support", // Role (bisa ditampilkan jika mau)
-        image: "assets/images/portfolio/tsukamie/tsukamie-1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
+        image: "assets/images/project/tsukamie/tsukamie1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
         link: "/project-detail?id=latest-work", // Link dinamis ke halaman detail
         stats: [
             "+10,896% Impressions",

@@ -1645,10 +1645,32 @@ html.lenis, html.lenis body { height: auto; }
 .photo-img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     aspect-ratio: 3/4; /* Enforce Portrait */
     object-fit: cover;
     border-radius: 10px; /* Slightly smaller radius than frame */
+}
+
+.photo-caption-block {
+    margin-top: 16px;
+    text-align: left;
+}
+.photo-caption-title {
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 6px 0;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+.photo-caption-desc {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
 }
 /* #endregion */
 
@@ -4823,15 +4845,19 @@ a.social-icon:hover img {
     top: 0; left: 0;
     width: 100%; 
     height: 100%;
-    object-fit: cover; /* Fill the bento box, cropping if necessary */
-    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
-    opacity: 0.4; /* [FIX] Biarkan terlihat samar agar animasi gradient background tetap hidup */
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: scale(1.02); /* Anti edge-bleeding: Gambar selalu sedikit melebih batas (anti-mengecil) */
     z-index: 1;
+}
+
+/* [FIX] Mencegah gambar di dalam carousel tumpah (bleeding) ke slide sebelahnya karena efek scale */
+.bento-carousel .swiper-slide {
+    overflow: hidden;
 }
 
 .bento-item:hover .bento-video, .bento-item.is-active .bento-video {
     transform: scale(1.05);
-    opacity: 0.9; /* Munculkan video dengan elegan saat di-hover (80%) */
 }
 
 .bento-overlay {
@@ -4844,6 +4870,20 @@ a.social-icon:hover img {
     justify-content: flex-end;
     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
     z-index: 2;
+}
+
+/* [NEW] Dark Layer solid yang menutupi gambar tanpa merusak scale gambar asli */
+.bento-overlay::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px; /* Ekstra meluber untuk anti-bleeding tepi layar */
+    background-color: rgba(0,0,0,0.5); /* Gelap saat tidak dihover */
+    z-index: -1;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.bento-item:hover .bento-overlay::before, .bento-item.is-active .bento-overlay::before {
+    opacity: 0; /* Lapisan gelap ini menghilang saat di-hover, menampilkan gambar yang terang di baliknya */
 }
 
 .bento-icon-wrapper {
@@ -4943,13 +4983,13 @@ a.social-icon:hover img {
     .bento-title {
         font-size: 1.5rem; /* Lebih proporsional */
     }
-    .bento-item:nth-child(1) .bento-title {
+    .bento-item.is-wide .bento-title {
         font-size: 2.25rem; /* Judul utama slightly larger */
     }
     .bento-desc {
         font-size: 1rem;
     }
-    .bento-item:nth-child(1) .bento-desc {
+    .bento-item.is-wide .bento-desc {
         font-size: 1.1rem;
     }
     .bento-plus-icon {

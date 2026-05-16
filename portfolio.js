@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 link: "/portfolio/tsukamie",
                 description: "Revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.",
                 brandInfo: "Authentic Japanese noodle bar delivering premium taste wrapped in a modern dining experience.",
-                image: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg",
-                srcset: "https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-500.jpg 500w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-800.jpg 800w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image-p-1080.jpg 1080w, https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5532_148abd4d73a501a39005296e17b15db5_image.jpg 1200w"
+                image: "../assets/images/project/tsukamie/tsukamie1.webp",
+                srcset: ""
             },
             
         ];

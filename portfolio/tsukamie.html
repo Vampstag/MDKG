@@ -2,14 +2,14 @@
 <html data-wf-domain="mdkg.webflow.io" data-wf-page="6933c25b0996b0f96f5c2c8e" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
     <head>
         <meta charset="utf-8"/>
-        <title>Tsukamie Noodle Bar Case Study | Social Media Strategy | MDKG Portfolio</title>
-        <meta content="Case study: Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." name="description"/>
-        <meta content="Tsukamie Noodle Bar Case Study | Social Media Strategy | MDKG Portfolio" property="og:title"/>
-        <meta content="Case study: Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." property="og:description"/>
-        <meta content="https://hellodimas.my.id/assets/images/portfolio/tsukamie/tsukamie-1.webp" property="og:image"/>
-        <meta content="Tsukamie Noodle Bar Case Study | Social Media Strategy | MDKG Portfolio" property="twitter:title"/>
-        <meta content="Case study: Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." property="twitter:description"/>
-        <meta content="https://hellodimas.my.id/assets/images/portfolio/tsukamie/tsukamie-1.webp" name="twitter:image"/>
+        <title>Tsukamie Noodle Bar | Portfolio | MDKG Portfolio</title>
+        <meta content="Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." name="description"/>
+        <meta content="Tsukamie Noodle Bar | Portfolio | MDKG Portfolio" property="og:title"/>
+        <meta content="Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." property="og:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/tsukamie/tsukamie1.webp" property="og:image"/>
+        <meta content="Tsukamie Noodle Bar | Portfolio | MDKG Portfolio" property="twitter:title"/>
+        <meta content="Discover how a community-driven social media strategy and TikTok content marketing revitalized Tsukamie Noodle Bar's F&B digital presence, boosting impressions by over 10,000%." property="twitter:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/tsukamie/tsukamie1.webp" name="twitter:image"/>
         <meta property="og:type" content="website"/>
         <meta content="summary_large_image" name="twitter:card"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -40,7 +40,7 @@
             "@type": "Person",
             "name": "M. Dimas K. G."
           },
-          "description": "A portfolio case study on revitalizing Tsukamie Noodle Bar's digital presence through community-driven social media strategy and TikTok content marketing.",
+          "description": "A portfolio project focusing on revitalizing Tsukamie Noodle Bar's digital presence through community-driven social media strategy and TikTok content marketing.",
           "url": "https://hellodimas.my.id/portfolio/tsukamie"
         }
         </script>
@@ -74,7 +74,7 @@
         <style>
             /* KUSTOMISASI GAMBAR LATAR HERO TSUKAMIE */
             .hero-bg-image {
-                background-image: url('https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=1600&auto=format&fit=crop'); /* Placeholder Premium Mangkuk Ramen */
+                background-image: url('../assets/images/project/tsukamie/tsukamie1.webp'); /* Premium Mangkuk Ramen */
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -405,11 +405,13 @@
                     #outputs-tiktok .bento-item:nth-child(1) { grid-column: span 2; grid-row: auto; min-height: 640px; }
                     #outputs-tiktok .bento-item:nth-child(2) { grid-column: span 1; grid-row: auto; min-height: 640px; }
                     
-                    #ig-carousel .bento-item:nth-child(1) { grid-column: span 1; grid-row: auto; min-height: 600px; }
-                    #ig-carousel .bento-item:nth-child(2) { grid-column: span 2; grid-row: auto; min-height: 600px; }
+                    #ig-carousel .bento-item:nth-child(1) { grid-column: span 1; grid-row: auto; min-height: auto; aspect-ratio: 4/5; }
+                    #ig-carousel .bento-item:nth-child(2) { grid-column: span 2; grid-row: auto; min-height: auto; }
+                    #ig-carousel .bento-item:nth-child(n+3) { grid-column: span 1; grid-row: auto; min-height: auto; aspect-ratio: 4/5; }
                     
                     #ig-reels .bento-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto; }
-                    #ig-reels .bento-item { grid-column: span 1; grid-row: auto; min-height: 680px; } /* Proporsi layar penuh untuk Reels 9:16 */
+                    #ig-reels .bento-item { grid-column: span 1; grid-row: auto; min-height: 640px; }
+                    #ig-reels .bento-item:nth-child(1) { grid-column: span 2; }
                     
                     #outputs-kol .bento-item { grid-column: 1 / -1; grid-row: auto; min-height: 640px; }
                 }
@@ -417,16 +419,18 @@
                 /* [NEW] Responsive Bento Grid adjustments for Tablet */
                 @media (min-width: 768px) and (max-width: 991px) {
                     #outputs-tiktok .bento-item { grid-column: span 1; min-height: 540px; }
-                    #ig-carousel .bento-item { grid-column: span 2; min-height: 420px; } /* [FIX] Stack items vertically on tablet */
-                    #ig-carousel .bento-item:nth-child(1) { min-height: 480px; } /* First item is taller */
+                    #ig-carousel .bento-item { grid-column: span 2; min-height: auto; aspect-ratio: 4/5; } /* Stack items vertically on tablet */
+                    #ig-carousel .bento-item:nth-child(2) { aspect-ratio: 16/9; min-height: auto; } /* Wide format untuk item ke-2 */
+                    #ig-carousel .bento-item:nth-child(n+3) { grid-column: span 1; min-height: auto; aspect-ratio: 4/5; }
                     #ig-reels .bento-item { grid-column: span 1; min-height: 560px; }
-                    #ig-reels .bento-item:nth-child(3) { grid-column: span 2; min-height: 560px; }
+                    #ig-reels .bento-item:nth-child(1) { grid-column: span 2; min-height: 560px; }
                 }
                 
                 /* [NEW] Responsive Bento Grid adjustments for Mobile */
                 @media (max-width: 767px) {
                     #outputs-tiktok .bento-item, #ig-reels .bento-item { min-height: 520px; } /* Sedikit dikurangi agar item berikutnya mengintip */
-                    #ig-carousel .bento-item, #outputs-kol .bento-item { min-height: 400px; }
+                    #ig-carousel .bento-item { min-height: auto; aspect-ratio: 4/5; } /* Set 4:5 mobile ratio */
+                    #outputs-kol .bento-item { min-height: 400px; }
                     
                     /* TABS PREMIUM MOBILE FIX - EXACT MATCH WITH DESKTOP */
                     .outputs-tabs-nav {
@@ -543,6 +547,22 @@
                                     <p class="about-paragraph">
                                         Tsukamie Noodle Bar was a project focused on revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.
                                     </p>
+                                    
+                                    <div class="about-divider"></div>
+                                    <div class="about-meta-grid">
+                                        <div class="meta-item">
+                                            <span class="meta-label">Duration</span>
+                                            <span class="meta-value">3 Months</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Role</span>
+                                            <span class="meta-value">Creative Content Support</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Industry</span>
+                                            <span class="meta-value">F&B / Restaurant</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -792,7 +812,7 @@
                             <div id="outputs-tiktok" class="output-tab-pane active">
                                 <div class="bento-grid">
                                     <!-- Item 1 (TikTok) -->
-                                    <div class="bento-item">
+                                    <div class="bento-item is-wide">
                                         <video class="bento-video" loop muted playsinline preload="metadata" poster="https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=600&auto=format&fit=crop"><source src="https://assets.mixkit.co/videos/preview/mixkit-serving-a-bowl-of-hot-noodle-soup-42774-large.mp4" type="video/mp4"></video>
                                         <div class="bento-overlay">
                                             <h3 class="bento-title">Top Performing TikTok Video</h3>
@@ -864,19 +884,19 @@
                                             <div class="bento-item">
                                                 <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
                                                     <div class="swiper-wrapper">
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=600&auto=format&fit=crop" alt="Carousel 1" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600&auto=format&fit=crop" alt="Carousel 2" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1614563637806-1d0e645e0940?q=80&w=600&auto=format&fit=crop" alt="Carousel 3" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cb431?q=80&w=600&auto=format&fit=crop" alt="Carousel 4" class="bento-video" loading="lazy"></div>
-                                                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1600803907087-f56d462fd26b?q=80&w=600&auto=format&fit=crop" alt="Carousel 5" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/promo-ojol/1.webp" alt="Promo Ojol 1" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/promo-ojol/2.webp" alt="Promo Ojol 2" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/promo-ojol/3.webp" alt="Promo Ojol 3" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/promo-ojol/4.webp" alt="Promo Ojol 4" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/promo-ojol/5.webp" alt="Promo Ojol 5" class="bento-video" loading="lazy"></div>
                                                     </div>
                                                     <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
                                                     <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
-                                                    <div class="swiper-pagination" style="bottom: auto; top: 20px; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
+                                                    <div class="swiper-pagination" style="bottom: 20px; top: auto; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
                                                 </div>
                                                 <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Educational Carousels</h3>
-                                                    <p class="bento-desc">Structured visual delivery to highlight menu ingredients and cultural context for the Tsukamie brand.</p>
+                                                    <h3 class="bento-title">Promo Campaign Carousel</h3>
+                                                    <p class="bento-desc">Strategic visual delivery for the 'Stay Safe, Share Warmth' community promo campaign targeted at Ojol drivers.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
                                                         <button class="bento-btn bento-fullscreen-btn">
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
@@ -885,22 +905,90 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Item 2 (Content Mapping) -->
-                                            <div class="bento-item">
-                                                <img src="https://images.unsplash.com/photo-1507925922837-1c26414a14fa?q=80&w=800&auto=format&fit=crop" alt="Content Planning Board" class="bento-video" style="object-position: top center;" loading="lazy">
-                                                <div class="bento-overlay" style="pointer-events: none;">
-                                                    <h3 class="bento-title">Content Mapping & Transformation</h3>
-                                                    <p class="bento-desc">Revamping the visual identity from hard-selling product shots to a cohesive, aesthetic storytelling feed driven by strategic content pillars and modular grids.</p>
-                                                    <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-stats-toggle">
-                                                            Growth Stats
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                                                        </button>
+                                            <!-- Item 2 (Product Showcase) -->
+                                            <div class="bento-item is-wide">
+                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                                                    <div class="swiper-wrapper">
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/gyoza/1.webp" alt="Gyoza Highlight 1" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/gyoza/2.webp" alt="Gyoza Highlight 2" class="bento-video" loading="lazy"></div>
                                                     </div>
-                                                    <div class="bento-stats-panel" style="pointer-events: auto;">
-                                                        <div class="bento-stat"><span class="stat-val">+304%</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg> Audience</span></div>
-                                                        <div class="bento-stat"><span class="stat-val">+441%</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Profile Visits</span></div>
-                                                        <div class="bento-stat"><span class="stat-val">3</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg> Core Pillars</span></div>
+                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-pagination" style="bottom: 20px; top: auto; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
+                                                </div>
+                                                <div class="bento-overlay" style="pointer-events: none;">
+                                                    <h3 class="bento-title">Product Visuals</h3>
+                                                    <p class="bento-desc">Appetizing food photography and styling highlighting Tsukamie's signature side dishes to drive product awareness.</p>
+                                                    <div class="bento-actions" style="pointer-events: auto;">
+                                                        <button class="bento-btn bento-fullscreen-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Item 3 (Loyalty Program) -->
+                                            <div class="bento-item">
+                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                                                    <div class="swiper-wrapper">
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/membership/1.webp" alt="Membership Promo 1" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/membership/2.webp" alt="Membership Promo 2" class="bento-video" loading="lazy"></div>
+                                                    </div>
+                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-pagination" style="bottom: 20px; top: auto; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
+                                                </div>
+                                                <div class="bento-overlay" style="pointer-events: none;">
+                                                    <h3 class="bento-title">Loyalty Program Campaign</h3>
+                                                    <p class="bento-desc">Visual design and social media activation for Tsukamie's loyalty card program, encouraging repeat customer visits and community engagement.</p>
+                                                    <div class="bento-actions" style="pointer-events: auto;">
+                                                        <button class="bento-btn bento-fullscreen-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Item 4 (Event Keuken) -->
+                                            <div class="bento-item">
+                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                                                    <div class="swiper-wrapper">
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/keuken/1.webp" alt="Keuken Festival Promo" class="bento-video" loading="lazy"></div>
+                                                    </div>
+                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10; display: none;"></div>
+                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10; display: none;"></div>
+                                                    <div class="swiper-pagination" style="bottom: 20px; top: auto; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
+                                                </div>
+                                                <div class="bento-overlay" style="pointer-events: none;">
+                                                    <h3 class="bento-title">Event Activation</h3>
+                                                    <p class="bento-desc">Promotional collateral designed for Tsukamie's participation in local food festivals, driving offline foot traffic and brand awareness.</p>
+                                                    <div class="bento-actions" style="pointer-events: auto;">
+                                                        <button class="bento-btn bento-fullscreen-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Item 5 (Pop-Up Poster) -->
+                                            <div class="bento-item">
+                                                <div class="swiper bento-carousel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                                                    <div class="swiper-wrapper">
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/pop-up-poster/1.webp" alt="Pop-Up Poster 1" class="bento-video" loading="lazy"></div>
+                                                        <div class="swiper-slide"><img src="../assets/images/project/tsukamie/pop-up-poster/2.webp" alt="Pop-Up Poster 2" class="bento-video" loading="lazy"></div>
+                                                    </div>
+                                                    <div class="swiper-button-prev" style="color: #fff; transform: scale(0.6); left: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-button-next" style="color: #fff; transform: scale(0.6); right: 10px; z-index: 10;"></div>
+                                                    <div class="swiper-pagination" style="bottom: 20px; top: auto; z-index: 10; --swiper-pagination-color: #fff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);"></div>
+                                                </div>
+                                                <div class="bento-overlay" style="pointer-events: none;">
+                                                    <h3 class="bento-title">Pop-Up Activation</h3>
+                                                    <p class="bento-desc">Eye-catching poster designs for Tsukamie's limited pop-up events to drive offline foot traffic.</p>
+                                                    <div class="bento-actions" style="pointer-events: auto;">
+                                                        <button class="bento-btn bento-fullscreen-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -911,11 +999,11 @@
                                     <div id="ig-reels" class="sub-tab-pane">
                                         <div class="bento-grid">
                                             <!-- Reel 1 -->
-                                            <div class="bento-item">
-                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=600&auto=format&fit=crop"><source src="https://assets.mixkit.co/videos/preview/mixkit-serving-a-bowl-of-hot-noodle-soup-42774-large.mp4" type="video/mp4"></video>
+                                            <div class="bento-item is-wide">
+                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/tsukamie/poster-reel-1.webp"><source src="../assets/videos/project/tsukamie/new-menu-bts.mp4" type="video/mp4"></video>
                                                 <div class="bento-overlay">
-                                                    <h3 class="bento-title">Menu Highlight Reel</h3>
-                                                    <p class="bento-desc">Showcasing the signature Tsukamie ramen with dynamic camera angles and appetizing close-ups.</p>
+                                                    <h3 class="bento-title">New Menu Behind the Scenes</h3>
+                                                    <p class="bento-desc">A dynamic culinary showcase revealing the meticulous process and fresh ingredients behind Tsukamie's latest dish.</p>
                                                     <div class="bento-actions">
                                                         <button class="bento-btn bento-play-btn">
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
@@ -936,10 +1024,10 @@
                                             </div>
                                             <!-- Reel 2 -->
                                             <div class="bento-item">
-                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600&auto=format&fit=crop"><source src="https://assets.mixkit.co/videos/preview/mixkit-eating-a-bowl-of-noodles-with-chopsticks-42775-large.mp4" type="video/mp4"></video>
+                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/tsukamie/poster-reel-2.webp"><source src="../assets/videos/project/tsukamie/recap-events.mp4" type="video/mp4"></video>
                                                 <div class="bento-overlay">
-                                                    <h3 class="bento-title">Vibe & Atmosphere</h3>
-                                                    <p class="bento-desc">Capturing the authentic Japanese noodle bar experience and aesthetic dining environment.</p>
+                                                    <h3 class="bento-title">Community Event Recap</h3>
+                                                    <p class="bento-desc">Capturing the energy and high enthusiasm of the crowd during Tsukamie's special collaboration event.</p>
                                                     <div class="bento-actions">
                                                         <button class="bento-btn bento-play-btn">
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
@@ -960,10 +1048,10 @@
                                             </div>
                                             <!-- Reel 3 -->
                                             <div class="bento-item">
-                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=600&auto=format&fit=crop"><source src="https://assets.mixkit.co/videos/preview/mixkit-chef-pouring-broth-into-a-bowl-of-noodles-42772-large.mp4" type="video/mp4"></video>
+                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/tsukamie/poster-reel-3.webp"><source src="../assets/videos/project/tsukamie/how-to-order.mp4" type="video/mp4"></video>
                                                 <div class="bento-overlay">
-                                                    <h3 class="bento-title">Chef's Process</h3>
-                                                    <p class="bento-desc">A behind-the-scenes look at the preparation, highlighting ingredients and dedication to quality.</p>
+                                                    <h3 class="bento-title">How to Order Guide</h3>
+                                                    <p class="bento-desc">An engaging step-by-step visual guide designed to educate new customers on customizing their perfect noodle bowl.</p>
                                                     <div class="bento-actions">
                                                         <button class="bento-btn bento-play-btn">
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
@@ -982,6 +1070,54 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- Reel 4 -->
+                                            <div class="bento-item">
+                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/tsukamie/poster-reel-4.webp"><source src="../assets/videos/project/tsukamie/trend.mp4" type="video/mp4"></video>
+                                                <div class="bento-overlay">
+                                                    <h3 class="bento-title">Trend Jacking</h3>
+                                                    <p class="bento-desc">Tapping into relevant social media audio trends with an authentic brand voice to drive broader organic reach.</p>
+                                                    <div class="bento-actions">
+                                                        <button class="bento-btn bento-play-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                        <button class="bento-btn bento-stats-toggle">
+                                                            Stats
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                                        </button>
+                                                    </div>
+                                                    <div class="bento-stats-panel">
+                                                        <div class="bento-stat"><span class="stat-val">85.2K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Views</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">7.1K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Likes</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">1.2K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Shares</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">3.4K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg> Saves</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Reel 5 -->
+                                            <div class="bento-item">
+                                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/tsukamie/poster-reel-5.webp"><source src="../assets/videos/project/tsukamie/evening-vibes.mp4" type="video/mp4"></video>
+                                                <div class="bento-overlay">
+                                                    <h3 class="bento-title">Evening Atmosphere</h3>
+                                                    <p class="bento-desc">Highlighting the cozy and cinematic nighttime vibe, reinforcing the authentic Japanese dining experience.</p>
+                                                    <div class="bento-actions">
+                                                        <button class="bento-btn bento-play-btn">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        </button>
+                                                        <a href="#" target="_blank" class="bento-btn">View on IG</a>
+                                                        <button class="bento-btn bento-stats-toggle">
+                                                            Stats
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                                        </button>
+                                                    </div>
+                                                    <div class="bento-stats-panel">
+                                                        <div class="bento-stat"><span class="stat-val">19.4K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Views</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">1.1K</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Likes</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">120</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Shares</span></div>
+                                                        <div class="bento-stat"><span class="stat-val">310</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg> Saves</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -991,7 +1127,7 @@
                             <div id="outputs-kol" class="output-tab-pane">
                                 <div class="bento-grid">
                                     <!-- Item 3 (Community Event) -->
-                                    <div class="bento-item">
+                                    <div class="bento-item is-wide">
                                         <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=600&auto=format&fit=crop" alt="Community Event" class="bento-video" loading="lazy">
                                         <div class="bento-overlay" style="pointer-events: none;">
                                             <h3 class="bento-title">Community Event</h3>
@@ -1013,10 +1149,11 @@
             <section id="impact" class="data-validation-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="section-headlne-content-wrapper section-headline-margin">
+                        <div class="section-headlne-content-wrapper section-headline-margin" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                             <div class="section-headline">
                                 <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Impact</h2>
                             </div>
+                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">These results reflect the growth and organic engagement generated over a total project duration of 3 months.</p>
                         </div>
                         <div class="data-grid">
                             <div class="data-item" tabindex="0">
@@ -1240,6 +1377,14 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </span>
             <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
+            
+            <!-- [NEW] Swiper Container for Fullscreen Gallery (Carousel) -->
+            <div class="swiper lightbox-swiper" style="display: none; width: 100%; height: 100%;">
+                <div class="swiper-wrapper" id="lightbox-swiper-wrapper"></div>
+                <div class="swiper-button-prev" style="color: #fff;"></div>
+                <div class="swiper-button-next" style="color: #fff;"></div>
+                <div class="swiper-pagination" style="--swiper-pagination-color: #fff;"></div>
+            </div>
         </div>
 
         <!-- [NEW] Video Modal (For Bento Grid Vertical Videos) -->
@@ -1547,15 +1692,51 @@
                         if (fsBtn) {
                             e.preventDefault();
                             const bentoItem = fsBtn.closest('.bento-item');
-                            const activeSlide = bentoItem.querySelector('.swiper-slide-active');
-                            const img = activeSlide ? activeSlide.querySelector('img') : bentoItem.querySelector('img');
+                            const bentoCarousel = bentoItem.querySelector('.bento-carousel');
                             const lightboxModal = document.getElementById('lightbox-modal');
                             const lightboxImg = document.getElementById('lightbox-img');
+                            const lightboxSwiperCont = document.querySelector('.lightbox-swiper');
+                            const lightboxSwiperWrapper = document.getElementById('lightbox-swiper-wrapper');
                             
-                            if (img && lightboxModal && lightboxImg) {
-                                lightboxImg.src = img.currentSrc || img.src;
-                                lightboxModal.classList.add('active');
-                                document.body.style.overflow = 'hidden';
+                            if (lightboxModal) {
+                                if (bentoCarousel && lightboxSwiperCont && lightboxSwiperWrapper) {
+                                    // Mode Gallery (Swiper)
+                                    lightboxImg.style.display = 'none';
+                                    lightboxSwiperCont.style.display = 'block';
+                                    lightboxSwiperWrapper.innerHTML = ''; // Bersihkan slide lama
+                                    
+                                    const slides = bentoCarousel.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate) img');
+                                    slides.forEach(img => {
+                                        const slide = document.createElement('div');
+                                        slide.className = 'swiper-slide';
+                                        slide.style.display = 'flex'; slide.style.alignItems = 'center'; slide.style.justifyContent = 'center';
+                                        
+                                        const newImg = document.createElement('img');
+                                        newImg.src = img.currentSrc || img.src;
+                                        newImg.className = 'lightbox-content';
+                                        newImg.style.maxWidth = '90%'; newImg.style.maxHeight = '90vh'; newImg.style.objectFit = 'contain'; newImg.style.cursor = 'default';
+                                        
+                                        slide.appendChild(newImg);
+                                        lightboxSwiperWrapper.appendChild(slide);
+                                    });
+                                    
+                                    lightboxModal.classList.add('active'); document.body.style.overflow = 'hidden';
+                                    
+                                    if (!window.lightboxSwiperInstance) {
+                                        window.lightboxSwiperInstance = new Swiper('.lightbox-swiper', { loop: true, grabCursor: true, navigation: { nextEl: '.lightbox-swiper .swiper-button-next', prevEl: '.lightbox-swiper .swiper-button-prev' }, pagination: { el: '.lightbox-swiper .swiper-pagination', clickable: true } });
+                                    } else { window.lightboxSwiperInstance.update(); }
+                                    
+                                    const activeOriginalSlide = bentoCarousel.querySelector('.swiper-slide-active');
+                                    if (activeOriginalSlide) window.lightboxSwiperInstance.slideToLoop(parseInt(activeOriginalSlide.getAttribute('data-swiper-slide-index') || 0), 0);
+                                    
+                                } else if (lightboxImg) {
+                                    // Mode Single Image (Fallback)
+                                    if (lightboxSwiperCont) lightboxSwiperCont.style.display = 'none';
+                                    lightboxImg.style.display = 'block';
+                                    const activeSlide = bentoItem.querySelector('.swiper-slide-active');
+                                    const img = activeSlide ? activeSlide.querySelector('img') : bentoItem.querySelector('img');
+                                    if (img) { lightboxImg.src = img.currentSrc || img.src; lightboxModal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+                                }
                             }
                         }
                     });
@@ -1570,6 +1751,14 @@
                                 item.addEventListener('mouseleave', () => { 
                                     item.querySelectorAll('.bento-video').forEach(v => { if (typeof v.pause === 'function') { v.pause(); v.currentTime = 0; } });
                                 });
+                    });
+                    
+                    // [FIX] Tutup lightbox jika klik area kosong di dalam slider gallery
+                    document.querySelector('.lightbox-swiper')?.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('swiper-slide')) {
+                            const lightboxModal = document.getElementById('lightbox-modal');
+                            if (lightboxModal) { lightboxModal.classList.remove('active'); document.body.style.overflow = ''; }
+                        }
                     });
                     });
                 }
