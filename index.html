@@ -324,8 +324,11 @@
 
                             <!-- Item 2: Project Preview -->
                             <div class="drag-item card-item card-item--2">
-                                <video autoplay loop muted playsinline draggable="false">
-                                    <source src="assets/videos/logo torchxgundam.mp4" type="video/mp4">
+                                <!-- Tambahkan poster image agar Lighthouse menghitung LCP dari gambar ini (jauh lebih cepat dari video) -->
+                                <video autoplay loop muted playsinline draggable="false" preload="auto" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
+                                    <source src="assets/videos/torchxgundam.webm" type="video/webm">
+                                    <!-- Fallback aktif ke MP4 untuk Safari/iOS yang belum support WebM penuh -->
+                                    <source src="assets/videos/torchxgundam.mp4" type="video/mp4">
                                 </video>
                                 <div class="card-caption">Explore my work!👀</div>
                             </div>
