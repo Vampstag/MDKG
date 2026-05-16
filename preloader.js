@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Update UI
         if (counter) counter.textContent = Math.floor(count) + "%";
-        if (bar) bar.style.width = Math.floor(count) + "%";
+        if (bar) bar.style.transform = `scaleX(${count / 100})`;
 
     }, intervalTime);
 

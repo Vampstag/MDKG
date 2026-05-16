@@ -504,9 +504,9 @@ function initNavbar() {
             const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             if (scrollHeight > 0) {
                 const scrolled = (currentScroll / scrollHeight) * 100;
-                progressBar.style.width = `${scrolled}%`;
+                progressBar.style.transform = `scaleX(${scrolled / 100})`;
             } else {
-                progressBar.style.width = '0%';
+                progressBar.style.transform = 'scaleX(0)';
             }
         }
     };
@@ -573,14 +573,14 @@ function initPageTransitions() {
 
         e.preventDefault();
         gsap.to(overlay, {
-            top: "0%", duration: 0.5, ease: "power3.inOut",
+            y: "0%", duration: 0.5, ease: "power3.inOut",
             onComplete: () => window.location.href = targetUrl
         });
     });
 
     // Fallback BFCache (Safari Back Button Fix)
     window.addEventListener("pageshow", (event) => {
-        if (event.persisted) gsap.set(overlay, { top: "150vh" });
+        if (event.persisted) gsap.set(overlay, { y: "150%" });
     });
 }
 //#endregion

@@ -51,9 +51,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Digital Content",
+                category: "Creative Content Support",
                 industry: "F&B",
-                roles: ["Video Production", "Brand & Visual Design"],
+                roles: ["Creative Content Support"],
                 link: "/portfolio/tsukamie",
                 description: "Revitalizing a stagnant F&B digital presence by shifting from hard-selling content toward a more community-driven storytelling approach.",
                 brandInfo: "Authentic Japanese noodle bar delivering premium taste wrapped in a modern dining experience.",
@@ -155,6 +155,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                          alt="${project.title}" 
                                          loading="lazy" 
                                          decoding="async" 
+                                         width="800"
+                                         height="600"
                                          class="paralax-image main img-loading"
                                          style="width: 100%; height: 100%; object-fit: cover;"
                                          onload="this.classList.remove('img-loading'); this.classList.add('img-loaded'); this.previousElementSibling.style.opacity='0';">
