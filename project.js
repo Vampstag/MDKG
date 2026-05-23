@@ -6,9 +6,9 @@ const projectsData = [
     {
         id: "latest-work",
         featured: true, // Set true jika ingin ini muncul di Home sebagai "Latest Work"
-        category: "Creative Content Support", // Kategori: Visuals, Design, atau Photography
+        category: "Content Strategy & Execution", // Kategori: Visuals, Design, atau Photography
         title: "Tsukamie Noodle Bar",
-        role: "Creative Content Support", // Role (bisa ditampilkan jika mau)
+        role: "Visual Execution & Analytics", // Role (bisa ditampilkan jika mau)
         image: "assets/images/project/tsukamie/tsukamie1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
         link: "/project-detail?id=latest-work", // Link dinamis ke halaman detail
         stats: [
@@ -16,7 +16,7 @@ const projectsData = [
             "162.3K Peak Views"
         ],
         // Data Tambahan untuk Halaman Detail
-        description: "Short-form video production, visual design, and structured content execution for Tsukamie’s social media growth.",
+        description: "Content strategy, visual design, and social media execution that drove +10,896% impressions growth for an F&B lifestyle brand.",
         challenge: "Inconsistent engagement and declining content performance due to inactive posting and lack of structured content direction.",
         solution: "Built a modular content system focused on culture, relatability, and educational storytelling alongside influencer collaborations.",
         gallery: [
