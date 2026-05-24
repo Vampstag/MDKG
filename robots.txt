@@ -1,3 +1,19 @@
+# ==================================================
+# MDKG Portfolio - robots.txt
+# ==================================================
+
 User-agent: *
 Allow: /
+
+# Mencegah mesin pencari mengindeks file mentah secara langsung
+# (Fokuskan SEO pada halaman HTML, bukan link file aset mentah)
+Disallow: /assets/audio/
+Disallow: /assets/videos/
+
+# Mencegah indexing file konfigurasi atau draft (jika ada)
+Disallow: /drafts/
+Disallow: /private/
+Disallow: /*.json$
+
+# Tautan ke Sitemap untuk Google Search Console
 Sitemap: https://hellodimas.my.id/sitemap.xml
