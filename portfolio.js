@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             {
                 id: 7, // Pastikan ID unik
                 title: "Torch x Gundam",
-                year: "2026",
+                year: "2025",
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
-                description: "Cinematic visual execution and editorial strategy for Torch’s biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
+                description: "Cinematic video production and visual execution for Torch’s biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
@@ -51,11 +51,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Content Strategy & Execution",
+                category: "Visual Execution & Content Systems",
                 industry: "F&B",
-                roles: ["Content Strategy & Execution"],
+                roles: ["Visual Execution & Content Systems"],
                 link: "/portfolio/tsukamie",
-                description: "Content strategy, visual design, and social media execution that drove +10,896% impressions growth for an F&B lifestyle brand.",
+                description: "Cinematic video production, visual design, and structured content systems that drove +10,896% impressions growth for an F&B lifestyle brand.",
                 brandInfo: "Established in 2022, Tsukamie is a Halal-certified Asian fusion noodle bar in Bandung that positions itself as a lifestyle ecosystem rather than just an F&B brand.",
                 image: "../assets/images/project/tsukamie/tsukamie1.webp",
                 srcset: ""

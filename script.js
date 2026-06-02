@@ -25,11 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
             date: "2025-05-20", // Format YYYY-MM-DD
             displayDate: "May 20, 2025",
             readTime: "4 Min Read",
-            title: "Strategy Beneath The Surface",
-            excerpt: "A reflection on why brand architecture and visual systems are less like decoration and more like infrastructure.",
+            title: "Visuals Beneath The Surface",
+            excerpt: "A reflection on why creative direction and visual systems are less like decoration and more like infrastructure.",
             image: "assets/images/journal/poster-journal-2.webp",
             altText: "Illustration of a person holding a giant pencil representing brand strategy",
-            imgTitle: "Strategy Beneath The Surface - Brand Architecture Illustration",
+            imgTitle: "Visuals Beneath The Surface - Brand Architecture Illustration",
             link: "journal/strategy-beneath-the-surface",
             isTextOnly: false, // Diubah ke false agar gambar placeholder muncul di grid
             aspectRatio: "4/5"
