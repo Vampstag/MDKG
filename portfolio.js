@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
-                link: "/portfolio/torch", // Ganti dengan link detail proyek jika ada
+                link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 description: "Cinematic video production and visual execution for Torch’s biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda

@@ -1894,6 +1894,18 @@ html.lenis, html.lenis body { height: auto; }
     margin: 0;
     font-weight: 400; /* Menipiskan teks (normal) untuk estetika yang lebih premium */
 }
+
+@media (max-width: 767px) {
+    .faq__trigger {
+        padding: 24px 0; /* Ruang klik accordion diperkecil untuk HP */
+    }
+    .faq__question {
+        font-size: 1.1rem;
+    }
+    .faq__answer {
+        padding-bottom: 24px;
+    }
+}
 /* #endregion */
 
 /* #region 23. LATEST WORK */
@@ -3003,6 +3015,15 @@ html.lenis, html.lenis body { height: auto; }
     .why-title { font-size: 1.1rem; margin-bottom: 8px; }
     .why-desc { font-size: 0.9rem; line-height: 1.5; }
 }
+
+@media (max-width: 767px) {
+    .why-grid {
+        padding-bottom: 24px; /* Kurangi space kosong di bawah bayangan kartu */
+    }
+    .why-item {
+        padding: 24px 20px; /* Padding kartu lebih compact di HP */
+    }
+}
 /* #endregion */
 
 /* #region 32. CASE STUDY SPECIFIC */
@@ -3913,8 +3934,17 @@ a.social-icon:hover img {
 
 @media (max-width: 767px) {
     .pricing-works-wrapper {
-        padding: 32px 24px;
+        padding: 32px 20px;
         border-radius: 20px;
+        gap: 24px;
+    }
+    .pricing-works-title {
+        font-size: 1.5rem;
+    }
+    .pricing-works-item {
+        padding: 16px;
+        gap: 12px;
+        font-size: 0.85rem;
     }
 }
 
@@ -3946,7 +3976,7 @@ a.social-icon:hover img {
 
 .pricing-works-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     font-family: var(--font-primary);
     font-size: 0.95rem;
@@ -3969,6 +3999,7 @@ a.social-icon:hover img {
     color: #888;
     flex-shrink: 0;
     display: flex;
+    margin-top: 2px;
 }
 
 .pricing-works-footer {
@@ -4056,6 +4087,23 @@ a.social-icon:hover img {
 @media (min-width: 768px) {
     .pricing-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .service-accordion__trigger {
+        padding: 24px 0; /* Padding accordion rate card lebih compact */
+    }
+    .service-accordion__title {
+        gap: 16px;
+        font-size: 1.5rem;
+    }
+    .service-accordion__icon {
+        width: 32px;
+        height: 32px;
+    }
+    .service-accordion__inner {
+        padding-bottom: 24px;
     }
 }
 /* #endregion */
