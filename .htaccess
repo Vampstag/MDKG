@@ -28,11 +28,6 @@ ErrorDocument 404 /404.html
     # Jika URL adalah sebuah folder, cari index.html di dalamnya (contoh: /journal -> journal/index.html)
     RewriteCond %{REQUEST_FILENAME}/index.html -f
     RewriteRule ^(.*)$ $1/index.html [L]
-
-    # Jika file benar-benar tidak ada, pastikan server merespon dengan 404
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ - [R=404,L]
 </IfModule>
 
 # ==============================================================================
