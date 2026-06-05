@@ -3860,54 +3860,55 @@ a.social-icon:hover img {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
 }
-.pricing-tier-title { font-size: 1.15rem; font-weight: 600; color: #111; margin: 0; letter-spacing: -0.02em; }
-.pricing-tier-price { font-size: 0.85rem; font-weight: 600; color: #fff; background: #111; padding: 6px 14px; border-radius: 8px; letter-spacing: 0.04em; font-feature-settings: "tnum" on; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.pricing-tier-scope { font-size: 0.95rem; color: #555; margin: 0; line-height: 1.65; font-weight: 400; }
+.pricing-tier-title { font-size: 1.2rem; font-weight: 500; color: #111; margin: 0; letter-spacing: -0.02em; }
+.pricing-tier-price { font-size: 0.85rem; font-weight: 600; color: #fff; background: #111; padding: 6px 14px; border-radius: 8px; letter-spacing: 0.04em; font-feature-settings: "tnum" on; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 0; }
+.pricing-tier-scope { font-size: 0.95rem; color: #555; margin: 0; line-height: 1.6; font-weight: 400; }
 
 /* Pricing Meta & Badges */
 .pricing-tier-meta {
-    display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 24px; margin-top: 24px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 24px;
 }
 .pricing-meta-item {
     display: flex; 
     align-items: flex-start; /* Ensure icon stays at top if text wraps */
-    gap: 8px; 
+    gap: 12px; 
     font-family: var(--font-primary); 
-    font-size: 0.85rem; 
-    font-weight: 500; 
-    color: #666;
+    font-size: 0.9rem; 
+    font-weight: 400; 
+    color: #555;
     line-height: 1.4;
 }
 .pricing-meta-item svg {
-    width: 16px; height: 16px; color: #111; flex-shrink: 0; margin-top: 1px;
+    width: 16px; height: 16px; color: #111; opacity: 0.6; flex-shrink: 0; margin-top: 3px; stroke-width: 1.5;
 }
 .pricing-meta-item strong {
-    color: #111; 
-    font-weight: 700;
+    color: inherit; 
+    font-weight: inherit;
 }
 .pricing-tier-badges {
-    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 16px;
+    display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;
 }
 .pricing-badge {
     background: #f5f5f7;
     color: #555;
     padding: 4px 10px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-family: var(--font-primary);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
     border: 1px solid rgba(0,0,0,0.04);
     transition: all 0.3s var(--ease-smooth);
     cursor: default;
 }
 
+.pricing-badge:last-child {
+}
+
 .pricing-badge:hover {
-    background: #111;
-    color: #fff;
-    border-color: #111;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: #eee;
+    color: #111;
+    border-color: rgba(0,0,0,0.08);
 }
 
 /* Premium CTA Button Glow Override */
@@ -3926,12 +3927,12 @@ a.social-icon:hover img {
    46b. HOW PRICING WORKS
    ========================================= */
 .pricing-works-wrapper {
-    background-color: #fcfcfc;
-    border: 1px solid rgba(0,0,0,0.06);
-    border-radius: 24px;
-    padding: 48px;
+    background-color: transparent;
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    padding: 64px 0 0 0;
     margin-top: 64px;
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.03);
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px;
@@ -3946,8 +3947,8 @@ a.social-icon:hover img {
 
 @media (max-width: 767px) {
     .pricing-works-wrapper {
-        padding: 32px 20px;
-        border-radius: 20px;
+        padding: 48px 0 0 0;
+        border-radius: 0;
         gap: 32px; /* Better separation between text and list */
     }
     .pricing-works-title {
@@ -3958,7 +3959,7 @@ a.social-icon:hover img {
         font-size: 0.95rem; /* Scaled down for mobile hierarchy */
     }
     .pricing-works-item {
-        padding: 16px;
+        padding: 16px 0;
         gap: 12px;
         font-size: 0.85rem;
         line-height: 1.5; /* Crisp multi-line reading */
@@ -3975,7 +3976,7 @@ a.social-icon:hover img {
 .pricing-works-title {
     font-family: var(--font-primary);
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #111;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
@@ -4006,17 +4007,23 @@ a.social-icon:hover img {
     font-size: 0.95rem;
     color: #111;
     font-weight: 500;
-    background: #fff;
-    padding: 16px 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    background: transparent;
+    padding: 16px 0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    box-shadow: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.pricing-works-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
 .pricing-works-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    transform: translateX(4px);
+    box-shadow: none;
 }
 
 .pricing-works-icon {
@@ -4040,31 +4047,35 @@ a.social-icon:hover img {
 .addon-content { flex: 1; width: 100%; min-width: 0; }
 .addon-single-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; width: 100%; }
 @media (max-width: 480px) {
-    .addon-single-item { flex-direction: column; gap: 6px; }
+    .addon-single-item { flex-direction: column; gap: 4px; }
 }
-.addon-title { font-weight: 700; color: #111; font-size: 0.95rem; line-height: 1.4; }
+.addon-title { font-weight: 500; color: #111; font-size: 0.95rem; line-height: 1.4; }
 .addon-price { 
-    font-weight: 700; color: #111; white-space: nowrap; background: #f5f5f7; 
-    padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; 
-    border: 1px solid rgba(0,0,0,0.04); flex-shrink: 0; margin-top: -2px;
+    font-weight: 600; color: #111; white-space: nowrap; background: #f5f5f7; 
+    padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; 
+    border: 1px solid rgba(0,0,0,0.04); flex-shrink: 0; margin-top: 0;
 }
 
 .addon-sublist { 
     margin-top: 16px; display: flex; flex-direction: column; width: 100%; 
-    background: #f9f9f9; border: 1px solid rgba(0,0,0,0.04); border-radius: 12px; padding: 0 16px; 
+    background: transparent; border: none; border-radius: 0; padding: 0; 
 }
-.addon-subitem { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.06); gap: 12px; }
+.addon-subitem { display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.9rem; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); gap: 12px; }
 .addon-subitem:last-child { border-bottom: none; }
 .addon-subitem-name { 
     color: #555; 
-    font-weight: 500; 
+    font-weight: 400; 
     display: flex; 
     align-items: center; 
     gap: 8px; 
 }
-.addon-subitem-price { font-weight: 600; color: #111; font-feature-settings: "tnum" on; }
+.addon-subitem-name svg {
+    color: #aaa !important;
+    stroke-width: 2 !important;
+}
+.addon-subitem-price { font-weight: 400; color: #666; font-feature-settings: "tnum" on; }
 
-.addon-note { font-size: 0.8rem; color: #888; margin-top: 12px; line-height: 1.5; font-weight: 400; }
+.addon-note { font-size: 0.8rem; color: #999; margin-top: 6px; line-height: 1.5; font-weight: 400; }
 
 /* #endregion */
 /* #endregion */
@@ -4100,7 +4111,7 @@ a.social-icon:hover img {
     gap: 24px;
     font-family: var(--font-primary);
     font-size: clamp(1.25rem, 3vw, 2.5rem);
-    font-weight: 600;
+    font-weight: 500;
     color: #111;
     letter-spacing: -0.02em;
 }
@@ -4182,9 +4193,16 @@ a.social-icon:hover img {
         font-size: 0.9rem;
         line-height: 1.5;
     }
+
+    .pricing-tier-meta {
+        grid-template-columns: 1fr; /* Force 1 column on mobile to prevent squishing */
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
     
     .pricing-meta-item {
-        font-size: 0.75rem;
+        font-size: 0.9rem; /* Diperbesar agar mudah dibaca di mobile */
     }
 }
 /* #endregion */
