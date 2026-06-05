@@ -21,14 +21,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
+            // {
+            //     id: 8,
+            //     title: "Torch — PrestaChill",
+            //     year: "2026",
+            //     category: "Digital Content", 
+            //     industry: "Fashion",
+            //     roles: ["Short-Form Video", "Launch Package"], 
+            //     link: "/portfolio/torch-prestachill", 
+            //     clientName: "Torch",
+            //     description: "Organic short-form video for Torch's PrestaChill campaign, shifting from standard commercials to real, platform-native content.", 
+            //     brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
+            //     image: "../assets/images/project/torch/bts-1.webp", // Placeholder image, replace when ready
+            //     srcset: ""
+            // },
             {
                 id: 7, // Pastikan ID unik
                 title: "Torch x Gundam",
-                year: "2025",
+                year: "2026",
                 category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
                 industry: "Fashion", // [NEW] Properti Industri
-                roles: ["Video Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
+                roles: ["Brand Film", "Launch Package"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
+                clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch’s biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
@@ -53,8 +68,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 year: "2025",
                 category: "Visual Execution & Content Systems",
                 industry: "F&B",
-                roles: ["Visual Execution & Content Systems"],
+                roles: ["Monthly Retainer", "Short-Form Video"],
                 link: "/portfolio/tsukamie",
+                clientName: "Tsukamie",
                 description: "Cinematic video production, visual design, and structured content systems that drove +10,896% impressions growth for an F&B lifestyle brand.",
                 brandInfo: "Established in 2022, Tsukamie is a Halal-certified Asian fusion noodle bar in Bandung that positions itself as a lifestyle ecosystem rather than just an F&B brand.",
                 image: "../assets/images/project/tsukamie/tsukamie1.webp",
@@ -175,7 +191,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                     </div>
                                     <div class="client-info-accordion">
                                         <div class="client-accordion-trigger">
-                                            <span>About The Client</span>
+                                            <span>About ${project.clientName || "The Client"}</span>
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                                         </div>
                                         <div class="client-accordion-content">
