@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             image: "assets/images/journal/poster-journal-2.webp",
             altText: "Illustration of a person holding a giant pencil representing brand strategy",
             imgTitle: "Visuals Beneath The Surface - Brand Architecture Illustration",
-            link: "journal/strategy-beneath-the-surface",
+            link: "/journal/strategy-beneath-the-surface",
             isTextOnly: false, // Diubah ke false agar gambar placeholder muncul di grid
             aspectRatio: "4/5"
         },
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             image: "assets/images/project/torch/bts-5.webp",
             altText: "Behind the scenes shot of Torch x Gundam campaign capturing cinematic atmosphere",
             imgTitle: "The Weight of Atmosphere - Torch x Gundam BTS",
-            link: "journal/weight-of-atmosphere",
+            link: "/journal/weight-of-atmosphere",
             isTextOnly: false,
             aspectRatio: "4/5"
         }
