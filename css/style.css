@@ -4035,6 +4035,38 @@ a.social-icon:hover img {
     color: #666;
     line-height: 1.6;
 }
+
+/* Premium Addon List Layout */
+.addon-content { flex: 1; width: 100%; min-width: 0; }
+.addon-single-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; width: 100%; }
+@media (max-width: 480px) {
+    .addon-single-item { flex-direction: column; gap: 6px; }
+}
+.addon-title { font-weight: 700; color: #111; font-size: 0.95rem; line-height: 1.4; }
+.addon-price { 
+    font-weight: 700; color: #111; white-space: nowrap; background: #f5f5f7; 
+    padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; 
+    border: 1px solid rgba(0,0,0,0.04); flex-shrink: 0; margin-top: -2px;
+}
+
+.addon-sublist { 
+    margin-top: 16px; display: flex; flex-direction: column; width: 100%; 
+    background: #f9f9f9; border: 1px solid rgba(0,0,0,0.04); border-radius: 12px; padding: 0 16px; 
+}
+.addon-subitem { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.06); gap: 12px; }
+.addon-subitem:last-child { border-bottom: none; }
+.addon-subitem-name { 
+    color: #555; 
+    font-weight: 500; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.addon-subitem-price { font-weight: 600; color: #111; font-feature-settings: "tnum" on; }
+
+.addon-note { font-size: 0.8rem; color: #888; margin-top: 12px; line-height: 1.5; font-weight: 400; }
+
+/* #endregion */
 /* #endregion */
 
 /* #region 47. PREMIUM SERVICE ACCORDION */
