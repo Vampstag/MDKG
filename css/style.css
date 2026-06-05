@@ -591,25 +591,29 @@ html.lenis, html.lenis body { height: auto; }
 
 .error-code {
     font-family: var(--font-primary);
-    font-size: clamp(6rem, 20vw, 18rem);
+    font-size: clamp(8rem, 25vw, 22rem);
     font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
     margin: 0;
-    color: #000000;
+    color: rgba(0,0,0,0.02);
+    -webkit-text-stroke: 1.5px rgba(0,0,0,0.08);
+    user-select: none;
 }
 
 .error-message {
     font-family: var(--font-primary);
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    line-height: 1.5;
-    margin-top: 24px;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    margin-top: -24px; /* Tarik ke atas agar sedikit overlap dengan angka 404 */
     margin-bottom: 48px;
-    font-weight: 400;
-    color: #000000;
-    max-width: 50ch;
+    font-weight: 500;
+    color: #555;
+    max-width: 45ch;
     text-align: center;
     background-color: transparent;
+    position: relative;
+    z-index: 2;
 }
 
 /* 404 Button Styling */
@@ -667,69 +671,6 @@ html.lenis, html.lenis body { height: auto; }
 }
 /* #endregion */
 
-/* #region 12. GLITCH ANIMATION */
-/* =========================================
-   12. GLITCH ANIMATION (404)
-   ========================================= */
-.glitch {
-    position: relative;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC44JyBzdGl0Y2hUaWxlc30nc3RpdGNoJy8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsdGVyPSd1cmwoI24pJyBvcGFjaXR5PScwLjQnLz48L3N2Zz4="), linear-gradient(to bottom, #000000, #333333);
-    background-size: 150px, 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.glitch::before,
-.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #ffffff; /* Matches page background to hide main text */
-    color: #000000; /* Ensure glitch slices remain visible despite parent transparency */
-}
-
-.glitch::before {
-    left: 2px;
-    text-shadow: -2px 0 #ff00c1;
-    clip-path: inset(10% 0 60% 0);
-    animation: glitch-anim-1 5s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-    left: -2px;
-    text-shadow: -2px 0 #00fff9;
-    clip-path: inset(80% 0 5% 0);
-    animation: glitch-anim-2 4s infinite linear alternate-reverse;
-}
-
-@keyframes glitch-anim-1 {
-    0% { clip-path: inset(20% 0 80% 0); }
-    5% { clip-path: inset(60% 0 10% 0); }
-    10% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    45% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    50% { clip-path: inset(10% 0 60% 0); }
-    55% { clip-path: inset(80% 0 5% 0); }
-    60% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    95% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    100% { clip-path: inset(30% 0 40% 0); }
-}
-
-@keyframes glitch-anim-2 {
-    0% { clip-path: inset(10% 0 60% 0); }
-    5% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    30% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    35% { clip-path: inset(80% 0 10% 0); }
-    40% { clip-path: inset(20% 0 50% 0); }
-    45% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    85% { clip-path: inset(50% 0 50% 0); } /* Pause */
-    90% { clip-path: inset(10% 0 70% 0); }
-    100% { clip-path: inset(40% 0 20% 0); }
-}
-/* #endregion */
 
 /* #region 13. MOBILE NAVIGATION */
 /* =========================================
@@ -1418,17 +1359,22 @@ html.lenis, html.lenis body { height: auto; }
     width: 100%;
     max-width: 360px;
     position: relative;
+    background: #fcfcfc;
+    padding: 24px;
+    border-radius: 32px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
 }
 
 .game-header {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background: #f9f9f9;
-    padding: 12px 20px;
-    border-radius: 16px;
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    background: #ffffff;
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
 }
 
 .score-pill {
@@ -1460,10 +1406,10 @@ html.lenis, html.lenis body { height: auto; }
 
 #game-canvas {
     background-color: #fafafa;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 16px;
     display: none;
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+    box-shadow: inset 0 4px 20px rgba(0,0,0,0.03); /* Inner shadow untuk efek "layar" */
     width: 100%;
     height: auto;
     aspect-ratio: 1/1;
@@ -3467,10 +3413,15 @@ html.lenis, html.lenis body { height: auto; }
     to { transform: translate(-50%, 0); opacity: 1; }
 }
 
-/* [NEW] Mobile Sticky Player Adjustments (Smaller & No Collision) */
+/* [NEW] Tablet & Mobile Sticky Player Adjustments (No Collision with Widgets) */
+@media (max-width: 991px) {
+    .audio-player-container.is-sticky {
+        bottom: 100px; /* Diangkat ke atas agar tidak menabrak widget MDKG di iPad/Tablet */
+    }
+}
+
 @media (max-width: 767px) {
     .audio-player-container.is-sticky {
-        bottom: 90px; /* Diangkat ke atas agar tidak menabrak widget MDKG */
         width: 90%; /* Lebar responsif */
         min-width: auto;
         max-width: 320px; /* [FIX] Diperkecil agar lebih ringkas di layar HP */

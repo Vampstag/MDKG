@@ -1,17 +1,77 @@
+# Panggil halaman 404 kustom buatan kita (Timpa desain bawaan Hostinger)
+ErrorDocument 404 /404.html
+
+# ==============================================================================
+# 1. ATURAN ROUTING & URL BERSIH (CLEAN URL & SEO HTTPS)
+# ==============================================================================
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # 1. Matikan penambahan slash otomatis pada folder (Mencegah Redirect Loop / Crash)
+    # Paksa HTTPS (Meningkatkan SEO dan Keamanan di mata Google)
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Matikan penambahan slash otomatis pada folder (Mencegah Redirect Loop)
     DirectorySlash Off
 
-    # 2. Pastikan halaman utama (root) tetap memuat index.html
+    # Pastikan halaman utama (root) tetap memuat index.html
     RewriteRule ^$ index.html [L]
 
-    # 3. Jika file .html ada, gunakan itu secara diam-diam (contoh: /portfolio -> portfolio.html)
+    # Jika file asli sudah ada (seperti sitemap.xml, robots.txt, gambar), langsung sajikan tanpa di-rewrite
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Jika file .html ada, gunakan itu secara diam-diam (contoh: /portfolio -> portfolio.html)
     RewriteCond %{REQUEST_FILENAME}.html -f
     RewriteRule ^(.*)$ $1.html [L]
 
-    # 4. Jika URL adalah sebuah folder, cari index.html di dalamnya (contoh: /journal -> journal/index.html)
+    # Jika URL adalah sebuah folder, cari index.html di dalamnya (contoh: /journal -> journal/index.html)
     RewriteCond %{REQUEST_FILENAME}/index.html -f
     RewriteRule ^(.*)$ $1/index.html [L]
+
+    # Jika file benar-benar tidak ada, pastikan server merespon dengan 404
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ - [R=404,L]
+</IfModule>
+
+# ==============================================================================
+# 2. KOMPRESI GZIP (MEMPERKECIL UKURAN FILE HINGGA 70%)
+# ==============================================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript image/svg+xml font/woff2 font/woff
+</IfModule>
+
+# ==============================================================================
+# 3. BROWSER CACHING (LOADING INSTAN UNTUK PENGUNJUNG YANG KEMBALI)
+# ==============================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Cache Aset Media (Gambar, Video, Audio) selama 1 Tahun
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+    ExpiresByType audio/mpeg "access plus 1 year"
+    
+    # Cache CSS & JavaScript selama 1 Bulan
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    
+    # Default cache
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+# ==============================================================================
+# 4. HEADER KEAMANAN (MENCEGAH INJEKSI MALWARE)
+# ==============================================================================
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
