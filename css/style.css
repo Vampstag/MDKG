@@ -69,6 +69,7 @@ body {
 html {
     scrollbar-width: thin; /* Dukungan scrollbar minimalis untuk Mozilla Firefox */
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+    background-color: #000000; /* [FIX] Mencegah kedipan putih (white flash) saat pindah halaman */
 }
 ::-webkit-scrollbar { 
     width: 14px; /* Area scrollbar dibuat agak lebar untuk area klik yang nyaman */
@@ -499,6 +500,7 @@ body.preloader-active { overflow: hidden; }
 /* Section Spacing */
 .section-margin {
     margin-bottom: var(--space-32) !important; /* Consistent 128px spacing */
+    contain: paint; /* [OPTIMIZATION] Ringankan RAM & GPU: Browser tidak perlu merender apa yang ada di luar kotak ini */
 }
 .section-headline-margin { margin-bottom: var(--space-20) !important; }
 

@@ -572,6 +572,23 @@ function initPageTransitions() {
     overlay.className = 'page-transition-overlay';
     document.body.appendChild(overlay);
 
+    // [OPTIMIZATION] Smart Hover Prefetching (Membuat Pindah Halaman Terasa Instan)
+    const prefetchedUrls = new Set();
+    document.addEventListener('mouseover', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.href) {
+            const url = link.href;
+            // Hanya prefetch link internal, bukan anchor (#), dan belum pernah di-prefetch
+            if (url.startsWith(window.location.origin) && !url.includes('#') && !prefetchedUrls.has(url)) {
+                const prefetchTag = document.createElement('link');
+                prefetchTag.rel = 'prefetch';
+                prefetchTag.href = url;
+                document.head.appendChild(prefetchTag);
+                prefetchedUrls.add(url); // Tandai agar tidak di-download dua kali
+            }
+        }
+    }, { passive: true });
+
     // Animasi Keluar (Exit) saat tautan diklik
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
