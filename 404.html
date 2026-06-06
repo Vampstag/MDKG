@@ -200,8 +200,8 @@
         <div class="global-wrapper w-container">
             <div class="error-content-wrapper">
                 <h1 class="error-code fade-in-section">404</h1>
-                <div class="error-divider"></div>
-                <p class="error-message">The page you're looking for has vanished into the digital void. Why not play a quick game while you reorient yourself?</p>
+                <h2 class="error-heading fade-in-section">Page not found.</h2>
+                <p class="error-message fade-in-section">The page you're looking for has vanished into the digital void. Why not play a quick game while you reorient yourself?</p>
                 
                 <!-- Snake Game Container -->
                 <div id="snake-game-container">
@@ -265,12 +265,12 @@
             
             // Array Warna Level-Up (Warna premium/pastel ala Apple)
             const levelColors = [
-                "#fafafa", // Level 0 (0-4): Clean White
-                "#f0f8ff", // Level 1 (5-9): Ice Blue
-                "#f5fff0", // Level 2 (10-14): Mint Green
-                "#fff5f0", // Level 3 (15-19): Soft Peach
-                "#f9f0ff", // Level 4 (20-24): Lavender
-                "#fff0f0"  // Level 5 (25+): Light Danger Red
+                "#f5f5f7", // Level 0 (0-4): Apple Light Gray
+                "#f0f4ff", // Level 1 (5-9): Soft Apple Blue
+                "#eef8f0", // Level 2 (10-14): Soft Apple Green
+                "#fff2f0", // Level 3 (15-19): Soft Peach
+                "#f4f0ff", // Level 4 (20-24): Lavender
+                "#ffe8e8"  // Level 5 (25+): Light Danger Red
             ];
             
             let score = 0;
@@ -383,9 +383,9 @@
                 // DRAW APPLE (Glowing Circle)
                 const ax = appleX * gridSize + gridSize / 2;
                 const ay = appleY * gridSize + gridSize / 2;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = "rgba(255, 0, 64, 0.4)";
-                ctx.fillStyle = "#ff0040";
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = "rgba(255, 59, 48, 0.4)";
+                ctx.fillStyle = "#ff3b30";
                 ctx.beginPath();
                 ctx.arc(ax, ay, gridSize / 2 - 2, 0, Math.PI * 2);
                 ctx.fill();
@@ -436,7 +436,7 @@
                             vx: (Math.random() - 0.5) * 16, // Lontaran acak horizontal
                             vy: (Math.random() - 0.5) * 16 - 4, // Lontaran acak vertikal (cenderung ke atas)
                             life: 1.0,
-                            color: ["#ff0040", "#28cd41", "#FFC107", "#00fff9", "#ff00c1"][Math.floor(Math.random() * 5)], // Warna premium neon
+                            color: ["#ff3b30", "#34c759", "#ff9500", "#5ac8fa", "#007aff"][Math.floor(Math.random() * 5)], // Apple System Colors
                             size: Math.random() * 3 + 1.5
                         });
                     }
@@ -485,9 +485,9 @@
                 if (evt.keyCode === 32) { // Spacebar
                     isPaused = !isPaused;
                     if (isPaused) {
-                        ctx.fillStyle = "rgba(250, 250, 250, 0.85)";
+                        ctx.fillStyle = "rgba(245, 245, 247, 0.85)";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        ctx.fillStyle = "#111";
+                        ctx.fillStyle = "#1d1d1f";
                         ctx.font = "800 32px var(--font-primary, sans-serif)";
                         ctx.textAlign = "center";
                         ctx.fillText("PAUSED", canvas.width/2, canvas.height/2 + 10);
