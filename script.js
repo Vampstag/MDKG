@@ -637,21 +637,32 @@ function renderProjects() {
     try {
         projectsData.forEach(project => {
         const card = document.createElement('div');
-        card.className = 'project-card fade-in-section';
+        card.className = `project-card fade-in-section ${project.ongoing ? 'is-ongoing' : ''}`;
         card.style.opacity = '0'; // Initial state for animation
+
+        // Render tag & properti berbeda jika project on-going
+        const isClickable = !project.ongoing;
+        const WrapperTag = isClickable ? 'a' : 'div';
+        const hrefAttr = isClickable ? `href="${project.link}"` : '';
+        const badgeHTML = project.ongoing ? `<div class="ongoing-badge">ON-GOING</div>` : '';
+        const categoryBadgesHTML = (project.category || '').split('·').map(cat => `<div class="portfolio-card-category-badge">${cat.trim()}</div>`).join('');
+
         card.innerHTML = `
-            <a href="${project.link}" class="project-link w-inline-block">
+            <${WrapperTag} ${hrefAttr} class="project-link w-inline-block">
                 <div class="project-image-wrapper">
                     <img src="${project.image}" alt="${project.title}" class="project-image" loading="lazy">
+                    ${badgeHTML}
                 </div>
-                <div class="project-info">
-                    <div class="project-meta">
-                        <span class="project-category">${project.category}</span>
-                        <span class="project-year">2025</span>
+                <div class="project-info" style="padding: 28px 24px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        ${categoryBadgesHTML}
                     </div>
-                    <h3 class="project-title">${project.title}</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                        <h3 class="project-title" style="margin: 0; font-size: clamp(1.35rem, 4vw, 1.75rem); letter-spacing: -0.03em;">${project.title}</h3>
+                        <span class="project-year" style="font-size: 1rem; color: #888; font-weight: 600; margin-top: 6px; flex-shrink: 0;">${project.ongoing ? 'On-going' : '2026'}</span>
+                    </div>
                 </div>
-            </a>
+            </${WrapperTag}>
         `;
         grid.appendChild(card);
     });

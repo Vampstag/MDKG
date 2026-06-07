@@ -594,24 +594,97 @@
     color: inherit;
     position: relative;
     border-radius: 20px;
-    transition: border-color 0.3s var(--ease-smooth);
-    border: 1px solid transparent; /* Invisible border initially to prevent layout shift */
-    padding: 10px; /* Inner padding for "framed" look */
+    transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s var(--ease-smooth);
+    border: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+}
+
+/* [NEW] On-going project state */
+.project-card.is-ongoing,
+.blog-main-wrapper.is-ongoing {
+    opacity: 0.7;
+    filter: grayscale(0.5);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+.project-card.is-ongoing:hover,
+.blog-main-wrapper.is-ongoing:hover {
+    opacity: 0.9;
+    filter: grayscale(0);
+}
+
+/* Efek Zoom-out/in lambat (Breathing) untuk cover project On-going */
+@keyframes ongoing-breathe {
+    0%, 100% { transform: scale(1.0); }
+    50% { transform: scale(1.15); }
+}
+.project-card.is-ongoing .project-image,
+.blog-main-wrapper.is-ongoing .paralax-image {
+    animation: ongoing-breathe 8s ease-in-out infinite !important;
+}
+
+/* Cursor not-allowed on wrapper links/divs for on-going */
+.project-card.is-ongoing .project-link,
+.blog-main-wrapper.is-ongoing .image-wrap,
+.blog-main-wrapper.is-ongoing .portfolio-title-link {
+    cursor: not-allowed !important;
+}
+
+/* Animasi goyang gembok On-going */
+@keyframes lock-shake {
+    0%, 100% { transform: translateY(0) translateX(0); background-color: rgba(0, 0, 0, 0.5); border-color: rgba(255, 255, 255, 0.2); }
+    20%, 60% { transform: translateY(0) translateX(-6px); background-color: rgba(220, 38, 38, 0.8); border-color: rgba(239, 68, 68, 0.6); }
+    40%, 80% { transform: translateY(0) translateX(6px); background-color: rgba(220, 38, 38, 0.8); border-color: rgba(239, 68, 68, 0.6); }
+}
+.lock-shake-anim {
+    animation: lock-shake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
 }
 
 .project-card:hover {
-    border-color: #d1d1d1;
+    transform: translateY(-6px);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .project-card__media {
     position: relative;
     overflow: hidden;
-    border-radius: 16px; /* Slightly smaller than container */
+    border-radius: 0;
     aspect-ratio: 4/3;   /* Standard Portfolio Ratio */
     background-color: #f5f5f7; /* Apple light gray placeholder */
     transform-style: preserve-3d;
     will-change: transform;
     border: 1px solid rgba(0,0,0,0.04); /* Very subtle inner border */
+}
+
+/* Wrapper untuk gambar yg di-render JS */
+.project-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+    aspect-ratio: 4/3;
+    background-color: #f5f5f7;
+}
+.project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.ongoing-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    z-index: 10;
+    text-transform: uppercase;
 }
 
 .project-card__img {
@@ -647,26 +720,44 @@
 
 /* Typography inside Card */
 .project-card__info {
-    margin-top: var(--space-sm);
-    padding: 0 4px;
+    margin-top: 0;
+    padding: 28px 24px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
 
 .project-card__title {
-    font-size: 1.125rem; /* 18px */
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.35rem, 4vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
     margin: 0;
 }
 
 .project-card__year {
-    font-size: 0.875rem; /* 14px */
+    font-size: 1rem; /* 16px */
     color: var(--text-secondary);
     font-weight: 500;
     font-feature-settings: "tnum" on; /* Tabular numbers */
+}
+
+/* [NEW] Portfolio Card Category Badge */
+.portfolio-card-category-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    color: #666;
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-family: var(--font-primary);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    line-height: 1.2;
+    white-space: nowrap;
 }
 /* #endregion */
 

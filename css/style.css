@@ -1199,17 +1199,16 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     text-decoration: none;
     color: var(--text-primary);
-    box-shadow: var(--shadow-soft);
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    transition: transform 0.5s var(--ease-smooth);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    border: none;
+    transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s var(--ease-smooth);
     will-change: transform, box-shadow;
     height: 100%;
 }
 
 .blog-main-wrapper:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
-    border-color: rgba(0,0,0,0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .image-wrap {
@@ -1217,13 +1216,12 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     width: 100%;
     background-color: #f5f5f7;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
     transform: translateZ(0);
 }
 
 /* Portfolio specific text padding */
 .blog-main-wrapper .margin-15px.right {
-    padding: 24px;
+    padding: 32px 28px;
     margin: 0;
     display: flex;
     justify-content: space-between;
@@ -1236,7 +1234,8 @@ html.lenis, html.lenis body { height: auto; }
 .blog-main-wrapper .margin-15px.right .text-block-3 {
     font-family: var(--font-primary);
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: clamp(1.35rem, 4vw, 1.75rem);
+    letter-spacing: -0.03em;
     color: #111;
     margin: 0;
 }
@@ -1244,11 +1243,11 @@ html.lenis, html.lenis body { height: auto; }
 .blog-main-wrapper .margin-15px.right .text-block-3:last-child {
     font-weight: 600;
     color: #888;
-    font-size: 0.875rem;
+    font-size: 1rem;
 }
 
 .paralax-image {
-    transition: transform 1.2s var(--ease-smooth);
+    transition: transform 1.5s var(--ease-smooth);
 }
 
 .blog-main-wrapper:hover .paralax-image {
@@ -1261,9 +1260,9 @@ html.lenis, html.lenis body { height: auto; }
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.4) 100%);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1297,17 +1296,17 @@ html.lenis, html.lenis body { height: auto; }
     align-items: center;
     gap: 8px;
     color: #111; /* Kontras gelap di atas background putih */
-    background: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1.5px;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
     border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
+    padding: 14px 28px;
+    border-radius: 100px;
     transform: translateY(20px);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.15);
 }
 
 .portfolio-cta svg {
@@ -1328,10 +1327,31 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateX(3px); /* Panah maju sedikit */
 }
 
+/* [NEW] CTA On-going State */
+.portfolio-cta.is-ongoing-cta {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: not-allowed !important;
+    box-shadow: none;
+}
+
+.portfolio-cta.is-ongoing-cta:hover {
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateY(0);
+}
+
+/* Cegah ikon gembok bergeser maju ke kanan saat card dihover */
+.blog-main-wrapper:hover .portfolio-cta.is-ongoing-cta svg {
+    transform: none;
+}
+
 /* Custom Link & Accordion for Portfolio Cards */
 .portfolio-title-link {
     text-decoration: none;
     color: #111 !important;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 .portfolio-title-link:hover {
@@ -1343,14 +1363,14 @@ html.lenis, html.lenis body { height: auto; }
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #888;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    margin-top: 12px;
+    letter-spacing: 0.1em;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.03);
+    margin-top: 20px;
     transition: color 0.3s ease;
 }
 .client-accordion-trigger:hover { color: #111; }
@@ -1370,6 +1390,24 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 400;
     text-transform: none;
     letter-spacing: normal;
+}
+
+/* [NEW] Portfolio Card Category Badge */
+.portfolio-card-category-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    color: #666;
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-family: var(--font-primary);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    line-height: 1.2;
+    white-space: nowrap;
 }
 /* #endregion */
 
@@ -2099,18 +2137,15 @@ html.lenis, html.lenis body { height: auto; }
     border-radius: var(--radius-lg);
     overflow: hidden;
     background-color: #fff;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid rgba(0,0,0,0.04);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    border: none;
     transition: all 0.5s var(--ease-smooth);
     will-change: transform, box-shadow;
 }
 
 .work-card:hover {
-    transform: translateY(-8px) scale(1.005);
-    box-shadow: 
-        0 20px 40px -5px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
-    border-color: rgba(0,0,0,0.08);
+    transform: translateY(-6px) scale(1.005);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 /* [NEW] Desktop size constraint for the single "Latest Work" card on the homepage */
@@ -2190,7 +2225,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .work-card__info {
-    padding: 28px; /* Increased padding for more breathing room */
+    padding: 32px 28px; /* Enhanced for premium feel */
     display: flex;
     justify-content: space-between;
     align-items: flex-start; /* Align to top for better wrapping behavior */
@@ -2199,7 +2234,7 @@ html.lenis, html.lenis body { height: auto; }
     gap: 12px; /* Add vertical gap when items wrap */
 }
 
-.work-card__title { font-size: 1.25rem; font-weight: 700; margin: 0; }
+.work-card__title { font-size: clamp(1.35rem, 4vw, 1.75rem); font-weight: 700; margin: 0; letter-spacing: -0.03em; }
 .work-card__cta { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: #555; }
 /* #endregion */
 

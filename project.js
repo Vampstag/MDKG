@@ -4,39 +4,68 @@
  */
 const projectsData = [
     {
+        id: "torch-prestachill",
+        featured: false,
+        category: "Video Production · Video Editing",
+        title: "Torch — Prestachill",
+        role: "Videographer & Video Editor",
+        image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp", 
+        link: "#",
+        stats: [],
+        description: "Organic short-form video for Torch's PrestaChill campaign, content built to feel real, not like an ad.",
+        challenge: "",
+        solution: "",
+        gallery: [],
+        ongoing: true
+    },
+    {
+        id: "studio-berka",
+        featured: false,
+        category: "Web Design · UX Strategy",
+        title: "Studio Berka",
+        role: "Web Solutions & Support",
+        image: "assets/images/project/berka/cover-web-berka.webp",
+        link: "#",
+        stats: [],
+        description: "Art direction and web design for an architecture studio, built to earn trust and make pricing feel transparent.",
+        challenge: "",
+        solution: "",
+        gallery: [],
+        ongoing: true
+    },
+    {
+        id: "torch-x-gundam",
+        featured: false,
+        category: "Video Production · Video Editing",
+        title: "Torch × Gundam",
+        role: "Brand Film",
+        image: "assets/images/project/torch/torch-model-backpack.webp",
+        link: "/portfolio/torch-x-gundam",
+        stats: [],
+        description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, driving over 1.8M organic views.",
+        challenge: "",
+        solution: "",
+        gallery: []
+    },
+    {
         id: "latest-work",
         featured: true, // Set true jika ingin ini muncul di Home sebagai "Latest Work"
-        category: "Monthly Retainer", // Kategori: Visuals, Design, atau Photography
+        category: "Social Media · Digital Marketing",
         title: "Tsukamie Noodle Bar",
-        role: "Monthly Retainer & Content Systems", // Role (bisa ditampilkan jika mau)
-        image: "assets/images/project/tsukamie/tsukamie1.webp", // Ganti dengan nama file gambar Anda di folder pictures/
-        link: "/project-detail?id=latest-work", // Link dinamis ke halaman detail
+        role: "Monthly Retainer & Content Systems",
+        image: "assets/images/project/tsukamie/tsukamie1.webp",
+        link: "/project-detail?id=latest-work",
         stats: [
             "+10,896% Impressions",
             "162.3K Peak Views"
         ],
-        // Data Tambahan untuk Halaman Detail
-        description: "Cinematic video production, visual design, and structured content systems that drove +10,896% impressions growth for an F&B lifestyle brand.",
+        description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",
         challenge: "Inconsistent engagement and declining content performance due to inactive posting and a lack of structured visual direction.",
         solution: "Built a modular visual content system focused on cinematic storytelling, relatability, and cohesive brand aesthetics.",
         gallery: [
             "assets/images/portfolio/tsukamie/tsukamie-1.webp",
-            "assets/images/home/dimas-profile-2.webp" // Ganti dengan foto proyek lainnya
+            "assets/images/home/dimas-profile-2.webp"
         ]
-    },
-    {
-        id: "project-2",
-        featured: false,
-        category: "Design",
-        title: "Neon Brand Identity",
-        role: "Visual & Brand Design",
-        image: "assets/images/home/dimas-profile-2.webp", // Pastikan file gambar ada
-        link: "/project-detail?id=project-2",
-        stats: [],
-        description: "A futuristic brand identity exploration for a modern fashion label.",
-        challenge: "Designing a sleek, recognizable logo that scales flawlessly across digital and physical mediums.",
-        solution: "Developed a custom typographic system featuring a consistent, premium neon-glow aesthetic.",
-        gallery: []
     }
 ];
 // ==================================================================================

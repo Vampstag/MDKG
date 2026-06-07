@@ -21,57 +21,60 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
-            // {
-            //     id: 8,
-            //     title: "Torch — PrestaChill",
-            //     year: "2026",
-            //     category: "Digital Content", 
-            //     industry: "Fashion",
-            //     roles: ["Short-Form Video", "Launch Package"], 
-            //     link: "/portfolio/torch-prestachill", 
-            //     clientName: "Torch",
-            //     description: "Organic short-form video for Torch's PrestaChill campaign, shifting from standard commercials to real, platform-native content.", 
-            //     brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
-            //     image: "../assets/images/project/torch/bts-1.webp", // Placeholder image, replace when ready
-            //     srcset: ""
-            // },
+            {
+                id: 8,
+                title: "Torch — Prestachill",
+                year: "2026",
+                category: "Video Production · Video Editing", 
+                industry: "Fashion",
+                roles: ["Short-Form Video", "Launch Package"], 
+                link: "#", 
+                clientName: "Torch",
+                description: "Organic short-form video for Torch's PrestaChill campaign, content built to feel real, not like an ad.", 
+                brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
+                image: "../assets/images/project/torch-prestachill/torch-prestachill-model.webp", 
+                srcset: "",
+                ongoing: true
+            },
+            {
+                id: 6,
+                title: "Studio Berka",
+                year: "2026",
+                category: "Web Design · UX Strategy",
+                industry: "Architecture",
+                roles: ["Web Solutions & Support", "Brand & Visual Design"],
+                link: "#",
+                clientName: "Studio Berka",
+                description: "Art direction and web design for an architecture studio, built to earn trust and make pricing feel transparent.",
+                brandInfo: "Studio Berka is an architecture and interior design studio based in Bandung, handling everything from planning and construction to custom furniture.",
+                image: "../assets/images/project/berka/cover-web-berka.webp",
+                srcset: "",
+                ongoing: true
+            },
             {
                 id: 7, // Pastikan ID unik
-                title: "Torch x Gundam",
+                title: "Torch × Gundam",
                 year: "2026",
-                category: "Commercials", // Pilih antara 'Digital Content', 'Commercials', atau '3D & Visuals'
+                category: "Video Production · Video Editing",
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Brand Film", "Launch Package"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
-                description: "Cinematic video production and visual execution for Torch’s biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
+                description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, driving over 1.8M organic views.", // Ganti dengan deskripsi proyek
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
             },
-            // {
-            //     id: 6,
-            //     title: "Studio Berka",
-            //     year: "2025",
-            //     category: "Web Design",
-            //     industry: "Agency",
-            //     roles: ["Web Solutions & Support", "Brand & Visual Design"],
-            //     link: "/portfolio/berka",
-            //     description: "Custom UI/UX and web development powered by GSAP for a high-performance digital presence.",
-            //     brandInfo: "Forward-thinking creative agency specializing in innovative design and brand strategy.",
-            //     image: "../assets/images/project/studi-berka/hero-bg.webp",
-            //     srcset: ""
-            // },
             {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Visual Execution & Content Systems",
+                category: "Social Media · Digital Marketing",
                 industry: "F&B",
                 roles: ["Monthly Retainer", "Short-Form Video"],
                 link: "/portfolio/tsukamie",
                 clientName: "Tsukamie",
-                description: "Cinematic video production, visual design, and structured content systems that drove +10,896% impressions growth for an F&B lifestyle brand.",
+                description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",
                 brandInfo: "Established in 2022, Tsukamie is a Halal-certified Asian fusion noodle bar in Bandung that positions itself as a lifestyle ecosystem rather than just an F&B brand.",
                 image: "../assets/images/project/tsukamie/tsukamie1.webp",
                 srcset: ""
@@ -83,7 +86,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
         const searchInput = document.getElementById('portfolio-search');
         const searchContainer = document.querySelector('.portfolio-search-container');
         
-        // --- NEW: Event Delegation for Client Accordion ---
+        // --- NEW: Web Audio API untuk efek suara gembok (tanpa file mp3) ---
+        const playLockFeedback = () => {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sawtooth'; // Tekstur kasar untuk bass error
+                osc.frequency.setValueAtTime(65, ctx.currentTime); // Frekuensi sangat rendah (Bass)
+                osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.15); // Turun ke sub-bass
+                gain.gain.setValueAtTime(0.2, ctx.currentTime); // Sedikit lebih keras karena frekuensi rendah
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.15);
+            } catch (e) { console.log(e); }
+        };
+
+        // --- NEW: Event Delegation for Client Accordion & Shake Animation ---
         if (gridContainer) {
             gridContainer.addEventListener('click', (e) => {
                 const trigger = e.target.closest('.client-accordion-trigger');
@@ -102,6 +125,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     
                     // Optional: Refresh ScrollTrigger after animation so page physics don't break
                     setTimeout(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 400); 
+                }
+
+                // [NEW] Animasi goyang (shake) gembok jika card on-going diklik
+                const ongoingCard = e.target.closest('.is-ongoing');
+                if (ongoingCard && !trigger) {
+                    e.preventDefault();
+                    const ctaBtn = ongoingCard.querySelector('.is-ongoing-cta');
+                    if (ctaBtn) {
+                        // Matikan transisi CSS sementara agar tidak menahan animasi
+                        ctaBtn.style.transition = "none";
+                        
+                        // Animasikan goyang dan warna merah pakai GSAP
+                        gsap.killTweensOf(ctaBtn);
+                        gsap.to(ctaBtn, {
+                            keyframes: [
+                                { x: -6, backgroundColor: "rgba(220, 38, 38, 0.9)", borderColor: "rgba(239, 68, 68, 0.6)", duration: 0.08 },
+                                { x: 6, duration: 0.08 },
+                                { x: -6, duration: 0.08 },
+                                { x: 6, duration: 0.08 },
+                                { x: 0, backgroundColor: "rgba(0, 0, 0, 0.5)", borderColor: "rgba(255, 255, 255, 0.2)", duration: 0.08 }
+                            ],
+                            clearProps: "x,backgroundColor,borderColor", // Bersihkan properti setelah selesai agar kembali normal
+                            onComplete: () => { ctaBtn.style.transition = ""; } // Kembalikan efek transisi CSS semula
+                        });
+
+                        // Mainkan efek suara penolakan (Synthesized)
+                        playLockFeedback();
+                    }
                 }
             });
         }
@@ -153,10 +204,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     gridContainer.innerHTML = '<div class="no-results">No projects found matching your criteria.</div>';
                 } else {
                     filteredData.forEach(project => {
+                        const isClickable = !project.ongoing;
+                        const WrapperTag = isClickable ? 'a' : 'div';
+                        const hrefAttr = isClickable ? `href="${project.link}"` : '';
+                        const badgeHTML = project.ongoing ? `<div class="ongoing-badge">ON-GOING</div>` : '';
+                        const ongoingClass = project.ongoing ? 'is-ongoing' : '';
+                        const categoryBadgesHTML = (project.category || '').split('·').map(cat => `<div class="portfolio-card-category-badge">${cat.trim()}</div>`).join('');
+
                         const itemHTML = `
-                            <div class="blog-main-wrapper">
-                                <a href="${project.link}" class="image-wrap auto full-ratio w-inline-block" style="aspect-ratio: 4/3; background-color: #f5f5f7; display: block;">
-                                    <div class="button-icon-main" style="z-index: 5;">
+                            <div class="blog-main-wrapper ${ongoingClass}">
+                                <${WrapperTag} ${hrefAttr} class="image-wrap auto full-ratio w-inline-block" style="aspect-ratio: 4/3; background-color: #f5f5f7; display: block;">
+                                    <div class="button-icon-main" style="z-index: 5; ${!isClickable ? 'display: none;' : ''}">
                                         <div class="buton-icon-svg w-embed">
                                             <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                                         </div>
@@ -176,18 +234,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                          class="paralax-image main img-loading"
                                          style="width: 100%; height: 100%; object-fit: cover;"
                                          onload="this.classList.remove('img-loading'); this.classList.add('img-loaded'); this.previousElementSibling.style.opacity='0';">
+                                    ${badgeHTML}
                                     <div class="portfolio-overlay">
                                         <p class="portfolio-description">${project.description}</p>
-                                        <div class="portfolio-cta">
-                                            View Project
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                        </div>
+                                        ${project.ongoing 
+                                            ? `<div class="portfolio-cta is-ongoing-cta">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                                On-going Project
+                                               </div>` 
+                                            : `<div class="portfolio-cta">
+                                                View Project
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                               </div>`
+                                        }
                                     </div>
-                                </a>
-                                <div class="margin-15px right" style="flex-direction: column; align-items: stretch; gap: 4px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                        <a href="${project.link}" class="text-block-3 portfolio-title-link">${project.title}</a>
-                                        <div class="text-block-3" style="pointer-events: none;">${project.year}</div>
+                                </${WrapperTag}>
+                                <div class="margin-15px right" style="flex-direction: column; align-items: stretch; gap: 10px;">
+                                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        ${categoryBadgesHTML}
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                                        <${WrapperTag} ${hrefAttr} class="text-block-3 portfolio-title-link" style="font-size: clamp(1.35rem, 4vw, 1.75rem); letter-spacing: -0.03em;">${project.title}</${WrapperTag}>
+                                        <div class="text-block-3" style="pointer-events: none; margin-top: 6px; flex-shrink: 0; font-size: 1rem;">${project.ongoing ? 'On-going' : project.year}</div>
                                     </div>
                                     <div class="client-info-accordion">
                                         <div class="client-accordion-trigger">
