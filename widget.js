@@ -144,7 +144,7 @@ class MdkgWidget {
                 </div>
                 <div class="mdkg-widget-status-row">
                     <span class="mdkg-status-dot"></span>
-                    <span class="mdkg-status-text">Open for 2 Selected Projects</span>
+                    <span class="mdkg-status-text">Open for 1 Selected Project</span>
                 </div>
                 <div class="mdkg-book-btn">
                     <!-- Calendar Icon -->
@@ -227,7 +227,7 @@ class MdkgWidget {
         const statusText = document.querySelector('.mdkg-status-text');
         if (!statusText) return;
         
-        const textToType = "Open for 2 Selected Projects";
+        const textToType = "Open for 1 Selected Project";
         let i = 0;
         let isDeleting = false;
 

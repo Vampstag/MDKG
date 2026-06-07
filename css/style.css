@@ -2415,7 +2415,7 @@ html.lenis, html.lenis body { height: auto; }
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 1;
+    z-index: 10; /* [FIX] Naikkan z-index agar teks utama tidak pernah tertutup oleh elemen secara default */
     width: 100%;
     padding: 0 20px;
     pointer-events: none; /* Allow clicking through text to drag items behind if needed */
@@ -2469,6 +2469,21 @@ html.lenis, html.lenis body { height: auto; }
     background: #28cd41; /* Apple Green */
     border-radius: 50%;
     box-shadow: 0 0 0 2px rgba(40, 205, 65, 0.2);
+}
+
+/* [NEW] Orange Pulse Dot for On-going projects */
+.ongoing-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #FF9F0A; /* Apple Warning Orange */
+    border-radius: 50%;
+    animation: orangePulse 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes orangePulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 159, 10, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 159, 10, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 159, 10, 0); }
 }
 
 /* --- Drag Layer (Interactive) --- */
@@ -2561,41 +2576,73 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .sticker-item {
-    width: 100px;
-    height: 150px;
-    background: transparent; /* No background for sticker */
+    width: auto;
+    max-width: 160px;
+    height: auto;
+    background: transparent;
     padding: 0;
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.sticker-ongoing-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #111;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    pointer-events: none;
 }
 
 .sticker-item img {
     width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures sticker aspect ratio is maintained */
+    height: auto;
+    max-height: 36px;
+    object-fit: contain;
     pointer-events: none;
-    /* Use drop-shadow to follow the image shape */
     filter: drop-shadow(0 12px 15px rgba(0,0,0,0.1));
+}
+
+/* Khusus Logo Berka (Typeface) agar proporsional */
+.hero-drag-layer .drag-item:nth-of-type(7) img {
+    max-height: 22px;
 }
 
 /* --- Desktop Positioning for Hero Items (Replaces Inline Styles) --- */
 @media (min-width: 992px) {
     .hero-drag-layer .drag-item:nth-of-type(1) { /* Hi, I'm Dimas! */
-        top: 87px; left: 2%; transform: rotate(-5deg);
+        top: 12%; left: 3%; transform: rotate(-5deg);
     }
     .hero-drag-layer .drag-item:nth-of-type(2) { /* Latest Work */
-        bottom: 5%; right: 2%; transform: rotate(3deg);
+        bottom: 8%; right: 3%; transform: rotate(3deg);
     }
     .hero-drag-layer .drag-item:nth-of-type(3) { /* Sticker Pill */
-        top: 86%; right: 38%; transform: rotate(5deg);
+        top: auto; bottom: 15%; right: 35%; transform: rotate(5deg);
     }
     .hero-drag-layer .drag-item:nth-of-type(4) { /* Sticker Circle */
-        bottom: 8%; left: 5%; transform: rotate(-10deg);
+        bottom: 12%; left: 6%; transform: rotate(-10deg);
     }
     .hero-drag-layer .drag-item:nth-of-type(5) { /* Star Icon */
-        top: 12%; left: 48%; transform: rotate(15deg);
+        top: 15%; left: auto; right: 35%; transform: rotate(15deg);
     }
-    .hero-drag-layer .drag-item:nth-of-type(6) { /* Sticker Placeholder */
-        top: 25%; left: 78%; transform: rotate(-8deg);
+    .hero-drag-layer .drag-item:nth-of-type(6) { /* Torch Logo */
+        top: 20%; left: auto; right: 5%; transform: rotate(-8deg);
+    }
+    .hero-drag-layer .drag-item:nth-of-type(7) { /* Berka Logo */
+        top: 60%; left: 4%; transform: rotate(12deg);
     }
 }
 
@@ -2616,35 +2663,40 @@ html.lenis, html.lenis body { height: auto; }
     }
     .drag-item { cursor: default !important; } /* Disable grab cursor on touch devices */
 
-    /* --- REPOSITION ITEMS TO EDGES for Tablet (Clear Center Text) --- */
+    /* --- INTENTIONAL CLUTTER for Tablet --- */
     .hero-drag-layer .drag-item:nth-of-type(1) {
-        top: 5%; left: 2%;
-        transform: rotate(-5deg) scale(0.9);
+        top: 6%; left: 0%;
+        transform: rotate(-12deg) scale(0.85);
     }
 
     .hero-drag-layer .drag-item:nth-of-type(2) {
-        bottom: 122; right: 2%;
-        transform: rotate(3deg) scale(0.9);
+        bottom: 6%; right: -2%;
+        transform: rotate(14deg) scale(0.85);
     }
 
     .hero-drag-layer .drag-item:nth-of-type(3) {
-        top: 171px; right: 38%;
-        transform: rotate(5deg) scale(0.9);
+        top: 26%; left: 22%; right: auto; bottom: auto;
+        transform: rotate(8deg) scale(0.9);
     }
 
     .hero-drag-layer .drag-item:nth-of-type(4) {
-        bottom: 8%; left: 5%;
-        transform: rotate(-10deg) scale(0.9);
+        bottom: 18%; left: 10%;
+        transform: rotate(-20deg) scale(0.85);
     }
 
     .hero-drag-layer .drag-item:nth-of-type(5) {
-        top: 211px; left: 48%;
-        transform: rotate(15deg) scale(0.9);
+        top: 10%; right: 18%; left: auto;
+        transform: rotate(25deg) scale(0.9);
     }
 
-    .hero-drag-layer .drag-item:nth-of-type(6) {
-        top: 220px; left: 78%;
-        transform: rotate(-8deg) scale(0.9);
+    .hero-drag-layer .drag-item:nth-of-type(6) { /* Torch */
+        top: 38%; right: 2%; bottom: auto; left: auto;
+        transform: rotate(-12deg) scale(0.95);
+    }
+    
+    .hero-drag-layer .drag-item:nth-of-type(7) { /* Berka */
+        top: 52%; left: 2%;
+        transform: rotate(16deg) scale(0.95);
     }
 }
 
@@ -2680,7 +2732,7 @@ html.lenis, html.lenis body { height: auto; }
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 16px;
+        gap: 24px;
     }
 
     .drag-item {
@@ -2711,8 +2763,7 @@ html.lenis, html.lenis body { height: auto; }
     /* Hide smaller decorative items for a cleaner look on mobile */
     .sticker-pill,
     .sticker-circle,
-    .sticker-icon,
-    .sticker-item {
+    .sticker-icon {
         display: none !important;
     }
 }
