@@ -180,6 +180,9 @@ p, li, span, .paragraph, .about-text {
     justify-content: space-between; /* Align content to far left/right */
     align-items: center;
     margin: 0 !important; /* Remove any default margins */
+        background-color: transparent; /* Seamless blend with hero */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
 }
 .navbar.scrolled {
     padding: 1rem 5%; /* Keep padding generous even when scrolled */
@@ -221,6 +224,33 @@ p, li, span, .paragraph, .about-text {
     align-items: center;
 }
 
+/* [NEW] White Logo when at the top (unscrolled) */
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .logo,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .logo *,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand *,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo *,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand * {
+    color: #ffffff !important;
+    transition: color 0.4s ease;
+}
+
+.logo img, .logo svg, .w-nav-brand img, .w-nav-brand svg, .navbar__logo img, .navbar__logo svg, .brand img, .brand svg {
+    transition: filter 0.4s ease;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .logo img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .logo svg,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand svg,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo svg,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand svg {
+    filter: brightness(0) invert(1) !important;
+}
+
 /* Navbar Rolling Text Animation */
 .nav-text-wrapper {
     position: relative;
@@ -230,10 +260,15 @@ p, li, span, .paragraph, .about-text {
 
 .nav-text {
     display: block;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.4s ease !important;
     transform: translateY(0%) !important;
     color: #111;
     font-weight: 500;
+}
+
+/* [NEW] White text when at the top */
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .nav-text {
+    color: #ffffff;
 }
 
 .nav-text:nth-child(2) {
@@ -256,13 +291,43 @@ p, li, span, .paragraph, .about-text {
     transform: scaleX(0);
     transform-origin: left;
     background-color: #000000;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.4s ease;
     margin-top: 4px;
+}
+
+/* [NEW] White hover line when at the top */
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navigation-link .line-below {
+    background-color: #ffffff;
 }
 .navigation-link:hover .line-below,
 .navigation-link.w--current .line-below,
 .navigation-link.active .line-below {
     transform: scaleX(1);
+}
+
+/* [NEW] White Let's Talk CTA button when at the top */
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 {
+    background-color: transparent !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover {
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 .button-normal-black-text-2 {
+    color: #ffffff !important;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover .button-normal-black-text-2 {
+    color: #000000 !important;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 svg {
+    filter: brightness(0) invert(1) !important;
+    transition: filter 0.4s ease;
+}
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover img,
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover svg {
+    filter: brightness(0) !important;
 }
 
 /* Premium Global Button Overrides (Smooth & Pill-shaped) */
@@ -726,6 +791,11 @@ html.lenis, html.lenis body { height: auto; }
     transform-origin: center;
 }
 
+/* [NEW] White hamburger lines when at the top */
+.navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .hamburger-line {
+    background-color: #ffffff;
+}
+
 .mobile-menu-overlay {
     position: fixed;
     top: 0;
@@ -792,6 +862,13 @@ html.lenis, html.lenis body { height: auto; }
 .mobile-cta {
     opacity: 0;
     transform: translateY(20px);
+    margin-top: 3vh; /* Memberi jarak napas dari daftar menu */
+}
+
+.mobile-cta .button-normal-black-wrapper-2 {
+    padding: 18px 36px !important;
+    border-radius: 14px !important; /* Squircle lebih tegas di mobile */
+    font-size: 1.1rem !important;
 }
 
 @media (min-width: 992px) {
@@ -3747,6 +3824,19 @@ html.lenis, html.lenis body { height: auto; }
     justify-content: center;  /* Horizontally center */
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+}
+
+/* [NEW] Top Scrim Gradient to ensure White Navbar is always readable on bright images */
+.portfolio-hero-section-center::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px; /* Cukup menutupi area navbar dan sedikit transisi ke bawah */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+    z-index: 1;
+    pointer-events: none; /* Agar tidak menghalangi klik pada navbar */
 }
 
 /* Desktop Adjustments */

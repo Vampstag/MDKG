@@ -320,6 +320,12 @@ function loadNavbar() {
         .then(html => {
             container.innerHTML = html;
 
+                // [NEW] Khusus untuk halaman Study Case, beri class navbar-invert-top agar teksnya putih
+                const navbarElement = container.querySelector('.navbar');
+                if (navbarElement && document.querySelector('.portfolio-hero-section-center, .hero-bg-image')) {
+                    navbarElement.classList.add('navbar-invert-top');
+                }
+
             // fix relative link paths when the page is inside a subfolder
             if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
                 container.querySelectorAll('a').forEach(link => {
@@ -535,6 +541,9 @@ function initNavbar() {
         menuBtn.addEventListener('click', () => {
             const isActive = mobileOverlay.classList.toggle('is-active');
             menuBtn.classList.toggle('is-active');
+            
+            // Sinkronisasi class menu-open untuk mengembalikan warna asli elemen navbar (Hitam)
+            if (navbar) navbar.classList.toggle('menu-open', isActive);
             
             // Lock body scroll when menu is open
             document.body.style.overflow = isActive ? 'hidden' : 'auto';

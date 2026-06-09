@@ -15,7 +15,7 @@
     backdrop-filter: blur(32px) saturate(200%);
     -webkit-backdrop-filter: blur(32px) saturate(200%);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 24px; /* [FIX] Disesuaikan agar lebih round dan serasi dengan widget kiri */
+    border-radius: 16px; /* [FIX] Diubah ke 16px agar membentuk Squircle */
     padding: 6px 14px;
     display: flex;
     align-items: center;
@@ -353,7 +353,7 @@
     -webkit-backdrop-filter: blur(32px) saturate(200%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 20px 24px;
-    border-radius: 24px;
+    border-radius: 16px; /* [FIX] Squircle konsisten dengan player */
     color: #111111;
     font-family: var(--font-primary, 'Inter', sans-serif);
     width: max-content;
@@ -508,7 +508,7 @@
         height: 48px; /* [FIX] Tinggi sedikit dinaikkan agar lebih pas dan nyaman ditekan */
         box-sizing: border-box;
         gap: 6px;
-        border-radius: 20px; /* [FIX] Dibuat lebih membulat di mobile menyamai Live Status */
+        border-radius: 14px; /* [FIX] Bentuk squircle di mobile */
         max-width: max-content;
         border: none; /* [FIX] Menghapus border transparan di mobile */
     }
@@ -565,7 +565,7 @@
         height: 48px; /* [FIX] Tinggi disamakan presisi dengan Music Player */
         padding: 0 10px;
         box-sizing: border-box; /* [FIX] Memastikan padding tidak menambah tinggi asli kotak */
-        border-radius: 20px;
+        border-radius: 14px; /* [FIX] Bentuk squircle di mobile */
         display: flex;
         flex-direction: row;
         align-items: center;

@@ -28,11 +28,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Video Production · Video Editing", 
                 industry: "Fashion",
                 roles: ["Short-Form Video", "Launch Package"], 
-                link: "#", 
+                link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. Built to feel real, not like an ad.", 
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
-                image: "../assets/images/project/torch-prestachill/torch-prestachill-model.webp", 
+                image: "../assets/images/project/torch-prestachill/prestachill-main-model.webp",
                 srcset: "",
                 ongoing: true
             },
