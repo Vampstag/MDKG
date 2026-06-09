@@ -3991,6 +3991,60 @@ a.social-icon:hover img {
     border-color: rgba(0,0,0,0.08);
 }
 
+/* Premium Interactive Badges & Dynamic Content */
+.pricing-badge.interactive {
+    cursor: pointer;
+    position: relative;
+    padding-left: 26px; /* Ruang untuk indikator titik (UX visual cue) */
+}
+.pricing-badge.interactive::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+}
+.pricing-badge.interactive:hover {
+    background-color: #eaeaea;
+    color: #111;
+    border-color: rgba(0,0,0,0.15);
+}
+.pricing-badge.interactive.active {
+    background-color: #111;
+    color: #fff;
+    border-color: #111;
+    transform: scale(1.03); /* Pop-up kecil menandakan ini aktif */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.pricing-badge.interactive.active::before {
+    background-color: #fff; /* Titik menyala putih saat aktif */
+    box-shadow: 0 0 4px rgba(255,255,255,0.5);
+}
+
+.pricing-dynamic-content {
+    background-color: #f5f5f7;
+    padding: 20px 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    min-height: 85px; /* Menjaga layout tidak melompat (jumping) saat berganti isi */
+}
+.dynamic-pane {
+    transition: opacity 0.3s ease;
+}
+.dynamic-pane .pricing-meta-item {
+    color: #333;
+}
+.dynamic-pane .pricing-meta-item strong {
+    color: #111;
+    margin-right: 4px;
+}
+
 /* Premium CTA Button Glow Override */
 .premium-soft-cta-btn {
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -4156,6 +4210,52 @@ a.social-icon:hover img {
 .addon-subitem-price { font-weight: 400; color: #666; font-feature-settings: "tnum" on; }
 
 .addon-note { font-size: 0.8rem; color: #999; margin-top: 6px; line-height: 1.5; font-weight: 400; }
+
+/* Premium Addon Dropdown */
+.addon-has-dropdown {
+    display: block !important;
+    padding: 0 !important;
+    cursor: default;
+}
+.addon-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    cursor: pointer;
+    padding: 16px 0;
+    transition: opacity 0.3s ease;
+}
+.addon-dropdown-header:hover {
+    opacity: 0.7;
+}
+.addon-dropdown-icon {
+    color: #888;
+    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.addon-has-dropdown.is-open .addon-dropdown-icon {
+    transform: rotate(180deg);
+    color: #111;
+}
+.addon-dropdown-content {
+    height: 0;
+    overflow: hidden;
+}
+.addon-dropdown-inner {
+    padding-left: 36px;
+    padding-bottom: 24px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.addon-has-dropdown.is-open .addon-dropdown-inner {
+    opacity: 1;
+    transform: translateY(0);
+}
+@media (max-width: 767px) {
+    .addon-dropdown-inner { padding-left: 34px; padding-bottom: 20px; }
+    .addon-dropdown-header { padding: 16px 0; }
+}
 
 /* #endregion */
 /* #endregion */
