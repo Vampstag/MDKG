@@ -565,7 +565,7 @@ body.preloader-active { overflow: hidden; }
 /* Section Spacing */
 .section-margin {
     margin-bottom: var(--space-32) !important; /* Consistent 128px spacing */
-    contain: paint; /* [OPTIMIZATION] Ringankan RAM & GPU: Browser tidak perlu merender apa yang ada di luar kotak ini */
+    /* contain: paint; DIHAPUS karena sifatnya memotong (clipping) efek box-shadow yang memancar keluar batas section */
 }
 .section-headline-margin { margin-bottom: var(--space-20) !important; }
 
@@ -583,7 +583,7 @@ body.preloader-active { overflow: hidden; }
     .section-margin {
         margin-bottom: var(--space-16) !important; /* 64px on mobile */
     }
-    .section-headline-margin { margin-bottom: 40px !important; }
+    .section-headline-margin { margin-bottom: 32px !important; } /* [FIX] Diperketat dari 40px ke 32px agar judul lebih menyatu secara hierarki dengan grid di bawahnya */
 }
 
 /* Scroll Progress Bar */
@@ -2113,6 +2113,7 @@ html.lenis, html.lenis body { height: auto; }
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 32px;
+    padding-bottom: 40px; /* Mencegah shadow kartu terbawah terpotong/clipping */
 }
 
 .skill-card__wrapper {
@@ -2195,6 +2196,7 @@ html.lenis, html.lenis body { height: auto; }
     display: grid;
     grid-template-columns: 1fr; /* Default to single column on mobile */
     gap: 40px; /* Generous spacing */
+    padding-bottom: 40px; /* Mencegah shadow terpotong */
 }
 
 @media (min-width: 768px) {
@@ -3073,6 +3075,7 @@ html.lenis, html.lenis body { height: auto; }
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px; /* Reduced gap for compactness */
+    padding-bottom: 40px; /* Ruang bernapas untuk efek hover shadow */
 }
 
 .why-item {
@@ -3170,10 +3173,18 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (max-width: 767px) {
     .why-grid {
-        padding-bottom: 24px; /* Kurangi space kosong di bawah bayangan kartu */
+        display: flex;
+        flex-direction: column;
+        overflow-x: visible; /* Mematikan scroll horizontal */
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0 0 40px 0; /* Kembalikan padding bottom agar shadow tidak terpotong di mobile */
+        gap: 16px; /* Jarak antar kartu vertikal */
     }
     .why-item {
-        padding: 24px 20px; /* Padding kartu lebih compact di HP */
+        width: 100%;
+        padding: 28px 24px; /* Dilonggarkan agar teks tidak terasa padat */
     }
 }
 /* #endregion */
@@ -4042,11 +4053,11 @@ a.social-icon:hover img {
     display: flex; 
     align-items: flex-start; /* Ensure icon stays at top if text wraps */
     gap: 12px; 
-    font-family: var(--font-primary); 
-    font-size: 0.9rem; 
+    font-family: var(--font-primary);
+    font-size: 0.95rem; /* Slightly larger for premium readability */
     font-weight: 400; 
     color: #555;
-    line-height: 1.4;
+    line-height: 1.5; /* More breathing room */
 }
 .pricing-meta-item svg {
     width: 16px; height: 16px; color: #111; opacity: 0.6; flex-shrink: 0; margin-top: 3px; stroke-width: 1.5;
@@ -4414,7 +4425,7 @@ a.social-icon:hover img {
     overflow: hidden;
 }
 .service-accordion__inner {
-    padding-bottom: 40px;
+    padding-bottom: 48px; /* Extra ruang di bagian bawah agar shadow kartu harga tidak terpotong */
 }
 .pricing-grid {
     display: grid;
@@ -4429,7 +4440,7 @@ a.social-icon:hover img {
 
 @media (max-width: 767px) {
     .service-accordion__trigger {
-        padding: 24px 0; /* Padding accordion rate card lebih compact */
+        padding: 28px 0; /* Memberi ruang napas yang lebih luas antar accordion */
     }
     .service-accordion__title {
         gap: 16px;
@@ -4440,39 +4451,48 @@ a.social-icon:hover img {
         height: 32px;
     }
     .service-accordion__inner {
-        padding-bottom: 24px;
+        padding-bottom: 48px; /* Extra ruang di bagian bawah agar shadow kartu harga tidak terpotong */
     }
 
     /* Pricing Tier Visual Hierarchy for Mobile */
     .pricing-tier {
-        padding: 24px 20px; /* More compact padding to save horizontal screen space */
+        padding: 28px 24px; /* Dilonggarkan agar konten di dalamnya tidak sesak */
     }
     
     .pricing-tier-header {
         flex-direction: column; /* Stack title and price for better scannability */
         align-items: flex-start;
-        gap: 10px;
-        margin-bottom: 12px;
+        gap: 12px; /* Jarak antara judul dan harga ditambah */
+        margin-bottom: 16px;
     }
     
     .pricing-tier-title {
-        font-size: 1.1rem;
+        font-size: 1.25rem;
     }
     
     .pricing-tier-scope {
-        font-size: 0.9rem;
-        line-height: 1.5;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     .pricing-tier-meta {
-        grid-template-columns: 1fr; /* Force 1 column on mobile to prevent squishing */
-        gap: 12px;
-        margin-top: 20px;
-        padding-top: 20px;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns to avoid "document" feel */
+        gap: 24px 16px; /* vertical | horizontal */
+        margin-top: 24px;
+        padding-top: 24px;
     }
     
     .pricing-meta-item {
-        font-size: 0.9rem; /* Diperbesar agar mudah dibaca di mobile */
+        font-size: 0.85rem; /* Smaller font for compact 2-col layout */
+        align-items: flex-start; /* Mengembalikan ke atas karena teks panjang berpotensi turun ke baris ke-2 */
+        gap: 10px; /* Ruang antara ikon dan teks sedikit dilegakan */
+        line-height: 1.6;
+    }
+    .pricing-meta-item svg {
+        width: 14px;
+        height: 14px;
+        margin-top: 3px; /* Menyesuaikan dengan align-items: flex-start */
+        flex-shrink: 0;
     }
 }
 /* #endregion */
@@ -4654,6 +4674,7 @@ a.social-icon:hover img {
     gap: 40px;
     width: 100%;
     align-items: start; /* Mencegah kartu memanjang (stretch) jika tingginya berbeda */
+    padding-bottom: 40px; /* Mencegah clipping shadow pada grid terakhir */
 }
 
 @media (min-width: 768px) {
@@ -4798,6 +4819,7 @@ a.social-icon:hover img {
     gap: 40px;
     width: 100%; /* Mengisi kontainer dengan wajar */
     align-items: stretch;
+    padding-bottom: 40px; /* Ruang untuk efek hover shadow */
 }
 
 @media (max-width: 767px) {
@@ -4811,7 +4833,7 @@ a.social-icon:hover img {
         margin-left: calc(-50vw + 50%);
         margin-right: calc(-50vw + 50%);
         /* Padding kiri & kanan (100vw - 75vw) / 2 = 12.5vw agar tepat di tengah */
-        padding: 20px 12.5vw 40px 12.5vw;
+        padding: 20px 12.5vw 60px 12.5vw; /* Ditambah bawahnya untuk aman dari clipping shadow */
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Hide scrollbar Firefox */
     }
@@ -5325,6 +5347,7 @@ a.social-icon:hover img {
     display: grid;
     grid-template-columns: 1fr;
     gap: 24px;
+    padding-bottom: 48px; /* Memberikan batas bawah agar shadow besar tidak terpotong (clipping) */
 }
 
 @media (min-width: 768px) {
