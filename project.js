@@ -42,7 +42,7 @@ const projectsData = [
         image: "assets/images/project/torch/torch-model-backpack.webp",
         link: "/portfolio/torch-x-gundam",
         stats: [],
-        description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, driving over 1.8M organic views.",
+        description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.",
         challenge: "",
         solution: "",
         gallery: []
