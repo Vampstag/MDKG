@@ -320,6 +320,14 @@ function loadNavbar() {
         .then(html => {
             container.innerHTML = html;
 
+            // [SECRET PAGE HACK] Hapus tautan Services dari Navbar (Desktop & Mobile)
+            container.querySelectorAll('a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && (href === '/services' || href === 'services.html' || href === '../services' || href === '../services.html')) {
+                    link.remove(); // Hapus tombol/teks dari DOM
+                }
+            });
+
                 // [NEW] Khusus untuk halaman Study Case, beri class navbar-invert-top agar teksnya putih
                 const navbarElement = container.querySelector('.navbar');
                 if (navbarElement && document.querySelector('.portfolio-hero-section-center, .hero-bg-image')) {
@@ -396,6 +404,14 @@ function loadFooter() {
             tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));
 
             container.innerHTML = tempDiv.innerHTML;
+
+            // [SECRET PAGE HACK] Hapus tautan Services dari Footer
+            container.querySelectorAll('a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && (href === '/services' || href === 'services.html' || href === '../services' || href === '../services.html')) {
+                    link.remove(); // Hapus link ratecard dari footer
+                }
+            });
 
             // Fix relative paths for links and images in footer
             if (isSubPage) {

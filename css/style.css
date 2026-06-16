@@ -3064,7 +3064,7 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (max-width: 767px) {
     .data-validation-section { padding: 80px 0; }
-    .data-grid { grid-template-columns: 1fr; gap: 80px; }
+    .data-grid { grid-template-columns: 1fr; gap: 48px; }
 }
 /* #endregion */
 
@@ -4283,7 +4283,7 @@ a.social-icon:hover img {
 .addon-content { flex: 1; width: 100%; min-width: 0; }
 .addon-single-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; width: 100%; }
 @media (max-width: 480px) {
-    .addon-single-item { flex-direction: column; gap: 4px; }
+    .addon-single-item { flex-direction: column; gap: 8px; } /* [FIX] Memberikan ruang napas (breathing room) pada Addons */
 }
 .addon-title { font-weight: 500; color: #111; font-size: 0.95rem; line-height: 1.4; }
 .addon-price { 
@@ -4477,10 +4477,10 @@ a.social-icon:hover img {
     }
 
     .pricing-tier-meta {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns to avoid "document" feel */
-        gap: 24px 16px; /* vertical | horizontal */
-        margin-top: 24px;
-        padding-top: 24px;
+        grid-template-columns: 1fr; /* [FIX] Berubah ke 1 kolom agar teks deskripsi tidak tergencet/berantakan di layar kecil */
+        gap: 16px;
+        margin-top: 20px;
+        padding-top: 20px;
     }
     
     .pricing-meta-item {
@@ -5278,6 +5278,13 @@ a.social-icon:hover img {
     z-index: 1;
 }
 
+@media (max-width: 767px) {
+    .premium-soft-cta {
+        padding: 56px 24px; /* Proporsi CTA lebih rapi dan tidak kebesaran di mobile */
+        gap: 20px;
+    }
+}
+
 .premium-soft-cta::before {
     content: '';
     position: absolute;
@@ -5708,7 +5715,7 @@ a.social-icon:hover img {
     }
     .stat-label svg { width: 10px; height: 10px; } /* [FIX] Ikon diperkecil */
     .bento-title { font-size: 1.25rem; }
-    .bento-desc { font-size: 0.9rem; }
+    .bento-desc { font-size: 0.9rem; line-height: 1.4; } /* [FIX] Teks deskripsi lebih rapat (compact) di HP */
     .bento-plus-icon { width: 32px; height: 32px; }
 }
 /* #endregion */
