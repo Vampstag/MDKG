@@ -19,43 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
         isPreloaderDone = true;
     });
 
-    // --- CENTRALIZED JOURNAL DATA (HEADLESS CMS) ---
-    const journalData = [
-        {
-            date: "2025-05-20", // Format YYYY-MM-DD
-            displayDate: "May 20, 2025",
-            readTime: "4 Min Read",
-            title: "Visuals Beneath The Surface",
-            excerpt: "A reflection on why creative direction and visual systems are less like decoration and more like infrastructure.",
-            image: "assets/images/journal/poster-journal-2.webp",
-            altText: "Illustration of a person holding a giant pencil representing brand strategy",
-            imgTitle: "Visuals Beneath The Surface - Brand Architecture Illustration",
-            link: "/journal/strategy-beneath-the-surface",
-            isTextOnly: false, // Diubah ke false agar gambar placeholder muncul di grid
-            aspectRatio: "4/5"
-        },
-        {
-            date: "2025-05-15", // Format wajib YYYY-MM-DD untuk sorting logis
-            displayDate: "May 15, 2025",
-            readTime: "3 Min Read",
-            title: "The Weight of Atmosphere",
-            excerpt: "Maybe creative life is simply learning how to leave traces of feeling inside the things we make.",
-            image: "assets/images/project/torch/bts-5.webp",
-            altText: "Behind the scenes shot of Torch x Gundam campaign capturing cinematic atmosphere",
-            imgTitle: "The Weight of Atmosphere - Torch x Gundam BTS",
-            link: "/journal/weight-of-atmosphere",
-            isTextOnly: false,
-            aspectRatio: "4/5"
-        }
-    ];
+    // Journal data di-fetch dari /data/journal.json — untuk tambah artikel, edit file itu saja
+    const journalPromise = fetch('/data/journal.json').then(r => r.json()).catch(() => []);
 
-    // Sort artikel dari yang terbaru ke yang terlama secara otomatis
-    if (journalData.length > 1) {
-        journalData.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }
-
-    // [NEW] Injeksi JSON-LD (SEO Meta Tags) Dinamis untuk daftar artikel Journal
-    function injectJournalSchema() {
+    function injectJournalSchema(journalData) {
         if (document.getElementById('journal-grid')) {
             const schema = {
                 "@context": "https://schema.org",
@@ -77,12 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
             document.head.appendChild(scriptTag);
         }
     }
-    injectJournalSchema();
 
-    function renderJournal() {
+    function renderJournal(journalData) {
         const homeGrid = document.getElementById('latest-journal-grid');
         const journalGrid = document.getElementById('journal-grid');
-        
+
         // Otomatis menyesuaikan path folder
         const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
         const prefix = isSubPage ? '../' : '';
@@ -94,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
             latestThree.forEach(post => {
                 const imgPath = post.image ? (post.image.startsWith('http') ? post.image : prefix + post.image) : '';
                 const linkPath = post.link.startsWith('http') || post.link.startsWith('/') || post.link === '#' ? post.link : prefix + post.link;
-                
+
                 html += `
                 <div class="latest-journal-card-wrap">
                     <a href="${linkPath}" class="journal-card ${post.isTextOnly ? 'text-only-card' : ''}">
@@ -125,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             journalData.forEach((post, index) => {
                 const imgPath = post.image ? (post.image.startsWith('http') ? post.image : prefix + post.image) : '';
                 const linkPath = post.link.startsWith('http') || post.link.startsWith('/') || post.link === '#' ? post.link : prefix + post.link;
-                
+
                 // [OPTIMIZATION] Artikel pertama selalu prioritas LCP di halaman Journal
                 const imgLoading = index === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
 
@@ -154,23 +120,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Jalankan render data HTML sebelum elemen GSAP menginisialisasi animasi scroll
-    renderJournal();
-
-    // [NEW] Premium Mobile Snap untuk Latest Journal (Scale & Blur Center)
     function initMobileJournalSnap() {
         const container = document.getElementById('latest-journal-grid');
         if (!container) return;
 
         const cards = container.querySelectorAll('.latest-journal-card-wrap');
-        
-        // [OPTIMIZATION] Batalkan observer snap mobile jika artikel <= 1 (karena tidak bisa di-scroll)
+
         if (cards.length <= 1) {
             if (cards.length === 1) cards[0].classList.add('is-center');
             return;
         }
 
-        // Use IntersectionObserver to detect which card is in the center
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -180,14 +140,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }, {
-            root: null, // Pakai Viewport sebagai patokan (jauh lebih akurat di Mobile untuk container horizontal)
-            rootMargin: "0px -35% 0px -35%", // Lebar trigger sedikit diperbesar agar animasi tidak 'nyangkut'
+            root: null,
+            rootMargin: "0px -35% 0px -35%",
             threshold: 0
         });
 
         cards.forEach(card => observer.observe(card));
     }
-    initMobileJournalSnap();
+
+    // Fetch data, sort, render journal, lalu init snap
+    journalPromise.then(data => {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        injectJournalSchema(data);
+        renderJournal(data);
+        initMobileJournalSnap();
+    });
 
     // [OPTIMIZATION] 1. Initialize Lenis (Smooth Scroll) & GSAP Secara Sinkronus!
     // Jangan menunggu fetch navbar/footer selesai agar user bisa langsung scroll jika koneksi lambat.
