@@ -3481,6 +3481,27 @@ html.lenis, html.lenis body { height: auto; }
     }
 }
 
+/* [NEW] Layout khusus untuk video landscape (mis. timeline editing): teks di atas, video full-width di bawah, bukan kiri-kanan */
+.solution-video-item.is-timeline {
+    grid-template-columns: 1fr;
+}
+@media (min-width: 992px) {
+    .solution-video-item.is-timeline,
+    .solution-video-item.is-timeline:nth-child(even) {
+        grid-template-columns: 1fr; /* Override layout kiri-kanan default, jadi 1 kolom */
+    }
+    .solution-video-item.is-timeline:nth-child(even) .solution-video-content {
+        grid-column: 1;
+        grid-row: 1;
+    }
+}
+.video-player-wrapper.is-timeline-video {
+    aspect-ratio: 16/9;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+
 /* [NEW] Video Center Play/Pause Feedback Animation */
 .video-center-feedback {
     position: absolute;
