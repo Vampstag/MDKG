@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 roles: ["Short-Form Video", "Launch Package"], 
                 link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
-                description: "Organic short-form video for Torch's PrestaChill campaign. Built to feel real, not like an ad.", 
+                description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students that enjoying the journey is part of the win. [X] views across TikTok and Instagram.",
                 brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
                 image: "../assets/images/project/torch-prestachill/prestachill-main-model.webp",
                 srcset: "",

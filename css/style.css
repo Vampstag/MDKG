@@ -1380,7 +1380,7 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: 0.05em;
     border: none;
     padding: 14px 28px;
-    border-radius: 100px;
+    border-radius: 14px; /* Squircle */
     transform: translateY(20px);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0 10px 24px rgba(0,0,0,0.15);
@@ -3035,6 +3035,7 @@ html.lenis, html.lenis body { height: auto; }
     align-items: center;
     justify-content: center;
     position: relative;
+    min-width: 0;
 }
 
 .data-number {
@@ -5220,6 +5221,7 @@ a.social-icon:hover img {
     position: absolute;
     bottom: calc(100% + 15px);
     left: 50%;
+    right: auto;
     transform: translateX(-50%) translateY(10px) scale(0.95);
     background: #111;
     color: #fff;
@@ -5230,7 +5232,7 @@ a.social-icon:hover img {
     font-weight: 500;
     line-height: 1.4;
     width: max-content;
-    max-width: 280px;
+    max-width: min(280px, 90vw);
     text-align: center;
     opacity: 0;
     visibility: hidden;

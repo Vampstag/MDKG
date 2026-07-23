@@ -8,6 +8,16 @@
     <meta property="og:title" content="404 | Page Not Found" />
     <meta property="og:description" content="Oops! The page you're looking for cannot be found. Return to MDKG's homepage to explore cinematic video production, content systems, and visual projects." />
     <meta property="og:image" content="https://hellodimas.my.id/assets/images/open-graphimage.png" />
+
+
+
+
+
+
+
+
+
+
     <meta name="twitter:title" content="404 | Page Not Found" />
     <meta name="twitter:description" content="Oops! The page you're looking for cannot be found. Return to MDKG's homepage to explore cinematic video production, content systems, and visual projects." />
     <meta name="twitter:card" content="summary_large_image" />
@@ -132,11 +142,13 @@
                 <div class="global-wrapper w-container">
                     <div class="global-padding">
                         <div class="nav-wrapper">
-                            <a href="/" aria-current="page" class="logo w-nav-brand w--current">
+
+                            <a href="/" class="logo w-nav-brand">
                                 <div class="text-block-4">MDKG</div>
                             </a>
                             <nav role="navigation" class="desktop w-nav-menu" aria-label="Main">
-                                <a href="/" aria-current="page" class="navigation-link w-inline-block w--current">
+
+                                <a href="/" class="navigation-link w-inline-block">
                                     <div class="button-text-wrapper">
                                         <div class="button-text">Home</div>
                                         <div class="button-text">Home</div>
@@ -186,7 +198,8 @@
                                     <div class="button-normal-black-text-2 text-sm text-weight-medium-2 text-style-no_wrap text-color-white-2">Let &#x27;s Talk</div>
                                     <div class="button-normal-white-arrow-block-2">
                                         <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="Arrow Image" class="button-normal-black-arrow-image-black-2"/>
-                                        <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5530_arrow-white.svg" alt="Arrow Image" class="button-normal-black-arrow-image-white-2"/>
+
+                                        <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6f3b30_arrow-white.svg" alt="Arrow Image" class="button-normal-black-arrow-image-white-2"/>
                                     </div>
                                 </a>
                             </nav>
@@ -217,6 +230,28 @@
                     </div>
                     <canvas id="game-canvas" width="300" height="300"></canvas>
                     <button id="start-game-btn">Play Snake</button>
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- On-screen controls for Snake Game -->
+                    <div id="game-controls" style="display:none; margin-top: 15px;">
+                        <div style="text-align: center;">
+                            <button class="game-control-btn" data-direction="up">▲</button>
+                        </div>
+                        <div style="display: flex; justify-content: center; margin-top: 5px;">
+                            <button class="game-control-btn" data-direction="left">◀</button>
+                            <button class="game-control-btn" data-direction="down">▼</button>
+                            <button class="game-control-btn" data-direction="right">▶</button>
+                        </div>
+                    </div>
                 </div>
 
                 <a href="/" class="button-normal-black-wrapper-2 w-inline-block">
@@ -244,13 +279,113 @@
     
     <!-- Snake Game Logic -->
     <script>
+        // Sound Effect Generator
+        let audioCtx = null;
+
+        function getAudio() {
+            if (audioCtx) return audioCtx;
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return null;
+            audioCtx = new AC();
+            return audioCtx;
+        }
+
+        // Eat: short snappy "pop" — sine up-sweep
+        function playEatSound() {
+            const ac = getAudio();
+            if (!ac) return;
+            const t = ac.currentTime;
+            const osc = ac.createOscillator();
+            const gain = ac.createGain();
+            osc.connect(gain); gain.connect(ac.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(300, t);
+            osc.frequency.exponentialRampToValueAtTime(900, t + 0.08);
+            gain.gain.setValueAtTime(0.4, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+            osc.start(t); osc.stop(t + 0.12);
+        }
+
+        // Level Up: happy 4-note arpeggio
+        function playLevelUpSound() {
+            const ac = getAudio();
+            if (!ac) return;
+            const t = ac.currentTime;
+            [392, 523, 659, 784].forEach((freq, i) => {
+                const osc = ac.createOscillator();
+                const gain = ac.createGain();
+                osc.connect(gain); gain.connect(ac.destination);
+                osc.type = 'square';
+                osc.frequency.value = freq;
+                const s = t + i * 0.08;
+                gain.gain.setValueAtTime(0.18, s);
+                gain.gain.exponentialRampToValueAtTime(0.001, s + 0.15);
+                osc.start(s); osc.stop(s + 0.18);
+            });
+        }
+
+        // Game Over: 3-note sad descending tone + low rumble noise
+        function playGameOverSound() {
+            const ac = getAudio();
+            if (!ac) return;
+            const t = ac.currentTime;
+
+            // Descending sad notes
+            [330, 262, 196].forEach((freq, i) => {
+                const osc = ac.createOscillator();
+                const gain = ac.createGain();
+                osc.connect(gain); gain.connect(ac.destination);
+                osc.type = 'sawtooth';
+                osc.frequency.value = freq;
+                const s = t + i * 0.18;
+                gain.gain.setValueAtTime(0.25, s);
+                gain.gain.exponentialRampToValueAtTime(0.001, s + 0.3);
+                osc.start(s); osc.stop(s + 0.35);
+            });
+
+            // Low rumble using noise buffer
+            const bufSize = ac.sampleRate * 0.5;
+            const buf = ac.createBuffer(1, bufSize, ac.sampleRate);
+            const data = buf.getChannelData(0);
+            for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+            const noise = ac.createBufferSource();
+            noise.buffer = buf;
+            const noiseFilter = ac.createBiquadFilter();
+            noiseFilter.type = 'lowpass';
+            noiseFilter.frequency.value = 80;
+            const noiseGain = ac.createGain();
+            noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(ac.destination);
+            noiseGain.gain.setValueAtTime(0.4, t);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+            noise.start(t); noise.stop(t + 0.55);
+        }
+
+        // Start: quick upbeat 2-note bleep
+        function playStartSound() {
+            const ac = getAudio();
+            if (!ac) return;
+            const t = ac.currentTime;
+            [440, 660].forEach((freq, i) => {
+                const osc = ac.createOscillator();
+                const gain = ac.createGain();
+                osc.connect(gain); gain.connect(ac.destination);
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                const s = t + i * 0.1;
+                gain.gain.setValueAtTime(0.25, s);
+                gain.gain.exponentialRampToValueAtTime(0.001, s + 0.12);
+                osc.start(s); osc.stop(s + 0.15);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('game-canvas');
             const startBtn = document.getElementById('start-game-btn');
             const scoreEl = document.getElementById('game-score');
             const highScoreEl = document.getElementById('high-score');
             const headerEl = document.getElementById('game-header');
-            
+            const gameControls = document.getElementById('game-controls');
+
             if (!canvas || !startBtn || !scoreEl) return;
 
             const ctx = canvas.getContext('2d');
@@ -291,11 +426,27 @@
             // Initialize High Score Display & Score Wrapper
             if (highScoreEl) highScoreEl.innerText = highScore;
             if(headerEl) headerEl.style.display = "none";
+            if(gameControls) gameControls.style.display = "none";
 
             // Prevent stacking listeners
             window.removeEventListener('keydown', keyPush);
             window.addEventListener('keydown', keyPush);
-            startBtn.addEventListener('click', startGame);
+
+            startBtn.addEventListener('click', () => {
+                getAudio(); // warm up audio context on user gesture
+                startGame();
+            });
+
+
+            // On-screen control listeners
+            if(gameControls) {
+                gameControls.querySelectorAll('.game-control-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const direction = e.target.dataset.direction;
+                        handleDirectionInput(direction);
+                    });
+                });
+            }
 
             function startGame() {
                 if (isGameRunning) return;
@@ -304,12 +455,15 @@
                 isPaused = false;
                 scoreEl.innerText = score;
                 if(headerEl) headerEl.style.display = "flex";
-                
+                if(gameControls) gameControls.style.display = "block"; // Show controls on game start
+
                 // Reset Animasi dan Warna Layar
                 canvas.classList.remove('shake-animation');
                 canvas.style.backgroundColor = levelColors[0];
                 canvas.style.display = "block";
                 startBtn.style.display = "none";
+
+                playStartSound();
                 
                 playerX = 10;
                 playerY = 10;
@@ -427,7 +581,8 @@
                     tail++;
                     score++;
                     scoreEl.innerText = score;
-                    
+                    playEatSound();
+
                     // Spawn Confetti Particles
                     for (let i = 0; i < 20; i++) {
                         particles.push({
@@ -446,6 +601,7 @@
                         const level = Math.floor(score / 5);
                         const newColor = levelColors[Math.min(level, levelColors.length - 1)];
                         canvas.style.backgroundColor = newColor;
+                        playLevelUpSound();
                     }
 
                     // Increase Speed (Difficulty)
@@ -475,6 +631,20 @@
                 }
             }
 
+
+
+
+            function handleDirectionInput(direction) {
+                if (!isGameRunning || isPaused) return;
+
+                switch (direction) {
+                    case 'left': if (velocityX !== 1) { velocityX = -1; velocityY = 0; } break;
+                    case 'up': if (velocityY !== 1) { velocityX = 0; velocityY = -1; } break;
+                    case 'right': if (velocityX !== -1) { velocityX = 1; velocityY = 0; } break;
+                    case 'down': if (velocityY !== -1) { velocityX = 0; velocityY = 1; } break;
+                }
+            }
+
             function keyPush(evt) {
                 if([32, 37, 38, 39, 40].indexOf(evt.keyCode) > -1) {
                     evt.preventDefault();
@@ -487,7 +657,8 @@
                     if (isPaused) {
                         ctx.fillStyle = "rgba(245, 245, 247, 0.85)";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        ctx.fillStyle = "#1d1d1f";
+
+                        ctx.fillStyle = "#4a4a4a"; // Darker color for better contrast
                         ctx.font = "800 32px var(--font-primary, sans-serif)";
                         ctx.textAlign = "center";
                         ctx.fillText("PAUSED", canvas.width/2, canvas.height/2 + 10);
@@ -498,14 +669,19 @@
                 if (isPaused) return;
 
                 switch (evt.keyCode) {
-                    case 37: if (velocityX !== 1) { velocityX = -1; velocityY = 0; } break;
-                    case 38: if (velocityY !== 1) { velocityX = 0; velocityY = -1; } break;
-                    case 39: if (velocityX !== -1) { velocityX = 1; velocityY = 0; } break;
-                    case 40: if (velocityY !== -1) { velocityX = 0; velocityY = 1; } break;
+
+
+
+
+                    case 37: handleDirectionInput('left'); break;
+                    case 38: handleDirectionInput('up'); break;
+                    case 39: handleDirectionInput('right'); break;
+                    case 40: handleDirectionInput('down'); break;
                 }
             }
 
-            // Touch Controls
+
+            // Touch Controls (integrated with handleDirectionInput)
             let touchStartX = 0, touchStartY = 0;
             canvas.addEventListener('touchstart', e => {
                 touchStartX = e.changedTouches[0].screenX;
@@ -518,30 +694,71 @@
                 let dx = e.changedTouches[0].screenX - touchStartX;
                 let dy = e.changedTouches[0].screenY - touchStartY;
                 if (Math.abs(dx) > Math.abs(dy)) {
-                    if (dx > 0 && velocityX !== -1) { velocityX = 1; velocityY = 0; }
-                    else if (dx < 0 && velocityX !== 1) { velocityX = -1; velocityY = 0; }
+
+
+                    if (dx > 0) { handleDirectionInput('right'); }
+                    else if (dx < 0) { handleDirectionInput('left'); }
                 } else {
-                    if (dy > 0 && velocityY !== -1) { velocityX = 0; velocityY = 1; }
-                    else if (dy < 0 && velocityY !== 1) { velocityX = 0; velocityY = -1; }
+
+
+                    if (dy > 0) { handleDirectionInput('down'); }
+                    else if (dy < 0) { handleDirectionInput('up'); }
                 }
                 e.preventDefault();
             }, {passive: false});
 
             function gameOver() {
-                clearInterval(gameInterval);
+                if (!isGameRunning) return; // Prevent multiple calls
                 isGameRunning = false;
-                
+                if (gameInterval) clearInterval(gameInterval);
+
+                try {
+                    playGameOverSound();
+                } catch (e) {
+                    console.warn('Failed to play game over sound:', e);
+                }
+
                 // Tambahkan efek gempa di layar
                 canvas.classList.add('shake-animation');
-                
+
                 // Tunda tombol muncul sampai animasi bergetar selesai (600ms)
                 setTimeout(() => {
                     startBtn.innerText = "Game Over! Play Again?";
                     startBtn.style.display = "block";
+                    if(gameControls) gameControls.style.display = "none"; // Hide controls on game over
+                    if(headerEl) headerEl.style.display = "none"; // Hide score on game over
                 }, 600);
             }
 
         });
     </script>
+    <style>
+        /* Styling for on-screen game controls */
+        .game-control-btn {
+            background-color: #333; /* Dark background */
+            color: #fff; /* White text */
+            border: none;
+            border-radius: 8px; /* Slightly rounded corners */
+            padding: 12px 18px; /* Comfortable padding */
+            margin: 4px; /* Space between buttons */
+            font-size: 1.2em; /* Readable icon size */
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s ease;
+            min-width: 50px; /* Ensure buttons are not too small */
+            min-height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-control-btn:hover {
+            background-color: #555;
+        }
+        .game-control-btn:active {
+            background-color: #000;
+            transform: translateY(1px);
+        }
+    </style>
 </body>
 </html>

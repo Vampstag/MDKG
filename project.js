@@ -12,7 +12,7 @@ const projectsData = [
         image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp", 
         link: "#",
         stats: [],
-        description: "Organic short-form video for Torch's PrestaChill campaign. Built to feel real, not like an ad.",
+        description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students that enjoying the journey is part of the win. [X] views across TikTok and Instagram.",
         challenge: "",
         solution: "",
         gallery: [],
