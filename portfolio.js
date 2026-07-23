@@ -161,19 +161,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let currentIndustry = 'all'; // [NEW] State default filter industri
         let currentRole = 'all'; // [NEW] State default filter role
         let currentYear = 'all'; // State default filter tahun
+        let currentSort = 'latest'; // [NEW] State default urutan: latest, oldest, az
 
         function renderProjects(animationType = 'normal') {
             // Filter data
             const filteredData = projectsData.filter(item => {
                 // Pencocokan Search
                 const searchMatch = item.title.toLowerCase().includes(currentSearch.toLowerCase());
-                
+
                 // Logika pencocokan filter dropdown
                 const industryMatch = currentIndustry === 'all' || (item.industry && item.industry === currentIndustry);
                 const roleMatch = currentRole === 'all' || (item.roles && item.roles.includes(currentRole));
                 const yearMatch = currentYear === 'all' || (item.year && item.year === currentYear);
-                
+
                 return searchMatch && industryMatch && roleMatch && yearMatch;
+            });
+
+            // [NEW] Urutkan hasil sesuai pilihan sort
+            filteredData.sort((a, b) => {
+                if (currentSort === 'az') {
+                    return a.title.localeCompare(b.title);
+                }
+                const yearDiff = parseInt(b.year || 0, 10) - parseInt(a.year || 0, 10);
+                if (yearDiff !== 0) {
+                    return currentSort === 'oldest' ? -yearDiff : yearDiff;
+                }
+                // Tie-break pakai id (dianggap urutan penambahan proyek)
+                return currentSort === 'oldest' ? a.id - b.id : b.id - a.id;
             });
 
             // [NEW] Update Text Counter "X Projects Found"
@@ -403,6 +417,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
         }
 
+        const sortFilter = document.getElementById('sort-projects');
+        if (sortFilter) {
+            sortFilter.addEventListener('change', (e) => {
+                currentSort = e.target.value;
+                renderProjects('normal'); // Panggil render dengan animasi
+            });
+        }
+
         // Reset Button Logic
         const resetBtn = document.getElementById('reset-filters');
         if (resetBtn) {
@@ -412,20 +434,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 currentRole = 'all';
                 currentYear = 'all';
                 currentSearch = '';
-                
+                currentSort = 'latest';
+
                 // 2. Reset tampilan Dropdown HTML
                 if (industryFilter) industryFilter.value = 'all';
                 if (roleFilter) roleFilter.value = 'all';
                 if (yearFilter) yearFilter.value = 'all';
-                
+                if (sortFilter) sortFilter.value = 'latest';
+
                 // [NEW] Sinkronisasi Reset pada UI Premium Dropdown
                 document.querySelectorAll('.premium-dropdown').forEach(wrapper => {
                     const select = wrapper.previousElementSibling;
                     if(select) {
+                        const defaultValue = select.id === 'sort-projects' ? 'latest' : 'all';
                         const text = select.options[select.selectedIndex].text;
                         wrapper.querySelector('span').textContent = text;
                         wrapper.querySelectorAll('.premium-dropdown-option').forEach(opt => {
-                            if (opt.dataset.value === 'all') {
+                            if (opt.dataset.value === defaultValue) {
                                 opt.classList.add('selected');
                             } else {
                                 opt.classList.remove('selected');
