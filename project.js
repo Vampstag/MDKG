@@ -12,7 +12,7 @@ const projectsData = [
         image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp",
         link: "#",
         stats: [],
-        description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students that enjoying the journey is part of the win.",
+        description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
         challenge: "",
         solution: "",
         gallery: [],
