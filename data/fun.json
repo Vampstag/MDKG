@@ -1,0 +1,78 @@
+[
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas1.webp",
+    "alt": "Placeholder artwork 1",
+    "caption": "shot on a rainy Tuesday"
+  },
+  {
+    "type": "poster",
+    "text": "STAY CURIOUS",
+    "bg": "#111111",
+    "color": "#ffffff",
+    "caption": "made at 2am, don't ask"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas2.webp",
+    "alt": "Placeholder artwork 2",
+    "caption": "third take, first felt right"
+  },
+  {
+    "type": "video",
+    "src": "assets/videos/torchxgundam.mp4",
+    "poster": "assets/images/project/torch/poster_showreel_torchxgundam.webp",
+    "caption": "no brief, just vibes"
+  },
+  {
+    "type": "poster",
+    "text": "MADE WITH INTENT",
+    "bg": "#f2f2f2",
+    "color": "#111111",
+    "caption": "still not sure about this one"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas5.webp",
+    "alt": "Placeholder artwork 3",
+    "caption": "between two client calls"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas6.webp",
+    "alt": "Placeholder artwork 4",
+    "caption": "way too many drafts"
+  },
+  {
+    "type": "poster",
+    "text": "SKETCH №04",
+    "bg": "#111111",
+    "color": "#ffffff",
+    "caption": "sketchbook, page 4"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas8.webp",
+    "alt": "Placeholder artwork 5",
+    "caption": "comfort food comfort shot"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas10.webp",
+    "alt": "Placeholder artwork 6",
+    "caption": "rare day off"
+  },
+  {
+    "type": "poster",
+    "text": "UNFINISHED\nTHOUGHTS",
+    "bg": "#f2f2f2",
+    "color": "#111111",
+    "caption": "might finish this someday"
+  },
+  {
+    "type": "image",
+    "src": "assets/images/home/dimas11.webp",
+    "alt": "Placeholder artwork 7",
+    "caption": "kept this one for myself"
+  }
+]

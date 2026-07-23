@@ -7,16 +7,16 @@ const projectsData = [
         id: "torch-prestachill",
         featured: false,
         category: "Video Production · Video Editing",
-        title: "Torch — Prestachill",
+        title: "Torch Prestachill",
         role: "Videographer & Video Editor",
-        image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp", 
+        image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp",
         link: "#",
         stats: [],
-        description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students that enjoying the journey is part of the win. [X] views across TikTok and Instagram.",
+        description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students that enjoying the journey is part of the win.",
         challenge: "",
         solution: "",
         gallery: [],
-        ongoing: true
+        ongoing: false
     },
     {
         id: "studio-berka",

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isPreloaderDone = true;
     });
 
-    // Journal data di-fetch dari /data/journal.json — untuk tambah artikel, edit file itu saja
+    // Journal data di-fetch dari /data/journal.json, untuk tambah artikel edit file itu saja
     const journalPromise = fetch('/data/journal.json').then(r => r.json()).catch(() => []);
 
     function injectJournalSchema(journalData) {
