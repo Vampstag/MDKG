@@ -2080,6 +2080,46 @@ html.lenis, html.lenis body { height: auto; }
     border-bottom: 1px solid #ccc;
 }
 
+/* [NEW] Editorial stacked-item list: replaces boxed/shadowed icon-card grids
+   (skill-card, why-item) with the hairline-divider list pattern already used
+   in case studies (e.g. Key Insights), for visual consistency site-wide. */
+.editorial-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+}
+
+.editorial-item {
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    margin-bottom: 32px;
+}
+
+.editorial-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.editorial-item-number {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.editorial-item-title {
+    font-family: var(--font-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
 .about-divider {
     width: 100%;
     height: 1px;
