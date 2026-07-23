@@ -340,10 +340,10 @@
             </section>
 
             <!-- 3. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <blockquote style="font-family: var(--font-primary); font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 20ch; margin: 0 auto; color: #111;">
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
                             "Translating the Torch x Gundam collaboration into a cinematic visual experience for the Gundam community."
                         </blockquote>
                     </div>
@@ -713,25 +713,25 @@
             <section id="testimonial" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div style="max-width: 900px; margin: 0 auto; text-align: center; padding: 40px 0;">
+                        <div class="cs-testimonial-inner">
                             <!-- Premium Minimalist Quote Icon -->
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 32px; color: rgba(0,0,0,0.1);">
+                            <svg class="cs-testimonial-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 11V16C9 17.6569 7.65685 19 6 19C4.34315 19 3 17.6569 3 16C3 14.3431 4.34315 13 6 13C6.46328 13 6.90117 13.1053 7.29177 13.2926C7.42084 12.637 7.5 11.854 7.5 11V8L9 8V11ZM19 11V16C19 17.6569 17.6569 19 16 19C14.3431 19 13 17.6569 13 16C13 14.3431 14.3431 13 16 13C16.4633 13 16.9012 13.1053 17.2918 13.2926C17.4208 12.637 17.5 11.854 17.5 11V8L19 8V11Z" fill="currentColor"/>
                             </svg>
-                            
-                            <h3 style="font-family: var(--font-primary); font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 500; line-height: 1.4; letter-spacing: -0.02em; color: #111; margin-bottom: 40px;">
+
+                            <h3 class="cs-testimonial-quote">
                                 "As a videographer and editor, Dimas was highly collaborative throughout the project. He quickly understood the creative direction, was easy to guide, and consistently brought a clear vision to the final output.<br><br>What stood out most was his initiative and creative taste, often coming up with ideas and concepts before they were even requested."
                             </h3>
-                            
-                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+
+                            <div class="cs-testimonial-attribution">
                                 <!-- [NEW] Premium Avatar -->
-                                <div style="position: relative; display: inline-block;">
-                                    <img src="../assets/images/project/torch/client-testimoni.webp" alt="Aldo Bangga Permana" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);">
-                                    <img src="../assets/images/home/TORCH LOGO-01.svg" alt="Torch" style="position: absolute; bottom: 0px; right: -24px; height: 26px; width: auto; max-width: 60px; object-fit: contain; background: #fff; border-radius: 6px; padding: 4px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid #eee;">
+                                <div class="cs-testimonial-avatar-wrap">
+                                    <img class="cs-testimonial-avatar" src="../assets/images/project/torch/client-testimoni.webp" alt="Aldo Bangga Permana, Branding Creative Lead at Torch">
+                                    <img class="cs-testimonial-brand-badge" src="../assets/images/home/TORCH LOGO-01.svg" alt="Torch logo">
                                 </div>
-                                <span style="font-family: var(--font-primary); font-weight: 700; font-size: 1.1rem; color: #111; margin-top: 4px;">Aldo Bangga Permana</span>
-                                <span style="font-family: var(--font-primary); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: #888;">Branding Creative Lead, Torch</span>
-                                <span style="font-family: var(--font-primary); font-size: 0.75rem; font-weight: 400; font-style: italic; color: #999; margin-top: 4px;">Translated from Indonesian</span>
+                                <span class="cs-testimonial-name">Aldo Bangga Permana</span>
+                                <span class="cs-testimonial-role">Branding Creative Lead, Torch</span>
+                                <span class="cs-testimonial-translated">Translated from Indonesian</span>
                             </div>
                         </div>
                     </div>
@@ -1276,6 +1276,52 @@
                 }, { rootMargin: "-40% 0px -60% 0px" }); // Active threshold di tengah atas layar
 
                 sections.forEach(sec => observer.observe(sec));
+            });
+        </script>
+        <script>
+            // [NEW] Campaign Essence: per-letter reveal scrubbed to scroll position.
+            // Scrubbing (not a one-shot play) is what makes it reverse cleanly on scroll-up.
+            document.addEventListener('DOMContentLoaded', () => {
+                const initEssenceReveal = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initEssenceReveal, 50);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    const quote = document.getElementById('essence-quote');
+                    if (!quote) return;
+
+                    // Collapse the HTML's own whitespace/indentation before splitting, otherwise
+                    // newlines and leading spaces turn into stray empty/space spans that break centering
+                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+
+                    // Wrap each WORD in a span (word-level, not per-character) so the browser still
+                    // wraps lines normally between words instead of splitting mid-word.
+                    quote.innerHTML = originalText
+                        .split(' ')
+                        .map(word => {
+                            return `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`;
+                        })
+                        .join(' ');
+
+                    const words = quote.querySelectorAll('.essence-word');
+
+                    gsap.to(words, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
+                        stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: quote,
+                            start: 'top 95%',   // reveal starts as soon as the quote first appears at the bottom
+                            end: 'bottom 60%',  // finishes well after the quote has scrolled up, so it plays out slowly
+                            scrub: 0.3 // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                        }
+                    });
+                };
+                initEssenceReveal();
             });
         </script>
     </body>

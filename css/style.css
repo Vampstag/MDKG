@@ -2055,6 +2055,15 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: -0.02em;
 }
 
+/* [NEW] Challenge section has far less content than Overview/Key Insights sharing this grid,
+   so its lead line is enlarged into a pull-quote to read as intentionally minimal, not sparse. */
+#hardskills .about-lead-text {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+}
+
 .about-paragraph {
     font-family: var(--font-primary);
     font-size: clamp(1rem, 1.5vw, 1.25rem);
@@ -2387,6 +2396,12 @@ html.lenis, html.lenis body { height: auto; }
     .metric-tag {
         font-size: 0.7rem; /* Smaller font */
         padding: 6px 12px; /* Tighter padding */
+    }
+
+    /* [NEW] Hover-only video controls have no equivalent on touch, so show them by default on mobile */
+    .video-hover-overlay {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     /* Make mute button always visible on mobile for better UX */
@@ -3346,6 +3361,84 @@ html.lenis, html.lenis body { height: auto; }
     line-height: 1.6;
     max-width: none;
     font-weight: 400;
+}
+
+/* --- Reusable Case Study Testimonial (was duplicated inline across case studies) --- */
+.cs-testimonial-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 0;
+}
+.cs-testimonial-icon {
+    margin-bottom: 32px;
+    color: rgba(0, 0, 0, 0.1);
+}
+.cs-testimonial-quote {
+    font-family: var(--font-primary);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin-bottom: 40px;
+}
+.cs-testimonial-attribution {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.cs-testimonial-avatar-wrap {
+    position: relative;
+    display: inline-block;
+}
+.cs-testimonial-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.cs-testimonial-brand-badge {
+    position: absolute;
+    bottom: 0px;
+    right: -24px;
+    height: 26px;
+    width: auto;
+    max-width: 60px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+}
+.cs-testimonial-name {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #111;
+    margin-top: 4px;
+}
+.cs-testimonial-role {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #888;
+}
+.cs-testimonial-translated {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    font-style: italic;
+    color: #999;
+    margin-top: 4px;
 }
 
 /* --- Reusable Video Player & Grids --- */
@@ -5526,6 +5619,20 @@ a.social-icon:hover img {
     gap: 16px;
 }
 
+/* [NEW] Shared index-label language with the Approach section's [01]/[02] numbering */
+.bento-index {
+    display: block;
+    font-family: var(--font-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transform: translateY(10px);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 /* [NEW] Plus Icon Indicator */
 .bento-plus-icon {
     display: inline-flex;
@@ -5598,6 +5705,9 @@ a.social-icon:hover img {
 }
 
 .bento-item:hover .bento-title, .bento-item.is-active .bento-title {
+    transform: translateY(0);
+}
+.bento-item:hover .bento-index, .bento-item.is-active .bento-index {
     transform: translateY(0);
 }
 
