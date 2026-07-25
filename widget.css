@@ -8,45 +8,45 @@
     bottom: 40px;
     right: 40px;
     z-index: 9999;
-    --w-bg: rgba(255, 255, 255, 0.65);
+    --w-bg: rgba(255, 255, 255, 0.75);
     --w-text: #111111;
-    --w-sub: #666666;
+    --w-sub: #767676;
     background: var(--w-bg);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px; /* [FIX] Diubah ke 16px agar membentuk Squircle */
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px; /* Editorial squircle — slightly sharper than the app-like 16px */
     padding: 6px 14px;
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    transition: all 0.5s ease, background 0.8s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     color: var(--w-text);
     will-change: transform;
     transform: translateZ(0);
 }
 
 .mdkg-widget-player:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15);
-    filter: brightness(1.05);
+    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.14);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
 }
 
 .mdkg-widget-player:active, .mdkg-widget-player.playing:active {
     transform: scale(0.98);
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* --- [NEW] PLAYER COVER & TRACK INFO --- */
 .mdkg-player-cover {
     width: 0; /* Default tertutup */
     height: 28px; /* Lebih kecil agar compact */
-    border-radius: 50%; /* [UPDATE] Diubah menjadi lingkaran penuh */
+    border-radius: 50%; /* Vinyl record — kept circular, it's a physical disc metaphor */
     flex-shrink: 0;
     /* [FIX] Background dihapus, border ditangani langsung oleh image */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     margin-right: 0;
     position: relative;
     opacity: 0;
@@ -57,19 +57,6 @@
     align-items: center;
     justify-content: center;
     overflow: hidden; /* Mencegah gambar bocor saat transisi */
-}
-
-/* [NEW] Efek Pantulan Cahaya di Piringan Hitam */
-.mdkg-player-cover::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 28px; height: 28px; /* [FIX] Ukuran absolut agar silau tidak gepeng */
-    border-radius: 50%;
-    /* Pantulan dibuat lebih transparan dan soft */
-    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.1) 100%);
-    z-index: 2;
-    pointer-events: none;
 }
 
 /* [NEW] Titik tengah (hole) piringan hitam dibuat lebih detail */
@@ -144,8 +131,9 @@
 
 .mdkg-track-title {
     font-family: inherit;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--w-text);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -157,6 +145,7 @@
     font-family: inherit;
     font-size: 10px;
     font-weight: 500;
+    letter-spacing: 0.02em;
     color: var(--w-sub);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -183,11 +172,11 @@
 
 .mdkg-player-text {
     font-family: inherit;
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
     color: var(--w-text);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.1em;
     user-select: none;
     text-align: center;
     max-width: 60px; /* Cukup menampung kata PLAY/PAUSED */
@@ -323,7 +312,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+    border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -348,21 +337,21 @@
     bottom: 40px;
     left: 40px;
     z-index: 9990;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 20px 24px;
-    border-radius: 16px; /* [FIX] Squircle konsisten dengan player */
+    border-radius: 14px; /* Editorial squircle — slightly sharper than the app-like 16px */
     color: #111111;
     font-family: var(--font-primary, 'Inter', sans-serif);
     width: max-content;
     min-width: 260px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     gap: 16px;
-    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.4s ease, box-shadow 0.4s ease;
     text-decoration: none;
 }
 
@@ -374,23 +363,22 @@
 }
 
 .mdkg-widget-status:hover {
-    background: rgba(255, 255, 255, 0.85);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15);
-    filter: brightness(1.05);
+    border-color: rgba(0, 0, 0, 0.14);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
 }
 
 .mdkg-widget-header {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    color: #666666;
+    font-size: 10px;
+    color: #999999;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.12em;
     margin: 0;
     padding: 0;
     border: none;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .mdkg-widget-status-row {
@@ -401,25 +389,17 @@
 }
 
 .mdkg-status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #28cd41; /* Apple Green */
+    width: 6px;
+    height: 6px;
+    background-color: #28cd41; /* Apple Green — static, no pulse; the color alone reads as "live" */
     border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(40, 205, 65, 0.7);
-    animation: mdkgStatusPulse 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
-}
-
-/* [FIX] Animasi Pulse untuk dot hijau dikembalikan */
-@keyframes mdkgStatusPulse {
-    0% { box-shadow: 0 0 0 0 rgba(40, 205, 65, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(40, 205, 65, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(40, 205, 65, 0); }
 }
 
 .mdkg-status-text {
-    font-size: 14px;
+    font-size: 15px;
     color: #000000;
     font-weight: 500;
+    letter-spacing: -0.005em;
     position: relative;
     white-space: nowrap; /* Memastikan teks tidak turun ke bawah */
 }
@@ -438,53 +418,38 @@
 
 .mdkg-book-btn {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 8px;
     width: 100%;
-    padding: 14px;
-    background: #111111;
-    color: #ffffff;
-    text-align: center;
+    padding: 14px 0 0;
+    background: transparent;
+    color: #111111;
+    text-align: left;
     text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 16px;
-    letter-spacing: 0.5px;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    border: 1px solid transparent;
-    cursor: none !important;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .mdkg-book-btn:hover {
-    background: #ffffff;
-    color: #111111;
-    border-color: #111111;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-/* Calendar Icon Pulse Animation */
-@keyframes mdkgIconPulse {
-    0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
-    50% { transform: scale(1.2); filter: drop-shadow(0 0 4px rgba(0,0,0,0.2)); }
-    100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
+    color: #767676;
 }
 
 .mdkg-book-btn > svg:first-child {
-    animation: mdkgIconPulse 2s infinite ease-in-out;
+    flex-shrink: 0;
+    order: 2;
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* --- CUSTOM SNAP CURSOR --- */
-.mdkg-snap-cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 10px; height: 10px;
-    border: none;
-    background: rgba(0, 0, 0, 0.06);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9991; /* Berada tepat di atas widget status */
-    opacity: 0;
+.mdkg-book-btn:hover > svg:first-child {
+    transform: translateX(3px);
 }
 
 /* --- TABLET RESPONSIVE --- */
@@ -577,12 +542,11 @@
     .mdkg-status-text { font-size: 11px; line-height: 1.2; white-space: nowrap; } /* Mencegah elipsis/kepotong */
     
     .mdkg-book-btn {
-        width: 32px; height: 32px; padding: 0; border-radius: 12px; flex-shrink: 0;
+        width: 32px; height: 32px; padding: 0; border-radius: 0; flex-shrink: 0;
         display: flex; align-items: center; justify-content: center; gap: 0;
-        background: #111; color: #fff;
+        background: transparent; color: #111; border: none;
     }
     .mdkg-book-btn span {
         display: none; /* Sembunyikan teks di mobile */
     }
-    .mdkg-snap-cursor { display: none !important; } /* Nonaktifkan kursor pada sentuhan layar HP */
 }

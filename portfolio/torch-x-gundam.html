@@ -153,7 +153,7 @@
                 background: rgba(255,255,255,0.9);
                 backdrop-filter: blur(8px);
                 -webkit-backdrop-filter: blur(8px);
-                border-radius: 50%;
+                border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
                 display: flex; align-items: center; justify-content: center;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);
                 cursor: pointer; z-index: 20; color: #111; padding: 0;
@@ -174,7 +174,7 @@
                 z-index: 20;
             }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 50%;
+                width: 6px; height: 6px; border-radius: 2px; /* Squircle, not circle — matches the site's art direction */
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
@@ -510,10 +510,10 @@
                                     <h3 class="bento-title">Official Launch Campaign</h3>
                                     <p class="bento-desc">The main launch campaign presenting the Torch x Gundam collaboration and its Batch 1 collection.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.instagram.com/reel/DVzw_eLE5dY/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                        <a href="https://www.instagram.com/reel/DVzw_eLE5dY/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -536,10 +536,10 @@
                                     <h3 class="bento-title">Teaser 1: Collaboration Reveal</h3>
                                     <p class="bento-desc">A cinematic teaser introducing the Torch x Mobile Suit Gundam collaboration through minimal and suspense-driven visuals.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.instagram.com/reel/DUxvtcBkzmL/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                        <a href="https://www.instagram.com/reel/DUxvtcBkzmL/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -562,10 +562,10 @@
                                     <h3 class="bento-title">Teaser 2: Silhouette Reveal</h3>
                                     <p class="bento-desc">A cinematic silhouette teaser designed to build anticipation around the Torch x Gundam collaboration before the official product reveal.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.instagram.com/reel/DVqPk7ik2E-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                        <a href="https://www.instagram.com/reel/DVqPk7ik2E-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -588,10 +588,10 @@
                                     <h3 class="bento-title">Behind the Design Story</h3>
                                     <p class="bento-desc">A behind-the-scenes campaign piece exploring the creative direction, design process, and collaborative vision behind the Torch x Mobile Suit Gundam collection.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.instagram.com/reel/DVJEnqHk_bx/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                        <a href="https://www.instagram.com/reel/DVJEnqHk_bx/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>

@@ -232,6 +232,181 @@
                 text-transform: uppercase;
                 color: #999;
             }
+
+            /* [NEW] Category filter bar — lets viewers narrow the random mix (photos, sketches,
+               client work, personal) without touching the shuffle/canvas mechanics underneath. */
+            .fun-filter-bar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 28px;
+            }
+            @media (min-width: 992px) {
+                .fun-filter-bar {
+                    position: fixed;
+                    top: 50%;
+                    right: 32px;
+                    transform: translateY(-50%);
+                    z-index: 50;
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 4px;
+                    margin-bottom: 0;
+                    background: rgba(255,255,255,0.85);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    padding: 8px;
+                    border-radius: 20px;
+                    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15);
+                }
+            }
+            .fun-filter-btn {
+                font-family: var(--font-primary);
+                font-size: 0.75rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                color: #666;
+                background: transparent;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 12px; /* Squircle, not circle — matches the site's art direction */
+                cursor: pointer;
+                transition: all 0.25s ease;
+                white-space: nowrap;
+            }
+            .fun-filter-btn:hover { color: #111; background: rgba(0,0,0,0.05); }
+            .fun-filter-btn.is-active { color: #fff; background: #111; }
+            .fun-filter-btn svg { display: none; }
+
+            /* [NEW] Desktop: icon-only by default, label revealed on hover — keeps the
+               vertical dock compact/premium instead of a tall stack of text buttons. */
+            @media (min-width: 992px) {
+                .fun-filter-btn {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40px;
+                    height: 40px;
+                    padding: 0;
+                }
+                .fun-filter-btn svg {
+                    display: block;
+                    flex-shrink: 0;
+                }
+                .fun-filter-label {
+                    position: absolute;
+                    right: calc(100% + 12px);
+                    top: 50%;
+                    transform: translateY(-50%) translateX(6px);
+                    background: rgba(17,17,17,0.9);
+                    color: #fff;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    letter-spacing: 0.02em;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    white-space: nowrap;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.2s ease, transform 0.2s ease;
+                }
+                .fun-filter-btn:hover .fun-filter-label {
+                    opacity: 1;
+                    transform: translateY(-50%) translateX(0);
+                }
+            }
+
+            /* [NEW] Pan/zoom frame for the image lightbox. The frame clips overflow and carries
+               the modal's own open/close scale animation, while #fun-lightbox-img carries only
+               the zoom/pan transform driven by JS — kept separate so the two never fight over
+               the same transform property. */
+            .fun-lightbox-frame {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                touch-action: none;
+                transform: scale(0.95);
+                transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+            #fun-lightbox-modal.active .fun-lightbox-frame {
+                transform: scale(1);
+            }
+            .fun-lightbox-frame.is-zoomed {
+                cursor: grab;
+            }
+            .fun-lightbox-frame.is-zoomed.is-dragging {
+                cursor: grabbing;
+            }
+            #fun-lightbox-img.lightbox-content {
+                max-width: 90%;
+                max-height: 90vh;
+                transform: none; /* overrides the shared .lightbox-content scale-in; the frame handles that instead */
+                transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+                will-change: transform;
+            }
+            .fun-lightbox-frame.is-dragging #fun-lightbox-img {
+                transition: none;
+            }
+
+            .fun-zoom-controls {
+                position: absolute;
+                bottom: 32px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                background: rgba(17,17,17,0.8);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                padding: 6px;
+                border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
+                z-index: 2;
+            }
+            .fun-zoom-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                border: none;
+                border-radius: 12px; /* Squircle, not circle — matches the site's art direction */
+                background: transparent;
+                color: #fff;
+                cursor: pointer;
+                font-family: var(--font-primary);
+                font-size: 0.7rem;
+                font-weight: 600;
+                transition: background 0.2s ease;
+            }
+            .fun-zoom-btn:hover { background: rgba(255,255,255,0.15); }
+            #fun-zoom-reset { width: auto; padding: 0 12px; }
+            @media (max-width: 767px) {
+                .fun-zoom-controls { bottom: 20px; }
+            }
+
+            /* [NEW] Keep the navbar permanently visible on this page. Elsewhere script.js
+               hides it on scroll-down (toggling .navbar-hidden), but Fun's desktop mode is a
+               free-pan canvas rather than a normal scroll, so hide-on-scroll feels broken here. */
+            .navbar.navbar-hidden {
+                transform: translateY(0) !important;
+            }
+
+            /* [NEW] Elsewhere the navbar only gets its blurred background once .scrolled is
+               added by script.js's scroll listener. Fun's desktop mode is drag/pan, not scroll,
+               so that class rarely triggers — leaving the navbar transparent and blending into
+               the canvas/grid behind it. Give it the same background permanently on this page. */
+            .navbar {
+                background-color: rgba(255, 255, 255, 0.75) !important;
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+                border-bottom: 1px solid rgba(0,0,0,0.04);
+            }
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -360,6 +535,30 @@
             <!-- No visible title/hero by design. H1 kept visually hidden for SEO/accessibility only -->
             <h1 id="top" class="visually-hidden">Fun</h1>
 
+            <!-- [NEW] Category filter, shared by both the mobile grid and the desktop canvas below -->
+            <div class="fun-filter-bar" id="fun-filter-bar" role="group" aria-label="Filter by category">
+                <button class="fun-filter-btn is-active" data-category="all" aria-label="All">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span class="fun-filter-label">All</span>
+                </button>
+                <button class="fun-filter-btn" data-category="photo" aria-label="Photos">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+                    <span class="fun-filter-label">Photos</span>
+                </button>
+                <button class="fun-filter-btn" data-category="sketch" aria-label="Sketches">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+                    <span class="fun-filter-label">Sketches</span>
+                </button>
+                <button class="fun-filter-btn" data-category="client-video" aria-label="Client Work">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="15" height="10" rx="2"></rect><path d="M17 10l5-3v10l-5-3"></path></svg>
+                    <span class="fun-filter-label">Client Work</span>
+                </button>
+                <button class="fun-filter-btn" data-category="personal-video" aria-label="Personal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <span class="fun-filter-label">Personal</span>
+                </button>
+            </div>
+
             <!-- Mobile/tablet: normal vertical infinite scroll -->
             <section class="section-margin" style="padding-top: 140px;">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
@@ -397,7 +596,18 @@
             <span class="lightbox-close" id="fun-lightbox-close">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </span>
-            <img class="lightbox-content" id="fun-lightbox-img" alt="Full Screen View">
+            <div class="fun-lightbox-frame" id="fun-lightbox-frame">
+                <img class="lightbox-content" id="fun-lightbox-img" alt="Full Screen View">
+            </div>
+            <div class="fun-zoom-controls">
+                <button class="fun-zoom-btn" id="fun-zoom-out" aria-label="Zoom out">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                </button>
+                <button class="fun-zoom-btn" id="fun-zoom-reset" aria-label="Reset zoom">100%</button>
+                <button class="fun-zoom-btn" id="fun-zoom-in" aria-label="Zoom in">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                </button>
+            </div>
         </div>
 
         <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6933c25a0996b0f96f5c2bc3" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -409,6 +619,23 @@
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.1"></script>
 
+        <script>
+            // [NEW] Shared category filter state for both the mobile masonry grid and the
+            // desktop canvas below. Only narrows which items are eligible for the existing
+            // shuffle/placement logic in each mode — it doesn't change how either renders.
+            window.funFilter = { category: 'all' };
+            document.addEventListener('DOMContentLoaded', () => {
+                const filterBar = document.getElementById('fun-filter-bar');
+                if (!filterBar) return;
+                filterBar.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.fun-filter-btn');
+                    if (!btn) return;
+                    filterBar.querySelectorAll('.fun-filter-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+                    window.funFilter.category = btn.dataset.category;
+                    window.dispatchEvent(new CustomEvent('funFilterChange', { detail: { category: btn.dataset.category } }));
+                });
+            });
+        </script>
         <script>
             // Infinite-scroll masonry: fetches data/fun.json once, then keeps appending
             // (re-shuffled) copies of the same set as the user scrolls, for an endless feed.
@@ -426,8 +653,16 @@
                 const lightboxImg = document.getElementById('fun-lightbox-img');
                 const lightboxClose = document.getElementById('fun-lightbox-close');
 
+                let allItems = [];
                 let sourceItems = [];
                 let loading = false;
+
+                const applyFilter = () => {
+                    const category = window.funFilter?.category || 'all';
+                    sourceItems = category === 'all'
+                        ? allItems
+                        : allItems.filter(item => item.category === category);
+                };
 
                 const shuffle = (arr) => {
                     const copy = [...arr];
@@ -509,7 +744,8 @@
                 fetch('data/fun.json')
                     .then(r => r.json())
                     .then(data => {
-                        sourceItems = Array.isArray(data) ? data : [];
+                        allItems = Array.isArray(data) ? data : [];
+                        applyFilter();
                         appendBatch(); // first batch
                         appendBatch(); // pre-fill a second batch so there's room to scroll before the observer fires
                     })
@@ -524,6 +760,14 @@
                     });
                 }, { rootMargin: '800px 0px' });
                 observer.observe(sentinel);
+
+                // Re-filter and restart the feed from scratch when the category filter changes
+                window.addEventListener('funFilterChange', () => {
+                    applyFilter();
+                    grid.innerHTML = '';
+                    appendBatch();
+                    appendBatch();
+                });
 
                 // Modal close handlers
                 const closeVideoModal = () => {
@@ -565,9 +809,17 @@
                 const STEP_H = CELL_H + GAP;
                 const BUFFER = 1; // extra rows/cols rendered beyond the visible viewport
 
+                let allItems = [];
                 let sourceItems = [];
                 const cellData = new Map();   // "col,row" -> item data (stable per cell)
                 const cellEls = new Map();    // "col,row" -> DOM element currently mounted
+
+                const applyFilter = () => {
+                    const category = window.funFilter?.category || 'all';
+                    sourceItems = category === 'all'
+                        ? allItems
+                        : allItems.filter(item => item.category === category);
+                };
 
                 const pickItemForCell = (col, row) => {
                     const key = `${col},${row}`;
@@ -590,29 +842,19 @@
 
                     if (!item) return el;
 
+                    // Stored on the element (instead of a per-tile click listener) because the
+                    // viewport calls setPointerCapture() on drag, which in some browsers redirects
+                    // the synthetic click away from the tile that was actually pressed. Clicks are
+                    // handled once, by delegation, on the viewport itself — see below.
+                    el._funItem = item;
+
                     if (item.type === 'image') {
                         el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="fun-item-media" draggable="false">`;
-                        el.addEventListener('click', () => {
-                            if (draggedDistance > 6) return; // ignore click after a drag gesture
-                            if (lightboxImg && lightboxModal) {
-                                lightboxImg.src = item.src;
-                                lightboxModal.classList.add('active');
-                            }
-                        });
                     } else if (item.type === 'video') {
                         el.innerHTML = `<video class="fun-item-media" loop muted playsinline preload="metadata" poster="${item.poster || ''}"><source src="${item.src}" type="video/mp4"></video>`;
                         const videoEl = el.querySelector('video');
                         el.addEventListener('mouseenter', () => videoEl?.play().catch(() => {}));
                         el.addEventListener('mouseleave', () => { videoEl?.pause(); if (videoEl) videoEl.currentTime = 0; });
-                        el.addEventListener('click', () => {
-                            if (draggedDistance > 6) return;
-                            if (modalVideo && videoModal) {
-                                modalVideo.src = item.src;
-                                videoModal.classList.add('active');
-                                modalVideo.play();
-                                document.body.style.overflow = 'hidden';
-                            }
-                        });
                     } else if (item.type === 'poster') {
                         el.innerHTML = `<div class="fun-item-poster" style="background:${item.bg || '#111'};"><span class="fun-item-poster-text" style="color:${item.color || '#fff'};">${item.text || ''}</span></div>`;
                     }
@@ -634,24 +876,51 @@
                         });
                     }
 
-                    // [NEW] Easter egg: clicking the same tile 5 times fast triggers a little spin-and-pop
-                    let clickCount = 0;
-                    let clickResetTimer = null;
-                    el.addEventListener('click', () => {
-                        if (draggedDistance > 6) return;
-                        clickCount++;
-                        clearTimeout(clickResetTimer);
-                        clickResetTimer = setTimeout(() => { clickCount = 0; }, 1200);
-
-                        if (clickCount >= 5) {
-                            clickCount = 0;
-                            el.classList.add('fun-item-egg');
-                            el.addEventListener('animationend', () => el.classList.remove('fun-item-egg'), { once: true });
-                        }
-                    });
-
                     return el;
                 };
+
+                // [NEW] Delegated click handling for the canvas (see the _funItem comment above
+                // for why per-tile click listeners were unreliable here). Handles opening the
+                // lightbox/video modal and the 5-rapid-clicks easter egg for whichever tile the
+                // click actually landed on.
+                const tileClickCounts = new WeakMap();
+                viewport.addEventListener('click', (e) => {
+                    if (draggedDistance > 6) return; // ignore click after a drag gesture
+                    // Use elementFromPoint instead of e.target: once viewport.setPointerCapture()
+                    // is active during pointerdown, some browsers report e.target on the
+                    // resulting click as the capturing element itself rather than the tile that
+                    // was actually under the cursor, so closest('.fun-item') never matches.
+                    const hit = document.elementFromPoint(e.clientX, e.clientY);
+                    const tile = hit?.closest('.fun-item');
+                    if (!tile || !tile._funItem) return;
+                    const item = tile._funItem;
+
+                    if (item.type === 'image') {
+                        if (lightboxImg && lightboxModal) {
+                            lightboxImg.src = item.src;
+                            lightboxModal.classList.add('active');
+                        }
+                    } else if (item.type === 'video') {
+                        if (modalVideo && videoModal) {
+                            modalVideo.src = item.src;
+                            videoModal.classList.add('active');
+                            modalVideo.play();
+                            document.body.style.overflow = 'hidden';
+                        }
+                    }
+
+                    const state = tileClickCounts.get(tile) || { count: 0, timer: null };
+                    state.count++;
+                    clearTimeout(state.timer);
+                    state.timer = setTimeout(() => { state.count = 0; }, 1200);
+                    tileClickCounts.set(tile, state);
+
+                    if (state.count >= 5) {
+                        state.count = 0;
+                        tile.classList.add('fun-item-egg');
+                        tile.addEventListener('animationend', () => tile.classList.remove('fun-item-egg'), { once: true });
+                    }
+                });
 
                 // --- Pan state ---
                 let originX = 0, originY = 0;       // current canvas translate
@@ -662,9 +931,21 @@
                 let draggedDistance = 0;
                 let inertiaRAF = null;
                 let blurTimeout = null;
+                let renderTilesRAF = null;
 
                 const applyTransform = () => {
                     canvas.style.transform = `translate3d(${originX}px, ${originY}px, 0)`;
+                };
+
+                // renderVisibleTiles() builds/removes DOM tiles and is expensive, so during a drag
+                // it's throttled to once per animation frame instead of running on every pointermove
+                // (which can fire far faster than 60fps and was causing the drag to feel laggy).
+                const scheduleRenderVisibleTiles = () => {
+                    if (renderTilesRAF) return;
+                    renderTilesRAF = requestAnimationFrame(() => {
+                        renderTilesRAF = null;
+                        renderVisibleTiles();
+                    });
                 };
 
                 const renderVisibleTiles = () => {
@@ -877,7 +1158,7 @@
                     lastMoveTime = now;
 
                     applyTransform();
-                    renderVisibleTiles();
+                    scheduleRenderVisibleTiles();
 
                     // Motion blur kicks in once the drag is moving fast enough
                     const speed = Math.abs(velocityX) + Math.abs(velocityY);
@@ -911,10 +1192,117 @@
                 fetch('data/fun.json')
                     .then(r => r.json())
                     .then(data => {
-                        sourceItems = Array.isArray(data) ? data : [];
+                        allItems = Array.isArray(data) ? data : [];
+                        applyFilter();
                         renderVisibleTiles();
                     })
                     .catch(err => console.error('Failed to load fun.json for canvas', err));
+
+                // Re-filter and rebuild every currently-mounted tile when the category filter changes
+                window.addEventListener('funFilterChange', () => {
+                    applyFilter();
+                    cellData.clear();
+                    cellEls.forEach(el => el.remove());
+                    cellEls.clear();
+                    renderVisibleTiles();
+                });
+            });
+        </script>
+        <script>
+            // [NEW] Pinch/scroll/button zoom + drag-to-pan for the Fun page's image lightbox.
+            // Independent of the two scripts that can open this same modal (mobile grid, desktop
+            // canvas) — it just watches the modal's own state, so it works no matter which one
+            // opened it, and resets automatically whenever the modal closes.
+            document.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('fun-lightbox-modal');
+                const frame = document.getElementById('fun-lightbox-frame');
+                const img = document.getElementById('fun-lightbox-img');
+                const zoomInBtn = document.getElementById('fun-zoom-in');
+                const zoomOutBtn = document.getElementById('fun-zoom-out');
+                const zoomResetBtn = document.getElementById('fun-zoom-reset');
+                if (!modal || !frame || !img) return;
+
+                const MIN_SCALE = 1;
+                const MAX_SCALE = 4;
+                let scale = 1;
+                let panX = 0;
+                let panY = 0;
+
+                const applyZoomTransform = () => {
+                    img.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+                    frame.classList.toggle('is-zoomed', scale > 1);
+                    if (zoomResetBtn) zoomResetBtn.textContent = `${Math.round(scale * 100)}%`;
+                };
+
+                const clampPan = () => {
+                    // Keep the image from being dragged so far it leaves visible content behind
+                    const frameRect = frame.getBoundingClientRect();
+                    const maxX = (frameRect.width * (scale - 1)) / 2;
+                    const maxY = (frameRect.height * (scale - 1)) / 2;
+                    panX = Math.max(-maxX, Math.min(maxX, panX));
+                    panY = Math.max(-maxY, Math.min(maxY, panY));
+                };
+
+                const setScale = (next) => {
+                    scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, next));
+                    if (scale === 1) { panX = 0; panY = 0; }
+                    clampPan();
+                    applyZoomTransform();
+                };
+
+                const resetZoom = () => { scale = 1; panX = 0; panY = 0; applyZoomTransform(); };
+
+                zoomInBtn?.addEventListener('click', () => setScale(scale + 0.5));
+                zoomOutBtn?.addEventListener('click', () => setScale(scale - 0.5));
+                zoomResetBtn?.addEventListener('click', resetZoom);
+
+                // Double-click/tap toggles between fit and 2x zoom
+                img.addEventListener('dblclick', () => setScale(scale > 1 ? 1 : 2));
+
+                // Scroll wheel to zoom, centered on the cursor position
+                frame.addEventListener('wheel', (e) => {
+                    if (!modal.classList.contains('active')) return;
+                    e.preventDefault();
+                    const delta = e.deltaY > 0 ? -0.25 : 0.25;
+                    setScale(scale + delta);
+                }, { passive: false });
+
+                // Drag to pan once zoomed in
+                let isDragging = false;
+                let startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+
+                frame.addEventListener('pointerdown', (e) => {
+                    if (scale <= 1) return;
+                    isDragging = true;
+                    frame.classList.add('is-dragging');
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startPanX = panX;
+                    startPanY = panY;
+                    frame.setPointerCapture(e.pointerId);
+                });
+                frame.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    panX = startPanX + (e.clientX - startX);
+                    panY = startPanY + (e.clientY - startY);
+                    clampPan();
+                    applyZoomTransform();
+                });
+                const endDrag = (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    frame.classList.remove('is-dragging');
+                    if (e?.pointerId !== undefined) {
+                        try { frame.releasePointerCapture(e.pointerId); } catch (err) {}
+                    }
+                };
+                frame.addEventListener('pointerup', endDrag);
+                frame.addEventListener('pointercancel', endDrag);
+
+                // Reset zoom whenever the modal is closed, from any trigger
+                new MutationObserver(() => {
+                    if (!modal.classList.contains('active')) resetZoom();
+                }).observe(modal, { attributes: true, attributeFilter: ['class'] });
             });
         </script>
     </body>

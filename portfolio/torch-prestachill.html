@@ -115,13 +115,14 @@
                 background-position: center center;
                 z-index: 0;
                 will-change: transform;
-                /* Efek Ken Burns: Zoom Out perlahan (1.2x -> 1.0x) selama 20 detik */
-                animation: kenBurns 20s ease-out forwards;
+                /* Efek Ken Burns: zoom in-out looping pelan, tidak freeze setelah 20 detik */
+                animation: kenBurns 24s ease-in-out infinite;
             }
-            
+
             @keyframes kenBurns {
-                from { transform: scale(1.2); }
-                to { transform: scale(1.0); }
+                0% { transform: scale(1.08); }
+                50% { transform: scale(1.16); }
+                100% { transform: scale(1.08); }
             }
             
             /* [NEW] Pulse Animation for Before/After Slider Handle */
@@ -153,7 +154,7 @@
                 background: rgba(255,255,255,0.9);
                 backdrop-filter: blur(8px);
                 -webkit-backdrop-filter: blur(8px);
-                border-radius: 50%;
+                border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
                 display: flex; align-items: center; justify-content: center;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);
                 cursor: pointer; z-index: 20; color: #111; padding: 0;
@@ -174,7 +175,7 @@
                 z-index: 20;
             }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 50%;
+                width: 6px; height: 6px; border-radius: 2px; /* Squircle, not circle — matches the site's art direction */
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
@@ -217,27 +218,29 @@
                 .guess-who-slider .guess-who-pagination { bottom: auto; top: 28px; left: 50%; }
             }
 
-            /* [FIX] This page has 5 output cards, not the 4 the shared .bento-grid nth-child
-               layout assumes. Split the last row (Guess Who + Street Interviews) evenly
-               instead of letting card 4 span full width and pushing card 5 onto its own row. */
+            /* [FIX] This page has 6 output cards, not the 4 the shared .bento-grid nth-child
+               layout assumes. Card 1 (Marketplace Review slider) spans its own full-width row
+               on top, then split the last row (Guess Who + Street Interviews) evenly
+               instead of letting card 5 span full width and pushing card 6 onto its own row. */
             @media (min-width: 992px) {
                 #outputs .bento-grid {
                     grid-template-columns: repeat(6, 1fr);
                 }
-                #outputs .bento-item:nth-child(1) { grid-column: span 4; grid-row: 1 / 3; }
-                #outputs .bento-item:nth-child(2) { grid-column: 5 / 7; grid-row: 1 / 2; }
+                #outputs .bento-item:nth-child(1) { grid-column: 1 / 7; grid-row: 1; min-height: 420px; }
+                #outputs .bento-item:nth-child(2) { grid-column: span 4; grid-row: 2 / 4; }
                 #outputs .bento-item:nth-child(3) { grid-column: 5 / 7; grid-row: 2 / 3; }
-                #outputs .bento-item:nth-child(4) { grid-column: 1 / 4; grid-row: 3; min-height: 480px; }
-                #outputs .bento-item:nth-child(5) { grid-column: 4 / 7; grid-row: 3; min-height: 480px; }
+                #outputs .bento-item:nth-child(4) { grid-column: 5 / 7; grid-row: 3 / 4; }
+                #outputs .bento-item:nth-child(5) { grid-column: 1 / 4; grid-row: 4; min-height: 480px; }
+                #outputs .bento-item:nth-child(6) { grid-column: 4 / 7; grid-row: 4; min-height: 480px; }
 
                 /* Guess Who and Street Interviews are marked is-wide for the grid split above,
                    but at half-row width they should read at Fit Check's text size, not Bag Theory's. */
-                #outputs .bento-item:nth-child(4).is-wide .bento-title,
-                #outputs .bento-item:nth-child(5).is-wide .bento-title {
+                #outputs .bento-item:nth-child(5).is-wide .bento-title,
+                #outputs .bento-item:nth-child(6).is-wide .bento-title {
                     font-size: 1.5rem;
                 }
-                #outputs .bento-item:nth-child(4).is-wide .bento-desc,
-                #outputs .bento-item:nth-child(5).is-wide .bento-desc {
+                #outputs .bento-item:nth-child(5).is-wide .bento-desc,
+                #outputs .bento-item:nth-child(6).is-wide .bento-desc {
                     font-size: 1rem;
                 }
             }
@@ -271,17 +274,61 @@
         
         <!-- [NEW] Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
-            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot"></div></a>
-            <a href="#showreel" class="cs-nav-item"><span class="cs-nav-label">Showreel</span><div class="cs-nav-dot"></div></a>
-            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot"></div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot"></div></a>
-            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot"></div></a>
-            <a href="#outputs" class="cs-nav-item"><span class="cs-nav-label">Selected Outputs</span><div class="cs-nav-dot"></div></a>
-            <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot"></div></a>
-            <a href="#process" class="cs-nav-item"><span class="cs-nav-label">Process</span><div class="cs-nav-dot"></div></a>
-            <a href="#testimonial" class="cs-nav-item"><span class="cs-nav-label">Testimonial</span><div class="cs-nav-dot"></div></a>
-            <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Insights</span><div class="cs-nav-dot"></div></a>
-            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot"></div></a>
+            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#showreel" class="cs-nav-item"><span class="cs-nav-label">Showreel</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#outputs" class="cs-nav-item"><span class="cs-nav-label">Selected Outputs</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#process" class="cs-nav-item"><span class="cs-nav-label">Process</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#testimonial" class="cs-nav-item"><span class="cs-nav-label">Testimonial</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Insights</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
+            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
+                </svg>
+            </div></a>
         </nav>
 
         <main class="body-wrapper">
@@ -363,13 +410,10 @@
 
                                 <div class="about-text-block">
                                     <p class="about-paragraph">
-                                        Torch's Back to School 2026 campaign built around one idea: not every achievement has to be big. Getting to school on time, remembering to pray between Mobile Legends matches, making it through the week without blowing your allowance. Those count too. That's PrestaChill.
+                                        Torch's Back to School 2026 campaign was built on a simple idea: not every win has to be big. Getting to school on time. Remembering to pray between Mobile Legends matches. Making it through the week without blowing your allowance. Those count too. That's <strong>PrestaChill</strong>.
                                     </p>
                                     <p class="about-paragraph">
-                                        My role was execution within Torch's creative direction. 38 videos across organic social, e-commerce, and paid ads, shoot to export, over two and a half months and three campaign phases.
-                                    </p>
-                                    <p class="about-paragraph">
-                                        The target was Gen Z, the students actually wearing the bags. The hard part was that Torch's own following is mostly dads in their 30s and 40s, the ones who buy the bags, not the kids the campaign needed to reach, students who barely know Torch exists. So PrestaChill's small wins had to do double duty: carry the message and build awareness for a brand Gen Z barely knew, with an audience Torch's own following couldn't get us to.
+                                        I worked from Torch's creative direction and handled the execution. 38 videos over two and a half months, across organic social, e-commerce, and paid ads. I shot them, cut them, and graded them.
                                     </p>
 
                                     <div class="about-divider"></div>
@@ -409,8 +453,9 @@
                     <div class="global-padding" style="position: relative;">
 
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
-                            "Crafting organic short-form video for PrestaChill that reminds students to celebrate their small wins."
+                            "Creating short-form content for PrestaChill that reminds students to celebrate their small wins."
                         </blockquote>
+                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
                     </div>
                 </div>
             </section>
@@ -426,8 +471,7 @@
                             <div class="about-main-content">
                                 <div class="about-text-block">
                                     <h3 class="about-lead-text text-reveal">Torch's existing audience was the wrong audience.</h3>
-                                    <p class="about-paragraph">The people already following Torch on Instagram and TikTok are mostly dads in their 30s and 40s, the ones who buy the bags. But this campaign needed to reach their kids, students who barely know Torch exists.</p>
-                                    <p class="about-paragraph">So the content had to build awareness for Torch and land PrestaChill's message with an audience Torch's own following couldn't get us to, in about two months.</p>
+                                    <p class="about-paragraph">Most of the people following Torch were parents buying school bags. This campaign needed to reach their kids, who barely knew the brand existed. Dads pay, but kids pick.</p>
                                 </div>
                             </div>
                         </div>
@@ -451,7 +495,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">Borrowing trust from the feed, not the brand.</h3>
-                                    <p class="sol-desc">Every video started with whatever sound, format, and pacing was already trusted on Gen Z's feed that week, built around that first and PrestaChill second. A brand they didn't know yet couldn't lend the content credibility, so the platform did instead.</p>
+                                    <p class="sol-desc">Torch had no recognition with this audience, so the content borrowed it from the platform instead. Every video started from a format, sound, or pace Gen Z already trusted that week. The content earned attention first. The brand came second.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -465,21 +509,58 @@
                                 </div>
                             </div>
 
-                            <!-- Item 2: Platform-native -->
-                            <div class="solution-video-item">
+                            <!-- Item 2: Shooting and selecting real reactions -->
+                            <div class="solution-video-item has-reel">
                                 <div class="solution-video-content">
                                     <span class="sol-number">[02]</span>
-                                    <h3 class="sol-title">Editing to how Gen Z actually watches, format by format.</h3>
-                                    <p class="sol-desc">An unfamiliar audience gave every video three seconds before scrolling on. Challenge content hooked fast: quick cuts, layered SFX. Product content slowed down for one clean reveal. Same campaign, different edit for how each format gets watched.</p>
+                                    <h3 class="sol-title">Shooting for the reaction, not just the action.</h3>
+                                    <p class="sol-desc">I stopped directing and let things play out. Longer takes, handheld, and no cutting away the second something went wrong. That left the edit with reactions worth keeping: the missed kick, the fall, the flat "biasa aja" from the kid who just won a free bag. Those beats felt more real than the action, so they stayed in.</p>
                                 </div>
                                 <div class="solution-video-player">
-                                    <div class="video-player-wrapper">
+                                    <div class="video-player-wrapper is-reel">
                                         <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/torch/torch-prestachill/showreel-prestachill.mp4" type="video/mp4"></video>
                                         <div class="video-center-feedback">
                                             <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
                                             <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
                                         </div>
                                         <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Item 3: Color grading -->
+                            <div class="solution-video-item is-timeline">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[03]</span>
+                                    <h3 class="sol-title">Grading warm for the nostalgia pieces.</h3>
+                                    <p class="sol-desc">The nostalgia content had to feel like a memory, not an ad, so I graded it warmer and softer. Everything else stayed clean and neutral, closer to how those formats already look on a Gen Z feed.</p>
+                                </div>
+                                <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
+                                    <!-- [NEW] Auto-advancing tab viewer: Reference / Process / Final Grade.
+                                         Each tab has a progress bar that fills over TAB_DURATION, then advances
+                                         to the next tab automatically (pauses on hover/touch). Add more images to
+                                         a tab's data-images (JSON array) to cycle through several photos before
+                                         moving to the next tab. -->
+                                    <div class="grading-tabs" style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15); background: #111;">
+                                        <div class="grading-tabs-progress">
+                                            <button class="grading-tab-btn is-active" data-tab="reference"><span class="grading-tab-fill"></span></button>
+                                            <button class="grading-tab-btn" data-tab="nostalgia"><span class="grading-tab-fill"></span></button>
+                                            <button class="grading-tab-btn" data-tab="challenge"><span class="grading-tab-fill"></span></button>
+                                        </div>
+                                        <div class="grading-tab-panels">
+                                            <div class="grading-tab-panel is-active" data-tab="reference" data-images='["../assets/images/project/torch-prestachill/grading/reference-1.webp"]'>
+                                                <img src="../assets/images/project/torch-prestachill/grading/reference-1.webp" alt="Reference photo (to be added)">
+                                                <div class="grading-tab-caption">Reference</div>
+                                            </div>
+                                            <div class="grading-tab-panel" data-tab="nostalgia" data-images='["../assets/images/project/torch-prestachill/grading/final-1.webp"]'>
+                                                <img src="../assets/images/project/torch-prestachill/grading/final-1.webp" alt="Nostalgia frame after color grading">
+                                                <div class="grading-tab-caption">Nostalgia (Graded)</div>
+                                            </div>
+                                            <div class="grading-tab-panel" data-tab="challenge" data-images='["../assets/images/project/torch-prestachill/grading/process-1.webp", "../assets/images/project/torch-prestachill/grading/process-2.webp", "../assets/images/project/torch-prestachill/grading/process-3.webp"]'>
+                                                <img src="../assets/images/project/torch-prestachill/grading/process-1.webp" alt="Challenge/product frame">
+                                                <div class="grading-tab-caption">Challenge / Product</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -498,17 +579,49 @@
                             </div>
                         </div>
                         <div class="bento-grid">
+                            <!-- Item 0: Marketplace Review Series (Back to School), Hyper & Nura -->
+                            <div class="bento-item is-wide guess-who-slider" data-slide-index="0" data-links='["https://id.shp.ee/fjPzUTzs", "https://id.shp.ee/9Ea9ycSR"]'>
+                                <div class="guess-who-track">
+                                    <div class="guess-who-slide">
+                                        <video class="bento-video guess-who-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/hyper.mp4" type="video/mp4"></video>
+                                    </div>
+                                    <div class="guess-who-slide">
+                                        <video class="bento-video guess-who-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/nura.mp4" type="video/mp4"></video>
+                                    </div>
+                                </div>
+                                <button class="grade-nav-btn prev-btn guess-who-prev" aria-label="Previous video" style="left: 16px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                </button>
+                                <button class="grade-nav-btn next-btn guess-who-next" aria-label="Next video" style="right: 16px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <div class="grade-pagination guess-who-pagination">
+                                    <div class="grade-dot active"></div>
+                                    <div class="grade-dot"></div>
+                                </div>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">Marketplace Review: Back to School</h3>
+                                    <p class="bento-desc">Product review series for the Back to School lineup, featuring Hyper and Nura unboxing and reviewing marketplace picks.</p>
+                                    <div class="bento-actions">
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
+                                        </button>
+                                        <a href="https://id.shp.ee/fjPzUTzs" target="_blank" rel="noopener noreferrer" class="bento-btn guess-who-link" aria-label="View on Shopee"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg><span class="bento-btn-label">View on Shopee</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Item 1: Bag Theory Eps. 1 -->
                             <div class="bento-item is-wide">
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/bag-theory-eps-1.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Bag Theory Eps. 1</h3>
-                                    <p class="bento-desc">A two minute look at how Indonesian school bags changed from the 70s to today. The highest engagement of the campaign at 4.51%.</p>
+                                    <p class="bento-desc">Two minutes on how Indonesian school bags changed from the 70s to today.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.instagram.com/p/DaP-SZYTbWT/" target="_blank" rel="noopener noreferrer" class="bento-btn">View on IG</a>
+                                        <a href="https://www.instagram.com/p/DaP-SZYTbWT/" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -529,12 +642,12 @@
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/asmr-packing.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Product Catalogue ASMR</h3>
-                                    <p class="bento-desc">An ASMR packing video, everything a student loads up before heading to school. The most viewed single video of the campaign at 32,800 views.</p>
+                                    <p class="bento-desc">An ASMR packing video. Everything a student loads up before heading to school. The widest reach in the campaign, though engagement landed below average.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.tiktok.com/@torch.id/video/7658154418629512456" target="_blank" rel="noopener noreferrer" class="bento-btn">View on TikTok</a>
+                                        <a href="https://www.tiktok.com/@torch.id/video/7658154418629512456" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -557,10 +670,10 @@
                                     <h3 class="bento-title">Fit Check</h3>
                                     <p class="bento-desc">Students styling the Back to School series, built around a track that was trending on TikTok that week.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.tiktok.com/@torch.id/video/7648977730519813383" target="_blank" rel="noopener noreferrer" class="bento-btn">View on TikTok</a>
+                                        <a href="https://www.tiktok.com/@torch.id/video/7648977730519813383" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -577,7 +690,7 @@
                             </div>
 
                             <!-- Item 4: "Guess Who?" Challenge (2-video slider) -->
-                            <div class="bento-item is-wide guess-who-slider" data-slide-index="0">
+                            <div class="bento-item is-wide guess-who-slider" data-slide-index="0" data-links='["https://www.tiktok.com/@torch.id/video/7647162016670453000", "https://www.tiktok.com/@torch.id/video/7647909904543468807"]'>
                                 <div class="guess-who-track">
                                     <div class="guess-who-slide">
                                         <video class="bento-video guess-who-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/tebak-gambar-pt-1.mp4" type="video/mp4"></video>
@@ -598,12 +711,12 @@
                                 </div>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">"Guess Who?" Challenge</h3>
-                                    <p class="bento-desc">A guessing game filmed with students at school. Part 1 has them guessing Indonesian public figures like Bahlil and Prabowo. Part 2 switches to K-pop idols. Unscripted reactions doing the work that a script could not.</p>
+                                    <p class="bento-desc">A guessing game with students. Part 1 was Indonesian public figures, Gibran, Jokowi, Bahlil. Part 2 switched to K-pop idols, and engagement dropped well below Part 1.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.tiktok.com/@torch.id/video/7647162016670453000" target="_blank" rel="noopener noreferrer" class="bento-btn guess-who-link">View on TikTok</a>
+                                        <a href="https://www.tiktok.com/@torch.id/video/7647162016670453000" target="_blank" rel="noopener noreferrer" class="bento-btn guess-who-link" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -633,10 +746,10 @@
                                     <h3 class="bento-title">"Prestachill" Street Interviews</h3>
                                     <p class="bento-desc">Asking students what actually counts as an achievement. Turns out it's not just trophies, it's saying good morning to your parents, praying on time, or just getting through the week without going broke.</p>
                                     <div class="bento-actions">
-                                        <button class="bento-btn bento-play-btn">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                         </button>
-                                        <a href="https://www.tiktok.com/@torch.id/video/7642324013359926546" target="_blank" rel="noopener noreferrer" class="bento-btn">View on TikTok</a>
+                                        <a href="https://www.tiktok.com/@torch.id/video/7642324013359926546" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                         <button class="bento-btn bento-stats-toggle">
                                             Stats
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -664,7 +777,7 @@
                             <div class="section-headline">
                                 <h2 id="impact-heading" class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Impact</h2>
                             </div>
-                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">There was no paid spend behind these numbers, so engagement rate is the honest signal here, not raw view count.</p>
+                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">No paid spend behind any of this, so engagement rate says more here than view count.</p>
                         </div>
                         <div class="data-grid">
                             <div class="data-item" tabindex="0">
@@ -674,8 +787,8 @@
                             </div>
                             <div class="data-item" tabindex="0">
                                 <div class="data-number">4.51%</div>
-                                <div class="data-label">Peak Engagement Rate</div>
-                                <div class="metric-tooltip">The highest engagement rate of the campaign, recorded on Bag Theory Eps. 1.</div>
+                                <div class="data-label">Peak Instagram Engagement Rate</div>
+                                <div class="metric-tooltip">Recorded on Bag Theory Eps. 1, roughly 3.6x the campaign's other 3 Instagram posts, which averaged 1.25%.</div>
                             </div>
                             <div class="data-item" tabindex="0">
                                 <div class="data-number">135,510</div>
@@ -714,7 +827,7 @@
                                 </div>
                                 <div class="swiper-slide">
                                     <div class="photo-card">
-                                        <img src="../assets/images/project/torch/bts-3.webp" alt="Editing Process" class="photo-img" loading="lazy" decoding="async" fetchpriority="low">
+                                        <img src="../assets/images/project/torch-prestachill/bts-3.webp" alt="Editing Process" class="photo-img" loading="lazy" decoding="async" fetchpriority="low">
                                     </div>
                                 </div>
                             </div>
@@ -746,6 +859,7 @@
                                 <span class="cs-testimonial-role">Content Video Producer, Torch</span>
                                 <span class="cs-testimonial-translated">Translated from Indonesian</span>
                             </div>
+                            <p style="text-align: center; margin: 24px auto 0; max-width: 55ch; font-family: var(--font-primary); font-size: 0.8rem; font-weight: 500; color: #999;">Referring to shot selection and pacing decisions on set and in the edit, within Torch's creative direction.</p>
                         </div>
                     </div>
                 </div>
@@ -762,16 +876,16 @@
                             <div class="about-main-content">
                                 <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
-                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">PrestaChill's core idea outperformed every trend format.</h4>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">Bag Theory had no trending sound, no fast cutting, and ran two minutes long. It still earned the highest engagement rate in the campaign, because the small win behind it (watching an everyday object carry someone's history) was genuinely worth sitting through. Trends get content in front of people. A real PrestaChill moment is what keeps them there.</p>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">The top video on each platform had no trend behind it.</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">On Instagram, Bag Theory hit 4.51% with no trending sound and a two minute runtime. On TikTok, the street interviews beat the trend-built Fit Check. Two separate results on two separate platforms, not one pattern proven twice, but neither needed a trend to win.</p>
                                     </div>
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
-                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">The nostalgia play was the fastest way to Gen Z awareness.</h4>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">The target was always Gen Z, but the best performing video leaned on a history most of them hadn't lived through. It worked because it turned "we don't know this brand" into "wait, this brand has been around that long?", curiosity did the awareness-building work a straight pitch couldn't.</p>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Nostalgia gave an unfamiliar brand somewhere to land.</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">Bag Theory wasn't about Torch. It was about school bag history most of the audience never lived through. It's one video, not proof, but the engagement suggests that gave people a reason to stay before the brand introduced itself.</p>
                                     </div>
                                     <div>
-                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Format decides how PrestaChill is felt, not just paced.</h4>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">A challenge video and a packing video need opposite treatments to make their PrestaChill moment land. Applying one editing formula across every video would have made half of them worse, and flattened the very thing the campaign was built around.</p>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">One editing formula would have flattened the campaign.</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">A challenge video and a packing video need opposite rhythms. What held the work together was the idea, not the cutting style.</p>
                                     </div>
                                 </div>
                             </div>
@@ -831,7 +945,7 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="premium-soft-cta">
-                            <h2 class="premium-soft-cta-title">Got the strategy but no one to execute it?</h2>
+                            <h2 class="premium-soft-cta-title">Need someone to shoot, cut, and grade it?</h2>
                             <p class="premium-soft-cta-desc">Short-form video at campaign scale, from shoot to final export.</p>
                             <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
                                 Start a Project
@@ -1098,6 +1212,103 @@
             });
         </script>
         <script>
+            // [NEW] Color Grading Tab Viewer: auto-advances Reference -> Process -> Final Grade
+            // like Instagram Stories. Each tab's progress bar fills over TAB_DURATION; a tab with
+            // multiple images in data-images cycles through them before the bar completes and
+            // the next tab starts. Pauses on hover/touch-hold, resumes on release.
+            document.addEventListener('DOMContentLoaded', () => {
+                const TAB_DURATION = 4000; // ms per image within a tab
+
+                document.querySelectorAll('.grading-tabs').forEach(root => {
+                    const tabBtns = Array.from(root.querySelectorAll('.grading-tab-btn'));
+                    const panels = Array.from(root.querySelectorAll('.grading-tab-panel'));
+                    if (!tabBtns.length || !panels.length) return;
+
+                    const tabImages = panels.map(panel => {
+                        try { return JSON.parse(panel.dataset.images || '[]'); }
+                        catch (e) { return []; }
+                    });
+
+                    let tabIndex = 0;
+                    let imageIndex = 0;
+                    let isPaused = false;
+                    let isOffscreen = false;
+                    let rafId = null;
+                    let segmentStart = null;
+
+                    const setActiveTab = (index) => {
+                        tabIndex = index;
+                        imageIndex = 0;
+                        tabBtns.forEach((btn, i) => {
+                            btn.classList.toggle('is-active', i === index);
+                            btn.classList.toggle('is-complete', i < index);
+                            const fill = btn.querySelector('.grading-tab-fill');
+                            if (fill && i !== index) fill.style.width = i < index ? '100%' : '0%';
+                        });
+                        panels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
+                        showImage(tabIndex, imageIndex);
+                    };
+
+                    const showImage = (t, i) => {
+                        const images = tabImages[t];
+                        const img = panels[t].querySelector('img');
+                        if (img && images && images[i]) img.src = images[i];
+                    };
+
+                    const advance = () => {
+                        const images = tabImages[tabIndex];
+                        if (images && imageIndex < images.length - 1) {
+                            imageIndex += 1;
+                            showImage(tabIndex, imageIndex);
+                        } else {
+                            setActiveTab((tabIndex + 1) % tabBtns.length);
+                        }
+                        segmentStart = null;
+                    };
+
+                    const tick = (now) => {
+                        if (isPaused || isOffscreen) { rafId = requestAnimationFrame(tick); return; }
+                        if (segmentStart === null) segmentStart = now;
+                        const elapsed = now - segmentStart;
+                        const progress = Math.min(elapsed / TAB_DURATION, 1);
+                        const fill = tabBtns[tabIndex].querySelector('.grading-tab-fill');
+                        if (fill) fill.style.width = `${progress * 100}%`;
+                        if (progress >= 1) advance();
+                        rafId = requestAnimationFrame(tick);
+                    };
+
+                    tabBtns.forEach((btn, i) => {
+                        btn.addEventListener('click', () => setActiveTab(i));
+                    });
+
+                    panels.forEach(panel => {
+                        const img = panel.querySelector('img');
+                        if (img) {
+                            img.style.cursor = 'pointer';
+                            img.addEventListener('click', () => setActiveTab((tabIndex + 1) % tabBtns.length));
+                        }
+                    });
+
+                    root.addEventListener('mouseenter', () => { isPaused = true; });
+                    root.addEventListener('mouseleave', () => { isPaused = false; segmentStart = null; });
+                    root.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+                    root.addEventListener('touchend', () => { isPaused = false; segmentStart = null; }, { passive: true });
+
+                    // Pause the rAF-driven progress bar while the viewer is off-screen
+                    // so it doesn't burn CPU on sections the user hasn't scrolled to yet.
+                    new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            isOffscreen = !entry.isIntersecting;
+                            if (entry.isIntersecting) segmentStart = null;
+                        });
+                    }, { threshold: 0 }).observe(root);
+
+                    setActiveTab(0);
+                    rafId = requestAnimationFrame(tick);
+                });
+            });
+        </script>
+        <script>
             // Script for "The Solution" Section - Video Players & Scroll Animation
             document.addEventListener('DOMContentLoaded', () => {
                 const solutionSection = document.getElementById('solution');
@@ -1319,84 +1530,113 @@
                                 video.pause();
                                 video.currentTime = 0; // Reset video to start
                             });
+
+                            // [NEW] Scrub the video's timeline horizontally as the cursor moves across the card,
+                            // like a TikTok/Vimeo hover preview, instead of just autoplaying from the start.
+                            let scrubReady = false;
+                            video.addEventListener('loadedmetadata', () => { scrubReady = true; });
+                            item.addEventListener('mousemove', (e) => {
+                                if (!scrubReady || !video.duration) return;
+                                const rect = item.getBoundingClientRect();
+                                const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+                                video.pause();
+                                video.currentTime = ratio * video.duration;
+                            });
                         }
+                    });
+
+                    // [NEW] Subtle cursor-driven tilt on bento cards for a premium hover feel.
+                    // Keeps the existing CSS hover lift (translateY -8px) by reproducing it inline,
+                    // since a JS inline transform overrides the :hover rule instead of stacking with it.
+                    document.querySelectorAll('.bento-item').forEach(item => {
+                        const MAX_TILT = 6; // degrees
+                        item.addEventListener('mouseenter', () => {
+                            item.style.transition = 'transform 0.1s linear, box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                        });
+                        item.addEventListener('mousemove', (e) => {
+                            const rect = item.getBoundingClientRect();
+                            const px = (e.clientX - rect.left) / rect.width - 0.5;
+                            const py = (e.clientY - rect.top) / rect.height - 0.5;
+                            item.style.transform = `translate3d(0, -8px, 0) perspective(800px) rotateX(${(-py * MAX_TILT).toFixed(2)}deg) rotateY(${(px * MAX_TILT).toFixed(2)}deg)`;
+                        });
+                        item.addEventListener('mouseleave', () => {
+                            item.style.transition = '';
+                            item.style.transform = '';
+                        });
                     });
                 }
             });
         </script>
         <script>
-            // Script for "Guess Who?" 2-video slider inside a bento card
+            // Script for 2-video sliders inside a bento card (e.g. "Guess Who?", Marketplace Review)
             document.addEventListener('DOMContentLoaded', () => {
-                const slider = document.querySelector('.guess-who-slider');
-                if (!slider) return;
+                document.querySelectorAll('.guess-who-slider').forEach(slider => {
+                    const track = slider.querySelector('.guess-who-track');
+                    const videos = slider.querySelectorAll('.guess-who-video');
+                    const dots = slider.querySelectorAll('.guess-who-pagination .grade-dot');
+                    const prevBtn = slider.querySelector('.guess-who-prev');
+                    const nextBtn = slider.querySelector('.guess-who-next');
+                    const linkBtn = slider.querySelector('.guess-who-link');
+                    let links = [];
+                    try { links = JSON.parse(slider.dataset.links || '[]'); } catch (e) { links = []; }
 
-                const track = slider.querySelector('.guess-who-track');
-                const videos = slider.querySelectorAll('.guess-who-video');
-                const dots = slider.querySelectorAll('.guess-who-pagination .grade-dot');
-                const prevBtn = slider.querySelector('.guess-who-prev');
-                const nextBtn = slider.querySelector('.guess-who-next');
-                const linkBtn = slider.querySelector('.guess-who-link');
-                const links = [
-                    'https://www.tiktok.com/@torch.id/video/7647162016670453000',
-                    'https://www.tiktok.com/@torch.id/video/7647909904543468807'
-                ];
+                    let currentIndex = 0;
 
-                let currentIndex = 0;
-
-                // Force each video to paint its first frame (instead of a black box) as
-                // soon as its metadata is ready, including the slide sitting off-screen
-                // behind translateX(100%). Kept at 0.1s (never reset to 0) so pausing
-                // on mouseleave doesn't drop the frame back to black.
-                const POSTER_TIME = 0.1;
-                videos.forEach(v => {
-                    v.addEventListener('loadedmetadata', () => {
-                        v.currentTime = POSTER_TIME;
-                    });
-                    v.load();
-                });
-
-                const statsPanels = slider.querySelectorAll('.guess-who-stats');
-
-                const goToSlide = (index) => {
-                    currentIndex = (index + videos.length) % videos.length;
-                    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-                    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
-                    if (linkBtn) linkBtn.href = links[currentIndex];
-                    statsPanels.forEach(panel => {
-                        panel.style.display = (Number(panel.dataset.slide) === currentIndex) ? '' : 'none';
-                    });
-                    slider.dataset.slideIndex = currentIndex;
-                };
-
-                prevBtn?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(currentIndex - 1); });
-                nextBtn?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(currentIndex + 1); });
-                dots.forEach((dot, i) => dot.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(i); }));
-
-                // Keep hover-to-play and the Play/modal button in sync with the active slide
-                slider.addEventListener('mouseenter', () => {
-                    const activeVideo = videos[currentIndex];
-                    activeVideo?.play().catch(() => {});
-                });
-                slider.addEventListener('mouseleave', () => {
+                    // Force each video to paint its first frame (instead of a black box) as
+                    // soon as its metadata is ready, including the slide sitting off-screen
+                    // behind translateX(100%). Kept at 0.1s (never reset to 0) so pausing
+                    // on mouseleave doesn't drop the frame back to black.
+                    const POSTER_TIME = 0.1;
                     videos.forEach(v => {
-                        v.pause();
-                        v.currentTime = POSTER_TIME; // keep showing the poster frame, not black
+                        v.addEventListener('loadedmetadata', () => {
+                            v.currentTime = POSTER_TIME;
+                        });
+                        v.load();
                     });
-                });
 
-                const playBtn = slider.querySelector('.bento-play-btn');
-                playBtn?.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const videoModal = document.getElementById('video-modal');
-                    const modalVideo = document.getElementById('modal-video-player');
-                    const source = videos[currentIndex]?.querySelector('source');
-                    if (source && videoModal && modalVideo) {
-                        modalVideo.src = source.src;
-                        videoModal.classList.add('active');
-                        modalVideo.play();
-                        document.body.style.overflow = 'hidden';
-                    }
+                    const statsPanels = slider.querySelectorAll('.guess-who-stats');
+
+                    const goToSlide = (index) => {
+                        currentIndex = (index + videos.length) % videos.length;
+                        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+                        if (linkBtn) linkBtn.href = links[currentIndex];
+                        statsPanels.forEach(panel => {
+                            panel.style.display = (Number(panel.dataset.slide) === currentIndex) ? '' : 'none';
+                        });
+                        slider.dataset.slideIndex = currentIndex;
+                    };
+
+                    prevBtn?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(currentIndex - 1); });
+                    nextBtn?.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(currentIndex + 1); });
+                    dots.forEach((dot, i) => dot.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); goToSlide(i); }));
+
+                    // Keep hover-to-play and the Play/modal button in sync with the active slide
+                    slider.addEventListener('mouseenter', () => {
+                        const activeVideo = videos[currentIndex];
+                        activeVideo?.play().catch(() => {});
+                    });
+                    slider.addEventListener('mouseleave', () => {
+                        videos.forEach(v => {
+                            v.pause();
+                            v.currentTime = POSTER_TIME; // keep showing the poster frame, not black
+                        });
+                    });
+
+                    const playBtn = slider.querySelector('.bento-play-btn');
+                    playBtn?.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const videoModal = document.getElementById('video-modal');
+                        const modalVideo = document.getElementById('modal-video-player');
+                        const source = videos[currentIndex]?.querySelector('source');
+                        if (source && videoModal && modalVideo) {
+                            modalVideo.src = source.src;
+                            videoModal.classList.add('active');
+                            modalVideo.play();
+                            document.body.style.overflow = 'hidden';
+                        }
+                    });
                 });
             });
         </script>
@@ -1405,10 +1645,12 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const sections = document.querySelectorAll('section[id]');
                 const navItems = document.querySelectorAll('.cs-nav-item');
+                let activeSection = null;
 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
+                            activeSection = entry.target;
                             navItems.forEach(item => {
                                 item.classList.remove('active');
                                 if (item.getAttribute('href') === `#${entry.target.id}`) {
@@ -1420,6 +1662,26 @@
                 }, { rootMargin: "-40% 0px -60% 0px" }); // Active threshold di tengah atas layar
 
                 sections.forEach(sec => observer.observe(sec));
+
+                // Fill the active dot's progress ring based on scroll position within that section
+                const RING_CIRCUMFERENCE = 50.27;
+                let ticking = false;
+                const updateRingProgress = () => {
+                    ticking = false;
+                    if (!activeSection) return;
+                    const rect = activeSection.getBoundingClientRect();
+                    const progress = Math.min(Math.max((-rect.top) / (rect.height - window.innerHeight || 1), 0), 1);
+                    const activeItem = document.querySelector('.cs-nav-item.active .cs-nav-dot-ring circle');
+                    if (activeItem) {
+                        activeItem.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - progress);
+                    }
+                };
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(updateRingProgress);
+                    }
+                }, { passive: true });
             });
         </script>
     </body>

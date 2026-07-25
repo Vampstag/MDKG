@@ -351,7 +351,7 @@
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         padding: 10px 20px;
-        border-radius: 100px; /* Pill shape */
+        border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
         box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         border: 1px solid rgba(255,255,255,0.5);
         pointer-events: none;
@@ -439,7 +439,7 @@
     max-width: 54px;
     margin: 0 auto 60px;
     background-color: #f9f9f9;
-    border-radius: 100px;
+    border-radius: 18px; /* Squircle, not circle — matches the site's art direction */
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     cursor: pointer;
     overflow: hidden;
@@ -750,7 +750,7 @@
     background-color: transparent;
     color: #666;
     padding: 3px 8px;
-    border-radius: 100px;
+    border-radius: 8px; /* Squircle, not circle — matches the site's art direction */
     font-family: var(--font-primary);
     font-size: 0.6rem;
     font-weight: 600;

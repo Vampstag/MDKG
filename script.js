@@ -262,6 +262,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // 15. Audio Narrator
         initAudioNarrator();
 
+        // 15b. Magnetic Buttons
+        initMagneticButtons();
+
         // 16. Share Buttons (Web Share API)
         initShareButtons();
 
@@ -779,28 +782,38 @@ function animateJournalSection(section) {
  */
 function animateTextReveal(element) {
     element.style.opacity = '1'; // Make container visible
-    
+
     const text = element.innerText;
-    const words = text.split(' ').filter(word => word.trim() !== '');
     element.innerHTML = '';
 
-    words.forEach((word, index) => {
-        const span = document.createElement('span');
-        span.textContent = word;
-        span.style.display = 'inline-block';
-        span.style.opacity = '0';
-        span.style.transform = 'translateY(30px)';
-        if (index < words.length - 1) {
-            span.style.marginRight = '0.25em';
+    const chars = [];
+    text.split(' ').forEach((word, wordIndex, words) => {
+        // Wrap each word so its letters can never be split across a line break
+        const wordSpan = document.createElement('span');
+        wordSpan.style.display = 'inline-block';
+        wordSpan.style.whiteSpace = 'nowrap';
+
+        word.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.style.display = 'inline-block';
+            span.style.opacity = '0';
+            span.style.transform = 'translateY(20px)';
+            wordSpan.appendChild(span);
+            chars.push(span);
+        });
+        element.appendChild(wordSpan);
+
+        if (wordIndex < words.length - 1) {
+            element.appendChild(document.createTextNode(' '));
         }
-        element.appendChild(span);
     });
 
-    gsap.to(element.children, {
+    gsap.to(chars, {
         y: 0,
         opacity: 1,
-        duration: 0.8,
-        stagger: 0.05,
+        duration: 0.6,
+        stagger: 0.015,
         ease: "power3.out"
     });
 }
@@ -1041,6 +1054,32 @@ function initBitsSlider() {
             const card = activeSlide.querySelector('.photo-card');
             if (card) gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, duration: 0.8, ease: "power3.out" });
         }
+    });
+}
+//#endregion
+
+//#region MAGNETIC BUTTONS
+// =========================================
+// 15b. MAGNETIC CURSOR ATTRACTION
+// =========================================
+function initMagneticButtons() {
+    const MAX_PULL = 12; // px the button can travel toward the cursor
+    const RADIUS = 80; // px from center where the pull starts
+
+    document.querySelectorAll('.cs-share-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = e.clientX - cx;
+            const dy = e.clientY - cy;
+            const dist = Math.min(Math.hypot(dx, dy), RADIUS);
+            const pull = dist / RADIUS;
+            btn.style.transform = `translate(${(dx * 0.3 * pull).toFixed(2)}px, ${(dy * 0.3 * pull).toFixed(2)}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
     });
 }
 //#endregion

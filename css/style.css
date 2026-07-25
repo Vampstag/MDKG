@@ -103,9 +103,9 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .home-hero-headline-text-2 { font-size: var(--text-display) !important; }
-.section-headline-text { 
+.section-headline-text {
     font-size: var(--text-h2) !important;
-    font-weight: 700; /* Bold agar terlihat solid dan tidak tipis */
+    font-weight: 300 !important; /* Light editorial weight — !important so Webflow's utility classes (e.g. .text-weight-semibold) can't override it and cause a bold-then-light flash */
     letter-spacing: -0.03em; /* Konsisten dengan headline lain */
     line-height: 1.2;
     color: #000000; /* Pure Black untuk kontras maksimal */
@@ -705,7 +705,7 @@ html.lenis, html.lenis body { height: auto; }
     background-color: transparent;
     color: #1d1d1f;
     padding: 14px 28px;
-    border-radius: 100px;
+    border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
     text-decoration: none;
     transition: all 0.3s ease;
     border: 1px solid #d2d2d7;
@@ -1476,7 +1476,7 @@ html.lenis, html.lenis body { height: auto; }
     background-color: transparent;
     color: #666;
     padding: 3px 8px;
-    border-radius: 100px;
+    border-radius: 8px; /* Squircle, not circle — matches the site's art direction */
     font-family: var(--font-primary);
     font-size: 0.6rem;
     font-weight: 600;
@@ -1676,24 +1676,24 @@ html.lenis, html.lenis body { height: auto; }
     width: 8px;
     height: 8px;
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    border-radius: 50%;
+    border-radius: 3px; /* Squircle, not circle — matches the site's art direction */
     margin: 0 !important;
 }
 
 .bits-slider .swiper-pagination-bullet-active {
     background: #111111;
     width: 32px; /* Lebih elegan ala Apple UI */
-    border-radius: 100px;
+    border-radius: 3px; /* Squircle, matches the inactive bullet's radius */
 }
 
 /* Custom Navigation Arrows for Bits Slider */
-.bits-slider .swiper-button-next, 
+.bits-slider .swiper-button-next,
 .bits-slider .swiper-button-prev {
     color: #fff;
     background: #111; /* Kontras gelap agar terlihat jelas di atas background putih */
     width: 56px;
     height: 56px;
-    border-radius: 50%;
+    border-radius: 18px; /* Squircle, not circle — matches the site's art direction */
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
@@ -1829,7 +1829,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+    border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1902,6 +1902,31 @@ html.lenis, html.lenis body { height: auto; }
         height: 100vh;
         border-radius: 0;
         aspect-ratio: auto;
+    }
+}
+
+/* [NEW] Fun page's video modal mixes landscape client work and portrait personal reels,
+   so it can't assume a fixed 9/16 like the case-study video modal does. Size the box to
+   the video's own natural aspect ratio instead, capped to the viewport. */
+#fun-video-modal .video-modal-content {
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 85vh;
+    aspect-ratio: auto;
+}
+#fun-video-modal #fun-modal-video-player {
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: block;
+}
+@media (max-width: 767px) {
+    #fun-video-modal .video-modal-content {
+        max-width: 95vw;
+        max-height: 90vh;
+        border-radius: 16px;
     }
 }
 /* #endregion */
@@ -2406,8 +2431,25 @@ html.lenis, html.lenis body { height: auto; }
     .cs-sticky-nav { display: none; } /* Hide on mobile/tablet */
 }
 .cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 4px; }
-.cs-nav-dot { width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
+.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
 .cs-nav-item:hover .cs-nav-dot, .cs-nav-item.active .cs-nav-dot { background-color: #111; transform: scale(1.5); }
+.cs-nav-dot-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.cs-nav-dot-ring circle {
+    stroke: #111;
+    stroke-dasharray: 50.27; /* 2 * PI * r(8) */
+    stroke-dashoffset: 50.27;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dashoffset 0.1s linear;
+}
+.cs-nav-item.active .cs-nav-dot-ring { opacity: 1; }
 .cs-nav-label {
     position: absolute; right: 24px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 600; color: #111;
     opacity: 0; transform: translateX(10px); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
@@ -2691,7 +2733,7 @@ html.lenis, html.lenis body { height: auto; }
     background: #111;
     color: #fff;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 32px; /* Squircle, not circle — matches the site's art direction */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2730,7 +2772,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     padding: 4px 10px;
-    border-radius: 100px;
+    border-radius: 8px; /* Squircle, not circle — matches the site's art direction */
     font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -3403,6 +3445,83 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 400;
 }
 
+/* --- Color Grading Tab Viewer: Instagram-Stories-style auto-advancing tabs
+   (Reference / Process / Final Grade), each with a fill-progress bar. --- */
+.grading-tabs-progress {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+}
+.grading-tab-btn {
+    flex: 1;
+    height: 3px;
+    padding: 0;
+    border: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+.grading-tab-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    border-radius: 2px;
+}
+/* Tabs already advanced past show a full bar; the JS drives .grading-tab-fill's
+   width via inline style for the active tab, this just guarantees past tabs read as complete */
+.grading-tab-btn.is-complete .grading-tab-fill {
+    width: 100%;
+}
+
+.grading-tab-panels {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.grading-tab-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.grading-tab-panel.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.grading-tab-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.grading-tab-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* --- Reusable Case Study Testimonial (was duplicated inline across case studies) --- */
 .cs-testimonial-inner {
     max-width: 900px;
@@ -3537,7 +3656,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 .video-timeline::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
-    background: #fff; border-radius: 50%;
+    background: #fff; border-radius: 4px; /* Squircle, not circle — matches the site's art direction */
 }
 .video-time { display: flex; gap: 4px; font-size: 0.75rem; color: white; font-weight: 500; font-variant-numeric: tabular-nums; }
 
@@ -4028,7 +4147,7 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease, transform 0.15s ease-out;
 }
 .cs-share-btn:hover {
     color: #ffffff;
@@ -4128,7 +4247,7 @@ a.social-icon:hover img {
     background: #111;
     border: 1px solid rgba(255,255,255,0.1);
     padding: 12px 28px 12px 16px;
-    border-radius: 100px;
+    border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
@@ -4562,7 +4681,7 @@ a.social-icon:hover img {
 .service-accordion__icon {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
     border: 1px solid rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
@@ -5680,7 +5799,7 @@ a.social-icon:hover img {
     justify-content: center;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 12px; /* Squircle, not circle — matches the site's art direction */
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -5716,10 +5835,34 @@ a.social-icon:hover img {
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.bento-item:hover .bento-desc, 
+/* [NEW] One-line stat readout under .bento-desc, same reveal animation, slightly brighter/bolder
+   so the numbers scan as data rather than more prose */
+.bento-stats-line {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(15px);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bento-item:hover .bento-desc,
 .bento-item.is-active .bento-desc,
 .bento-item.is-expanded .bento-desc {
     max-height: 200px;
+    opacity: 1;
+    margin-top: 8px;
+    transform: translateY(0);
+}
+
+.bento-item:hover .bento-stats-line,
+.bento-item.is-active .bento-stats-line,
+.bento-item.is-expanded .bento-stats-line {
+    max-height: 60px;
     opacity: 1;
     margin-top: 8px;
     transform: translateY(0);
@@ -5771,10 +5914,14 @@ a.social-icon:hover img {
 }
 
 .bento-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 10px 16px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -5792,6 +5939,13 @@ a.social-icon:hover img {
     outline: none;
 }
 
+/* Stats toggle keeps its text + chevron side-by-side instead of icon-only, since it has
+   no dedicated icon of its own and toggles inline (not a link out to another platform). */
+.bento-btn.bento-stats-toggle {
+    width: auto;
+    padding: 10px 16px;
+}
+
 .bento-btn:hover {
     background-color: #fff;
     color: #000;
@@ -5804,8 +5958,45 @@ a.social-icon:hover img {
 }
 
 .bento-btn svg {
+    width: 16px;
+    height: 16px;
     transition: transform 0.3s ease;
     pointer-events: none; /* Mencegah SVG mem-block event interaksi mouse */
+}
+
+/* Icons read as too small at 12-14px inside a 36px desktop button — size them up a bit
+   for that viewport while leaving mobile/tablet as-is. */
+@media (min-width: 992px) {
+    .bento-btn:not(.bento-stats-toggle) svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* [NEW] Icon-only bento actions (Play / View on X) — label text is kept in the DOM for
+   accessibility but visually hidden, and surfaces as a tooltip on hover. Same pattern as
+   the Fun page's category filter dock. */
+.bento-btn-label {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: rgba(17,17,17,0.9);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 5;
+}
+.bento-btn:hover .bento-btn-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 .bento-stats-toggle.active svg {

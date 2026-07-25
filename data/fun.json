@@ -1,12 +1,14 @@
 [
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas1.webp",
     "alt": "Placeholder artwork 1",
     "caption": "shot on a rainy Tuesday"
   },
   {
     "type": "poster",
+    "category": "sketch",
     "text": "STAY CURIOUS",
     "bg": "#111111",
     "color": "#ffffff",
@@ -14,18 +16,39 @@
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas2.webp",
     "alt": "Placeholder artwork 2",
     "caption": "third take, first felt right"
   },
   {
     "type": "video",
+    "category": "client-video",
     "src": "assets/videos/torchxgundam.mp4",
     "poster": "assets/images/project/torch/poster_showreel_torchxgundam.webp",
     "caption": "no brief, just vibes"
   },
   {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/radar%20motion%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
+    "caption": "Torch x Gundam batch 2, top funnel ad"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/magazine%20flipped%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
+    "caption": "Torch x Gundam batch 2, top funnel ad"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/bag-theory-eps-2.mp4",
+    "caption": "Bag Theory Eps. 2"
+  },
+  {
     "type": "poster",
+    "category": "sketch",
     "text": "MADE WITH INTENT",
     "bg": "#f2f2f2",
     "color": "#111111",
@@ -33,18 +56,21 @@
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas5.webp",
     "alt": "Placeholder artwork 3",
     "caption": "between two client calls"
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas6.webp",
     "alt": "Placeholder artwork 4",
     "caption": "way too many drafts"
   },
   {
     "type": "poster",
+    "category": "sketch",
     "text": "SKETCH №04",
     "bg": "#111111",
     "color": "#ffffff",
@@ -52,18 +78,21 @@
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas8.webp",
     "alt": "Placeholder artwork 5",
     "caption": "comfort food comfort shot"
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas10.webp",
     "alt": "Placeholder artwork 6",
     "caption": "rare day off"
   },
   {
     "type": "poster",
+    "category": "sketch",
     "text": "UNFINISHED\nTHOUGHTS",
     "bg": "#f2f2f2",
     "color": "#111111",
@@ -71,6 +100,7 @@
   },
   {
     "type": "image",
+    "category": "photo",
     "src": "assets/images/home/dimas11.webp",
     "alt": "Placeholder artwork 7",
     "caption": "kept this one for myself"

@@ -132,7 +132,7 @@
                 background: rgba(255,255,255,0.9);
                 backdrop-filter: blur(8px);
                 -webkit-backdrop-filter: blur(8px);
-                border-radius: 50%;
+                border-radius: 14px; /* Squircle, not circle — matches the site's art direction */
                 display: flex; align-items: center; justify-content: center;
                 box-shadow: 0 10px 20px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.05);
                 cursor: pointer; z-index: 20; color: #111; padding: 0;
@@ -153,7 +153,7 @@
                 z-index: 20;
             }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 50%;
+                width: 6px; height: 6px; border-radius: 2px; /* Squircle, not circle — matches the site's art direction */
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
@@ -242,7 +242,7 @@
             .workflow-h-icon {
                 width: 48px;
                 height: 48px;
-                border-radius: 50%;
+                border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
                 background-color: #fff;
                 border: 2px solid #111;
                 display: flex; align-items: center; justify-content: center;
@@ -353,21 +353,21 @@
                 width: 8px;
                 height: 8px;
                 transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-                border-radius: 50%;
+                border-radius: 3px; /* Squircle, not circle — matches the site's art direction */
                 margin: 0 !important;
             }
             .solution-slider .swiper-pagination-bullet-active {
                 background: #111111;
                 width: 32px;
-                border-radius: 100px;
+                border-radius: 3px; /* Squircle, matches the inactive bullet's radius */
             }
-            .solution-slider .swiper-button-next, 
+            .solution-slider .swiper-button-next,
             .solution-slider .swiper-button-prev {
                 color: #fff;
                 background: #111;
                 width: 56px;
                 height: 56px;
-                border-radius: 50%;
+                border-radius: 18px; /* Squircle, not circle — matches the site's art direction */
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
@@ -849,10 +849,10 @@
                                             <h3 class="bento-title">Top Performing TikTok Video</h3>
                                             <p class="bento-desc">A relatable POV TikTok driving high-retention storytelling and generating significant community engagement without hard-selling.</p>
                                             <div class="bento-actions">
-                                                <button class="bento-btn bento-play-btn">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                 </button>
-                                                <a href="https://www.tiktok.com/@tsukamienoodlebar/video/7531343096873880888?is_from_webapp=1&sender_device=pc" target="_blank" class="bento-btn">View on TikTok</a>
+                                                <a href="https://www.tiktok.com/@tsukamienoodlebar/video/7531343096873880888?is_from_webapp=1&sender_device=pc" target="_blank" class="bento-btn" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                                 <button class="bento-btn bento-stats-toggle">
                                                     Stats
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -874,10 +874,10 @@
                                             <h3 class="bento-title">Restaurant Short Tour</h3>
                                             <p class="bento-desc">A quick and engaging visual tour showcasing the restaurant's interior, cozy dining atmosphere, and authentic brand vibe.</p>
                                             <div class="bento-actions">
-                                                <button class="bento-btn bento-play-btn">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                 </button>
-                                                <a href="https://www.tiktok.com/@tsukamienoodlebar/video/7526873041544957190?is_from_webapp=1&sender_device=pc&web_id=7627881722859947538" target="_blank" class="bento-btn">View on TikTok</a>
+                                                <a href="https://www.tiktok.com/@tsukamienoodlebar/video/7526873041544957190?is_from_webapp=1&sender_device=pc&web_id=7627881722859947538" target="_blank" class="bento-btn" aria-label="View on TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg><span class="bento-btn-label">View on TikTok</span></a>
                                                 <button class="bento-btn bento-stats-toggle">
                                                     Stats
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -927,10 +927,10 @@
                                                     <h3 class="bento-title">Promo Campaign Carousel</h3>
                                                     <p class="bento-desc">Strategic visual delivery for the 'Stay Safe, Share Warmth' community promo campaign targeted at Ojol drivers.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-fullscreen-btn" aria-label="View fullscreen">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span class="bento-btn-label">Fullscreen</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/p/DOKwiB0E4Mb/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/p/DOKwiB0E4Mb/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -949,10 +949,10 @@
                                                     <h3 class="bento-title">Product Visuals</h3>
                                                     <p class="bento-desc">Appetizing food photography and styling highlighting Tsukamie's signature side dishes to drive product awareness.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-fullscreen-btn" aria-label="View fullscreen">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span class="bento-btn-label">Fullscreen</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/p/DOdS6Kkk1Vt/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/p/DOdS6Kkk1Vt/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -971,10 +971,10 @@
                                                     <h3 class="bento-title">Loyalty Program Campaign</h3>
                                                     <p class="bento-desc">Visual design and social media activation for Tsukamie's loyalty card program, encouraging repeat customer visits and community engagement.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-fullscreen-btn" aria-label="View fullscreen">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span class="bento-btn-label">Fullscreen</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/p/DOScNpWE3HB/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/p/DOScNpWE3HB/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -992,10 +992,10 @@
                                                     <h3 class="bento-title">Event Activation</h3>
                                                     <p class="bento-desc">Promotional collateral designed for Tsukamie's participation in local food festivals, driving offline foot traffic and brand awareness.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-fullscreen-btn" aria-label="View fullscreen">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span class="bento-btn-label">Fullscreen</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/p/DMep4KmPpOj/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/p/DMep4KmPpOj/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1014,10 +1014,10 @@
                                                     <h3 class="bento-title">Pop-Up Activation</h3>
                                                     <p class="bento-desc">Eye-catching poster designs for Tsukamie's limited pop-up events to drive offline foot traffic.</p>
                                                     <div class="bento-actions" style="pointer-events: auto;">
-                                                        <button class="bento-btn bento-fullscreen-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg> Fullscreen
+                                                        <button class="bento-btn bento-fullscreen-btn" aria-label="View fullscreen">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg><span class="bento-btn-label">Fullscreen</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/p/DPSzvgkj6c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/p/DPSzvgkj6c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1034,10 +1034,10 @@
                                                     <h3 class="bento-title">New Menu Behind the Scenes</h3>
                                                     <p class="bento-desc">A dynamic culinary showcase revealing the meticulous process and fresh ingredients behind Tsukamie's latest dish.</p>
                                                     <div class="bento-actions">
-                                                        <button class="bento-btn bento-play-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/reel/DNSnvRev8xh/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/reel/DNSnvRev8xh/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                         <button class="bento-btn bento-stats-toggle">
                                                             Stats
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1058,10 +1058,10 @@
                                                     <h3 class="bento-title">Community Event Recap</h3>
                                                     <p class="bento-desc">Capturing the energy and high enthusiasm of the crowd during Tsukamie's special collaboration event.</p>
                                                     <div class="bento-actions">
-                                                        <button class="bento-btn bento-play-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/reel/DNABJDazVYp/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/reel/DNABJDazVYp/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                         <button class="bento-btn bento-stats-toggle">
                                                             Stats
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1082,10 +1082,10 @@
                                                     <h3 class="bento-title">How to Order Guide</h3>
                                                     <p class="bento-desc">An engaging step-by-step visual guide designed to educate new customers on customizing their perfect noodle bowl.</p>
                                                     <div class="bento-actions">
-                                                        <button class="bento-btn bento-play-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/reel/DMZtV9evz3b/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/reel/DMZtV9evz3b/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                         <button class="bento-btn bento-stats-toggle">
                                                             Stats
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1106,10 +1106,10 @@
                                                     <h3 class="bento-title">Trend Jacking</h3>
                                                     <p class="bento-desc">Tapping into relevant social media audio trends with an authentic brand voice to drive broader organic reach.</p>
                                                     <div class="bento-actions">
-                                                        <button class="bento-btn bento-play-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/reel/DMuvjpmvn0Z/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/reel/DMuvjpmvn0Z/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                         <button class="bento-btn bento-stats-toggle">
                                                             Stats
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1130,10 +1130,10 @@
                                                     <h3 class="bento-title">Evening Atmosphere</h3>
                                                     <p class="bento-desc">Highlighting the cozy and cinematic nighttime vibe, reinforcing the authentic Japanese dining experience.</p>
                                                     <div class="bento-actions">
-                                                        <button class="bento-btn bento-play-btn">
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Play
+                                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
                                                         </button>
-                                                        <a href="https://www.instagram.com/reel/DNVQwa_TOav/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                        <a href="https://www.instagram.com/reel/DNVQwa_TOav/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                         <button class="bento-btn bento-stats-toggle">
                                                             Stats
                                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1162,7 +1162,7 @@
                                             <h3 class="bento-title">Micro KOL Carousel Review</h3>
                                             <p class="bento-desc">A highly engaging carousel review from a micro-KOL, generating massive organic reach and a strong 4.8% engagement rate.</p>
                                             <div class="bento-actions">
-                                                <a href="https://www.instagram.com/p/DOOF522EkB2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn">View on IG</a>
+                                                <a href="https://www.instagram.com/p/DOOF522EkB2/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                 <button class="bento-btn bento-stats-toggle">
                                                     Stats
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1186,7 +1186,7 @@
                                             <h3 class="bento-title">Wardah Color Expert Class</h3>
                                             <p class="bento-desc">A cross-industry lifestyle and beauty collaboration featuring personal color analysis and makeup sessions. The sold-out event generated 10K+ impressions and strengthened Tsukamie's lifestyle brand positioning.</p>
                                             <div class="bento-actions">
-                                                <a href="https://www.instagram.com/p/DPXomfaEkXD/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" class="bento-btn">View on IG</a>
+                                                <a href="https://www.instagram.com/p/DPXomfaEkXD/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" class="bento-btn" aria-label="View on Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><span class="bento-btn-label">View on Instagram</span></a>
                                                 <button class="bento-btn bento-stats-toggle">
                                                     Stats
                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
