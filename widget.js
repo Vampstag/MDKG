@@ -102,6 +102,142 @@ class MdkgWidget {
         this.initMusicPlayer();
         this.initScrollBehavior();
         this.initMagneticButton();
+        this.initUISound();
+    }
+
+    // --- [NEW] Feature: Minimal UI Sound Design ---
+    // Off by default (localStorage-persisted). No audio files — everything is synthesized
+    // with Web Audio, but rebuilt away from a bare sine oscillator (which reads as a harsh
+    // "digital beep" — a pure sine at audible UI frequencies has none of the softness real
+    // tactile sound design relies on). Each tick now layers a short filtered-noise "breath"
+    // under a soft sine body, low-pass filtered, with per-play randomization of pitch/timing
+    // and a distinct character per element type — so it's varied and textured rather than
+    // one identical blip repeated everywhere.
+    initUISound() {
+        const toggle = document.querySelector('.mdkg-ui-sound-toggle');
+        if (!toggle) return;
+
+        let enabled = localStorage.getItem('mdkg_ui_sound') === 'true';
+        let audioCtx = null;
+        let noiseBuffer = null;
+
+        const ensureCtx = () => {
+            if (!audioCtx) {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (Ctx) audioCtx = new Ctx();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        };
+
+        // A short buffer of white noise, reused across every play — filtered per-play
+        // rather than regenerated, since generating fresh noise per tick is wasted work.
+        const getNoiseBuffer = (ctx) => {
+            if (noiseBuffer) return noiseBuffer;
+            const length = ctx.sampleRate * 0.15;
+            noiseBuffer = ctx.createBuffer(1, length, ctx.sampleRate);
+            const data = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+            return noiseBuffer;
+        };
+
+        // rand(a, b): small helper for per-play variation so repeated ticks of the same
+        // kind never sound perfectly identical, the way a physical switch never does.
+        const rand = (a, b) => a + Math.random() * (b - a);
+
+        /**
+         * Plays one soft, muffled tick — a low sine body (rounded further by a low low-pass
+         * cutoff and a gentle attack) with a very quiet, dark-filtered noise breath underneath
+         * for texture. No bright noise band and no fundamental above ~500Hz survives the
+         * filtering, which is what keeps this from reading as a "digital beep." baseFreq/
+         * noiseTone/duration/peak define the tick's character; each is nudged randomly per
+         * play within a small range for natural variation.
+         */
+        const playTick = ({ baseFreq, noiseTone, duration, peak }) => {
+            const ctx = ensureCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            const freq = baseFreq * rand(0.96, 1.04);
+            const dur = duration * rand(0.9, 1.1);
+
+            // Sine body: low-pass cutoff sits just above the fundamental (not 2.2x it),
+            // so only the round low end survives — no edge, no upper harmonics.
+            const osc = ctx.createOscillator();
+            const oscFilter = ctx.createBiquadFilter();
+            const oscGain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now);
+            oscFilter.type = 'lowpass';
+            oscFilter.frequency.setValueAtTime(freq * 1.15, now);
+            oscFilter.Q.value = 0.3;
+            oscGain.gain.setValueAtTime(0, now);
+            oscGain.gain.linearRampToValueAtTime(peak, now + 0.018);
+            oscGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+            osc.connect(oscFilter);
+            oscFilter.connect(oscGain);
+            oscGain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + dur + 0.02);
+
+            // Noise breath: a dark, heavily low-passed (not bandpassed) whisper of texture,
+            // much quieter than the sine body, just enough to feel tactile rather than tonal.
+            const noise = ctx.createBufferSource();
+            noise.buffer = getNoiseBuffer(ctx);
+            const noiseFilter = ctx.createBiquadFilter();
+            const noiseGain = ctx.createGain();
+            noiseFilter.type = 'lowpass';
+            noiseFilter.frequency.setValueAtTime(noiseTone * rand(0.9, 1.1), now);
+            noiseFilter.Q.value = 0.4;
+            noiseGain.gain.setValueAtTime(0, now);
+            noiseGain.gain.linearRampToValueAtTime(peak * 0.22, now + 0.01);
+            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.4);
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(ctx.destination);
+            noise.start(now);
+            noise.stop(now + dur * 0.4 + 0.02);
+        };
+
+        // Distinct, subtle character per element type — variety instead of one tick
+        // reused everywhere, but all sharing the same soft/muffled "premium" quality.
+        // Frequencies pulled well down from the original (720/480/340/560Hz) into a
+        // rounder, lower range, with much quieter peaks and a dark noise texture.
+        const TICKS = {
+            hoverLink: { baseFreq: 320, noiseTone: 900, duration: 0.06, peak: 0.012 },
+            hoverCard: { baseFreq: 240, noiseTone: 700, duration: 0.08, peak: 0.014 },
+            click: { baseFreq: 200, noiseTone: 600, duration: 0.1, peak: 0.02 },
+            enable: { baseFreq: 260, noiseTone: 800, duration: 0.12, peak: 0.028 },
+        };
+
+        const updateToggleUI = () => {
+            toggle.setAttribute('aria-pressed', String(enabled));
+            toggle.classList.toggle('is-active', enabled);
+        };
+        updateToggleUI();
+
+        toggle.addEventListener('click', () => {
+            enabled = !enabled;
+            localStorage.setItem('mdkg_ui_sound', String(enabled));
+            updateToggleUI();
+            if (enabled) { ensureCtx(); playTick(TICKS.enable); } // confirmation blip on enable
+        });
+
+        // Delegated so it covers content injected after this runs (case-study video players,
+        // bento cards, etc) without needing a listener registered per element.
+        document.addEventListener('mouseover', (e) => {
+            if (!enabled) return;
+            if (e.target.closest('.bento-item, .drag-item')) {
+                playTick(TICKS.hoverCard);
+            } else if (e.target.closest('a, button')) {
+                playTick(TICKS.hoverLink);
+            }
+        });
+        document.addEventListener('click', (e) => {
+            if (!enabled) return;
+            if (e.target.closest('a, button')) {
+                playTick(TICKS.click);
+            }
+        });
     }
 
     // --- [NEW] Fungsi Lightbox Cover ---
@@ -204,6 +340,12 @@ class MdkgWidget {
                         <line x1="19" y1="5" x2="19" y2="19"></line>
                     </svg>
                 </div>
+                <!-- [NEW] UI Sound Toggle: micro-sounds on hover/click across the site, off by default -->
+                <button class="mdkg-ui-sound-toggle" title="Toggle interface sounds" aria-pressed="false">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
+                    </svg>
+                </button>
             </div>
         `;
     }
@@ -414,23 +556,57 @@ class MdkgWidget {
 
     // --- Feature: Scroll Hiding ---
     initScrollBehavior() {
-        let lastScrollTop = 0;
+        // The site runs Lenis smooth-scroll, which virtualizes scrolling with its own
+        // easing/momentum — window.scrollY under Lenis can overshoot and settle back on
+        // its way to a stop, so comparing raw scrollY on the native `scroll` event (even
+        // with a jitter threshold) still misreads direction and flickers. Lenis emits its
+        // own `scroll` event with an authoritative `direction` field (1 down, -1 up) that
+        // matches what the rest of the site's scroll-linked effects use — read that instead
+        // of recomputing direction from position. Falls back to the old position-based
+        // listener only if Lenis isn't present for any reason.
         const statusWidget = document.querySelector('.mdkg-widget-status');
         const playerWidget = document.querySelector('.mdkg-widget-player');
-        
-        if (statusWidget || playerWidget) {
-            window.addEventListener('scroll', () => {
+        if (!statusWidget && !playerWidget) return;
+
+        const applyState = (isHidden) => {
+            if (statusWidget) statusWidget.classList.toggle('widget-hidden', isHidden);
+            if (playerWidget) playerWidget.classList.toggle('widget-hidden', isHidden);
+        };
+
+        const attachToLenis = () => {
+            if (!window.lenis || typeof window.lenis.on !== 'function') return false;
+            window.lenis.on('scroll', ({ scroll, direction }) => {
+                applyState(direction > 0 && scroll > 50);
+            });
+            return true;
+        };
+
+        if (attachToLenis()) return;
+
+        // Lenis not ready yet (this widget can init before script.js's DOMContentLoaded
+        // handler creates it) — poll briefly, then fall back to the plain scrollY listener.
+        let attempts = 0;
+        const retry = setInterval(() => {
+            attempts++;
+            if (attachToLenis() || attempts > 20) clearInterval(retry); // ~2s max wait
+        }, 100);
+
+        let lastScrollTop = window.scrollY || document.documentElement.scrollTop;
+        let ticking = false;
+        const MIN_DELTA = 6;
+        window.addEventListener('scroll', () => {
+            if (window.lenis) return; // Lenis attached in the meantime, stop double-handling
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                ticking = false;
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                if (scrollTop > lastScrollTop && scrollTop > 50) {
-                    if (statusWidget) statusWidget.classList.add('widget-hidden');
-                    if (playerWidget) playerWidget.classList.add('widget-hidden');
-                } else {
-                    if (statusWidget) statusWidget.classList.remove('widget-hidden');
-                    if (playerWidget) playerWidget.classList.remove('widget-hidden');
-                }
+                const delta = scrollTop - lastScrollTop;
+                if (Math.abs(delta) < MIN_DELTA) return;
+                applyState(delta > 0 && scrollTop > 50);
                 lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
             });
-        }
+        }, { passive: true });
     }
 
     // --- Feature: Magnetic Button ---

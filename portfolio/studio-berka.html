@@ -30,9 +30,9 @@
           gtag('config', 'G-57RMNL3S4P');
         </script>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=2" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="../widget.css">
+        <link rel="stylesheet" href="../widget.css?v=1">
         
         <style>
             /* KUSTOMISASI GAMBAR LATAR HERO STUDIO BERKA */
@@ -79,12 +79,13 @@
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
         <link rel="manifest" href="/manifest.json">
     </head>
-    <body class="body-2">
+    <body class="body-2" style="--page-accent: #1a5fb4;">
         
         <!-- Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
             <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot"></div></a>
             <a href="#showreel" class="cs-nav-item"><span class="cs-nav-label">Showreel</span><div class="cs-nav-dot"></div></a>
+            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Project Essence</span><div class="cs-nav-dot"></div></a>
             <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot"></div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Solution</span><div class="cs-nav-dot"></div></a>
             <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot"></div></a>
@@ -222,12 +223,15 @@
                 </div>
             </section>
 
-            <section class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <blockquote style="font-family: var(--font-primary); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 22ch; margin: 0 auto; color: #111;">
+            <!-- Project Essence -->
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 22ch; margin: 0 auto; color: #111;">
                             "A great website is the perfect balance between beautiful aesthetics and robust, invisible engineering."
                         </blockquote>
+                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
                     </div>
                 </div>
             </section>
@@ -498,7 +502,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <script defer src="../script.js"></script>
+        <script defer src="../script.js?v=7"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js"></script>
         
@@ -516,7 +520,52 @@
                 };
                 initCSHero();
             });
-            
+
+            // [NEW] Project Essence: per-word reveal scrubbed to scroll position.
+            // Scrubbing (not a one-shot play) is what makes it reverse cleanly on scroll-up.
+            document.addEventListener('DOMContentLoaded', () => {
+                const initEssenceReveal = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initEssenceReveal, 50);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    const quote = document.getElementById('essence-quote');
+                    if (!quote) return;
+
+                    // Collapse the HTML's own whitespace/indentation before splitting, otherwise
+                    // newlines and leading spaces turn into stray empty/space spans that break centering
+                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+
+                    // Wrap each WORD in a span (word-level, not per-character) so the browser still
+                    // wraps lines normally between words instead of splitting mid-word.
+                    quote.innerHTML = originalText
+                        .split(' ')
+                        .map(word => {
+                            return `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`;
+                        })
+                        .join(' ');
+
+                    const words = quote.querySelectorAll('.essence-word');
+
+                    gsap.to(words, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
+                        stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: quote,
+                            start: 'top 95%',   // reveal starts as soon as the quote first appears at the bottom
+                            end: 'bottom 60%',  // finishes well after the quote has scrolled up, so it plays out slowly
+                            scrub: 0.3 // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                        }
+                    });
+                };
+                initEssenceReveal();
+            });
+
             // Script for Video Players & Observer
             document.addEventListener('DOMContentLoaded', () => {
                 const formatTime = (time) => new Date(time * 1000).toISOString().slice(14, 19);

@@ -37,21 +37,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 ongoing: false
             },
             {
-                id: 6,
-                title: "Studio Berka",
-                year: "2026",
-                category: "Web Design · UX Strategy",
-                industry: "Architecture",
-                roles: ["Web Solutions & Support", "Brand & Visual Design"],
-                link: "#",
-                clientName: "Studio Berka",
-                description: "Web design and UX strategy for an architecture studio. Built to earn trust and make pricing feel transparent.",
-                brandInfo: "Studio Berka is an architecture and interior design studio based in Bandung, handling everything from planning and construction to custom furniture.",
-                image: "../assets/images/project/berka/cover-web-berka.webp",
-                srcset: "",
-                ongoing: true
-            },
-            {
                 id: 7, // Pastikan ID unik
                 title: "Torch × Gundam",
                 year: "2026",

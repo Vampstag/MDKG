@@ -16,22 +16,8 @@ const projectsData = [
         challenge: "",
         solution: "",
         gallery: [],
-        ongoing: false
-    },
-    {
-        id: "studio-berka",
-        featured: false,
-        category: "Web Design · UX Strategy",
-        title: "Studio Berka",
-        role: "Web Solutions & Support",
-        image: "assets/images/project/berka/cover-web-berka.webp",
-        link: "#",
-        stats: [],
-        description: "Web design and UX strategy for an architecture studio. Built to earn trust and make pricing feel transparent.",
-        challenge: "",
-        solution: "",
-        gallery: [],
-        ongoing: true
+        ongoing: false,
+        accentColor: "#007291" // Torch Fjord Blue
     },
     {
         id: "torch-x-gundam",
@@ -45,7 +31,8 @@ const projectsData = [
         description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.",
         challenge: "",
         solution: "",
-        gallery: []
+        gallery: [],
+        accentColor: "#007291" // Torch Fjord Blue
     },
     {
         id: "latest-work",
@@ -65,7 +52,8 @@ const projectsData = [
         gallery: [
             "assets/images/portfolio/tsukamie/tsukamie-1.webp",
             "assets/images/home/dimas-profile-2.webp"
-        ]
+        ],
+        accentColor: "#c0392b" // Tsukamie brand red
     }
 ];
 // ==================================================================================

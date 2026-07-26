@@ -91,9 +91,9 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=13" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="../widget.css">
+        <link rel="stylesheet" href="../widget.css?v=1">
 
         <!-- Page-specific styles for Impact Section -->
         
@@ -270,7 +270,7 @@
             };
         </script>
     </head>
-    <body class="body-2">
+    <body class="body-2" style="--page-accent: #007291;">
         
         <!-- [NEW] Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
@@ -380,7 +380,7 @@
 
                         <div class="about-layout-grid"> 
                             <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
+                                <div class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
                             </div>
                             <div class="about-main-content">
                                 <!-- [NEW] Audio Narrator Player -->
@@ -485,7 +485,7 @@
                     <div class="global-padding">
                         <div class="section-headline-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Approach</h2>
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">The Approach</h2>
                             </div>
                         </div>
                         <!-- Premium Video Showcase -->
@@ -495,7 +495,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">Borrowing trust from the feed, not the brand.</h3>
-                                    <p class="sol-desc">Torch had no recognition with this audience, so the content borrowed it from the platform instead. Every video started from a format, sound, or pace Gen Z already trusted that week. The content earned attention first. The brand came second.</p>
+                                    <p class="sol-desc">Torch had no recognition with this audience, so the content borrowed it from the platform instead. I tracked what was trending on TikTok that week, brought the formats, sounds, and pacing worth adapting to the team, and shot for whichever one got the green light. The content earned attention first. The brand came second.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -509,58 +509,32 @@
                                 </div>
                             </div>
 
-                            <!-- Item 2: Shooting and selecting real reactions -->
-                            <div class="solution-video-item has-reel">
+                            <!-- Item 2: Color grading -->
+                            <div class="solution-video-item" style="column-gap: 96px;">
                                 <div class="solution-video-content">
                                     <span class="sol-number">[02]</span>
-                                    <h3 class="sol-title">Shooting for the reaction, not just the action.</h3>
-                                    <p class="sol-desc">I stopped directing and let things play out. Longer takes, handheld, and no cutting away the second something went wrong. That left the edit with reactions worth keeping: the missed kick, the fall, the flat "biasa aja" from the kid who just won a free bag. Those beats felt more real than the action, so they stayed in.</p>
-                                </div>
-                                <div class="solution-video-player">
-                                    <div class="video-player-wrapper is-reel">
-                                        <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/torch/torch-prestachill/showreel-prestachill.mp4" type="video/mp4"></video>
-                                        <div class="video-center-feedback">
-                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
-                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
-                                        </div>
-                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Item 3: Color grading -->
-                            <div class="solution-video-item is-timeline">
-                                <div class="solution-video-content">
-                                    <span class="sol-number">[03]</span>
-                                    <h3 class="sol-title">Grading warm for the nostalgia pieces.</h3>
-                                    <p class="sol-desc">The nostalgia content had to feel like a memory, not an ad, so I graded it warmer and softer. Everything else stayed clean and neutral, closer to how those formats already look on a Gen Z feed.</p>
+                                    <h3 class="sol-title">Matching shots, not the weather.</h3>
+                                    <p class="sol-desc">Changing light and uncontrolled locations meant every shoot looked different. I corrected footage using scopes in Resolve, built a PowerGrade as a consistent starting point, and kept the final grade aligned with the campaign's creative direction.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
-                                    <!-- [NEW] Auto-advancing tab viewer: Reference / Process / Final Grade.
-                                         Each tab has a progress bar that fills over TAB_DURATION, then advances
-                                         to the next tab automatically (pauses on hover/touch). Add more images to
-                                         a tab's data-images (JSON array) to cycle through several photos before
-                                         moving to the next tab. -->
-                                    <div class="grading-tabs" style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15); background: #111;">
-                                        <div class="grading-tabs-progress">
-                                            <button class="grading-tab-btn is-active" data-tab="reference"><span class="grading-tab-fill"></span></button>
-                                            <button class="grading-tab-btn" data-tab="nostalgia"><span class="grading-tab-fill"></span></button>
-                                            <button class="grading-tab-btn" data-tab="challenge"><span class="grading-tab-fill"></span></button>
+                                    <!-- Fanned stack of graded frame stills pulled from the edit. No labels —
+                                         just the stack itself. Click any visible card to bring it to the front;
+                                         the rest re-fan behind it. Hover lifts and straightens whichever card
+                                         is on top. Swap the <img src> list for the real 12 selected frames. -->
+                                    <div class="grading-stack" style="position: relative; width: 100%; max-width: 380px; aspect-ratio: 4/5; margin: 0 auto 80px;">
+                                        <div class="grading-stack-cards">
+                                            <button class="grading-stack-card is-active" data-index="0" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="1" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="2" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="3" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="4" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="5" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="6" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="7" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="8" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" draggable="false"></button>
+                                            <button class="grading-stack-card" data-index="9" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" draggable="false"></button>
                                         </div>
-                                        <div class="grading-tab-panels">
-                                            <div class="grading-tab-panel is-active" data-tab="reference" data-images='["../assets/images/project/torch-prestachill/grading/reference-1.webp"]'>
-                                                <img src="../assets/images/project/torch-prestachill/grading/reference-1.webp" alt="Reference photo (to be added)">
-                                                <div class="grading-tab-caption">Reference</div>
-                                            </div>
-                                            <div class="grading-tab-panel" data-tab="nostalgia" data-images='["../assets/images/project/torch-prestachill/grading/final-1.webp"]'>
-                                                <img src="../assets/images/project/torch-prestachill/grading/final-1.webp" alt="Nostalgia frame after color grading">
-                                                <div class="grading-tab-caption">Nostalgia (Graded)</div>
-                                            </div>
-                                            <div class="grading-tab-panel" data-tab="challenge" data-images='["../assets/images/project/torch-prestachill/grading/process-1.webp", "../assets/images/project/torch-prestachill/grading/process-2.webp", "../assets/images/project/torch-prestachill/grading/process-3.webp"]'>
-                                                <img src="../assets/images/project/torch-prestachill/grading/process-1.webp" alt="Challenge/product frame">
-                                                <div class="grading-tab-caption">Challenge / Product</div>
-                                            </div>
-                                        </div>
+                                        <div class="grading-stack-counter"><span data-stack-current>1</span><span class="grading-stack-counter-sep"></span><span data-stack-total>10</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -575,7 +549,7 @@
                     <div class="global-padding">
                         <div class="section-headline-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Selected Outputs</h2>
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Selected Outputs</h2>
                             </div>
                         </div>
                         <div class="bento-grid">
@@ -599,6 +573,7 @@
                                     <div class="grade-dot active"></div>
                                     <div class="grade-dot"></div>
                                 </div>
+                                <span class="bento-select-caption">E-commerce Tie-in</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Marketplace Review: Back to School</h3>
                                     <p class="bento-desc">Product review series for the Back to School lineup, featuring Hyper and Nura unboxing and reviewing marketplace picks.</p>
@@ -614,6 +589,7 @@
                             <!-- Item 1: Bag Theory Eps. 1 -->
                             <div class="bento-item is-wide">
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/bag-theory-eps-1.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Highest Engagement</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Bag Theory Eps. 1</h3>
                                     <p class="bento-desc">Two minutes on how Indonesian school bags changed from the 70s to today.</p>
@@ -640,6 +616,7 @@
                             <!-- Item 2: Product Catalogue ASMR -->
                             <div class="bento-item">
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/asmr-packing.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Widest Reach</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Product Catalogue ASMR</h3>
                                     <p class="bento-desc">An ASMR packing video. Everything a student loads up before heading to school. The widest reach in the campaign, though engagement landed below average.</p>
@@ -666,6 +643,7 @@
                             <!-- Item 3: Fit Check -->
                             <div class="bento-item">
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/fit-check.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Trend-Built Format</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Fit Check</h3>
                                     <p class="bento-desc">Students styling the Back to School series, built around a track that was trending on TikTok that week.</p>
@@ -709,6 +687,7 @@
                                     <div class="grade-dot active"></div>
                                     <div class="grade-dot"></div>
                                 </div>
+                                <span class="bento-select-caption">Same Format, Topic A/B Test</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">"Guess Who?" Challenge</h3>
                                     <p class="bento-desc">A guessing game with students. Part 1 was Indonesian public figures, Gibran, Jokowi, Bahlil. Part 2 switched to K-pop idols, and engagement dropped well below Part 1.</p>
@@ -742,6 +721,7 @@
                             <!-- Item 5: "Prestachill" Street Interviews -->
                             <div class="bento-item is-wide">
                                 <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/torch/interview-prestachill.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Smallest Reach, Strongest Message Fit</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">"Prestachill" Street Interviews</h3>
                                     <p class="bento-desc">Asking students what actually counts as an achievement. Turns out it's not just trophies, it's saying good morning to your parents, praying on time, or just getting through the week without going broke.</p>
@@ -806,7 +786,7 @@
                     <div class="global-padding">
                         <div class="section-headlne-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Process & Craft</h2>
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Process & Craft</h2>
                             </div>
                         </div>
                     </div>
@@ -848,7 +828,7 @@
                                 <path d="M0 20.16C0 8.64 6.72 1.6 16.96 0L18.72 4.48C11.52 6.4 8.32 10.72 7.68 15.68C8.32 15.36 9.28 15.2 10.24 15.2C14.4 15.2 17.6 18.24 17.6 22.72C17.6 27.2 14.08 30.56 9.6 30.56C4.16 30.56 0 26.24 0 20.16ZM21.76 20.16C21.76 8.64 28.48 1.6 38.72 0L40.48 4.48C33.28 6.4 30.08 10.72 29.44 15.68C30.08 15.36 31.04 15.2 32 15.2C36.16 15.2 39.36 18.24 39.36 22.72C39.36 27.2 35.84 30.56 31.36 30.56C25.92 30.56 21.76 26.24 21.76 20.16Z" fill="currentColor"/>
                             </svg>
                             <h3 class="cs-testimonial-quote">
-                                "As a videographer and editor, Dimas was highly collaborative throughout the project. He quickly understood the creative direction, was easy to guide, and consistently brought a clear vision to the final output.<br><br>What stood out most was his initiative and creative taste, often coming up with ideas and concepts before they were even requested."
+                                "Dimas consistently approaches every project with curiosity, initiative, and a strong sense of creative direction. He's collaborative, receptive to feedback, and able to translate ideas into thoughtful, well-executed outcomes."
                             </h3>
                             <div class="cs-testimonial-attribution">
                                 <div class="cs-testimonial-avatar-wrap">
@@ -859,7 +839,6 @@
                                 <span class="cs-testimonial-role">Content Video Producer, Torch</span>
                                 <span class="cs-testimonial-translated">Translated from Indonesian</span>
                             </div>
-                            <p style="text-align: center; margin: 24px auto 0; max-width: 55ch; font-family: var(--font-primary); font-size: 0.8rem; font-weight: 500; color: #999;">Referring to shot selection and pacing decisions on set and in the edit, within Torch's creative direction.</p>
                         </div>
                     </div>
                 </div>
@@ -876,8 +855,8 @@
                             <div class="about-main-content">
                                 <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
-                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">The top video on each platform had no trend behind it.</h4>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">On Instagram, Bag Theory hit 4.51% with no trending sound and a two minute runtime. On TikTok, the street interviews beat the trend-built Fit Check. Two separate results on two separate platforms, not one pattern proven twice, but neither needed a trend to win.</p>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Length didn't hold engagement back.</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">Bag Theory ran two minutes, long for short-form, and still landed the campaign's highest engagement rate at 4.51%, roughly 2x the next best video. The short-form instinct is to cut for length. This suggests the story earning its runtime matters more than the runtime itself.</p>
                                     </div>
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
                                         <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Nostalgia gave an unfamiliar brand somewhere to land.</h4>
@@ -901,7 +880,7 @@
                         <div class="credits-divider"></div>
                         <div class="section-headline-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
                             </div>
                         </div>
                         <div class="credits-grid">
@@ -1001,9 +980,9 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js"></script>
+        <script defer src="../script.js?v=7"></script>
         <script defer src="../custom.js"></script>
-        <script defer src="../widget.js?v=1.1"></script>
+        <script defer src="../widget.js?v=1.3"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const showreelVideo = document.querySelector('.showreel-video');
@@ -1212,99 +1191,159 @@
             });
         </script>
         <script>
-            // [NEW] Color Grading Tab Viewer: auto-advances Reference -> Process -> Final Grade
-            // like Instagram Stories. Each tab's progress bar fills over TAB_DURATION; a tab with
-            // multiple images in data-images cycles through them before the bar completes and
-            // the next tab starts. Pauses on hover/touch-hold, resumes on release.
+            // Fanned deck of graded frame stills: clicking/dragging the top card swipes it
+            // away (like flicking a photo off a stack) before it rejoins the back of the deck
+            // and the next card animates into the front position. Only the top few cards get
+            // a visible offset/rotation — cards further back sit flush underneath so a 12-card
+            // deck doesn't fan out absurdly wide. Idle cards drift very slightly so the stack
+            // doesn't read as a static image. Arrow keys/space advance the deck for keyboard
+            // users; the counter shows how deep the stack goes.
             document.addEventListener('DOMContentLoaded', () => {
-                const TAB_DURATION = 4000; // ms per image within a tab
+                document.querySelectorAll('.grading-stack').forEach(root => {
+                    let order = Array.from(root.querySelectorAll('.grading-stack-card'));
+                    if (!order.length) return;
 
-                document.querySelectorAll('.grading-tabs').forEach(root => {
-                    const tabBtns = Array.from(root.querySelectorAll('.grading-tab-btn'));
-                    const panels = Array.from(root.querySelectorAll('.grading-tab-panel'));
-                    if (!tabBtns.length || !panels.length) return;
+                    const counterCurrent = root.querySelector('[data-stack-current]');
+                    const counterTotal = root.querySelector('[data-stack-total]');
+                    if (counterTotal) counterTotal.textContent = order.length;
 
-                    const tabImages = panels.map(panel => {
-                        try { return JSON.parse(panel.dataset.images || '[]'); }
-                        catch (e) { return []; }
-                    });
+                    const VISIBLE_OFFSET = 3; // how many cards behind the top one still show a fan offset
+                    const layout = [
+                        { rot: 0, x: 0, y: 0 },
+                        { rot: -5, x: -10, y: 6 },
+                        { rot: 5, x: 10, y: 10 },
+                        { rot: -3, x: -6, y: 14 },
+                    ];
+                    let isAnimating = false;
+                    let cursor = 0; // how many cards have been cycled through, for the counter
 
-                    let tabIndex = 0;
-                    let imageIndex = 0;
-                    let isPaused = false;
-                    let isOffscreen = false;
-                    let rafId = null;
-                    let segmentStart = null;
-
-                    const setActiveTab = (index) => {
-                        tabIndex = index;
-                        imageIndex = 0;
-                        tabBtns.forEach((btn, i) => {
-                            btn.classList.toggle('is-active', i === index);
-                            btn.classList.toggle('is-complete', i < index);
-                            const fill = btn.querySelector('.grading-tab-fill');
-                            if (fill && i !== index) fill.style.width = i < index ? '100%' : '0%';
+                    const render = () => {
+                        order.forEach((card, i) => {
+                            const step = layout[Math.min(i, VISIBLE_OFFSET)];
+                            card.style.setProperty('--stack-rot', `${step.rot}deg`);
+                            card.style.setProperty('--stack-x', `${step.x}%`);
+                            card.style.setProperty('--stack-y', `${step.y}px`);
+                            card.style.zIndex = order.length - i;
+                            card.classList.toggle('is-active', i === 0);
+                            card.style.opacity = i <= VISIBLE_OFFSET ? '1' : '0';
+                            card.style.pointerEvents = i === 0 ? 'auto' : 'none';
                         });
-                        panels.forEach((panel, i) => panel.classList.toggle('is-active', i === index));
-                        showImage(tabIndex, imageIndex);
+                        if (counterCurrent) counterCurrent.textContent = (cursor % order.length) + 1;
                     };
 
-                    const showImage = (t, i) => {
-                        const images = tabImages[t];
-                        const img = panels[t].querySelector('img');
-                        if (img && images && images[i]) img.src = images[i];
+                    // Two-phase advance: the card first swings out to the side (like being
+                    // pulled off the stack), then travels down and behind the deck to its new
+                    // back-of-stack resting spot — not an instant snap.
+                    const advance = (card, tiltSign, fromX) => {
+                        if (isAnimating || !card || card !== order[0]) return;
+                        isAnimating = true;
+                        card.style.zIndex = order.length + 1;
+
+                        const startX = fromX !== undefined ? fromX : 0;
+                        const outX = tiltSign * 46;
+                        const outRot = tiltSign * 14;
+
+                        card.style.transition = 'none';
+                        card.style.transform = `translate(calc(var(--stack-x, 0%) + ${startX}px), var(--stack-y, 0px)) rotate(${startX / 12}deg)`;
+                        // Force reflow so the browser registers the start position before we
+                        // animate to the "out to the side" phase.
+                        void card.offsetWidth;
+
+                        card.style.transition = 'transform 0.28s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.style.transform = `translate(${outX}%, 6px) rotate(${outRot}deg)`;
+
+                        setTimeout(() => {
+                            card.style.zIndex = 0;
+                            card.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            card.style.transform = `translate(${tiltSign * 10}%, 28px) rotate(${tiltSign * 4}deg) scale(0.94)`;
+
+                            setTimeout(() => {
+                                card.style.transition = '';
+                                card.style.transform = '';
+                                order.push(order.shift());
+                                cursor += 1;
+                                render();
+                                isAnimating = false;
+                            }, 400);
+                        }, 280);
                     };
 
-                    const advance = () => {
-                        const images = tabImages[tabIndex];
-                        if (images && imageIndex < images.length - 1) {
-                            imageIndex += 1;
-                            showImage(tabIndex, imageIndex);
+                    // Drag-to-dismiss: dragging the top card past a threshold swipes it away in
+                    // the drag direction (continuing from wherever the drag left off); releasing
+                    // short of that threshold snaps it back. A plain click (no meaningful
+                    // movement) advances in the direction the card is already tilted.
+                    let dragState = null;
+                    const DRAG_THRESHOLD = 70;
+                    const CLICK_MOVE_TOLERANCE = 6;
+
+                    const onPointerDown = (e) => {
+                        const card = e.target.closest('.grading-stack-card');
+                        if (isAnimating || !card || card !== order[0]) return;
+                        dragState = { card, startX: e.clientX, dx: 0, pointerId: e.pointerId };
+                        card.style.transition = 'none';
+                        card.setPointerCapture?.(e.pointerId);
+                    };
+
+                    const onPointerMove = (e) => {
+                        if (!dragState) return;
+                        dragState.dx = e.clientX - dragState.startX;
+                        const rot = dragState.dx / 12;
+                        dragState.card.style.transform = `translate(calc(var(--stack-x, 0%) + ${dragState.dx}px), var(--stack-y, 0px)) rotate(${rot}deg)`;
+                    };
+
+                    const onPointerUp = (e) => {
+                        if (!dragState) return;
+                        const { card, dx, pointerId } = dragState;
+                        dragState = null;
+                        card.releasePointerCapture?.(pointerId);
+
+                        if (Math.abs(dx) > DRAG_THRESHOLD) {
+                            advance(card, dx < 0 ? -1 : 1, dx);
+                        } else if (Math.abs(dx) <= CLICK_MOVE_TOLERANCE) {
+                            // Treated as a click/tap: advance in the direction it's already tilted.
+                            const tiltSign = parseFloat(getComputedStyle(card).getPropertyValue('--stack-rot')) < 0 ? -1 : 1;
+                            card.style.transition = '';
+                            card.style.transform = '';
+                            advance(card, tiltSign);
                         } else {
-                            setActiveTab((tabIndex + 1) % tabBtns.length);
+                            card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                            card.style.transform = '';
                         }
-                        segmentStart = null;
                     };
 
-                    const tick = (now) => {
-                        if (isPaused || isOffscreen) { rafId = requestAnimationFrame(tick); return; }
-                        if (segmentStart === null) segmentStart = now;
-                        const elapsed = now - segmentStart;
-                        const progress = Math.min(elapsed / TAB_DURATION, 1);
-                        const fill = tabBtns[tabIndex].querySelector('.grading-tab-fill');
-                        if (fill) fill.style.width = `${progress * 100}%`;
-                        if (progress >= 1) advance();
-                        rafId = requestAnimationFrame(tick);
-                    };
+                    root.addEventListener('pointerdown', onPointerDown);
+                    root.addEventListener('pointermove', onPointerMove);
+                    root.addEventListener('pointerup', onPointerUp);
+                    root.addEventListener('pointercancel', onPointerUp);
 
-                    tabBtns.forEach((btn, i) => {
-                        btn.addEventListener('click', () => setActiveTab(i));
+                    // Keyboard: arrow keys / space advance the deck when it's focused.
+                    root.addEventListener('keydown', (e) => {
+                        if (!['ArrowRight', 'ArrowLeft', ' ', 'Spacebar'].includes(e.key)) return;
+                        e.preventDefault();
+                        const card = order[0];
+                        const tiltSign = e.key === 'ArrowLeft' ? -1 : 1;
+                        advance(card, tiltSign);
                     });
 
-                    panels.forEach(panel => {
-                        const img = panel.querySelector('img');
-                        if (img) {
-                            img.style.cursor = 'pointer';
-                            img.addEventListener('click', () => setActiveTab((tabIndex + 1) % tabBtns.length));
+                    // Idle drift: while nothing is being dragged/animated, the visible cards
+                    // sway a barely-perceptible amount so the deck doesn't read as a static
+                    // image while scrolled into view.
+                    const driftStart = performance.now();
+                    const drift = (now) => {
+                        if (!dragState && !isAnimating) {
+                            const t = (now - driftStart) / 1000;
+                            order.forEach((card, i) => {
+                                if (i > VISIBLE_OFFSET) return;
+                                const baseRot = layout[Math.min(i, VISIBLE_OFFSET)].rot;
+                                const sway = Math.sin(t * 0.6 + i) * 0.6;
+                                card.style.setProperty('--stack-rot', `${baseRot + sway}deg`);
+                            });
                         }
-                    });
+                        requestAnimationFrame(drift);
+                    };
+                    requestAnimationFrame(drift);
 
-                    root.addEventListener('mouseenter', () => { isPaused = true; });
-                    root.addEventListener('mouseleave', () => { isPaused = false; segmentStart = null; });
-                    root.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
-                    root.addEventListener('touchend', () => { isPaused = false; segmentStart = null; }, { passive: true });
-
-                    // Pause the rAF-driven progress bar while the viewer is off-screen
-                    // so it doesn't burn CPU on sections the user hasn't scrolled to yet.
-                    new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            isOffscreen = !entry.isIntersecting;
-                            if (entry.isIntersecting) segmentStart = null;
-                        });
-                    }, { threshold: 0 }).observe(root);
-
-                    setActiveTab(0);
-                    rafId = requestAnimationFrame(tick);
+                    render();
                 });
             });
         </script>

@@ -119,7 +119,7 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css?v=34">
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -259,7 +259,7 @@
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="widget.css">
+        <link rel="stylesheet" href="widget.css?v=1">
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
                 "currencyCode": "USD",
@@ -306,6 +306,11 @@
                         
                         <!-- LAYER 1: Static Text (Background) -->
                         <div class="hero-static-layer">
+                            <!-- [NEW] 3D title canvas: initHero3DTitle() in script.js renders "Brand Creative"
+                                 as real extruded WebGL geometry here and hides the h1 below once it succeeds.
+                                 The h1 stays in the DOM as the accessible/SEO text and as the fallback for
+                                 browsers without WebGL support — see the try/catch guard in that function. -->
+                            <canvas id="hero-3d-title-canvas" class="hero-3d-title-canvas" aria-hidden="true"></canvas>
                             <h1 class="hero-huge-title">
                                 Brand<br>Creative
                             </h1>
@@ -313,52 +318,81 @@
 
                         <!-- LAYER 2: Draggable Elements (Foreground) -->
                         <div class="hero-drag-layer">
-                            
-                            <!-- Item 1: Photo Card -->
-                            <div class="drag-item card-item card-item--1">
-                                <img src="assets/images/home/dimas6.webp" alt="Dimas Portrait" draggable="false" fetchpriority="high">
-                                <div class="card-caption">Hi, I'm Dimas👋</div>
+
+                            <!-- Item 1: Chrome 3D sparkle, left side of the title — balances the one on
+                                 the right. Rendered by initHero3DSparkles() in script.js. -->
+                            <div class="drag-item sticker-icon sticker-icon--video">
+                                <canvas class="sparkle-3d-canvas" data-sparkle-id="1" aria-hidden="true"></canvas>
+                                <span class="sparkle-fallback">✦</span>
                             </div>
 
-                            <!-- Item 2: Project Preview -->
-                            <div class="drag-item card-item card-item--2">
-                                <!-- Tambahkan poster image agar Lighthouse menghitung LCP dari gambar ini (jauh lebih cepat dari video) -->
-                                <video autoplay loop muted playsinline draggable="false" preload="auto" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
-                                    <source src="assets/videos/torchxgundam.webm" type="video/webm">
-                                    <!-- Fallback aktif ke MP4 untuk Safari/iOS yang belum support WebM penuh -->
-                                    <source src="assets/videos/torchxgundam.mp4" type="video/mp4">
-                                </video>
-                                <div class="card-caption">Explore my work!👀</div>
-                            </div>
-
-                            <!-- Item 3: Sticker Pill -->
-                            <div class="drag-item sticker-pill">
-                                <span>📍 Bandung</span>
-                            </div>
-
-                            <!-- Item 4: Sticker Circle -->
-                            <div class="drag-item sticker-circle">
-                                <span>Scroll<br>Down</span>
-                            </div>
-
-                            <!-- Item 5: Abstract/Icon -->
-                            <div class="drag-item sticker-icon">
-                                ✦
-                            </div>
-
-                            <!-- Item 6: Client 1 (Torch) -->
-                            <div class="drag-item sticker-item">
-                                <div class="sticker-ongoing-badge"><span class="ongoing-status-dot"></span> On-going</div>
-                                <img src="assets/images/home/TORCH LOGO-01.png" alt="Torch Logo" draggable="false" loading="lazy" decoding="async">
-                            </div>
-
-                            <!-- Item 7: Client 2 (Studio Berka) -->
-                            <div class="drag-item sticker-item">
-                                <div class="sticker-ongoing-badge"><span class="ongoing-status-dot"></span> On-going</div>
-                                <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka Logo" draggable="false" loading="lazy" decoding="async">
+                            <!-- Item 2: Chrome 3D sparkle, right side of the title. Rendered by
+                                 initHero3DSparkles() in script.js. -->
+                            <div class="drag-item sticker-icon sticker-icon--pill">
+                                <canvas class="sparkle-3d-canvas" data-sparkle-id="2" aria-hidden="true"></canvas>
+                                <span class="sparkle-fallback">✦</span>
                             </div>
 
                         </div>
+
+                        <!-- Full-bleed curved video carousel: 15 real project clips arranged on a
+                             gentle arc beneath the 3D title, auto-rotating slowly and drag/spin-able
+                             by the visitor. Muted/looping proof-of-work, replacing the single
+                             cursor/orbit reel. See initHeroCarousel() in script.js for the arc math,
+                             autoplay-rotation, and drag-to-spin (with inertia) logic. -->
+                        <div class="hero-carousel" id="hero-carousel">
+                            <div class="hero-carousel__track" id="hero-carousel-track">
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp"><source src="assets/videos/torchxgundam.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-showreel-tsukamie.webp"><source src="assets/videos/project/tsukamie/tiktok-1.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-2.webp"><source src="assets/videos/project/torch/hyper.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel-1.webp"><source src="assets/videos/project/tsukamie/tiktok-2.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-1.webp"><source src="assets/videos/project/torch/bag-theory-eps-1.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel-2.webp"><source src="assets/videos/project/tsukamie/trend.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-4.webp"><source src="assets/videos/project/torch/bag-theory-eps-2.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel3.webp"><source src="assets/videos/project/tsukamie/new-menu-bts.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-5.webp"><source src="assets/videos/project/torch/fit-check.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel-4.webp"><source src="assets/videos/project/tsukamie/evening-vibes.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-3.webp"><source src="assets/videos/project/torch/teaser-1.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel-5.webp"><source src="assets/videos/project/tsukamie/how-to-order.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_solution-2.webp"><source src="assets/videos/project/torch/teaser-2.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-kol.webp"><source src="assets/videos/project/tsukamie/recap-event.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-solution-3.webp"><source src="assets/videos/project/torch/behind-the-design.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-1.webp"><source src="assets/videos/project/torch/asmr-packing.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-4.webp"><source src="assets/videos/project/torch/interview-prestachill.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-5.webp"><source src="assets/videos/project/torch/nura.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-2.webp"><source src="assets/videos/project/torch/tebak-gambar-pt-1.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-3.webp"><source src="assets/videos/project/torch/tebak-gambar-pt-2.mp4" type="video/mp4"></video></div>
+                            </div>
+                            <!-- Transparent hit-target sitting above every card: some browsers reserve
+                                 the top portion of a playing <video> for native scrub/PiP gestures even
+                                 with pointer-events:none set on it, which was swallowing the drag-to-spin
+                                 gesture specifically over the top of the frontmost cards. This plain div
+                                 has no such special-cased behavior, so pointerdown always reaches it. -->
+                            <div class="hero-carousel__hit-layer" aria-hidden="true"></div>
+                        </div>
+
+                        <!-- [NEW] Scroll cue: small uppercase label + animated line, replaces the old static "Scroll Down" sticker -->
+                        <div class="hero-scroll-cue" aria-hidden="true">
+                            <span class="hero-scroll-cue-label">Scroll</span>
+                            <span class="hero-scroll-cue-line"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- [NEW] Content Reveal Wrapper: rises over the pinned hero as one block while
+                 scrolling, instead of scrolling away flat. See #content-reveal in style.css
+                 for the sticky/z-index mechanics; the radius+shadow here is what sells the
+                 "rising card" read. Closes just before the footer, which stays outside this
+                 wrapper and scrolls normally underneath it. -->
+            <div id="content-reveal" style="position: relative; z-index: 2; background-color: #FAFAFA; border-radius: 32px 32px 0 0; overflow: hidden; box-shadow: 0 -20px 60px rgba(0,0,0,0.08);">
+            <!-- Site Essence -->
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            Using human insight to create visuals people remember.
+                        </blockquote>
                     </div>
                 </div>
             </section>
@@ -372,15 +406,12 @@
                                 </div>
                                 <div class="about-main-content">
                                     <div data-w-id="17981745-b76c-fdb8-d5a0-45626b3a0fb4" class="about-text-block">
-                                        <h3 class="about-lead-text text-reveal">I care about the small decisions most people skip.</h3>
+                                        <h3 class="about-lead-text text-reveal">Good creative starts with understanding people.</h3>
                                         <p class="about-paragraph fade-in-section">
-                                            I'm a Bandung-based creative working across video, brand, and web. With a background in marketing, I start with the question most people skip: <em>who is looking at this, and how do we want them to feel?</em> Sometimes that question shapes an edit. Sometimes it shapes a positioning, a website, or a brand system before a single frame is shot.
+                                            I'm a Brand Creative based in Bandung with a background in marketing. I like understanding how people think before deciding what to make. Whether it's a campaign, a website, or a video, the goal is the same: create work people notice, remember, and connect with.
                                         </p>
                                         <p class="about-paragraph fade-in-section">
-                                            The craft follows from there. Every cut, layout, and pacing choice exists for a reason, never just to look good, but to serve the goal. Done right, it makes a brand feel a level above its size.
-                                        </p>
-                                        <p class="about-paragraph fade-in-section">
-                                            I work closely with the people I build for. The best work doesn't come from taking orders at a distance. It comes from figuring it out together.
+                                            I believe the best ideas come from curiosity, collaboration, and paying attention to the details that shape how people experience a brand.
                                         </p>
                                     </div>
                                 </div>
@@ -477,36 +508,6 @@
                                         <span class="editorial-item-number">05</span>
                                         <h3 class="editorial-item-title">Ongoing Content Partnership</h3>
                                         <p class="about-paragraph" style="margin-bottom: 0;">Consistent content every month. I handle the creative output, so you can focus on running the brand.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="home-about-section section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="about-layout-grid">
-                            <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">What You Get</div>
-                            </div>
-                            <div class="about-main-content">
-                                <div class="editorial-list">
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">01</span>
-                                        <h3 class="editorial-item-title">Thoughtful Execution</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">I don't just shoot and edit to make things look pretty. Every visual choice, from lighting to pacing, is made to serve the story we're trying to tell and the goals we want to hit.</p>
-                                    </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">02</span>
-                                        <h3 class="editorial-item-title">Crafted for Connection</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">People can feel when something is made with care. By focusing on atmosphere and narrative rhythm, I create work that respects the viewer's time and builds genuine trust with your audience.</p>
-                                    </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">03</span>
-                                        <h3 class="editorial-item-title">Direct Partnership</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">No account managers, no playing telephone. We talk directly, brainstorm together, and solve problems as a team. Because the best results happen when we are completely on the same page.</p>
                                     </div>
                                 </div>
                             </div>
@@ -639,6 +640,7 @@
                     </div>
                 </div>
             </section>
+            </div><!-- /#content-reveal -->
             <div id="footer-container"></div>
         </div>
         <!-- MDKG Widget Container -->
@@ -664,8 +666,58 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <script defer src="script.js"></script>
+        <!-- [NEW] Three.js for the hero's 3D title (see initHero3DTitle in script.js) -->
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
+        <script defer src="script.js?v=25"></script>
         <script defer src="custom.js"></script>
-        <script defer src="widget.js?v=1.1"></script>
+        <script defer src="widget.js?v=1.3"></script>
+        <script>
+            // [NEW] Site Essence: per-word reveal scrubbed to scroll position.
+            // Scrubbing (not a one-shot play) is what makes it reverse cleanly on scroll-up.
+            document.addEventListener('DOMContentLoaded', () => {
+                const initEssenceReveal = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initEssenceReveal, 50);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    const quote = document.getElementById('essence-quote');
+                    if (!quote) return;
+
+                    // Collapse the HTML's own whitespace/indentation before splitting, otherwise
+                    // newlines and leading spaces turn into stray empty/space spans that break centering
+                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+
+                    // Wrap each WORD in a span (word-level, not per-character) so the browser still
+                    // wraps lines normally between words instead of splitting mid-word.
+                    quote.innerHTML = originalText
+                        .split(' ')
+                        .map(word => {
+                            return `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`;
+                        })
+                        .join(' ');
+
+                    const words = quote.querySelectorAll('.essence-word');
+
+                    gsap.to(words, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
+                        stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: quote,
+                            start: 'top 95%',   // reveal starts as soon as the quote first appears at the bottom
+                            end: 'bottom 60%',  // finishes well after the quote has scrolled up, so it plays out slowly
+                            scrub: 0.3 // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                        }
+                    });
+                };
+                initEssenceReveal();
+            });
+        </script>
     </body>
 </html>

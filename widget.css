@@ -243,6 +243,32 @@
     height: 12px;
 }
 
+/* [NEW] UI Sound Toggle */
+.mdkg-ui-sound-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    transition: all 0.2s ease;
+    margin-left: 2px;
+    opacity: 0.4; /* Dim by default — signals "off" without needing extra text */
+    color: var(--w-text);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.mdkg-ui-sound-toggle:hover {
+    background: rgba(0,0,0,0.08);
+    opacity: 0.7;
+}
+.mdkg-ui-sound-toggle.is-active {
+    opacity: 1;
+    color: #28cd41; /* Same green used for the "live" status dot elsewhere in the widget */
+}
+
 /* --- [NEW] MDKG WIDGET LIGHTBOX & TOOLTIP --- */
 .mdkg-cover-tooltip {
     position: absolute;
@@ -312,7 +338,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
+    border-radius: 50%; /* Circle, not squircle — per feedback on close/X buttons site-wide */
     display: flex;
     align-items: center;
     justify-content: center;

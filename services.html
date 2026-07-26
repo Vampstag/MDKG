@@ -6,7 +6,8 @@
         <meta content="Transparent rate card for video production, short-form content, and retainers in Bandung. Direct collaboration, from a single edit to a full brand system." name="description"/>
         <meta content="Video Production Services & Rate Card | M. Dimas K. G." property="og:title"/>
         <meta content="Transparent rate card for video production, short-form content, and retainers in Bandung. Direct collaboration, from a single edit to a full brand system." property="og:description"/>
-        <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
+        <meta content="https://hellodimas.my.id/assets/images/open-gra
+        phimage.png" property="og:image"/>
         <meta content="Video Production Services & Rate Card | M. Dimas K. G." property="twitter:title"/>
         <meta content="Transparent rate card for video production, short-form content, and retainers in Bandung. Direct collaboration, from a single edit to a full brand system." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
@@ -79,8 +80,8 @@
         }
         </script>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="widget.css">
+        <link rel="stylesheet" href="css/style.css?v=33">
+        <link rel="stylesheet" href="widget.css?v=1">
         
         <style>
             /* Anti-Flicker Inline CSS */
@@ -234,88 +235,94 @@
             <section id="core-services" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="section-headline-margin">
-                            <h2 class="section-headline-text text-reveal">Services & Capabilities</h2>
-                            <p class="about-paragraph fade-in-section" style="margin-top: 16px; max-width: 65ch;">Different ways to work together, depending on what you need. Every project runs on direct collaboration and confirmed scope before anything starts.</p>
-                        </div>
-                        
-                        <div class="bento-grid services-bento-grid">
-                            <!-- Card 1 (Production) -->
-                            <div class="bento-item is-wide" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
-                                <video class="bento-video" loop muted playsinline preload="metadata">
-                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
-                                </video>
-                                <div class="bento-overlay" style="justify-content: space-between;">
-                                    <div class="bento-icon-wrapper">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                                    </div>
-                                    <div>
-                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">01</div>
-                                        <h3 class="bento-title">
-                                            <span>Short-Form Video</span>
-                                        </h3>
-                                        <p class="bento-desc">Regular short-form content that looks good and performs.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 3 (Creative & Digital) -->
-                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
-                                <video class="bento-video" loop muted playsinline preload="metadata">
-                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
-                                </video>
-                                <div class="bento-overlay" style="justify-content: space-between;">
-                                    <div class="bento-icon-wrapper">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
-                                    </div>
-                                    <div>
-                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">02</div>
-                                        <h3 class="bento-title">
-                                            <span>Long-Form Video</span>
-                                        </h3>
-                                        <p class="bento-desc">Long-form storytelling with room to say more, fully produced.</p>
+                        <!-- Single-column accordion: big bold title + circular +/- toggle per row.
+                             Opening a row reveals a tag list of what's included, then the squircle
+                             visual, then a short description — all inline, stacked below the title,
+                             instead of a separate side panel. Placeholder photos stand in until real
+                             service photography is shot — swap the <img src> per row when ready. -->
+                        <div class="services-accordion-v2">
+                            <div class="services-acc-row is-open" data-target="svc-1">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="true">
+                                    <span class="services-acc-row__num">01</span>
+                                    <span class="services-acc-row__title">Short-Form Video</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Regular short-form content that looks good and performs.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-1.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Card 4 (Launch Package) -->
-                            <div class="bento-item" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
-                                <video class="bento-video" loop muted playsinline preload="metadata">
-                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
-                                </video>
-                                <div class="bento-overlay" style="justify-content: space-between;">
-                                    <div class="bento-icon-wrapper">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                                    </div>
-                                    <div>
-                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">03</div>
-                                        <h3 class="bento-title">
-                                            <span>Launch Package</span>
-                                        </h3>
-                                        <p class="bento-desc">A campaign rollout with all visual assets delivered together.</p>
+                            <div class="services-acc-row" data-target="svc-2">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">02</span>
+                                    <span class="services-acc-row__title">Long-Form Video</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Long-form storytelling with room to say more, fully produced.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-2.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Card 5 (Monthly Retainer) -->
-                            <div class="bento-item is-wide" style="background: linear-gradient(145deg, #111, #000); opacity: 0;">
-                                <video class="bento-video" loop muted playsinline preload="metadata">
-                                    <source src="assets/videos/project/torch/background_gradient_4-5.webm" type="video/webm">
-                                </video>
-                                <div class="bento-overlay" style="justify-content: space-between;">
-                                    <div class="bento-icon-wrapper">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                            <div class="services-acc-row" data-target="svc-3">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">03</span>
+                                    <span class="services-acc-row__title">Launch Package</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">A campaign rollout with all visual assets delivered together.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-3.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div style="font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">04</div>
-                                        <h3 class="bento-title">
-                                            <span>Monthly Retainer</span>
-                                        </h3>
-                                        <p class="bento-desc">Consistent creative output, month over month.</p>
+                                </div>
+                            </div>
+                            <div class="services-acc-row" data-target="svc-4">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">04</span>
+                                    <span class="services-acc-row__title">Monthly Retainer</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Consistent creative output, month over month.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-4.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Essence -->
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            No account managers, no middle-men, just direct collaboration.
+                        </blockquote>
+                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How every project runs</p>
                     </div>
                 </div>
             </section>
@@ -386,7 +393,7 @@
                         
                         <div class="service-accordion">
                             <!-- 01 Social Video -->
-                            <div class="service-accordion__item" style="opacity: 0;">
+                            <div class="service-accordion__item">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">01</span>
@@ -436,7 +443,7 @@
                             </div>
 
                             <!-- 03 Long-Form Video -->
-                            <div class="service-accordion__item" style="opacity: 0;">
+                            <div class="service-accordion__item">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">02</span>
@@ -486,7 +493,7 @@
                             </div>
 
                             <!-- 04 Launch Package -->
-                            <div class="service-accordion__item" style="opacity: 0;">
+                            <div class="service-accordion__item">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">03</span>
@@ -540,7 +547,7 @@
                             </div>
 
                             <!-- 05 Monthly Retainer -->
-                            <div class="service-accordion__item" style="opacity: 0;">
+                            <div class="service-accordion__item">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">04</span>
@@ -604,7 +611,7 @@
                             </div>
 
                             <!-- 05 Web & Maintenance -->
-                            <div class="service-accordion__item" style="opacity: 0;">
+                            <div class="service-accordion__item">
                                 <button class="service-accordion__trigger">
                                     <div class="service-accordion__title">
                                         <span class="service-accordion__num">05</span>
@@ -957,10 +964,56 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         
         <!-- Custom Logic -->
-        <script defer src="script.js"></script>
+        <script defer src="script.js?v=7"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js"></script>
         
+        <script>
+            // [NEW] Services Essence: per-word reveal scrubbed to scroll position.
+            // Scrubbing (not a one-shot play) is what makes it reverse cleanly on scroll-up.
+            document.addEventListener('DOMContentLoaded', () => {
+                const initEssenceReveal = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initEssenceReveal, 50);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+
+                    const quote = document.getElementById('essence-quote');
+                    if (!quote) return;
+
+                    // Collapse the HTML's own whitespace/indentation before splitting, otherwise
+                    // newlines and leading spaces turn into stray empty/space spans that break centering
+                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+
+                    // Wrap each WORD in a span (word-level, not per-character) so the browser still
+                    // wraps lines normally between words instead of splitting mid-word.
+                    quote.innerHTML = originalText
+                        .split(' ')
+                        .map(word => {
+                            return `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`;
+                        })
+                        .join(' ');
+
+                    const words = quote.querySelectorAll('.essence-word');
+
+                    gsap.to(words, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
+                        stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: quote,
+                            start: 'top 95%',   // reveal starts as soon as the quote first appears at the bottom
+                            end: 'bottom 60%',  // finishes well after the quote has scrolled up, so it plays out slowly
+                            scrub: 0.3 // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                        }
+                    });
+                };
+                initEssenceReveal();
+            });
+        </script>
         <script>
             // Script for Premium Hero Entrance Animation
             window.addEventListener('preloaderDone', () => {
@@ -1060,101 +1113,106 @@
                 initAccordionReveal();
             });
             
-            // Script for Premium Bento Grid Entrance Animation
+            // Script for the Services Accordion (single-column, +/- toggle rows, inline
+            // tags + squircle visual + description revealed below the title when open).
+            // Height is animated with GSAP rather than a CSS grid-rows 0fr/1fr snap, so the
+            // open/close reads as a smooth, liquid unfold instead of a mechanical toggle.
             window.addEventListener('preloaderDone', () => {
-                const initBentoReveal = () => {
-                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-                        setTimeout(initBentoReveal, 50);
+                const initServicesAccordion = () => {
+                    if (typeof gsap === 'undefined') {
+                        setTimeout(initServicesAccordion, 50);
                         return;
                     }
-                    
-                    ScrollTrigger.batch(".bento-item", {
-                        start: "top 85%",
-                        once: true,
-                        onEnter: (batch) => {
-                            batch.forEach((item, i) => {
-                                const icon = item.querySelector('.bento-icon-wrapper');
-                                const title = item.querySelector('.bento-title');
-                                const desc = item.querySelector('p');
-                                
-                                // Sembunyikan elemen internal agar tidak berkedip
-                                gsap.set([icon, title, desc], { opacity: 0 });
 
-                                const tl = gsap.timeline({ delay: i * 0.15 }); // Delay 0.15s per kartu (Stagger Kartu)
-                                
-                                tl.fromTo(item, 
-                                    { opacity: 0, y: 40 },
-                                    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", clearProps: "transform" }
-                                )
-                                .fromTo(icon, 
-                                    { opacity: 0, y: 20 },
-                                    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", clearProps: "transform,opacity" }, "-=0.4"
-                                )
-                                .fromTo(title, 
-                                    { opacity: 0, y: 30 },
-                                    { opacity: 1, y: 10, duration: 0.8, ease: "power3.out", clearProps: "transform,opacity" }, "-=0.65"
-                                )
-                                .fromTo(desc, 
-                                    { opacity: 0, y: 20 },
-                                    { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", clearProps: "transform,opacity" }, "-=0.65"
-                                );
-                            });
-                        }
-                    });
-                };
-                initBentoReveal();
+                    const rows = document.querySelectorAll('.services-acc-row');
+                    if (!rows.length) return;
 
-                // [NEW] Hover & Tap-to-play for bento grid background videos
-                const bentoItems = document.querySelectorAll('.bento-item');
-                
-                const playBentoVideo = (item, video) => {
-                    item.classList.add('is-active');
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) playPromise.catch(() => {});
-                };
-                
-                const stopBentoVideo = (item, video) => {
-                    item.classList.remove('is-active');
-                    video.pause();
-                    video.currentTime = 0;
-                };
+                    // Opening/closing a row changes the accordion's total height, which shifts
+                    // every section below it (Services Essence's scroll-scrubbed quote reveal
+                    // included) — without a refresh, ScrollTrigger keeps using the trigger
+                    // positions it measured on page load and the reveal drifts out of sync with
+                    // where the quote actually sits after the layout has moved.
+                    const refreshScrollTrigger = () => {
+                        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                    };
 
-                bentoItems.forEach(item => {
-                    const video = item.querySelector('.bento-video');
-                    if (!video) return;
+                    const closeRow = (row) => {
+                        const panel = row.querySelector('.services-acc-row__panel');
+                        row.classList.remove('is-open');
+                        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'false');
+                        gsap.to(panel, { height: 0, opacity: 0, duration: 0.6, ease: 'power3.inOut', onComplete: refreshScrollTrigger });
+                    };
 
-                    // Desktop Hover
-                    item.addEventListener('mouseenter', () => {
-                        if (window.matchMedia("(hover: hover)").matches) {
-                            playBentoVideo(item, video);
-                        }
-                    });
-                    item.addEventListener('mouseleave', () => {
-                        if (window.matchMedia("(hover: hover)").matches) {
-                            stopBentoVideo(item, video);
-                        }
-                    });
+                    const openRow = (row) => {
+                        const panel = row.querySelector('.services-acc-row__panel');
+                        const inner = row.querySelector('.services-acc-row__panel-inner');
+                        row.classList.add('is-open');
+                        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'true');
+                        gsap.set(panel, { height: 'auto' });
+                        const targetHeight = panel.offsetHeight;
+                        gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: targetHeight, opacity: 1, duration: 0.8, ease: 'power3.inOut', onComplete: () => { panel.style.height = 'auto'; refreshScrollTrigger(); } });
+                        gsap.fromTo(inner, { y: 16 }, { y: 0, duration: 0.7, ease: 'power3.out', delay: 0.05 });
 
-                    // Tap to play on mobile
-                    item.addEventListener('click', () => {
-                        if (window.matchMedia("(hover: none)").matches) {
-                            const isActive = item.classList.contains('is-active');
-                            
-                            bentoItems.forEach(other => {
-                                if (other !== item) {
-                                    const otherVid = other.querySelector('.bento-video');
-                                    if (otherVid) stopBentoVideo(other, otherVid);
-                                }
-                            });
-                            
-                            if (!isActive) {
-                                playBentoVideo(item, video);
+                        // Auto-snap so the opened row's title sits a fixed comfortable distance
+                        // from the top of the viewport — not the row's own vertical center,
+                        // since once opened the row is much taller than the viewport (title +
+                        // description + image) and centering just the trigger left most of the
+                        // revealed content below the fold. Runs after the height animation
+                        // settles so the measurement reflects the row's final expanded size,
+                        // and uses Lenis for smoothness consistent with the rest of the site.
+                        const OFFSET_FROM_TOP = 120;
+                        setTimeout(() => {
+                            const rect = row.getBoundingClientRect();
+                            const targetY = window.scrollY + rect.top - OFFSET_FROM_TOP;
+                            if (window.lenis) {
+                                window.lenis.scrollTo(targetY, { duration: 1.0 });
                             } else {
-                                stopBentoVideo(item, video);
+                                window.scrollTo({ top: targetY, behavior: 'smooth' });
                             }
-                        }
+                        }, 850);
+                    };
+
+                    const toggle = (targetId) => {
+                        rows.forEach(row => {
+                            const isTarget = row.dataset.target === targetId;
+                            const isOpen = row.classList.contains('is-open');
+                            if (isTarget) {
+                                isOpen ? closeRow(row) : openRow(row);
+                            } else if (isOpen) {
+                                closeRow(row);
+                            }
+                        });
+                    };
+
+                    rows.forEach(row => {
+                        const trigger = row.querySelector('.services-acc-row__trigger');
+                        trigger.addEventListener('click', () => toggle(row.dataset.target));
                     });
-                });
+
+                    // The first row starts marked .is-open in the markup, but the panel's
+                    // CSS default is height:0 — set its real height now so it renders open
+                    // instead of flashing collapsed before any click happens.
+                    const initiallyOpen = document.querySelector('.services-acc-row.is-open');
+                    if (initiallyOpen) {
+                        const panel = initiallyOpen.querySelector('.services-acc-row__panel');
+                        gsap.set(panel, { height: 'auto', opacity: 1 });
+                    }
+
+                    // Staggered fade/slide-in as the section scrolls into view, so the list
+                    // reads as an entrance rather than sitting static on the page.
+                    if (typeof ScrollTrigger !== 'undefined') {
+                        gsap.set(rows, { opacity: 0, y: 30 });
+                        ScrollTrigger.create({
+                            trigger: '.services-accordion-v2',
+                            start: 'top 85%',
+                            once: true,
+                            onEnter: () => {
+                                gsap.to(rows, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 });
+                            }
+                        });
+                    }
+                };
+                initServicesAccordion();
             });
             
             // Script for Sticky Dot Navigation Scrollspy

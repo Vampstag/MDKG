@@ -3,6 +3,17 @@
 // 1. CORE SETUP & EVENT LISTENERS
 // =========================================
 
+// [NEW] Film grain overlay: injected once, globally, on every page that loads this script.
+// A fixed, non-interactive noise layer — cheap (inline SVG, no image request) and applied
+// site-wide so no per-page HTML edits are needed.
+(function injectGrainOverlay() {
+    if (document.querySelector('.grain-overlay')) return;
+    const grain = document.createElement('div');
+    grain.className = 'grain-overlay';
+    grain.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(grain);
+})();
+
 // [NEW] PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -19,8 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
         isPreloaderDone = true;
     });
 
-    // Journal data di-fetch dari /data/journal.json, untuk tambah artikel edit file itu saja
-    const journalPromise = fetch('/data/journal.json').then(r => r.json()).catch(() => []);
+    // Journal data di-fetch dari data/journal.json, untuk tambah artikel edit file itu saja.
+    // Path relatif (bukan absolut dari root domain) agar tetap jalan meski dev server-nya
+    // di-root-kan ke folder parent (mis. Live Server dibuka dari luar vampstag-portfolio/),
+    // bukan cuma saat di-deploy dengan domain root persis di folder ini.
+    const isJournalSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
+    const journalDataPath = (isJournalSubPage ? '../' : '') + 'data/journal.json';
+    const journalPromise = fetch(journalDataPath).then(r => r.json()).catch(() => []);
 
     function injectJournalSchema(journalData) {
         if (document.getElementById('journal-grid')) {
@@ -207,17 +223,59 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Async Loading: Pull in shared navbar AND footer if placeholders exist
     Promise.all([loadNavbar(), loadFooter()]).then(() => {
         // 3. Navbar Logic (Scroll & Mobile)
-        initNavbar();
+        // Wrapped in try/catch: an exception anywhere in navbar init must not be able to
+        // block the hero animations below it, since both run in this same callback chain.
+        try {
+            initNavbar();
+        } catch (err) {
+            console.error('initNavbar failed:', err);
+        }
 
         // 3. Render Projects
         // renderProjects(); // This function is for portfolio.html, not index.html
 
         // 4. & 5. Animations - Tunggu Preloader beres dulu agar tidak flickering kosong!
+        // Staggered across several animation frames rather than firing all seven at once:
+        // three of these create their own WebGL context (3D title + 2 sparkles) and one
+        // starts 20 videos decoding/playing simultaneously (the carousel) — running all
+        // of that in the same tick the preloader's own slide-up transition starts was
+        // exactly what caused the stutter/jank right as the preloader finished. Spacing
+        // them out lets each one's setup cost land in its own frame instead of piling up
+        // in one, and gives the preloader's CSS transition a clear first frame to itself.
         const runAnimations = () => {
-            initInteractiveHero(); 
-            initAboutStickyFlip();
+            // Frame 1: the interactive hero (Draggable setup) — needed immediately since
+            // it's the very first thing visible once the preloader clears.
+            initInteractiveHero();
+
+            requestAnimationFrame(() => {
+                // Frame 2: the 3D title — the single most visually important element,
+                // so it still goes early, but on its own frame away from Draggable setup.
+                initHero3DTitle();
+
+                requestAnimationFrame(() => {
+                    // Frame 3: the two sparkle WebGL contexts together — small/cheap
+                    // individually, but two new WebGL contexts is still real GPU setup cost.
+                    initHero3DSparkles();
+                    initHeroDepthParallax();
+
+                    requestAnimationFrame(() => {
+                        // Frame 4: ScrollTrigger pin — layout-dependent, benefits from
+                        // running after the elements above have already settled.
+                        initHeroRevealPin();
+
+                        requestAnimationFrame(() => {
+                            // Frame 5: the video carousel last — it's below the fold of
+                            // first impression (under the title) and its own init already
+                            // staggers each video's play() call (see initHeroCarousel),
+                            // so it's the safest one to push furthest back.
+                            initHeroCarousel();
+                            initAboutStickyFlip();
+                        });
+                    });
+                });
+            });
         };
-        
+
         if (!isPreloaderDone) {
             window.addEventListener('preloaderDone', runAnimations, { once: true });
         } else {
@@ -250,8 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // 11. Tab Title Switch
         initTabTitleSwitch();
 
-        // 12. Constant Marquee Speed
-        initMarqueeSpeed();
+        // 12. Scroll-Velocity Marquee (replaces the old fixed-duration CSS loop)
+        initScrollVelocityMarquee();
 
         // 13. Data Validation Counter
         initDataCounter();
@@ -264,6 +322,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 15b. Magnetic Buttons
         initMagneticButtons();
+
+        // 15c. Scroll-Linked Text Distortion
+        // Wrapped in try/catch: a failure here must not be able to stop initClipPathReveal()
+        // (and anything else) below it from running — that previously left the bento grid
+        // stuck invisible (clip-path never opened) because one unrelated effect threw.
+        try {
+            initScrollTextDistortion();
+        } catch (err) {
+            console.error('initScrollTextDistortion failed:', err);
+        }
+
+        // 15d. Clip-Path Reveal for Project Media
+        try {
+            initClipPathReveal();
+        } catch (err) {
+            console.error('initClipPathReveal failed:', err);
+        }
 
         // 16. Share Buttons (Web Share API)
         initShareButtons();
@@ -482,12 +557,16 @@ function initNavbar() {
     const mobileOverlay = document.querySelector('.mobile-menu-overlay');
     const mobileLinks = document.querySelectorAll('.mobile-link');
     const progressBar = document.getElementById('scroll-progress');
-    let lastScrollTop = Math.max(0, window.scrollY);
+    let navRafId = null;
 
-    // -- Scroll Effect Logic --
-    const handleScroll = () => {
-        const currentScroll = window.scrollY;
-
+    // -- Scroll Effect Logic ---
+    // Direction comes from Lenis's own {scroll, direction} payload, not window.scrollY —
+    // with Lenis smooth-scroll active, window.scrollY overshoots/settles-back relative to
+    // Lenis's actual virtual position, which made the raw-position comparison misread
+    // scroll direction and caused the navbar to jitter/stay visible on scroll-down (the
+    // same root cause behind the earlier music-widget flicker bug). Falls back to
+    // window.scrollY only if Lenis isn't available at all.
+    const handleScroll = (currentScroll, direction) => {
         // 1. Shrink Effect (Class-based for performance)
         if (currentScroll > 20) {
             navbar.classList.add('scrolled');
@@ -500,12 +579,11 @@ function initNavbar() {
         // FIX: Don't hide navbar if mobile menu is currently open
         if (mobileOverlay && mobileOverlay.classList.contains('is-active')) {
             navbar.classList.remove('navbar-hidden');
-        } else if (currentScroll > lastScrollTop && currentScroll > 100) {
+        } else if (direction > 0 && currentScroll > 100) {
             navbar.classList.add('navbar-hidden');
-        } else {
+        } else if (direction < 0) {
             navbar.classList.remove('navbar-hidden');
         }
-        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Prevent negative scroll
 
         if (progressBar) {
             // Calculate scroll percentage for the top progress bar
@@ -519,8 +597,31 @@ function initNavbar() {
         }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Run immediately to set initial state
+    if (window.lenis) {
+        window.lenis.on('scroll', ({ scroll, direction }) => {
+            if (navRafId !== null) return;
+            navRafId = requestAnimationFrame(() => {
+                navRafId = null;
+                handleScroll(scroll, direction);
+            });
+        });
+        handleScroll(window.lenis.scroll || 0, 0);
+    } else {
+        // Fallback for pages/contexts without Lenis: derive direction from raw scrollY.
+        let lastScrollTop = Math.max(0, window.scrollY);
+        const onScroll = () => {
+            if (navRafId !== null) return;
+            navRafId = requestAnimationFrame(() => {
+                navRafId = null;
+                const currentScroll = window.scrollY;
+                const direction = currentScroll > lastScrollTop ? 1 : -1;
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+                handleScroll(currentScroll, direction);
+            });
+        };
+        window.addEventListener('scroll', onScroll);
+        handleScroll(window.scrollY, 0);
+    }
 
     // -- Mobile Menu Toggle Logic --
     if (menuBtn && mobileOverlay) {
@@ -552,6 +653,7 @@ function initNavbar() {
             }
         });
     }
+
 }
 //#endregion
 
@@ -600,6 +702,14 @@ function initPageTransitions() {
         ) return;
 
         e.preventDefault();
+
+        // [NEW] Narrative transition: if the clicked link (or an ancestor, e.g. a project
+        // card) carries a data-accent-color, tint the overlay with it instead of always
+        // using plain black — the outgoing page's own color briefly "carries through" to
+        // the next one. Falls back to the overlay's default black when no accent is set.
+        const accentSource = link.closest('[data-accent-color]');
+        overlay.style.backgroundColor = accentSource ? accentSource.dataset.accentColor : '';
+
         gsap.to(overlay, {
             y: "0%", duration: 0.5, ease: "power3.inOut",
             onComplete: () => window.location.href = targetUrl
@@ -639,11 +749,14 @@ function renderProjects() {
         const isClickable = !project.ongoing;
         const WrapperTag = isClickable ? 'a' : 'div';
         const hrefAttr = isClickable ? `href="${project.link}"` : '';
+        // Feeds the narrative page-transition overlay (see initPageTransitions) with this
+        // project's brand color, so the transition tints toward where the user is headed.
+        const accentAttr = project.accentColor ? `data-accent-color="${project.accentColor}"` : '';
         const badgeHTML = project.ongoing ? `<div class="ongoing-badge">ON-GOING</div>` : '';
         const categoryBadgesHTML = (project.category || '').split('·').map(cat => `<div class="portfolio-card-category-badge">${cat.trim()}</div>`).join('');
 
         card.innerHTML = `
-            <${WrapperTag} ${hrefAttr} class="project-link w-inline-block">
+            <${WrapperTag} ${hrefAttr} ${accentAttr} class="project-link w-inline-block">
                 <div class="project-image-wrapper">
                     <img src="${project.image}" alt="${project.title}" class="project-image" loading="lazy">
                     ${badgeHTML}
@@ -847,36 +960,52 @@ function initInteractiveHero() {
             },
             onPress: function() {
                 const target = this.target;
-                
+
                 // Simpan rotasi asli elemen dari CSS sebelum diubah-ubah
                 target._baseRotation = gsap.getProperty(target, "rotation") || 0;
 
-                // Check if the item is the sticker to apply drop-shadow instead of box-shadow
+                // Depth-parallax (initHeroDepthParallax) gives each item its own base scale
+                // for the Z-depth illusion — press should scale up *from* that base, not
+                // snap every item to the same absolute 1.05 regardless of how small/large
+                // its depth already made it.
+                const base = parseFloat(target.dataset.baseScale) || 1;
+                const pressScale = base * 1.05;
+
+                // Lifting the item toward the "camera" while dragging deserves a bigger,
+                // punchier shadow than its resting depth-shadow (initHeroDepthParallax) —
+                // but it should still start from that item's own depth-shadow strength
+                // rather than one fixed value for every item regardless of how close/far it is.
                 if (target.classList.contains('sticker-item')) {
                     const img = target.querySelector('img');
-                    gsap.to(target, { scale: 1.05, zIndex: 100, duration: 0.2 });
+                    gsap.to(target, { scale: pressScale, zIndex: 100, duration: 0.2 });
                     gsap.to(img, { filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.2))", duration: 0.2 });
                 } else if (target.classList.contains('sticker-icon')) {
-                    gsap.to(target, { scale: 1.05, zIndex: 100, duration: 0.2, filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.15))" });
+                    gsap.to(target, { scale: pressScale, zIndex: 100, duration: 0.2, filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.15))" });
                 } else {
-                    gsap.to(target, { scale: 1.05, zIndex: 100, boxShadow: "0 30px 60px rgba(0,0,0,0.15)", duration: 0.2 });
+                    gsap.to(target, { scale: pressScale, zIndex: 100, boxShadow: "0 30px 60px rgba(0,0,0,0.15)", duration: 0.2 });
                 }
             },
             onRelease: function() {
                 const target = this.target;
-                
+
                 // Kembalikan ke rotasi asli dengan efek memantul (elastic)
                 gsap.to(target, { rotation: target._baseRotation, ease: "elastic.out(1, 0.4)", duration: 1, overwrite: "auto" });
+
+                const base = parseFloat(target.dataset.baseScale) || 1;
+                // Restore this item's own depth-shadow (set once in initHeroDepthParallax)
+                // instead of a single generic shadow shared by every item.
+                const depthDropShadow = target.dataset.depthDropShadow || "drop-shadow(0 12px 15px rgba(0,0,0,0.1))";
+                const depthBoxShadow = target.dataset.depthBoxShadow || "0 20px 40px rgba(0,0,0,0.1)";
 
                 // Revert to the appropriate shadow type
                 if (target.classList.contains('sticker-item')) {
                     const img = target.querySelector('img');
-                    gsap.to(target, { scale: 1, zIndex: 'auto', duration: 0.2 });
+                    gsap.to(target, { scale: base, zIndex: 'auto', duration: 0.2 });
                     gsap.to(img, { filter: "drop-shadow(0 12px 15px rgba(0,0,0,0.1))", duration: 0.2 });
                 } else if (target.classList.contains('sticker-icon')) {
-                    gsap.to(target, { scale: 1, zIndex: 'auto', duration: 0.2, filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.1))" });
+                    gsap.to(target, { scale: base, zIndex: 'auto', duration: 0.2, filter: depthDropShadow });
                 } else {
-                    gsap.to(target, { scale: 1, zIndex: 'auto', boxShadow: "0 20px 40px rgba(0,0,0,0.1)", duration: 0.2 });
+                    gsap.to(target, { scale: base, zIndex: 'auto', boxShadow: depthBoxShadow, duration: 0.2 });
                 }
             }
         });
@@ -884,16 +1013,52 @@ function initInteractiveHero() {
 
     // 3. Entrance Animation (Pop in elements)
     const tl = gsap.timeline({ defaults: { ease: "back.out(1.7)" } });
-    
+
+    // Split the hero title into per-letter spans so it reveals letter by letter on load,
+    // instead of animating in as a single blurred block. Line breaks (<br>) are preserved
+    // so "Brand" / "Creative" still stack the same way.
+    const heroTitle = document.querySelector(".hero-huge-title");
+    let heroTitleChars = [];
+    if (heroTitle && !heroTitle.dataset.split) {
+        heroTitle.dataset.split = 'true'; // guard against double-init re-splitting already-split spans
+        const lines = heroTitle.innerHTML.split(/<br\s*\/?>/i);
+        heroTitle.innerHTML = '';
+        lines.forEach(line => {
+            const lineEl = document.createElement('span');
+            lineEl.style.display = 'block';
+            line.trim().split('').forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(40px)';
+                lineEl.appendChild(span);
+                heroTitleChars.push(span);
+            });
+            heroTitle.appendChild(lineEl);
+        });
+    }
+
+    // Safety net: if this timeline never runs/completes for any reason, the split letters
+    // must not stay stuck at opacity:0 forever (invisible title). Forces them visible after
+    // a short delay regardless of what happened to the GSAP timeline.
+    if (heroTitleChars.length) {
+        setTimeout(() => {
+            heroTitleChars.forEach(span => {
+                span.style.opacity = '1';
+                span.style.transform = 'translateY(0)';
+            });
+        }, 2500);
+    }
+
     // Animate Text First
-    tl.fromTo(".hero-huge-title", 
-        { y: 80, opacity: 0, filter: "blur(24px)", scale: 0.95 },
-        { y: 0, opacity: 1, filter: "blur(0px)", scale: 1, duration: 1.8, ease: "power4.out" }
+    tl.to(heroTitleChars,
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.04, ease: "power4.out" }
     )
-    .fromTo(".hero-subtitle, .hero-badge", 
+    .fromTo(".hero-subtitle, .hero-badge",
         { y: 30, opacity: 0, filter: "blur(12px)" },
         { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.2, ease: "power3.out" },
-        "-=1.4"
+        "-=1.0"
     );
 
     // Animate Draggable Items (Staggered Pop)
@@ -909,6 +1074,581 @@ function initInteractiveHero() {
     initObserverAnimations();
 }
 //#endregion
+
+/**
+ * Renders "Brand Creative" as real extruded 3D geometry in a WebGL canvas layered over the
+ * hero's <h1> text — lit, rotating gently toward the mouse. The <h1> itself is never
+ * removed: it's the accessible/SEO copy and the automatic fallback if WebGL, the font, or
+ * any Three.js dependency isn't available. Every failure path below simply leaves the
+ * canvas hidden and the plain text visible — this must never be able to break the rest of
+ * the hero (see the try/catch wrapping the whole thing).
+ */
+function initHero3DTitle() {
+    try {
+        const canvas = document.getElementById('hero-3d-title-canvas');
+        if (!canvas) return;
+        if (typeof THREE === 'undefined' || !THREE.FontLoader || !THREE.TextGeometry) return;
+        // Enabled on all screen sizes (previously desktop-only) so mobile/tablet get the
+        // same premium 3D chrome title instead of falling back to flat 2D text.
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        const container = canvas.parentElement;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+        camera.position.z = 60;
+
+        // Editorial lighting setup: a soft ambient floor so nothing goes pure black, one
+        // directional key light for the main highlight (angled, not flat-on, so the bevel
+        // edges actually catch light and read as dimensional), a cooler fill from the
+        // opposite side to keep shadow areas from going dead, and a rim light behind to
+        // separate the letterforms from the background — closer to how a print ad or
+        // product shot is lit than a single flat headlamp.
+        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+        const keyLight = new THREE.DirectionalLight(0xfff4e6, 1.1);
+        keyLight.position.set(-40, 50, 70);
+        scene.add(keyLight);
+        const fillLight = new THREE.DirectionalLight(0xcfe0ff, 0.4);
+        fillLight.position.set(50, -10, 30);
+        scene.add(fillLight);
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        rimLight.position.set(10, 20, -60);
+        scene.add(rimLight);
+
+        // Dark charcoal instead of flat pure black, with enough smoothness (low roughness)
+        // and a touch of metalness/clearcoat to pick up a soft highlight along the bevel —
+        // reads as a considered material instead of a matte silhouette.
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x1a1a1a,
+            metalness: 0.4,
+            roughness: 0.22,
+            clearcoat: 0.5,
+            clearcoatRoughness: 0.25,
+        });
+
+        const loader = new THREE.FontLoader();
+        loader.load(
+            'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', // Regular, not Bold — reads lighter/more editorial
+            (font) => {
+                const group = new THREE.Group();
+                const lines = ['Brand', 'Creative'];
+                const lineSize = 13; // Sized up for more presence, still comfortably inside the canvas's 130% headroom
+                const lineGap = 15.5;
+
+                // TextGeometry has no letter-spacing/tracking parameter of its own — it lays
+                // out glyphs using the font's built-in advance widths only. At this size, tight
+                // pairs like "Cr" in "Creative" have bevel edges (bevelThickness/bevelSize below,
+                // which extrude the glyph outline outward) that reach far enough to visually
+                // touch. Building each line letter-by-letter, as separate meshes offset by a
+                // fixed pen position plus a small manual gap, gives it real tracking instead.
+                const letterGap = 0.8;
+
+                lines.forEach((line, i) => {
+                    const lineGroup = new THREE.Group();
+                    let penX = 0;
+
+                    [...line].forEach((ch) => {
+                        if (ch === ' ') { penX += lineSize * 0.28; return; }
+                        const glyphGeo = new THREE.TextGeometry(ch, {
+                            font,
+                            size: lineSize,
+                            height: 3,
+                            curveSegments: 8,
+                            bevelEnabled: true,
+                            bevelThickness: 0.5,
+                            bevelSize: 0.32,
+                            bevelSegments: 3,
+                        });
+                        glyphGeo.computeBoundingBox();
+                        const advance = glyphGeo.boundingBox.max.x - glyphGeo.boundingBox.min.x;
+                        const glyphMesh = new THREE.Mesh(glyphGeo, material);
+                        glyphMesh.position.x = penX;
+                        lineGroup.add(glyphMesh);
+                        penX += advance + letterGap;
+                    });
+
+                    // Center the whole line (built left-to-right from x=0) the same way
+                    // geo.center() used to for a single-geometry line.
+                    const lineWidth = penX - letterGap;
+                    lineGroup.children.forEach((glyphMesh) => {
+                        glyphMesh.position.x -= lineWidth / 2;
+                    });
+                    lineGroup.position.y = i === 0 ? lineGap / 2 : -lineGap / 2;
+                    group.add(lineGroup);
+                });
+
+                scene.add(group);
+
+                // Gentle rotation toward the cursor — never far from facing the camera,
+                // since this is a wordmark, not a spinning logo.
+                let targetRotX = 0, targetRotY = 0;
+                window.addEventListener('mousemove', (e) => {
+                    const nx = (e.clientX / window.innerWidth) * 2 - 1;
+                    const ny = (e.clientY / window.innerHeight) * 2 - 1;
+                    targetRotY = nx * 0.25;
+                    targetRotX = ny * 0.15;
+                });
+
+                const clock = new THREE.Clock();
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    group.rotation.y += (targetRotY - group.rotation.y) * 0.05;
+                    group.rotation.x += (-targetRotX - group.rotation.x) * 0.05;
+                    // A slow idle drift so it doesn't look frozen when the mouse hasn't moved
+                    group.rotation.y += Math.sin(clock.getElapsedTime() * 0.3) * 0.0008;
+                    renderer.render(scene, camera);
+                };
+                animate();
+
+                canvas.classList.add('is-active');
+            },
+            undefined,
+            () => { /* font failed to load — canvas stays hidden, h1 fallback remains visible */ }
+        );
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        });
+    } catch (err) {
+        console.error('initHero3DTitle failed, falling back to flat text:', err);
+    }
+}
+
+/**
+ * Renders the two hero sticker glyphs as real chrome/iridescent 3D sparkles instead of a
+ * flat SVG/text glyph — same "real WebGL geometry, not a CSS fake" approach as the 3D hero
+ * title. Each sparkle gets its own canvas + renderer sized to fill its .sticker-icon
+ * wrapper completely (no fixed small box), and the camera's view height is derived
+ * directly from the geometry's own bounding radius, so the star can never render larger
+ * than the canvas and get clipped regardless of wrapper size. The chrome look comes from
+ * a small procedural gradient cube texture used as an envMap — r128 (the version loaded
+ * on this site) predates MeshPhysicalMaterial's iridescence parameters, so faking
+ * reflections with an envMap + high metalness/low roughness is the standard workaround.
+ */
+function initHero3DSparkles() {
+    try {
+        const canvases = document.querySelectorAll('.sparkle-3d-canvas');
+        if (!canvases.length || typeof THREE === 'undefined') return;
+        // Enabled on all screen sizes (previously desktop-only) for visual parity with mobile/tablet.
+
+        // Neutral white/grey studio-lighting gradient — same idea as before (an envMap gives
+        // the chrome material something to reflect so its facets aren't flat), but colorless,
+        // so the sparkle reads white/chrome like the 3D hero title instead of tinted purple.
+        const buildEnvMap = (renderer) => {
+            const size = 64;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, size);
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.4, '#e4e4e4');
+            grad.addColorStop(0.7, '#3a3a3a');
+            grad.addColorStop(1, '#f2f2f2');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, size, size);
+            const tex = new THREE.CanvasTexture(canvas);
+            const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(size);
+            cubeRenderTarget.fromEquirectangularTexture(renderer, tex);
+            return cubeRenderTarget.texture;
+        };
+
+        // A flat 4-point star outline, extruded into a real 3D solid via ExtrudeGeometry.
+        const buildSparkleGeometry = () => {
+            const shape = new THREE.Shape();
+            const pts = [
+                [0, 12], [2.2, 3.2], [11, 0], [2.2, -3.2],
+                [0, -12], [-2.2, -3.2], [-11, 0], [-2.2, 3.2],
+            ];
+            shape.moveTo(pts[0][0], pts[0][1]);
+            for (let i = 1; i < pts.length; i++) shape.lineTo(pts[i][0], pts[i][1]);
+            shape.closePath();
+            return new THREE.ExtrudeGeometry(shape, {
+                depth: 2.6,
+                bevelEnabled: true,
+                bevelThickness: 0.5,
+                bevelSize: 0.4,
+                bevelSegments: 4,
+                curveSegments: 6,
+            });
+        };
+
+        canvases.forEach((canvas, idx) => {
+            const wrapper = canvas.closest('.sticker-icon');
+            if (!wrapper) return;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            const w = Math.max(wrapper.clientWidth, 40);
+            const h = Math.max(wrapper.clientHeight, 40);
+            renderer.setSize(w, h, false); // updateStyle=false: CSS (width/height:100%) keeps owning layout
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 200);
+            camera.position.z = 32;
+
+            // Same three-point editorial setup as the 3D hero title (see initHero3DTitle):
+            // warm key, cool fill, white rim — kept colorless here (no purple/blue tint) so
+            // the sparkle's highlights read consistently with the title's material.
+            scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+            const key = new THREE.DirectionalLight(0xfff4e6, 1.2);
+            key.position.set(-30, 40, 50);
+            scene.add(key);
+            const fill = new THREE.DirectionalLight(0xe8eefc, 0.5);
+            fill.position.set(30, -15, 20);
+            scene.add(fill);
+            const rim = new THREE.DirectionalLight(0xffffff, 0.9);
+            rim.position.set(20, -20, -30);
+            scene.add(rim);
+
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0x1a1a1a,
+                metalness: 0.85,
+                roughness: 0.16,
+                clearcoat: 1,
+                clearcoatRoughness: 0.08,
+                envMap: buildEnvMap(renderer),
+                envMapIntensity: 1.2,
+                reflectivity: 1,
+            });
+
+            const mesh = new THREE.Mesh(buildSparkleGeometry(), material);
+            mesh.geometry.center();
+            scene.add(mesh);
+
+            // Fit the geometry to the canvas: compute the sphere that bounds the star,
+            // then scale the mesh so that sphere exactly fills ~80% of the camera's
+            // vertical view height at the mesh's distance from the camera — guarantees
+            // the sparkle is never larger than what the canvas can actually show, no
+            // matter how small the wrapper or how the geometry's numbers change later.
+            mesh.geometry.computeBoundingSphere();
+            const boundRadius = mesh.geometry.boundingSphere.radius;
+            const distance = camera.position.z - mesh.position.z;
+            const viewHeight = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * distance;
+            const targetRadius = (viewHeight / 2) * 0.8;
+            const fitScale = targetRadius / boundRadius;
+            mesh.scale.setScalar(fitScale);
+
+            const clock = new THREE.Clock();
+            const spinSpeed = 0.25 + idx * 0.08;
+            const animate = () => {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+                mesh.rotation.y = t * spinSpeed;
+                mesh.rotation.x = Math.sin(t * 0.6) * 0.3;
+                mesh.rotation.z = Math.sin(t * 0.4 + idx) * 0.15;
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            wrapper.classList.add('has-3d-sparkle');
+        });
+    } catch (err) {
+        console.error('initHero3DSparkles failed, falling back to flat glyphs:', err);
+    }
+}
+
+/**
+ * Gives the hero's draggable items (photo, video preview, stickers, client logos) real
+ * translateZ depth in the CSS 3D space established by .hero-playground-container's
+ * `perspective`, so they read as sitting at different distances around the 3D title instead
+ * of being flat cutouts pasted over a flat canvas. Depth is assigned per item (closer items
+ * get a stronger mouse-parallax response, matching how nearer objects appear to move more
+ * than distant ones) and layered independently of each item's own drag position — GSAP
+ * tracks x/y/z/rotation as separate transform components, so this never fights with
+ * Draggable's own x/y updates.
+ */
+function initHeroDepthParallax() {
+    const items = document.querySelectorAll('.hero-drag-layer .drag-item');
+    if (!items.length || typeof gsap === 'undefined') return;
+    if (!window.matchMedia('(min-width: 992px)').matches) return;
+
+    // Each item gets its own Z position (negative = further from camera/deeper into the
+    // screen, positive = pulled toward it) and a scale to match — closer items rendered
+    // larger, distant ones smaller, on top of what perspective already does, so the depth
+    // reads immediately rather than needing mouse movement to notice. Range is large
+    // relative to the 900px perspective set in CSS specifically so it's unmissable.
+    // Matches the current DOM order (photo/video cards, client logo stickers, and the
+    // orbit reel all removed — the hero's proof-of-work is now the full-bleed video
+    // carousel below the title, see initHeroCarousel, which lives outside this
+    // drag/depth system entirely): 1 sparkle (left of title), 2 sparkle (right of title).
+    const DEPTH_CONFIG = [
+        { z: 100, scale: 1.0, strength: 0.08 },    // sparkle — near the front
+        { z: 160, scale: 1.06, strength: 0.07 },   // sparkle — near the front, stays subtle
+    ];
+
+    items.forEach((item, i) => {
+        const cfg = DEPTH_CONFIG[i % DEPTH_CONFIG.length];
+        gsap.set(item, { z: cfg.z, scale: cfg.scale, transformPerspective: 900 });
+        item.dataset.parallaxStrength = cfg.strength;
+        item.dataset.baseScale = cfg.scale;
+
+        // Depth-consistent lighting: shadow falls down-right, matching the 3D title's key
+        // light coming from the upper-left (see initHero3DTitle). Items pulled forward (z>0)
+        // sit "closer to the light", so their shadow is tighter and darker; items pushed
+        // back (z<0) get a softer, more diffuse, lighter shadow — the same falloff real
+        // light would produce, and it doubles as an atmospheric-perspective cue (distant
+        // things look hazier). Card-shaped items use box-shadow; stickers/logos with
+        // irregular/transparent shapes use drop-shadow so it hugs the actual artwork.
+        const depthRatio = Math.max(0, Math.min(1, (cfg.z + 320) / 540)); // 0 = furthest back, 1 = furthest forward
+        const blur = 18 + (1 - depthRatio) * 40; // 18px sharp (close) up to 58px hazy (far)
+        const spread = -4 + depthRatio * 4;
+        const alpha = 0.12 + depthRatio * 0.18; // 0.12 hazy/far up to 0.30 grounded/close
+        const offsetX = 8 + (1 - depthRatio) * 6;
+        const offsetY = 14 + (1 - depthRatio) * 10;
+
+        if (item.classList.contains('card-item')) {
+            item.dataset.depthBoxShadow = `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0,0,0,${alpha.toFixed(2)})`;
+            item.style.boxShadow = item.dataset.depthBoxShadow;
+        } else {
+            item.dataset.depthDropShadow = `drop-shadow(${offsetX}px ${offsetY}px ${(blur * 0.5).toFixed(0)}px rgba(0,0,0,${alpha.toFixed(2)}))`;
+            item.style.filter = item.dataset.depthDropShadow;
+        }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        const nx = (e.clientX / window.innerWidth) * 2 - 1;
+        const ny = (e.clientY / window.innerHeight) * 2 - 1;
+        items.forEach(item => {
+            const strength = parseFloat(item.dataset.parallaxStrength) || 0;
+            // Only rotation + z here, never x/y — Draggable/GSAP already own this item's x/y
+            // for its dragged position, and nudging x/y here on top of that would fight it
+            // and drift the item away from where the user actually dragged it.
+            gsap.to(item, {
+                rotationY: nx * strength * 60,
+                rotationX: -ny * strength * 60,
+                duration: 0.8,
+                ease: 'power2.out',
+                overwrite: 'auto',
+            });
+        });
+    });
+}
+
+/**
+ * Full-bleed video carousel: real project clips mounted on a genuine full circle, not
+ * a fixed shallow arc — spinning it never "runs out" at an edge, it just keeps wrapping,
+ * which is what makes it read as unlimited rather than a strip with two visible ends.
+ * Item count comes from however many .hero-carousel__item elements are in the markup
+ * (currently 20 — more clips than the visible-at-once count keeps the gaps between
+ * cards tight at a wide/flat radius, instead of a few clips spread thin). Auto-rotates
+ * slowly and continuously; dragging spins it with hand-tracked velocity that decays
+ * smoothly afterward (custom momentum, not GSAP's InertiaPlugin — that plugin was
+ * never loaded on this page, which is why the previous drag felt like it "snapped"
+ * rather than coasting). All clips play simultaneously and muted; there's no "active
+ * slide" concept, unlike a typical slider — it's meant to read as one continuous ring
+ * of moving work.
+ */
+function initHeroCarousel() {
+    try {
+        const root = document.getElementById('hero-carousel');
+        const track = document.getElementById('hero-carousel-track');
+        if (!root || !track) return;
+
+        const items = Array.from(track.querySelectorAll('.hero-carousel__item'));
+        const count = items.length;
+        if (!count) return;
+
+        // Lazily play only the videos currently visible in the arc (see the display:none
+        // cutoff in render() below), instead of calling .play() on all 20 at once — that
+        // was 20 simultaneous decode/play starts competing for the main thread right as
+        // the preloader itself was mid-transition, which is what caused the stutter.
+        // Cards rotated out of view get paused; cards rotating into view get played,
+        // so at most ~7 are ever decoding at once regardless of which subset is showing.
+        // skipInitialPlay lets the very first render() position everything without also
+        // starting every visible video's decode pipeline in the same tick — that initial
+        // batch gets played afterward, staggered a few frames apart instead.
+        let skipInitialPlay = true;
+        const playIfNeeded = (item) => {
+            if (skipInitialPlay) return;
+            const video = item.querySelector('video');
+            if (!video || !video.paused) return;
+            const playPromise = video.play();
+            if (playPromise !== undefined) playPromise.catch(() => {});
+        };
+        const pauseIfNeeded = (item) => {
+            const video = item.querySelector('video');
+            if (video && !video.paused) video.pause();
+        };
+
+        // Start every card hidden so the first render() pass below only ever calls
+        // playIfNeeded() on the subset that's actually about to become visible, instead
+        // of every item transitioning from "unset" to visible in the same tick.
+        items.forEach(item => { item.style.display = 'none'; });
+
+        // Full 360° wheel: every card is spaced evenly around the whole circle
+        // (360/count degrees apart), not just across a narrow visible band. Only the
+        // handful of cards currently near the top of the circle are actually visible/
+        // opaque at any moment — the rest sit rotated out of view below — but because
+        // the full set is mounted on the complete circle, spinning brings a *different*
+        // subset up into view every time instead of ever hitting a hard edge.
+        const ANGLE_STEP = 360 / count;
+        // Radius tuned against ANGLE_STEP so adjacent cards sit close with a small,
+        // consistent visible gap — chord distance between neighbors works out to
+        // ~2*RADIUS*sin(ANGLE_STEP/2). Scaled down on smaller screens to match the
+        // smaller card size set in CSS at the same breakpoints (230px desktop → 130px
+        // mobile), otherwise the gap between cards would balloon on phones instead of
+        // staying proportional.
+        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        const isTablet = !isMobile && window.matchMedia('(max-width: 991px)').matches;
+        const RADIUS = isMobile ? 540 : isTablet ? 760 : 950;
+
+        let rotation = 0;
+        let velocity = 0; // degrees/frame, decays after a drag/flick ends
+        const AUTO_SPEED = 0.02; // degrees/frame constant auto-rotate (~1.2deg/s at 60fps)
+        const FRICTION = 0.94; // how quickly flick velocity decays — higher = coasts longer
+
+        const render = () => {
+            items.forEach((item, i) => {
+                // Wrap each card's angle into (-180, 180] relative to the current rotation
+                // so "distance from front" is always the short way around the circle.
+                let angle = ((rotation + i * ANGLE_STEP + 180) % 360 + 360) % 360 - 180;
+                const rad = angle * (Math.PI / 180);
+                const x = Math.sin(rad) * RADIUS;
+                const y = RADIUS - Math.cos(rad) * RADIUS; // 0 at the front-center, increasing toward the sides/back
+                const absAngle = Math.abs(angle);
+
+                // Cards more than ~85° from center have rotated past the visible top
+                // slice of the circle (they're around the back/sides) — skip rendering
+                // work on them entirely rather than positioning 15 cards' worth of DOM
+                // writes every frame when only some are ever on screen at once.
+                if (absAngle > 65) {
+                    if (item.style.display !== 'none') {
+                        item.style.display = 'none';
+                        pauseIfNeeded(item);
+                    }
+                    return;
+                }
+                if (item.style.display === 'none') {
+                    item.style.display = '';
+                    playIfNeeded(item);
+                }
+
+                // Stay fully opaque/full-scale for most of the visible band — only the
+                // last ~15° before a card rotates out of view fades and shrinks it, so
+                // the fade reads as "this card is about to leave the edge," not a wash
+                // of dimness across the whole strip.
+                const FADE_START = 50; // degrees — cards below this stay fully opaque
+                const distance = Math.max(0, Math.min((absAngle - FADE_START) / (65 - FADE_START), 1));
+                const scale = 1 - distance * 0.25;
+                const opacity = 1 - distance * 1;
+                item.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${angle.toFixed(1)}deg) scale(${scale.toFixed(2)})`;
+                item.style.opacity = opacity.toFixed(2);
+                item.style.zIndex = String(1000 - Math.round(absAngle * 10));
+            });
+        };
+
+        gsap.ticker.add(() => {
+            if (Math.abs(velocity) > 0.001) {
+                rotation += velocity;
+                velocity *= FRICTION;
+            } else {
+                velocity = 0;
+                rotation += AUTO_SPEED;
+            }
+            render();
+        });
+
+        // Pointer-based drag-to-spin: tracks real hand velocity while dragging (not a
+        // single start/end delta), so a fast flick actually carries momentum into the
+        // release, then decays smoothly via FRICTION above — the same "throw and coast"
+        // feel as the site's Lenis-smoothed scrolling, rather than stopping dead the
+        // instant the pointer lifts.
+        let isPointerDown = false;
+        let lastX = 0;
+        let lastT = 0;
+
+        const onPointerDown = (e) => {
+            isPointerDown = true;
+            velocity = 0;
+            lastX = e.clientX;
+            lastT = performance.now();
+            root.setPointerCapture?.(e.pointerId);
+        };
+
+        const onPointerMove = (e) => {
+            if (!isPointerDown) return;
+            const now = performance.now();
+            const dt = Math.max(now - lastT, 1);
+            const dx = e.clientX - lastX;
+            rotation += dx * 0.04;
+            velocity = (dx * 0.04) * (16 / dt); // normalize to a ~60fps-equivalent per-frame value
+            lastX = e.clientX;
+            lastT = now;
+        };
+
+        const onPointerUp = () => {
+            isPointerDown = false;
+            // velocity already holds the last drag frame's speed — momentum continues
+            // decaying via FRICTION in the ticker above, nothing else to do here.
+        };
+
+        root.addEventListener('pointerdown', onPointerDown);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+
+        // First reveal: position every card (cheap, no video work — playIfNeeded is a
+        // no-op while skipInitialPlay is true), then stagger that first batch's actual
+        // .play() calls a frame apart instead of starting every visible video's decode
+        // pipeline in the same tick — the last of the "everything fires at once" spots
+        // that caused the original stutter.
+        render();
+        skipInitialPlay = false;
+
+        const visibleNow = items.filter(item => item.style.display !== 'none');
+        visibleNow.forEach((item, i) => {
+            setTimeout(() => playIfNeeded(item), i * 60);
+        });
+    } catch (err) {
+        console.error('initHeroCarousel failed:', err);
+    }
+}
+
+/**
+ * Pins the hero section in place while #content-reveal (everything below it: Site Essence
+ * through FAQ) scrolls up to cover it, instead of the hero scrolling away like a normal
+ * section. Enabled on all screen sizes (previously desktop-only) — the hero is now a
+ * full-viewport (100dvh) section on mobile too, so the pin effect reads the same way.
+ */
+function initHeroRevealPin() {
+    const hero = document.querySelector('.hero-playground-section');
+    const reveal = document.getElementById('content-reveal');
+    if (!hero || !reveal || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+        trigger: hero,
+        start: 'top top',
+        endTrigger: reveal,
+        end: 'top top',
+        pin: true,
+        pinSpacing: false, // reveal should scroll up over the pinned hero, not push it away
+    });
+
+    // Mobile browsers resize the viewport (dvh) as the URL bar collapses/expands on
+    // scroll, which can leave ScrollTrigger's cached start/end a few pixels stale from
+    // what the hero's height becomes right after — that gap is what showed up as a thin
+    // sliver of the hero's background peeking above #content-reveal's rounded top edge,
+    // right where the corner radius meets the flat part of the edge. Refreshing on
+    // resize/orientation change keeps the pin boundary matched to the real, current height.
+    let revealRefreshTimer = null;
+    const scheduleRevealRefresh = () => {
+        clearTimeout(revealRefreshTimer);
+        revealRefreshTimer = setTimeout(() => ScrollTrigger.refresh(), 150);
+    };
+    window.addEventListener('resize', scheduleRevealRefresh);
+    window.addEventListener('orientationchange', scheduleRevealRefresh);
+}
 
 /**
  * Initializes the Sticky Scroll & 3D Flip Card on the About page.
@@ -1476,43 +2216,178 @@ function initDataCounter() {
 }
 //#endregion
 
-//#region MARQUEE SPEED
+//#region SCROLL-VELOCITY MARQUEE
 // =========================================
-// 12. MARQUEE SPEED CONTROL
+// SCROLL-LINKED MARQUEE SPEED
+// Replaces the fixed-duration CSS loop on marquee tracks with a manual GSAP transform
+// driven by scroll speed: scrolling fast speeds the marquee up, scrolling slow (or idle)
+// settles it back to a steady base speed. Works on both the logo marquee (.marquee-track)
+// and the footer text marquee (.footer-marquee-track), each duplicated 2x in the DOM for
+// a seamless loop, so position wraps at -50% of the track's own width.
 // =========================================
-function initMarqueeSpeed() {
-    const track = document.querySelector('.marquee-track');
-    if (!track) return;
+function initScrollVelocityMarquee() {
+    const tracks = document.querySelectorAll('.marquee-track, .footer-marquee-track');
+    if (!tracks.length || typeof gsap === 'undefined') return;
 
-    // CONFIG: Kecepatan dalam pixels per detik
-    // 50-60 adalah kecepatan yang nyaman dibaca.
-    // Semakin KECIL angka ini = Semakin LAMBAT.
-    const pixelsPerSecond = 50; 
+    const BASE_SPEED = 40; // px/sec when idle
+    const VELOCITY_MULTIPLIER = 1.4; // how strongly scroll speed pushes the marquee faster
+    const MAX_SPEED = 1400; // px/sec cap, so a violent scroll flick can't send it flying off
 
-    const updateDuration = () => {
-        // Ambil lebar total track saat ini (fit-content menyesuaikan isi)
-        const trackWidth = track.offsetWidth;
-        // Jarak tempuh animasi CSS kita adalah -50% (setengah lebar total)
-        const distance = trackWidth / 2;
-        
-        if (distance > 0) {
-            // Rumus Fisika: Waktu = Jarak / Kecepatan
-            const duration = distance / pixelsPerSecond;
-            track.style.animationDuration = `${duration}s`;
+    tracks.forEach(track => {
+        track.classList.add('js-velocity-driven');
+        track.style.animation = 'none';
+
+        let posX = 0;
+        let halfWidth = track.scrollWidth / 2;
+        const recalc = () => { halfWidth = track.scrollWidth / 2 || 1; };
+        window.addEventListener('resize', recalc);
+        track.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', recalc);
+        });
+
+        let lastScrollY = window.scrollY;
+        let scrollSpeed = 0; // px/sec, signed
+
+        window.addEventListener('scroll', () => {
+            const now = window.scrollY;
+            scrollSpeed = now - lastScrollY;
+            lastScrollY = now;
+        }, { passive: true });
+
+        gsap.ticker.add(() => {
+            const dt = gsap.ticker.deltaRatio(60) / 60; // seconds since last tick, 60fps-normalized
+
+            // Decay the instantaneous scroll delta back toward 0 each frame so the marquee
+            // eases off after the user stops scrolling, instead of snapping to base speed.
+            scrollSpeed *= 0.9;
+
+            const targetSpeed = BASE_SPEED + Math.min(Math.abs(scrollSpeed) * VELOCITY_MULTIPLIER, MAX_SPEED - BASE_SPEED);
+            posX -= targetSpeed * dt;
+
+            if (Math.abs(posX) >= halfWidth) posX += halfWidth;
+            gsap.set(track, { x: posX });
+        });
+    });
+}
+//#endregion
+
+//#region SCROLL TEXT DISTORTION
+// =========================================
+// WHOLE-SCREEN MOTION BLUR ON FAST SCROLL
+// The entire page content blurs as a single layer (not per-headline) during fast scroll,
+// for a whole-screen sense of depth/motion. (Section headlines previously also got a
+// skewY tied to scroll velocity — removed per feedback, headlines now stay level.)
+// =========================================
+function initScrollTextDistortion() {
+    // Blur every top-level section inside the main wrapper individually (not the wrapper
+    // itself) so #navbar-container — nested inside it but fixed-position and meant to stay
+    // sharp/usable while scrolling fast — can be excluded. Filter on an ancestor blurs all
+    // descendants including fixed ones, so there's no way to exclude it once it's the target.
+    const main = document.querySelector('main.body-wrapper');
+    const allBlurCandidates = main
+        ? Array.from(main.children).filter(el => el.id !== 'navbar-container')
+        : [document.body];
+    if (!allBlurCandidates.length || typeof gsap === 'undefined') return;
+
+    // Filter forces a new compositing layer per element and is expensive to repaint every
+    // frame. Blurring every section on the page at once (most of them off-screen) was heavy
+    // enough to stall the main thread mid-scroll, which is what caused the widget's
+    // show/hide state (and its own scroll listener) to lag and appear to flicker — this was
+    // a performance bug bleeding into an unrelated feature, not a bug in the widget itself.
+    // Restricting the blur to only the section(s) currently intersecting the viewport, and
+    // giving them will-change so the browser can precompute the compositing layer instead
+    // of creating it mid-scroll, brings the cost down to near-zero at rest.
+    let visibleSections = [];
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            entry.target.style.willChange = entry.isIntersecting ? 'filter' : '';
+            if (entry.isIntersecting) {
+                if (!visibleSections.includes(entry.target)) visibleSections.push(entry.target);
+            } else {
+                visibleSections = visibleSections.filter(el => el !== entry.target);
+                gsap.set(entry.target, { filter: 'none' }); // clear blur immediately once it leaves view
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+    allBlurCandidates.forEach(el => sectionObserver.observe(el));
+
+    const MAX_BLUR = 6; // px — a bit stronger since it's now spread across the whole screen, not just text
+    let lastY = window.scrollY;
+    let velocity = 0;
+    let lastAppliedBlur = -1;
+
+    window.addEventListener('scroll', () => {
+        const now = window.scrollY;
+        velocity = now - lastY;
+        lastY = now;
+    }, { passive: true });
+
+    gsap.ticker.add(() => {
+        velocity *= 0.85; // decay toward 0 between scroll events
+        const speed = Math.min(Math.abs(velocity), 40); // 0-40 normalized speed range
+        const intensity = speed / 40; // 0-1
+
+        const blur = intensity * MAX_BLUR;
+
+        // Skip the write entirely when the rounded blur value hasn't actually changed —
+        // avoids re-triggering a repaint every single frame while scrolling at a steady speed.
+        const roundedBlur = Math.round(blur * 10);
+        if (roundedBlur !== lastAppliedBlur && visibleSections.length) {
+            lastAppliedBlur = roundedBlur;
+            gsap.set(visibleSections, { filter: blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none' });
         }
+    });
+}
+//#endregion
+
+//#region BENTO SCROLL REVEAL
+// =========================================
+// SIMPLE FADE-UP REVEAL FOR PROJECT MEDIA
+// Bento cards (project thumbnails across case studies and the services page) fade up
+// into place as they scroll into view — a plain opacity + translateY reveal, matching
+// the simple fade-in used by .fade-in-section elsewhere on the site instead of a
+// geometric mask. One-shot per element, driven by IntersectionObserver so it only pays
+// the cost for cards actually being scrolled to.
+// =========================================
+function initClipPathReveal() {
+    const items = document.querySelectorAll('.bento-item');
+    if (!items.length || typeof gsap === 'undefined' || typeof IntersectionObserver === 'undefined') return;
+
+    items.forEach(item => {
+        gsap.set(item, { opacity: 0, y: 24 });
+        // Safety net: if this item's IntersectionObserver entry never fires (observer setup
+        // fails, layout never settles, etc.), it must not stay permanently invisible.
+        item.dataset.clipRevealPending = 'true';
+    });
+
+    const reveal = (item) => {
+        if (item.dataset.clipRevealPending !== 'true') return;
+        item.dataset.clipRevealPending = 'false';
+        gsap.to(item, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            clearProps: 'transform',
+        });
     };
 
-    // Hitung saat loading awal
-    requestAnimationFrame(updateDuration);
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            reveal(entry.target);
+            obs.unobserve(entry.target);
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
 
-    // Hitung ulang jika layar di-resize (responsif)
-    window.addEventListener('resize', updateDuration);
-    
-    // Hitung ulang saat gambar selesai loading (karena width gambar auto)
-    track.querySelectorAll('img').forEach(img => {
-        if (img.complete) updateDuration();
-        else img.addEventListener('load', updateDuration);
-    });
+    items.forEach(item => observer.observe(item));
+
+    // Fallback: force-reveal anything still pending after 3s, regardless of scroll state.
+    setTimeout(() => {
+        items.forEach(item => {
+            if (item.dataset.clipRevealPending === 'true') reveal(item);
+        });
+    }, 3000);
 }
 //#endregion
 

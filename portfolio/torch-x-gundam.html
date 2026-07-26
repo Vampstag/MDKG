@@ -91,9 +91,9 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=2" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="../widget.css">
+        <link rel="stylesheet" href="../widget.css?v=1">
 
         <!-- Page-specific styles for Impact Section -->
         
@@ -206,7 +206,7 @@
             };
         </script>
     </head>
-    <body class="body-2">
+    <body class="body-2" style="--page-accent: #007291;">
         
         <!-- [NEW] Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
@@ -386,8 +386,8 @@
                                         <div class="skill-card__header"><div class="skill-card__number">[03]</div></div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Translating the Creative Direction</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Translating the Gundam atmosphere through cinematic visuals, sound, and pacing without directly relying on the mobile suit imagery.</p></div>
+                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Earning Trust With an Audience That Notices When It's Fake</div></div>
+                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Adult Gundam fans don't buy into nostalgia alone; they notice when a collab is chasing hype instead of getting the details right. That meant avoiding flashy anime cues in favor of industrial textures and restrained pacing, because feeling accurate to the source mattered more than feeling exciting.</p></div>
                                         </div>
                                     </div>
                                 </div>
@@ -413,7 +413,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">Cinematic Visual Execution</h3>
-                                    <p class="sol-desc">Post-production was centered in DaVinci Resolve, shaping a dark cinematic tone inspired by industrial textures and retro sci-fi aesthetics. Color grading was used to unify inconsistent footage into a single cohesive visual world.</p>
+                                    <p class="sol-desc">Because "accurate" mattered more than "exciting" to this audience, post-production stayed in DaVinci Resolve shaping a dark, restrained tone inspired by industrial textures rather than the brighter, more anime-coded look a typical brand collab reaches for. Color grading unified inconsistent footage into one cohesive world instead of leaning on flashier cues to compensate.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
                                     <!-- [NEW] data-after and data-before arrays contain the multiple frames to cycle through -->
@@ -532,6 +532,7 @@
                             <!-- Item 2 (Small) -->
                             <div class="bento-item">
                                 <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster-bento-2.webp"><source src="../assets/videos/project/torch/teaser-1.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Widest Reach</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Teaser 1: Collaboration Reveal</h3>
                                     <p class="bento-desc">A cinematic teaser introducing the Torch x Mobile Suit Gundam collaboration through minimal and suspense-driven visuals.</p>
@@ -558,6 +559,7 @@
                             <!-- Item 3 (Small) -->
                             <div class="bento-item">
                                  <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster-bento-3.webp"><source src="../assets/videos/project/torch/teaser-2.mp4" type="video/mp4"></video>
+                                <span class="bento-select-caption">Highest Engagement</span>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Teaser 2: Silhouette Reveal</h3>
                                     <p class="bento-desc">A cinematic silhouette teaser designed to build anticipation around the Torch x Gundam collaboration before the official product reveal.</p>
@@ -750,16 +752,16 @@
                             <div class="about-main-content">
                                 <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">The hero film reached 1.82M views because Gundam is Gundam. "Behind the Design" is the number that's actually the story.</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">The launch film's reach came from the IP's built-in audience, not from anything I did. What surprised me was "Behind the Design", not the flagship asset, earning disproportionate saves and reposts relative to its views. That suggested this audience valued process over hype: proof the craft held attention on its own, not just the license.</p>
+                                    </div>
+                                    <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
                                         <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">Grading is where a collab either earns its audience or borrows it</h4>
                                         <p class="about-paragraph" style="margin-bottom: 0;">Anyone can license an IP. What made the footage read as genuinely Gundam, not Torch-wearing-a-Gundam-sticker, was the color and tone work in the edit. That's the part that was mine to get right.</p>
                                     </div>
-                                    <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
+                                    <div>
                                         <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">The teaser rollout outperformed the reveal it was built to hype</h4>
                                         <p class="about-paragraph" style="margin-bottom: 0;">Cutting the teasers for suspense over information paid off in engagement, not just reach. Worth remembering for the next launch that's tempted to show everything upfront.</p>
-                                    </div>
-                                    <div>
-                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">The behind-the-scenes piece beat the hero film on saves</h4>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">"Behind the Design" wasn't the flagship asset, but it earned disproportionate saves and reposts relative to its views. Craft-forward, lower-pressure content can outperform the piece everyone assumes will win.</p>
                                     </div>
                                 </div>
                             </div>
@@ -882,7 +884,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js"></script>
+        <script defer src="../script.js?v=7"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js"></script>
         <script>
