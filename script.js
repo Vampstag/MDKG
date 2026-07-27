@@ -30,6 +30,37 @@ document.addEventListener("DOMContentLoaded", () => {
         isPreloaderDone = true;
     });
 
+    // Position the hero video carousel immediately — while the preloader is still covering
+    // the screen — instead of waiting for preloaderDone like the other hero effects. The
+    // 20 cards' circular arrangement is pure CSS transform math (video .play() calls stay
+    // lazy/staggered internally, so this doesn't reintroduce the decode-cost stutter this
+    // function's own staggering was built to avoid); the only thing it actually needs is
+    // the DOM being present, not the preloader being finished. Running it here means the
+    // circle is already correct by the time the preloader slides away, instead of visibly
+    // snapping from "stacked at default position" to "circular" right after the reveal —
+    // most noticeable on mobile where that stacked flash was previously visible.
+    try {
+        initHeroCarousel();
+    } catch (err) {
+        console.error('initHeroCarousel (early call) failed:', err);
+    }
+
+    // The 3D hero title loads its font from a CDN asynchronously — it's the single most
+    // visually important element on the page, so it also runs now (independent of
+    // preloaderDone) instead of waiting behind the preloader like the other WebGL hero
+    // effects. window.__hero3DTitleReady is a promise the inline preloader script in
+    // index.html's <head> awaits before it lets the preloader finish, so the reveal is
+    // gated on the title genuinely being ready (or having genuinely failed and fallen
+    // back to flat text) instead of a fixed timer that may fire before or long after.
+    window.__hero3DTitleReady = new Promise((resolve) => {
+        try {
+            initHero3DTitle(resolve);
+        } catch (err) {
+            console.error('initHero3DTitle (early call) failed:', err);
+            resolve();
+        }
+    });
+
     // Journal data di-fetch dari data/journal.json, untuk tambah artikel edit file itu saja.
     // Path relatif (bukan absolut dari root domain) agar tetap jalan meski dev server-nya
     // di-root-kan ke folder parent (mis. Live Server dibuka dari luar vampstag-portfolio/),
@@ -248,9 +279,9 @@ document.addEventListener("DOMContentLoaded", () => {
             initInteractiveHero();
 
             requestAnimationFrame(() => {
-                // Frame 2: the 3D title — the single most visually important element,
-                // so it still goes early, but on its own frame away from Draggable setup.
-                initHero3DTitle();
+                // initHero3DTitle() is NOT called here anymore — it now runs at
+                // DOMContentLoaded, before the preloader hides (see window.__hero3DTitleReady
+                // above), since the preloader needs to actually wait on it.
 
                 requestAnimationFrame(() => {
                     // Frame 3: the two sparkle WebGL contexts together — small/cheap
@@ -264,12 +295,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         initHeroRevealPin();
 
                         requestAnimationFrame(() => {
-                            // Frame 5: the video carousel last — it's below the fold of
-                            // first impression (under the title) and its own init already
-                            // staggers each video's play() call (see initHeroCarousel),
-                            // so it's the safest one to push furthest back.
-                            initHeroCarousel();
+                            // initHeroCarousel() is NOT called here — it now runs immediately
+                            // at DOMContentLoaded (see below), before the preloader even starts
+                            // hiding. It used to run here, after preloaderDone, which meant the
+                            // 20 cards sat stacked at their default (unpositioned) spot for a
+                            // beat AFTER the preloader had already slid away — visible on mobile
+                            // as a jump from "stacked" to "circular." Positioning is pure CSS
+                            // transform math (cheap, no video work — video .play() calls stay
+                            // lazy/staggered exactly as before), so there's no cost reason it
+                            // needed to wait this long; it only ever needed to wait for the DOM.
                             initAboutStickyFlip();
+                            initHomeServicesAccordion();
                         });
                     });
                 });
@@ -896,6 +932,20 @@ function animateJournalSection(section) {
 function animateTextReveal(element) {
     element.style.opacity = '1'; // Make container visible
 
+    // Mobile: skip the per-character split (dozens of individually staggered/animated
+    // <span> elements per headline) in favor of one simple fade+rise on the whole block.
+    // This element's reveal often lands in the same frame window as the hero-reveal pin
+    // (see initHeroRevealPin) — on mobile that pin's own scroll-driven work is already
+    // heavy, and stacking a per-character stagger on top of it was what made the text
+    // visibly stutter/freeze mid-reveal instead of completing smoothly.
+    if (!window.matchMedia('(min-width: 992px)').matches) {
+        gsap.fromTo(element,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        );
+        return;
+    }
+
     const text = element.innerText;
     element.innerHTML = '';
 
@@ -1083,11 +1133,15 @@ function initInteractiveHero() {
  * canvas hidden and the plain text visible — this must never be able to break the rest of
  * the hero (see the try/catch wrapping the whole thing).
  */
-function initHero3DTitle() {
+function initHero3DTitle(onReady) {
+    // onReady (optional): called exactly once, whether the font loads or fails, so a
+    // caller can treat "3D title is settled" as a real load signal (see the preloader's
+    // buildLoadPromises() in index.html, which waits on this instead of a fake timer).
+    const signalReady = onReady || (() => {});
     try {
         const canvas = document.getElementById('hero-3d-title-canvas');
-        if (!canvas) return;
-        if (typeof THREE === 'undefined' || !THREE.FontLoader || !THREE.TextGeometry) return;
+        if (!canvas) { signalReady(); return; }
+        if (typeof THREE === 'undefined' || !THREE.FontLoader || !THREE.TextGeometry) { signalReady(); return; }
         // Enabled on all screen sizes (previously desktop-only) so mobile/tablet get the
         // same premium 3D chrome title instead of falling back to flat 2D text.
 
@@ -1205,9 +1259,13 @@ function initHero3DTitle() {
                 animate();
 
                 canvas.classList.add('is-active');
+                signalReady();
             },
             undefined,
-            () => { /* font failed to load — canvas stays hidden, h1 fallback remains visible */ }
+            () => {
+                // font failed to load — canvas stays hidden, h1 fallback remains visible
+                signalReady();
+            }
         );
 
         window.addEventListener('resize', () => {
@@ -1219,6 +1277,7 @@ function initHero3DTitle() {
         });
     } catch (err) {
         console.error('initHero3DTitle failed, falling back to flat text:', err);
+        signalReady();
     }
 }
 
@@ -1707,6 +1766,124 @@ function initAboutStickyFlip() {
         }
     });
 
+}
+
+/**
+ * Homepage "Core, Proven in Portfolio" services accordion — the exact same component
+ * (.services-accordion-v2 / .services-acc-row) and behavior as services.html's Rate
+ * Card page accordion, so the two stay visually and behaviorally identical rather than
+ * drifting into two different services UIs. Kept as a near-verbatim port of the inline
+ * script in services.html (see initServicesAccordion there) rather than a shared
+ * function, since that one is wired to services.html's own DOMContentLoaded/
+ * preloaderDone timing which this page's runAnimations() doesn't share.
+ */
+function initHomeServicesAccordion() {
+    if (typeof gsap === 'undefined') return;
+
+    const rows = document.querySelectorAll('#services .services-acc-row');
+    if (!rows.length) return;
+
+    // Opening/closing a row changes the accordion's total height, which shifts every
+    // section below it — without a refresh, ScrollTrigger keeps using stale positions
+    // measured on load and other scroll-driven effects drift out of sync.
+    const refreshScrollTrigger = () => {
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    };
+
+    const closeRow = (row) => {
+        const panel = row.querySelector('.services-acc-row__panel');
+        row.classList.remove('is-open');
+        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'false');
+        gsap.to(panel, { height: 0, opacity: 0, duration: 0.6, ease: 'power3.inOut', onComplete: refreshScrollTrigger });
+    };
+
+    const openRow = (row) => {
+        const panel = row.querySelector('.services-acc-row__panel');
+        const inner = row.querySelector('.services-acc-row__panel-inner');
+        row.classList.add('is-open');
+        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'true');
+        gsap.set(panel, { height: 'auto' });
+        const targetHeight = panel.offsetHeight;
+        gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: targetHeight, opacity: 1, duration: 0.8, ease: 'power3.inOut', onComplete: () => { panel.style.height = 'auto'; refreshScrollTrigger(); } });
+        gsap.fromTo(inner, { y: 16 }, { y: 0, duration: 0.7, ease: 'power3.out', delay: 0.05 });
+
+        // Auto-snap so the opened row's title sits a fixed comfortable distance from the
+        // top of the viewport, same offset/timing as services.html's accordion.
+        const OFFSET_FROM_TOP = 120;
+        setTimeout(() => {
+            const rect = row.getBoundingClientRect();
+            const targetY = window.scrollY + rect.top - OFFSET_FROM_TOP;
+            if (window.lenis) {
+                window.lenis.scrollTo(targetY, { duration: 1.0 });
+            } else {
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
+        }, 850);
+    };
+
+    const toggle = (targetId) => {
+        rows.forEach(row => {
+            const isTarget = row.dataset.target === targetId;
+            const isOpen = row.classList.contains('is-open');
+            if (isTarget) {
+                isOpen ? closeRow(row) : openRow(row);
+            } else if (isOpen) {
+                closeRow(row);
+            }
+        });
+    };
+
+    rows.forEach(row => {
+        const trigger = row.querySelector('.services-acc-row__trigger');
+        trigger.addEventListener('click', () => toggle(row.dataset.target));
+    });
+
+    // The first row starts marked .is-open in the markup, but the panel's CSS default
+    // is height:0 — set its real height now so it renders open instead of flashing
+    // collapsed before any click happens.
+    const initiallyOpen = document.querySelector('#services .services-acc-row.is-open');
+    if (initiallyOpen) {
+        const panel = initiallyOpen.querySelector('.services-acc-row__panel');
+        gsap.set(panel, { height: 'auto', opacity: 1 });
+    }
+
+    // Staggered fade/slide-in as the section scrolls into view.
+    if (typeof ScrollTrigger !== 'undefined') {
+        gsap.set(rows, { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+            trigger: '#services .services-accordion-v2',
+            start: 'top 85%',
+            once: true,
+            onEnter: () => {
+                gsap.to(rows, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 });
+            }
+        });
+    }
+
+    initServicesFadeCycle();
+}
+
+/**
+ * Auto-crossfades the Color & Finishing row's stacked graded stills (the same 10 images
+ * used in PrestaChill's Approach [03] drag-stack) — passive, no drag, just a slow mix
+ * from one frame to the next. Runs continuously regardless of whether the row is open;
+ * CSS opacity on the closed panel keeps it invisible until expanded, so there's no need
+ * to gate the interval on open/closed state — simpler than starting/stopping per toggle.
+ */
+function initServicesFadeCycle() {
+    document.querySelectorAll('.services-acc-row__visual--fade-cycle').forEach((wrapper) => {
+        const frames = Array.from(wrapper.querySelectorAll('img'));
+        if (frames.length < 2) return;
+        let current = frames.findIndex((img) => img.classList.contains('is-active'));
+        if (current < 0) current = 0;
+
+        setInterval(() => {
+            const next = (current + 1) % frames.length;
+            frames[current].classList.remove('is-active');
+            frames[next].classList.add('is-active');
+            current = next;
+        }, 2600);
+    });
 }
 
 //#region BITS SLIDER
@@ -2279,13 +2456,26 @@ function initScrollVelocityMarquee() {
 // skewY tied to scroll velocity — removed per feedback, headlines now stay level.)
 // =========================================
 function initScrollTextDistortion() {
+    // Desktop-only: mobile's touch-driven scroll velocity spikes far higher and more
+    // erratically than a mouse wheel's, which pushed this effect's per-frame `filter`
+    // repaints hard enough to make the whole page feel heavy/laggy from the hero down,
+    // and produced visibly glitchy blur artifacts on some devices. The effect adds
+    // polish on desktop where scroll velocity is gentler; on mobile it was a net loss.
+    if (!window.matchMedia('(min-width: 992px)').matches) return;
+
     // Blur every top-level section inside the main wrapper individually (not the wrapper
     // itself) so #navbar-container — nested inside it but fixed-position and meant to stay
     // sharp/usable while scrolling fast — can be excluded. Filter on an ancestor blurs all
     // descendants including fixed ones, so there's no way to exclude it once it's the target.
+    // #services is excluded too: applying `filter` directly to that section (even
+    // `filter: none`, since GSAP still sets the inline property) makes it a new containing
+    // block for its own descendants' `position: fixed` — which silently broke the
+    // ScrollTrigger pin used by the sticky-scroll services wheel inside it (the pinned
+    // element locked to the section's own box instead of the viewport, so it looked like
+    // the pin wasn't firing at all).
     const main = document.querySelector('main.body-wrapper');
     const allBlurCandidates = main
-        ? Array.from(main.children).filter(el => el.id !== 'navbar-container')
+        ? Array.from(main.children).filter(el => el.id !== 'navbar-container' && el.id !== 'services')
         : [document.body];
     if (!allBlurCandidates.length || typeof gsap === 'undefined') return;
 

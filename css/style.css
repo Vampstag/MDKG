@@ -2378,15 +2378,6 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
-/* [NEW] Desktop size constraint for the single "Latest Work" card on the homepage */
-@media (min-width: 992px) {
-    .latest-work-section .work-card {
-        max-width: 1024px; /* Adjust this value as needed */
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
 .work-card__image-wrapper {
     position: relative;
     overflow: hidden;
@@ -6105,9 +6096,10 @@ a.social-icon:hover img {
 /* Squircle visual, revealed inline below the description — stretches the full width
    of the row so it reads as a proper editorial image block, not a small thumbnail. */
 .services-acc-row__visual {
+    position: relative;
     width: 100%;
     aspect-ratio: 21/9;
-    border-radius: 28px;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 30px 70px -25px rgba(0,0,0,0.22);
     transform-origin: center;
@@ -6124,6 +6116,31 @@ a.social-icon:hover img {
 
 .services-acc-row.is-open .services-acc-row__visual img {
     transform: scale(1);
+}
+
+/* Color & Finishing's visual: the same 10 graded stills used in PrestaChill's Approach
+   [03] drag-stack, but here auto-cycling passively via crossfade — no drag interaction,
+   just a slow mix from one graded frame into the next while the panel is open. All 10
+   images stack absolutely on top of each other; JS (initServicesFadeCycle) toggles which
+   one has .is-active, and the opacity transition below does the actual crossfade. */
+.services-acc-row__visual--fade-cycle img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.08);
+    transition: opacity 1.8s ease-in-out, transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.services-acc-row.is-open .services-acc-row__visual--fade-cycle img {
+    transform: scale(1);
+}
+
+.services-acc-row__visual--fade-cycle img.is-active {
+    opacity: 1;
 }
 /* #endregion */
 
@@ -6718,3 +6735,4 @@ a.social-icon:hover img {
 .flip-card-back { transform: rotateY(180deg); background: #000; }
 .flip-img, .flip-video { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* #endregion */
+

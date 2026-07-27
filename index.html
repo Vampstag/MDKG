@@ -119,7 +119,7 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css?v=34">
+        <link rel="stylesheet" href="css/style.css?v=45">
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -141,6 +141,27 @@
                 // Don't wait for animation to finish.
                 const footerPromise = fetch('footer.html').then(response => response.text());
 
+                // The preloader now waits on real asset signals instead of only a fake
+                // progress-bar timer: footer fetch (above) and the 3D hero title's font
+                // load (window.__hero3DTitleReady, set by script.js). script.js is a defer
+                // script that runs after this inline one, so __hero3DTitleReady may not
+                // exist yet at this exact moment — poll briefly until script.js has set it,
+                // then await it alongside the footer fetch. A 4s cap prevents a stuck wait
+                // if script.js fails to load at all (network issue, ad blocker, etc).
+                const heroTitleReadyPromise = new Promise((resolve) => {
+                    const deadline = Date.now() + 4000;
+                    const waitForSignal = () => {
+                        if (window.__hero3DTitleReady) {
+                            window.__hero3DTitleReady.then(resolve);
+                        } else if (Date.now() > deadline) {
+                            resolve(); // script.js never set it — don't block the page forever
+                        } else {
+                            setTimeout(waitForSignal, 30);
+                        }
+                    };
+                    waitForSignal();
+                });
+
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const preloader = document.getElementById('preloader');
@@ -148,12 +169,23 @@
                 const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
                 
                 let currentProgress = 0;
+                // The bar animates up to 90% on its own pace (kept snappy/decorative for
+                // feel), then holds there — genuinely idle, not faked — until the real
+                // asset promises below resolve. Only then does it complete to 100%. This
+                // is what makes the preloader an actual gate on load state instead of a
+                // fixed-duration animation that happens to run while loading occurs.
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, heroTitleReadyPromise]).then(() => {
+                    assetsSettled = true;
+                });
 
                 function updateCounter() {
                     // Jump range diperbesar agar progress bar melesat sangat cepat
                     const jump = Math.floor(Math.random() * 40) + 30;
                     currentProgress += jump;
-                    if (currentProgress > 100) currentProgress = 100;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
 
                     if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                     if(bar) bar.style.width = currentProgress + "%";
@@ -164,8 +196,12 @@
                         phraseEl.innerText = phrases[pIndex];
                     }
 
-                    // Delay sangat minim (10-30ms)
-                    let delay = Math.floor(Math.random() * 20) + 10;
+                    // Delay sangat minim (10-30ms) while climbing; once held at 90% waiting
+                    // on real assets, poll a little slower since there's nothing new to paint
+                    // until assetsSettled flips — no reason to burn frames re-checking fast.
+                    const delay = currentProgress < ceiling
+                        ? Math.floor(Math.random() * 20) + 10
+                        : 80;
 
                     if (currentProgress < 100) {
                         setTimeout(updateCounter, delay);
@@ -351,8 +387,8 @@
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-4.webp"><source src="assets/videos/hero-card/Bag-Theory-Eps-1.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-5.webp"><source src="assets/videos/hero-card/Asmr-Packing.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-2.webp"><source src="assets/videos/project/torch/fit-check.mp4" type="video/mp4"></video></div>
-                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-3.webp"><source src="assets/videos/project/torch/tebak-gambar-pt-1.mp4" type="video/mp4"></video></div>
-                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-4.webp"><source src="assets/videos/project/torch/tebak-gambar-pt-2.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster-bento-3.webp"><source src="assets/videos/project/torch/radar%20motion%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-4.webp"><source src="assets/videos/project/torch/magazine%20flipped%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-5.webp"><source src="assets/videos/project/torch/interview-prestachill.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/tsukamie/poster-reel-1.webp"><source src="assets/videos/project/tsukamie/new-menu-bts.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="metadata" poster="assets/images/project/torch/poster_bento-1.webp"><source src="assets/videos/project/torch/campaign-launch.mp4" type="video/mp4"></video></div>
@@ -467,47 +503,91 @@
                     </div>
                 </div>
             </section>
-            <section id="services" class="home-about-section section-margin fade-in-section">
+            <section id="services" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="about-layout-grid">
-                            <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Services</div>
-                                <p class="about-paragraph" style="margin-top: 24px; margin-bottom: 24px;">Different ways we can work together. Whatever the format, the focus is always on making something that actually matters to your audience.</p>
-                                <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="button-normal-white-wrapper-2 w-inline-block">
-                                    <div class="button-normal-white-text-2 text-sm text-weight-medium text-style-no_wrap text-color-black-900">Start a Project</div>
-                                    <div class="button-normal-white-arrow-block-2">
-                                        <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="Arrow Image" class="button-white-arrow-image-black-2"/>
-                                        <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5530_arrow-white.svg" alt="Arrow Image" class="button-white-arrow-image-white-2"/>
+                        <div class="section-headline-margin">
+                            <h2 class="section-headline-text text-reveal">Capabilities</h2>
+                        </div>
+                        <!-- Single-column accordion, same component as services.html's
+                             .services-accordion-v2 — big bold title + circular +/- toggle
+                             per row, panel reveals description + placeholder BTS photo.
+                             Kept in sync with services.html: same 4 rows, same copy. -->
+                        <div class="services-accordion-v2">
+                            <div class="services-acc-row is-open" data-target="home-svc-1">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="true">
+                                    <span class="services-acc-row__num">01</span>
+                                    <span class="services-acc-row__title">Video Production</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Planning, directing, and shooting content for campaigns, social, and branded storytelling.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-1.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
-                            <div class="about-main-content">
-                                <div class="editorial-list">
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">01</span>
-                                        <h3 class="editorial-item-title">Short-Form Video</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">Short-form video that respects the viewer's attention. Every hook, cut, and sound is intentionally placed to keep people watching.</p>
+                            <div class="services-acc-row" data-target="home-svc-2">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">02</span>
+                                    <span class="services-acc-row__title">Editing &amp; Motion</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Editing, motion design, sound, and pacing shaped for how each format is actually watched.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-4.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">02</span>
-                                        <h3 class="editorial-item-title">Brand Film</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">For brands with one important moment that needs to look and feel like it matters. Full cinematic post-production from concept to delivery.</p>
+                                </div>
+                            </div>
+                            <div class="services-acc-row" data-target="home-svc-3">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">03</span>
+                                    <span class="services-acc-row__title">Color &amp; Finishing</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Creating a consistent visual language across every asset, from technical correction to the final grade.</p>
+                                        <div class="services-acc-row__visual services-acc-row__visual--fade-cycle">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">03</span>
-                                        <h3 class="editorial-item-title">Long-Form Video</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">For YouTube content, brand documentaries, and storytelling that needs room to breathe, with structure and pacing that holds attention.</p>
-                                    </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">04</span>
-                                        <h3 class="editorial-item-title">Product & Campaign Launches</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">For brands rolling out something new. One brief, one creative direction, all visual assets delivered together.</p>
-                                    </div>
-                                    <div class="editorial-item">
-                                        <span class="editorial-item-number">05</span>
-                                        <h3 class="editorial-item-title">Ongoing Content Partnership</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">Consistent content every month. I handle the creative output, so you can focus on running the brand.</p>
+                                </div>
+                            </div>
+                            <div class="services-acc-row" data-target="home-svc-4">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
+                                    <span class="services-acc-row__num">04</span>
+                                    <span class="services-acc-row__title">Creative Strategy</span>
+                                    <span class="services-acc-row__toggle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                    </span>
+                                </button>
+                                <div class="services-acc-row__panel">
+                                    <div class="services-acc-row__panel-inner">
+                                        <p class="services-acc-row__desc">Turning audience insights into creative concepts, content formats, and execution that serve both the brand and the people it's made for.</p>
+                                        <div class="services-acc-row__visual">
+                                            <img src="assets/images/project/torch/bts-2.webp" alt="" loading="lazy" decoding="async">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -670,7 +750,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=25"></script>
+        <script defer src="script.js?v=37"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.3"></script>
         <script>
