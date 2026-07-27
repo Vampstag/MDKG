@@ -5720,6 +5720,67 @@ a.social-icon:hover img {
     vertical-align: baseline;
 }
 
+/* [NEW] Article Like Widget — localStorage-only counter (see initArticleLike in
+   script.js). Per-browser, not a synced/global count across visitors; that's a
+   deliberate scope limit for now, not a bug — a shared count needs a small backend. */
+.article-like-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0 0;
+    text-align: center;
+}
+
+.article-like-note {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(17,17,17,0.5);
+    margin: 0;
+}
+
+.article-like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: #fff;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.article-like-btn:hover {
+    border-color: rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -8px rgba(0,0,0,0.15);
+}
+
+.article-like-icon {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), fill 0.2s ease, stroke 0.2s ease;
+}
+
+.article-like-btn[aria-pressed="true"] {
+    color: #e0245e;
+    border-color: rgba(224, 36, 94, 0.3);
+    background: rgba(224, 36, 94, 0.06);
+}
+
+.article-like-btn[aria-pressed="true"] .article-like-icon {
+    fill: #e0245e;
+    stroke: #e0245e;
+}
+
+.article-like-btn.is-liking .article-like-icon {
+    transform: scale(1.3);
+}
+
 /* [PREMIUM] Article Footer (Tags & Share) */
 .article-footer {
     margin-top: 60px;

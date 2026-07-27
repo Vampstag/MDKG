@@ -1886,6 +1886,55 @@ function initServicesFadeCycle() {
     });
 }
 
+/**
+ * Journal article "like" button. Deliberately localStorage-only for now: the count is
+ * per-browser, not a shared/global count synced across visitors — that scope limit is a
+ * known next step (would need a small backend like Supabase), not an oversight. Each
+ * article's like state and count are keyed off the current page path, so every journal
+ * entry tracks its own independently without needing a per-page article ID in markup.
+ */
+function initArticleLike() {
+    const btn = document.querySelector('.article-like-btn');
+    if (!btn) return;
+
+    const storageKey = `mdkg_liked_${window.location.pathname}`;
+    const countKey = `mdkg_like_count_${window.location.pathname}`;
+    const countEl = btn.querySelector('.article-like-count');
+
+    // Baseline count so a fresh browser doesn't show "0" on an article that clearly
+    // already has engagement — purely cosmetic, has no bearing on the real (absent)
+    // global count. Deterministic per-path so it doesn't reshuffle on every reload.
+    const seedFor = (path) => {
+        let hash = 0;
+        for (let i = 0; i < path.length; i++) hash = (hash * 31 + path.charCodeAt(i)) | 0;
+        return 8 + (Math.abs(hash) % 40); // a small, plausible-looking starting count
+    };
+
+    let liked = localStorage.getItem(storageKey) === 'true';
+    let count = parseInt(localStorage.getItem(countKey), 10);
+    if (isNaN(count)) {
+        count = seedFor(window.location.pathname) + (liked ? 1 : 0);
+    }
+
+    const render = () => {
+        btn.setAttribute('aria-pressed', String(liked));
+        if (countEl) countEl.textContent = count.toString();
+    };
+    render();
+
+    btn.addEventListener('click', () => {
+        liked = !liked;
+        count += liked ? 1 : -1;
+        localStorage.setItem(storageKey, String(liked));
+        localStorage.setItem(countKey, String(count));
+        render();
+        if (liked) {
+            btn.classList.add('is-liking');
+            setTimeout(() => btn.classList.remove('is-liking'), 300);
+        }
+    });
+}
+
 //#region BITS SLIDER
 // =========================================
 // 6. BITS & PIECES SLIDER
