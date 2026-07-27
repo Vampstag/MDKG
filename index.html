@@ -790,6 +790,32 @@
 
                     const words = quote.querySelectorAll('.essence-word');
 
+                    // Mobile: the scroll-scrubbed per-word reveal below re-renders opacity/
+                    // transform on every one of these spans every scroll frame, tied
+                    // directly to scroll position via scrub. That's fine on desktop, but on
+                    // mobile — scrolling at this exact point in the page also coincides with
+                    // #content-reveal sliding up over the pinned hero (see initHeroRevealPin)
+                    // — stacking two scroll-driven animations on the same frames read as
+                    // stutter/jank ("kepotong, ngelag"). A single one-shot fade-in (play once
+                    // when the quote enters the viewport, no scrub, no per-word stagger tied
+                    // to scroll) keeps the reveal without competing for frame budget with the
+                    // hero-reveal pin.
+                    if (!window.matchMedia('(min-width: 992px)').matches) {
+                        gsap.set(words, { opacity: 1, y: 0 });
+                        gsap.from(words, {
+                            opacity: 0,
+                            y: 16,
+                            duration: 0.6,
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: quote,
+                                start: 'top 90%',
+                                once: true
+                            }
+                        });
+                        return;
+                    }
+
                     gsap.to(words, {
                         opacity: 1,
                         y: 0,
