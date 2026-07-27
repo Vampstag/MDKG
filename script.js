@@ -1556,9 +1556,18 @@ function initHeroCarousel() {
         // smaller card size set in CSS at the same breakpoints (230px desktop → 130px
         // mobile), otherwise the gap between cards would balloon on phones instead of
         // staying proportional.
+        // "Desktop" used to mean one fixed RADIUS (950) for every width from 992px up —
+        // fine on wide monitors, but on an ordinary laptop screen (roughly 992-1439px,
+        // e.g. a 13-15" display at its native resolution) that radius is too large for
+        // the available width: the circle's visible top slice sits high enough to
+        // overlap the 3D title above it instead of clearing it. isLaptop narrows that
+        // gap with its own radius/positioning tier between tablet and true widescreen
+        // desktop — see the matching .hero-carousel bottom-offset media query in
+        // style.css for the vertical-position half of this fix.
         const isMobile = window.matchMedia('(max-width: 767px)').matches;
         const isTablet = !isMobile && window.matchMedia('(max-width: 991px)').matches;
-        const RADIUS = isMobile ? 540 : isTablet ? 760 : 950;
+        const isLaptop = !isMobile && !isTablet && window.matchMedia('(max-width: 1439px)').matches;
+        const RADIUS = isMobile ? 540 : isTablet ? 760 : isLaptop ? 820 : 950;
 
         let rotation = 0;
         let velocity = 0; // degrees/frame, decays after a drag/flick ends

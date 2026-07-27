@@ -537,7 +537,7 @@ html, body { /* [REFINEMENT] Hindari !important. Jika terjadi overflow, cari ele
    ========================================= */
 body.preloader-active { overflow: hidden; }
 #preloader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    position: fixed; inset: 0;
     background-color: var(--bg-color); color: var(--text-color);
     z-index: 99999;
     display: flex; justify-content: center; align-items: center; flex-direction: column;
@@ -2949,6 +2949,26 @@ html.lenis, html.lenis body { height: auto; }
         width: 180px;
         margin-left: -90px;
         margin-top: -120px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1439px) {
+    /* Laptop tier: an ordinary 13-15" laptop screen at its native resolution still
+       matches the (min-width:992px) "desktop" query below, but doesn't have the width
+       a wide external monitor does. At the old fixed 950px RADIUS + 230px cards, the
+       circle's visible top slice sat tall enough to overlap the 3D title above it (see
+       isLaptop/RADIUS 820 in initHeroCarousel — this block is the matching CSS half:
+       smaller cards to match that smaller radius, and the carousel pulled down further
+       so there's real clearance under the title instead of the two competing for the
+       same vertical band. */
+    .hero-carousel {
+        height: 560px;
+        bottom: -34%;
+    }
+    .hero-carousel__item {
+        width: 195px;
+        margin-left: -97.5px;
+        margin-top: -130px;
     }
 }
 

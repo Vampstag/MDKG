@@ -51,7 +51,7 @@
     <style>
         /* Anti-Flicker Inline CSS */
         body.preloader-active { overflow: hidden; }
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+        #preloader { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
         #preloader.finished { transform: translateY(-100%); }
         .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
         .counter-wrapper.fade-out { opacity: 0; }

@@ -91,59 +91,21 @@
                — before snapping to the intended fixed/centered layout once the CSS finally
                applied. That snap is what showed up as the counter jumping into place. */
             body.preloader-active { overflow: hidden; }
-            /* height:100vh instead of 100% — with position:fixed this should be equivalent
-               to the viewport in a correctly laid-out page, but 100% ties to the nearest
-               ancestor with an explicit height instead of the viewport if that chain is
-               ever broken (e.g. by html/body height:auto). This page's content (a long
-               masonry journal grid) makes body's natural scrollHeight far taller than the
-               viewport; if #preloader's 100% is resolving against that instead of the
-               viewport, the box would be taller than the screen and its "centered" content
-               would sit below the visible fold — exactly the symptom seen even after
-               switching .counter-wrapper to absolute top:50%/left:50% positioning (which
-               only ever moves it relative to #preloader's own box, not the real viewport).
-               100vh is viewport-relative unconditionally, sidestepping this entirely. */
-            #preloader { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100vh; height: 100dvh; background-color: #000; color: #fff; z-index: 99999; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #000; color: #fff; z-index: 99999; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
             #preloader.finished { transform: translateY(-100%); }
-            /* Positioned independently via absolute top:50%/left:50% + translate(-50%,-50%)
-               instead of relying on #preloader's flex centering — this is a defensive fix
-               after flex-based centering repeatedly failed to keep .counter-wrapper
-               vertically centered on this page specifically, for a cause that couldn't be
-               pinned down by reading the CSS/HTML alone (every child of #preloader that
-               could plausibly participate in flex layout was confirmed position:absolute,
-               so .counter-wrapper should have been flex-centered as the sole in-flow
-               child — but it visibly wasn't). Anchoring directly to the viewport center
-               via absolute positioning removes the dependency on #preloader's flex
-               behavior entirely, so whatever was interfering with it can no longer matter. */
-            .counter-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; transition: opacity 0.5s ease; }
+            #preloader audio { display: none; }
+            .counter-wrapper { text-align: center; transition: opacity 0.5s ease; }
             .counter-wrapper.fade-out { opacity: 0; }
             #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
-            /* white-space:nowrap + overflow:hidden matters specifically on this page: the
-               bottom-right corner phrase here cycles through longer text ("PREPARING
-               ASSETS...", "ALIGNING PIXELS...", etc, set via JS) instead of staying static
-               like other pages' preloaders. Without this, a long phrase could wrap onto a
-               second line on narrower viewports, growing .bottom-corners' height and
-               visually pushing/overlapping the centered counter below it — even though
-               both are position:absolute and shouldn't affect each other's box model,
-               the wrapped text visually reads as the counter having moved. Clamping the
-               phrase to one line (truncating with an ellipsis if it's ever too wide for
-               the available half-width) removes that failure mode entirely. */
             .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
             .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
             .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
             .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
             .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
             @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
-            /* This page's #preloader (unlike other pages) contains two <audio> elements
-               used for click/completion sound effects. Without this rule they remain
-               in-flow flex children of #preloader (flex-direction:column), so the browser
-               centers the 3-item stack (.counter-wrapper + 2 audio boxes) as a block —
-               pushing .counter-wrapper visibly below true center instead of centering it
-               alone. The audio elements have no visual role (only used via .play() in JS),
-               so removing them from layout entirely is the fix, not a visual compromise. */
-            #preloader audio { display: none; }
         </style>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="../css/style.css?v=2">
+        <link rel="stylesheet" href="../css/style.css?v=4">
         <link rel="stylesheet" href="../widget.css?v=1">
 
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
@@ -299,7 +261,7 @@
         <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script src="../script.js?v=12"></script>
+        <script src="../script.js?v=13"></script>
         <script src="../custom.js"></script>
         <script src="../widget.js"></script>
 
