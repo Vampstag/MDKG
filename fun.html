@@ -2,6 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
+
+        <!-- Google Fonts (Inter) fetched first — see index.html for why: the preloader's
+             #counter renders at font-size:15vw, so fetching Inter earliest reduces the
+             chance of a visible reflow/jump as the fallback font swaps to Inter. -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
         <title>Fun | M. Dimas K. G.</title>
         <meta content="A running scroll of art, photography, video, posters, and sketches: the work made for no client but myself." name="description"/>
         <meta content="Fun | M. Dimas K. G." property="og:title"/>
@@ -501,7 +507,6 @@
                 setTimeout(updateCounter, 50);
             });
         </script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         <script type="text/javascript">
             !function(o, c) {
                 var n = c.documentElement

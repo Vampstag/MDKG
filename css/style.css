@@ -580,6 +580,13 @@ body.preloader-active { overflow: hidden; }
     .top-corners { top: 20px; }
     .bottom-corners { bottom: 25px; }
 }
+/* journal/index.html's #preloader includes two <audio> elements (click/completion sound
+   effects). Without this, they stay in-flow flex children of #preloader (flex-direction:
+   column) alongside .counter-wrapper, so the browser centers all 3 as a group instead of
+   centering .counter-wrapper alone — visibly pushing the "0%"/"90%" counter below true
+   center. The audio elements are only ever used via .play() in JS, so removing them from
+   layout is correct, not a visual compromise. */
+#preloader audio { display: none; }
 /* #endregion */
 
 /* #region 4. INTERACTIVE ELEMENTS */

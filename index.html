@@ -2,6 +2,15 @@
 <html data-wf-domain="mdkg.webflow.io" data-wf-page="6933c25b0996b0f96f5c2c14" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
     <head>
         <meta charset="utf-8"/>
+
+        <!-- Google Fonts (Inter) fetched first, ahead of every other resource — the
+             preloader's #counter renders at font-size:15vw, so if Inter hasn't arrived by
+             first paint the fallback system font shows first and reflows into Inter's
+             different character widths once it loads, visible as the counter "jumping"
+             at that size. Fetching this earliest gives Inter the best chance of winning
+             the race before #preloader's first paint. -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
         <title>M. Dimas K. G. | Brand Creative in Video, Brand & Web</title>
         <meta content="Bandung-based creative working across video, brand, and web. I start with who's watching and how we want them to feel, then build the craft — from a single edit to a full brand system — around that." name="description"/>
         <meta content="M. Dimas K. G. | Brand Creative in Video, Brand & Web" property="og:title"/>
@@ -283,7 +292,6 @@
                 setTimeout(updateCounter, 50); // Start hampir seketika (dulu delay 500ms)
             });
         </script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         <script type="text/javascript">
             !function(o, c) {
                 var n = c.documentElement
