@@ -147,15 +147,32 @@
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const preloader = document.getElementById('preloader');
+
+                // document.readyState/window.load as a promise, alongside footerPromise —
+                // this page previously only ever waited on the footer fetch (a fast, tiny
+                // request), so the bar reaching 100% told you almost nothing about whether
+                // the rest of the page's images/assets were actually ready. The bar now
+                // holds at 90% until both real signals resolve.
+                const pageReadyPromise = new Promise((resolve) => {
+                    if (document.readyState === 'complete') { resolve(); return; }
+                    const fallbackTimer = setTimeout(resolve, 4000);
+                    window.addEventListener('load', () => { clearTimeout(fallbackTimer); resolve(); });
+                });
+
                 let currentProgress = 0;
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, pageReadyPromise]).then(() => { assetsSettled = true; });
+
                 function updateCounter() {
                     const jump = Math.floor(Math.random() * 45) + 25;
                     currentProgress += jump;
-                    if (currentProgress > 100) currentProgress = 100;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
                     if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                     if(bar) bar.style.width = currentProgress + "%";
-                    let delay = Math.floor(Math.random() * 150) + 20;
-                    if (currentProgress < 100) { setTimeout(updateCounter, delay); } 
+                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 150) + 20 : 80;
+                    if (currentProgress < 100) { setTimeout(updateCounter, delay); }
                     else {
                         const counterWrapper = document.querySelector('.counter-wrapper');
                         if (counterWrapper) counterWrapper.classList.add('fade-out');
@@ -169,7 +186,7 @@
                                 if (window.Webflow) { Webflow.destroy(); Webflow.ready(); if (Webflow.require('ix2')) { Webflow.require('ix2').init(); } }
                                 if (typeof window.initFooterGSAP === 'function') { window.initFooterGSAP(); }
                                 if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
-                                setTimeout(finishLoading, 200);
+                                setTimeout(finishLoading, 50);
                             });
                         }).catch(error => { finishLoading(); });
                     }

@@ -146,18 +146,34 @@
                 // [OPTIMIZATION] Start fetching footer immediately
                 const footerPromise = fetch('../footer.html').then(response => response.text());
 
+                // document.readyState/window.load as a promise, alongside footerPromise —
+                // this page previously only waited on the footer fetch and simulated the
+                // rest of the wait with deliberately-slowed random delays (no relationship
+                // to real asset state). The bar now holds at 90% until both real signals
+                // resolve, and the fake mid-progress lag is gone since it's no longer
+                // needed to "sell" a wait that's now genuinely asset-driven.
+                const pageReadyPromise = new Promise((resolve) => {
+                    if (document.readyState === 'complete') { resolve(); return; }
+                    const fallbackTimer = setTimeout(resolve, 4000);
+                    window.addEventListener('load', () => { clearTimeout(fallbackTimer); resolve(); });
+                });
+
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const preloader = document.getElementById('preloader');
                 const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
                 const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
-                
+
                 let currentProgress = 0;
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, pageReadyPromise]).then(() => { assetsSettled = true; });
 
                 function updateCounter() {
                     const jump = Math.floor(Math.random() * 45) + 25;
                     currentProgress += jump;
-                    if (currentProgress > 100) currentProgress = 100;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
 
                     if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                     if(bar) bar.style.width = currentProgress + "%";
@@ -168,13 +184,7 @@
                         phraseEl.innerText = phrases[pIndex];
                     }
 
-                    let delay = Math.floor(Math.random() * 150) + 20;
-
-                    if (currentProgress > 70 && currentProgress < 85 && Math.random() > 0.3) {
-                        delay = 400 + Math.random() * 500; // Reduced deliberate lag
-                    } else if (currentProgress > 90 && currentProgress < 98) {
-                        delay = 200 + Math.random() * 200; 
-                    }
+                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 150) + 20 : 80;
 
                     if (currentProgress < 100) {
                         setTimeout(updateCounter, delay);
@@ -208,7 +218,7 @@
                                 if (window.ScrollTrigger) {
                                     ScrollTrigger.refresh();
                                 }
-                                setTimeout(finishLoading, 200); // Lebih responsif
+                                setTimeout(finishLoading, 50);
                             });
                         }).catch(error => {
                             console.error("Error fetching content:", error);

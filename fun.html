@@ -413,16 +413,31 @@
                 const footerPromise = fetch('footer.html').then(response => response.text());
                 const preloader = document.getElementById('preloader');
 
+                // document.readyState/window.load as a promise, alongside footerPromise —
+                // the bar holds at 90% (visibly still working) until both resolve, instead
+                // of racing to 100% on a timer and silently freezing there while still
+                // waiting on these same signals underneath.
+                const pageReadyPromise = new Promise((resolve) => {
+                    if (document.readyState === 'complete') { resolve(); return; }
+                    const fallbackTimer = setTimeout(resolve, 4000);
+                    window.addEventListener('load', () => { clearTimeout(fallbackTimer); resolve(); });
+                });
+
                 let currentProgress = 0;
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
                 const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
 
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, pageReadyPromise]).then(() => { assetsSettled = true; });
+
                 function updateCounter() {
                     const jump = Math.floor(Math.random() * 40) + 30;
                     currentProgress += jump;
-                    if (currentProgress > 100) currentProgress = 100;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
 
                     if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                     if(bar) bar.style.width = currentProgress + "%";
@@ -433,7 +448,7 @@
                         phraseEl.innerText = phrases[pIndex];
                     }
 
-                    let delay = Math.floor(Math.random() * 20) + 10;
+                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 20) + 10 : 80;
 
                     if (currentProgress < 100) {
                         setTimeout(updateCounter, delay);
@@ -463,20 +478,7 @@
                                 if (window.ScrollTrigger) {
                                     ScrollTrigger.refresh();
                                 }
-
-                                const hidePreloader = () => {
-                                    setTimeout(finishLoading, 50);
-                                };
-
-                                if (document.readyState === 'complete') {
-                                    hidePreloader();
-                                } else {
-                                    const fallbackTimer = setTimeout(hidePreloader, 1000);
-                                    window.addEventListener('load', () => {
-                                        clearTimeout(fallbackTimer);
-                                        hidePreloader();
-                                    });
-                                }
+                                setTimeout(finishLoading, 50);
                             });
                         }).catch(error => {
                             console.error("Error fetching content:", error);

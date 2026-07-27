@@ -471,9 +471,132 @@
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
         <link rel="manifest" href="/manifest.json">
+
+        <!-- Anti-Flicker Inline CSS — must sit here, in <head>, before both the external
+             stylesheets above finish loading and before #preloader's own markup exists in
+             <body>. See journal/index.html for the bug this prevents: #preloader briefly
+             rendering with no positioning before snapping into place once CSS applied. -->
+        <style>
+            body.preloader-active { overflow: hidden; }
+            #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader.finished { transform: translateY(-100%); }
+            .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
+            .counter-wrapper.fade-out { opacity: 0; }
+            #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
+            .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
+            .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
+            .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
+            .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
+            .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
+            @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        </style>
+        <script>
+            // Real-progress preloader: gated on the hero background image (LCP), the
+            // showreel video's metadata, and the footer fetch — the genuine heavy assets
+            // on this page — not a decorative fixed-duration timer.
+            document.addEventListener("DOMContentLoaded", () => {
+                const footerPromise = fetch('../footer.html').then(response => response.text());
+
+                const heroImg = new Image();
+                heroImg.src = '../assets/images/project/tsukamie/tsukamie1.webp';
+                const heroImagePromise = new Promise((resolve) => {
+                    if (heroImg.complete) { resolve(); return; }
+                    heroImg.onload = resolve;
+                    heroImg.onerror = resolve;
+                    setTimeout(resolve, 4000);
+                });
+
+                const showreelVideoPromise = new Promise((resolve) => {
+                    const video = document.querySelector('#showreel .showreel-video, #showreel video');
+                    if (!video) { resolve(); return; }
+                    if (video.readyState >= 1) { resolve(); return; }
+                    video.addEventListener('loadedmetadata', resolve, { once: true });
+                    video.addEventListener('error', resolve, { once: true });
+                    setTimeout(resolve, 4000);
+                });
+
+                const preloader = document.getElementById('preloader');
+                const counter = document.getElementById('counter');
+                const bar = document.getElementById('bar');
+                const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
+                const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
+
+                let currentProgress = 0;
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, heroImagePromise, showreelVideoPromise]).then(() => {
+                    assetsSettled = true;
+                });
+
+                function updateCounter() {
+                    const jump = Math.floor(Math.random() * 40) + 30;
+                    currentProgress += jump;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
+
+                    if (counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
+                    if (bar) bar.style.width = currentProgress + "%";
+
+                    if (phraseEl) {
+                        let pIndex = Math.floor((currentProgress / 100) * phrases.length);
+                        if (pIndex >= phrases.length) pIndex = phrases.length - 1;
+                        phraseEl.innerText = phrases[pIndex];
+                    }
+
+                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 20) + 10 : 80;
+
+                    if (currentProgress < 100) {
+                        setTimeout(updateCounter, delay);
+                    } else {
+                        const counterWrapper = document.querySelector('.counter-wrapper');
+                        if (counterWrapper) counterWrapper.classList.add('fade-out');
+
+                        footerPromise.then((footerData) => {
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = footerData;
+                            tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));
+                            const footerContainer = document.getElementById('footer-container');
+                            if (footerContainer) footerContainer.innerHTML = tempDiv.innerHTML;
+                            requestAnimationFrame(() => {
+                                if (window.Webflow) {
+                                    Webflow.destroy();
+                                    Webflow.ready();
+                                    if (Webflow.require('ix2')) Webflow.require('ix2').init();
+                                }
+                                if (typeof window.initFooterGSAP === 'function') window.initFooterGSAP();
+                                if (window.ScrollTrigger) ScrollTrigger.refresh();
+                                setTimeout(finishLoading, 50);
+                            });
+                        }).catch(() => finishLoading());
+                    }
+                }
+
+                function finishLoading() {
+                    if (preloader) preloader.classList.add('finished');
+                    document.body.style.overflow = "auto";
+                    if (window.lenis) window.lenis.start();
+                    window.dispatchEvent(new CustomEvent('preloaderDone'));
+                }
+
+                document.body.classList.add('preloader-active');
+                setTimeout(updateCounter, 50);
+            });
+        </script>
     </head>
     <body class="body-2" style="--page-accent: #c0392b;">
-        
+        <div id="preloader">
+            <div class="top-corners">
+                <div class="corner-text">LOADING</div>
+                <div class="corner-text">PLEASE WAIT</div>
+            </div>
+            <div class="counter-wrapper"><span id="counter">0%</span></div>
+            <div class="bottom-corners">
+                <div class="corner-text">SYSTEM CHECK</div>
+                <div class="corner-text">FETCHING CASE STUDY</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+        </div>
+
         <!-- [NEW] Sticky Dot Navigation -->
         <nav class="cs-sticky-nav" aria-label="Case Study Navigation">
             <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot"></div></a>
