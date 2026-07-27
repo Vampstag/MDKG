@@ -2952,23 +2952,25 @@ html.lenis, html.lenis body { height: auto; }
     }
 }
 
-@media (min-width: 992px) and (max-width: 1439px) {
-    /* Laptop tier: an ordinary 13-15" laptop screen at its native resolution still
-       matches the (min-width:992px) "desktop" query below, but doesn't have the width
-       a wide external monitor does. At the old fixed 950px RADIUS + 230px cards, the
-       circle's visible top slice sat tall enough to overlap the 3D title above it (see
-       isLaptop/RADIUS 820 in initHeroCarousel — this block is the matching CSS half:
-       smaller cards to match that smaller radius, and the carousel pulled down further
-       so there's real clearance under the title instead of the two competing for the
-       same vertical band. */
+@media (min-width: 992px) and (max-width: 1679px) {
+    /* Laptop tier: ordinary laptop screens report browser widths anywhere from ~1280px
+       up to ~1600px+ (a 15-16" laptop at native/scaled resolution easily reports
+       1440-1536px, sometimes more) — the previous 1439px upper bound was too narrow
+       and let screens as common as 1518px fall through to the wide-monitor default
+       (950px RADIUS, 230px cards), which is exactly the overlap this tier exists to
+       prevent. Raised to 1679px so the laptop sizing covers the realistic laptop range;
+       only screens wider than that (external monitors, ultrawide, desktop rigs) get the
+       larger default below. See isLaptop/RADIUS 820 in initHeroCarousel() for the
+       matching JS-side radius; this block is the CSS half (smaller cards + pulling the
+       carousel further down for clearance under the title). */
     .hero-carousel {
-        height: 560px;
-        bottom: -34%;
+        height: 380px;
+        bottom: -24%;
     }
     .hero-carousel__item {
-        width: 195px;
-        margin-left: -97.5px;
-        margin-top: -130px;
+        width: 190px;
+        margin-left: -95px;
+        margin-top: -127px;
     }
 }
 

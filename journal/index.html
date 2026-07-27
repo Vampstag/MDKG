@@ -91,7 +91,7 @@
                — before snapping to the intended fixed/centered layout once the CSS finally
                applied. That snap is what showed up as the counter jumping into place. */
             body.preloader-active { overflow: hidden; }
-            #preloader { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #000; color: #fff; z-index: 99999; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader { position: fixed; inset: 0; display: grid; place-items: center; background-color: #000; color: #fff; z-index: 99999; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
             #preloader.finished { transform: translateY(-100%); }
             #preloader audio { display: none; }
             .counter-wrapper { text-align: center; transition: opacity 0.5s ease; }
@@ -105,7 +105,7 @@
             @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
         </style>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="../css/style.css?v=4">
+        <link rel="stylesheet" href="../css/style.css?v=7">
         <link rel="stylesheet" href="../widget.css?v=1">
 
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
@@ -117,30 +117,25 @@
                 const footerPromise = fetch('../footer.html').then(response => response.text());
                 const preloader = document.getElementById('preloader');
 
-                // document.readyState/window.load as a promise, alongside footerPromise —
-                // the bar holds at 90% (visibly still working) until both resolve, instead
-                // of racing to 100% on a fixed timer with no relationship to real load state.
-                const pageReadyPromise = new Promise((resolve) => {
-                    if (document.readyState === 'complete') { resolve(); return; }
-                    const fallbackTimer = setTimeout(resolve, 4000);
-                    window.addEventListener('load', () => { clearTimeout(fallbackTimer); resolve(); });
-                });
-
+                // Purely decorative timer — no HOLD_AT/asset-wait logic. An earlier version
+                // held the bar at 90% until footerPromise + document.readyState resolved,
+                // matching the "real progress" pattern used elsewhere on the site, but on
+                // this page that produced a persistent vertical-centering glitch that
+                // survived multiple CSS fixes (inset:0, explicit absolute-centering, height
+                // fixes) — the hold-and-wait state itself was implicated, not just the CSS.
+                // Reverting to a plain randomized climb to 100% (footer is still awaited
+                // before finishLoading() below, just not reflected in the bar's pacing)
+                // removes that failure mode entirely.
                 let currentProgress = 0;
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
                 const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
 
-                const HOLD_AT = 90;
-                let assetsSettled = false;
-                Promise.all([footerPromise, pageReadyPromise]).then(() => { assetsSettled = true; });
-
                 function updateCounter() {
                     const jump = Math.floor(Math.random() * 45) + 25;
                     currentProgress += jump;
-                    const ceiling = assetsSettled ? 100 : HOLD_AT;
-                    if (currentProgress > ceiling) currentProgress = ceiling;
+                    if (currentProgress > 100) currentProgress = 100;
 
                     if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
                     if(bar) bar.style.width = currentProgress + "%";
@@ -151,7 +146,7 @@
                         phraseEl.innerText = phrases[pIndex];
                     }
 
-                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 150) + 20 : 80;
+                    const delay = Math.floor(Math.random() * 150) + 20;
 
                     if (currentProgress < 100) {
                         setTimeout(updateCounter, delay);
@@ -218,9 +213,9 @@
             <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3" preload="auto"></audio>
         </div>
         
-        <div class="body-wrapper">
+        <main class="body-wrapper">
             <div id="navbar-container"></div>
-            
+
             <!-- Hero Section -->
             <section id="top" class="portfolio-hero-section section-margin">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
@@ -251,7 +246,7 @@
             </section>
 
             <div id="footer-container"></div>
-        </div>
+        </main>
 
         <!-- MDKG Widget Container -->
         <div id="mdkg-widget-container"></div>
@@ -261,7 +256,7 @@
         <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script src="../script.js?v=13"></script>
+        <script src="../script.js?v=15"></script>
         <script src="../custom.js"></script>
         <script src="../widget.js"></script>
 
