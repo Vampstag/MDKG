@@ -345,7 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
         initTabTitleSwitch();
 
         // 12. Scroll-Velocity Marquee (replaces the old fixed-duration CSS loop)
-        initScrollVelocityMarquee();
 
         // 13. Data Validation Counter
         initDataCounter();
@@ -2451,59 +2450,6 @@ function initDataCounter() {
 }
 //#endregion
 
-//#region SCROLL-VELOCITY MARQUEE
-// =========================================
-// SCROLL-LINKED MARQUEE SPEED
-// Replaces the fixed-duration CSS loop on marquee tracks with a manual GSAP transform
-// driven by scroll speed: scrolling fast speeds the marquee up, scrolling slow (or idle)
-// settles it back to a steady base speed. Works on both the logo marquee (.marquee-track)
-// and the footer text marquee (.footer-marquee-track), each duplicated 2x in the DOM for
-// a seamless loop, so position wraps at -50% of the track's own width.
-// =========================================
-function initScrollVelocityMarquee() {
-    const tracks = document.querySelectorAll('.marquee-track, .footer-marquee-track');
-    if (!tracks.length || typeof gsap === 'undefined') return;
-
-    const BASE_SPEED = 40; // px/sec when idle
-    const VELOCITY_MULTIPLIER = 1.4; // how strongly scroll speed pushes the marquee faster
-    const MAX_SPEED = 1400; // px/sec cap, so a violent scroll flick can't send it flying off
-
-    tracks.forEach(track => {
-        track.classList.add('js-velocity-driven');
-        track.style.animation = 'none';
-
-        let posX = 0;
-        let halfWidth = track.scrollWidth / 2;
-        const recalc = () => { halfWidth = track.scrollWidth / 2 || 1; };
-        window.addEventListener('resize', recalc);
-        track.querySelectorAll('img').forEach(img => {
-            if (!img.complete) img.addEventListener('load', recalc);
-        });
-
-        let lastScrollY = window.scrollY;
-        let scrollSpeed = 0; // px/sec, signed
-
-        window.addEventListener('scroll', () => {
-            const now = window.scrollY;
-            scrollSpeed = now - lastScrollY;
-            lastScrollY = now;
-        }, { passive: true });
-
-        gsap.ticker.add(() => {
-            const dt = gsap.ticker.deltaRatio(60) / 60; // seconds since last tick, 60fps-normalized
-
-            // Decay the instantaneous scroll delta back toward 0 each frame so the marquee
-            // eases off after the user stops scrolling, instead of snapping to base speed.
-            scrollSpeed *= 0.9;
-
-            const targetSpeed = BASE_SPEED + Math.min(Math.abs(scrollSpeed) * VELOCITY_MULTIPLIER, MAX_SPEED - BASE_SPEED);
-            posX -= targetSpeed * dt;
-
-            if (Math.abs(posX) >= halfWidth) posX += halfWidth;
-            gsap.set(track, { x: posX });
-        });
-    });
-}
 //#endregion
 
 //#region SCROLL TEXT DISTORTION

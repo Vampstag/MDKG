@@ -3380,15 +3380,9 @@ html.lenis, html.lenis body { height: auto; }
     display: flex;
     width: max-content; /* Ganti fit-content ke max-content agar tidak wrapping */
     gap: 0; /* Pastikan gap 0 */
-    /* Speed now driven by scroll velocity via GSAP (see initScrollVelocityMarquee in
-       script.js) instead of a fixed CSS keyframe loop — kept as a fallback for the instant
-       before JS takes over, or if it fails to init for any reason. */
     animation: marquee-scroll 30s linear infinite;
     will-change: transform;
     transform: translate3d(0, 0, 0); /* Force Hardware Acceleration */
-}
-.marquee-track.js-velocity-driven {
-    animation: none;
 }
 
 .marquee-content {
