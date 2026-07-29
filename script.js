@@ -1525,10 +1525,24 @@ function initHeroCarousel() {
         // starting every visible video's decode pipeline in the same tick — that initial
         // batch gets played afterward, staggered a few frames apart instead.
         let skipInitialPlay = true;
+        // The 20 carousel videos only ever had their <source src> set to data-src on
+        // page load (see index.html) so the browser can't start fetching any of them
+        // until this runs — otherwise all 20 issued a metadata request the instant the
+        // DOM parsed, regardless of play/pause state. Swapping data-src -> src happens
+        // once, the first time a card actually rotates into view.
+        const loadIfNeeded = (item) => {
+            const video = item.querySelector('video');
+            const source = video?.querySelector('source[data-src]');
+            if (!source) return;
+            source.src = source.dataset.src;
+            delete source.dataset.src;
+            video.load();
+        };
         const playIfNeeded = (item) => {
             if (skipInitialPlay) return;
             const video = item.querySelector('video');
             if (!video || !video.paused) return;
+            loadIfNeeded(item);
             const playPromise = video.play();
             if (playPromise !== undefined) playPromise.catch(() => {});
         };
