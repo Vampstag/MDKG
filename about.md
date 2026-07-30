@@ -15,8 +15,8 @@ Saya sedikit "keras kepala" dalam artian yang positif. Begitu kita menetapkan ta
 1. **Eksekusi yang Penuh Perhatian (Thoughtful Execution)**
    Saya tidak sekadar merekam dan mengedit agar sesuatu terlihat cantik. Setiap pilihan visual yang diambil—mulai dari pencahayaan hingga ritme (*pacing*)—dibuat untuk mendukung cerita yang sedang kita sampaikan dan target yang ingin dicapai.
    
-2. **Dirancang untuk Terkoneksi (Crafted for Connection)**
-   Orang bisa merasakan kapan sebuah karya dibuat dengan sungguh-sungguh. Dengan berfokus pada atmosfer dan ritme narasi, saya menciptakan karya yang menghargai waktu penontonnya dan membangun kepercayaan murni dengan audiens Anda.
+2. **Dirancang untuk Menggerakkan (Crafted to Move People)**
+   Orang bisa merasakan kapan sebuah karya dibuat dengan sungguh-sungguh. Dengan berfokus pada atmosfer dan ritme narasi, saya membangun karya yang menghargai waktu penontonnya, membangun kepercayaan dengan audiens Anda, dan memberi mereka alasan untuk bertindak.
 
 3. **Kemitraan Langsung (Direct Partnership)**
    Tanpa *account manager*, tanpa birokrasi pesan yang berbelit. Kita berdiskusi secara langsung, bertukar pikiran bersama, dan memecahkan masalah sebagai sebuah tim. Karena hasil terbaik terjadi ketika kita benar-benar memiliki pemahaman dan visi yang sama sejak hari pertama.
