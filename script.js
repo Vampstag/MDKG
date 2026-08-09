@@ -1601,11 +1601,14 @@ function initHeroCarousel() {
                 const y = RADIUS - Math.cos(rad) * RADIUS; // 0 at the front-center, increasing toward the sides/back
                 const absAngle = Math.abs(angle);
 
-                // Cards more than ~85° from center have rotated past the visible top
+                // Cards more than ~45° from center have rotated past the visible top
                 // slice of the circle (they're around the back/sides) — skip rendering
-                // work on them entirely rather than positioning 15 cards' worth of DOM
-                // writes every frame when only some are ever on screen at once.
-                if (absAngle > 65) {
+                // work on them entirely rather than positioning every card's worth of DOM
+                // writes every frame when only some are ever on screen at once. Lowered
+                // from 65° to keep the number of simultaneously-playing/decoding videos
+                // down (fewer cards in the visible band at once) after the item count was
+                // raised for a tighter gap — that's what was causing real scroll/drag lag.
+                if (absAngle > 45) {
                     if (item.style.display !== 'none') {
                         item.style.display = 'none';
                         pauseIfNeeded(item);
@@ -1618,11 +1621,11 @@ function initHeroCarousel() {
                 }
 
                 // Stay fully opaque/full-scale for most of the visible band — only the
-                // last ~15° before a card rotates out of view fades and shrinks it, so
+                // last ~10° before a card rotates out of view fades and shrinks it, so
                 // the fade reads as "this card is about to leave the edge," not a wash
                 // of dimness across the whole strip.
-                const FADE_START = 50; // degrees — cards below this stay fully opaque
-                const distance = Math.max(0, Math.min((absAngle - FADE_START) / (65 - FADE_START), 1));
+                const FADE_START = 35; // degrees — cards below this stay fully opaque
+                const distance = Math.max(0, Math.min((absAngle - FADE_START) / (45 - FADE_START), 1));
                 const scale = 1 - distance * 0.25;
                 const opacity = 1 - distance * 1;
                 item.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${angle.toFixed(1)}deg) scale(${scale.toFixed(2)})`;
