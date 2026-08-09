@@ -1580,7 +1580,11 @@ function initHeroCarousel() {
         const isMobile = window.matchMedia('(max-width: 767px)').matches;
         const isTablet = !isMobile && window.matchMedia('(max-width: 991px)').matches;
         const isLaptop = !isMobile && !isTablet && window.matchMedia('(max-width: 1679px)').matches;
-        const RADIUS = isMobile ? 540 : isTablet ? 760 : isLaptop ? 800 : 950;
+        // Wide desktop (external monitors, ultrawide, desktop rigs above ordinary laptop
+        // width) gets its own flatter tier: a larger RADIUS shallows the curve so the
+        // carousel doesn't dip round/steep on screens with this much horizontal room.
+        const isWideDesktop = !isMobile && !isTablet && !isLaptop;
+        const RADIUS = isMobile ? 540 : isTablet ? 760 : isLaptop ? 800 : isWideDesktop ? 1050 : 950;
 
         let rotation = 0;
         let velocity = 0; // degrees/frame, decays after a drag/flick ends

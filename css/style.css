@@ -2706,6 +2706,19 @@ html.lenis, html.lenis body { height: auto; }
     color: #111; /* Fallback color, visible for the instant before script.js splits the title into lines/letters */
 }
 
+/* Wide desktop (any screen above the isLaptop tier's 1679px ceiling in initHeroCarousel):
+   the 9rem clamp above stops growing well before screens this wide, reading as undersized
+   next to the flatter, larger-radius carousel at the matching isWideDesktop JS tier. Raise
+   both the fallback h1's cap and the 3D canvas's container so they scale up together. */
+@media (min-width: 1680px) {
+    .hero-huge-title {
+        font-size: 11rem;
+    }
+    .hero-playground-container {
+        max-width: 1700px;
+    }
+}
+
 .hero-huge-title > span {
     display: block;
     width: 100%;
@@ -2806,7 +2819,11 @@ html.lenis, html.lenis body { height: auto; }
     left: 50%;
     bottom: 8px;
     transform: translateX(-50%);
-    z-index: 3;
+    /* Above the carousel cards, which set their own much higher inline z-index
+       (see the 1000 - absAngle*10 scale in initHeroCarousel) — without this the
+       front-most cards visually cover the "Scroll" label/line sitting at the
+       same bottom edge. */
+    z-index: 1100;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2904,10 +2921,12 @@ html.lenis, html.lenis body { height: auto; }
     position: absolute;
     top: 0;
     left: 0;
-    width: 230px;
+    width: 208px; /* slightly narrower than the ~228px chord distance between adjacent
+        cards at this radius/count, so a small visible gap survives instead of cards
+        touching edge-to-edge */
     aspect-ratio: 3/4;
-    margin-left: -115px;
-    margin-top: -153px; /* half of width/aspect-ratio, centers the card on its computed point */
+    margin-left: -104px;
+    margin-top: -138.5px; /* half of width/aspect-ratio, centers the card on its computed point */
     border-radius: 14px; /* Slight squircle */
     overflow: hidden;
     box-shadow: 0 25px 50px -15px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05);
@@ -2925,15 +2944,31 @@ html.lenis, html.lenis body { height: auto; }
         pointer-events:none, which was swallowing the drag-to-spin gesture. */
 }
 
+/* Wide desktop (matches isWideDesktop in initHeroCarousel, screens above the isLaptop
+   tier's 1679px ceiling): RADIUS 1050 is only slightly flatter than the 950 default, so
+   sizing/positioning stays close to the default tier — same bottom offset, just slightly
+   larger cards to match the flatter radius. */
+@media (min-width: 1680px) {
+    .hero-carousel {
+        height: 640px;
+        bottom: -44%;
+    }
+    .hero-carousel__item {
+        width: 224px;
+        margin-left: -112px;
+        margin-top: -149px;
+    }
+}
+
 @media (max-width: 767px) {
     .hero-carousel {
         height: 360px;
         bottom: -18%;
     }
     .hero-carousel__item {
-        width: 130px;
-        margin-left: -65px;
-        margin-top: -87px;
+        width: 116px;
+        margin-left: -58px;
+        margin-top: -77.5px;
         border-radius: 12px;
     }
 }
@@ -2946,9 +2981,9 @@ html.lenis, html.lenis body { height: auto; }
         bottom: -30%;
     }
     .hero-carousel__item {
-        width: 180px;
-        margin-left: -90px;
-        margin-top: -120px;
+        width: 162px;
+        margin-left: -81px;
+        margin-top: -108px;
     }
 }
 
@@ -2968,9 +3003,9 @@ html.lenis, html.lenis body { height: auto; }
         bottom: -24%;
     }
     .hero-carousel__item {
-        width: 190px;
-        margin-left: -95px;
-        margin-top: -127px;
+        width: 171px;
+        margin-left: -85.5px;
+        margin-top: -114px;
     }
 }
 

@@ -406,6 +406,9 @@
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/torch/poster_bento-5.webp"><source data-src="assets/videos/project/torch/hyper.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/torch/poster_bento-1.webp"><source data-src="assets/videos/hero-card/Nura.mp4" type="video/mp4"></video></div>
                                 <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/torch/poster_bento-4.webp"><source data-src="assets/videos/hero-card/Bag-Theory-Eps-1.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/torch/poster_bento-5.webp"><source data-src="assets/videos/hero-card/Asmr-Packing.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/torch/poster-bento-2.webp"><source data-src="assets/videos/project/torch/fit-check.mp4" type="video/mp4"></video></div>
+                                <div class="hero-carousel__item"><video muted loop playsinline preload="none" poster="assets/images/project/tsukamie/poster-reel-1.webp"><source data-src="assets/videos/project/tsukamie/new-menu-bts.mp4" type="video/mp4"></video></div>
                             </div>
                             <!-- Transparent hit-target sitting above every card: some browsers reserve
                                  the top portion of a playing <video> for native scrub/PiP gestures even
@@ -435,7 +438,7 @@
                     <div class="global-padding" style="position: relative;">
 
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
-                            Using human insight to create work that moves people.
+                            Using human insight<br>to create work<br>that moves people.
                         </blockquote>
                     </div>
                 </div>
@@ -775,18 +778,22 @@
                     const quote = document.getElementById('essence-quote');
                     if (!quote) return;
 
-                    // Collapse the HTML's own whitespace/indentation before splitting, otherwise
-                    // newlines and leading spaces turn into stray empty/space spans that break centering
-                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+                    // Split on the markup's own <br> tags first, so hand-authored line breaks
+                    // survive — otherwise reading plain textContent below would collapse them
+                    // away and let the browser rewrap the quote at arbitrary word boundaries.
+                    const lines = quote.innerHTML.split(/<br\s*\/?>/i).map(line =>
+                        line.replace(/\s+/g, ' ').trim()
+                    );
 
                     // Wrap each WORD in a span (word-level, not per-character) so the browser still
                     // wraps lines normally between words instead of splitting mid-word.
-                    quote.innerHTML = originalText
-                        .split(' ')
-                        .map(word => {
-                            return `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`;
-                        })
-                        .join(' ');
+                    quote.innerHTML = lines
+                        .map(line => line
+                            .split(' ')
+                            .map(word => `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`)
+                            .join(' ')
+                        )
+                        .join('<br>');
 
                     const words = quote.querySelectorAll('.essence-word');
 
