@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<!-- ============================================================================
+     CASE STUDY TEMPLATE — fill in every {{PLACEHOLDER}} before publishing.
+     Based on the torch-prestachill.html structure. Kept: Overview, Showreel,
+     Essence quote, Challenge, Approach, Selected Outputs (bento grid), Impact,
+     Process & Craft, Testimonial, Key Insights, Credits (with an Agency line
+     for Observisual work), Soft CTA, Next Project.
+     Dropped vs. torch-prestachill.html: the before/after color-grade slider,
+     the fanned grading-stack deck, and the two-video "guess who" slider —
+     re-add those scripts/markup from that file only if this project needs them.
+     ============================================================================ -->
+<html data-wf-domain="mdkg.webflow.io" data-wf-page="{{WF_PAGE_ID}}" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
+    <head>
+        <meta charset="utf-8"/>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <title>{{PROJECT_NAME}} | Video Case Study by M. Dimas K. G.</title>
+        <meta content="{{META_DESCRIPTION — one or two sentences: what it was, your scope, the standout public metric if you have one}}" name="description"/>
+        <meta content="{{PROJECT_NAME}} | Video Case Study by M. Dimas K. G." property="og:title"/>
+        <meta content="{{META_DESCRIPTION}}" property="og:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
+        <meta content="{{PROJECT_NAME}} | Video Case Study by M. Dimas K. G." property="twitter:title"/>
+        <meta content="{{META_DESCRIPTION}}" property="twitter:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
+        <meta property="og:type" content="website"/>
+        <meta content="summary_large_image" name="twitter:card"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="Webflow" name="generator"/>
+
+        <link rel="canonical" href="https://hellodimas.my.id/portfolio/{{SLUG}}" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-57RMNL3S4P"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-57RMNL3S4P');
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": "{{PROJECT_NAME}}",
+          "author": {
+            "@type": "Person",
+            "name": "M. Dimas K. G.",
+            "url": "https://hellodimas.my.id"
+          },
+          "about": {
+            "@type": "Organization",
+            "name": "{{CLIENT_BRAND_NAME}}",
+            "url": "{{CLIENT_BRAND_URL}}",
+            "sameAs": ["{{CLIENT_BRAND_URL}}", "{{CLIENT_BRAND_INSTAGRAM_URL}}"]
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "{{CLIENT_BRAND_NAME}}",
+            "url": "{{CLIENT_BRAND_URL}}"
+          },
+          "description": "{{META_DESCRIPTION}}",
+          "image": "https://hellodimas.my.id/assets/images/project/{{SLUG}}/{{HERO_IMAGE_FILENAME}}",
+          "url": "https://hellodimas.my.id/portfolio/{{SLUG}}",
+          "keywords": "{{CLIENT_BRAND_NAME}}, {{INDUSTRY — e.g. hospitality, F&B, hotel, event}}, video production, video case study"
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hellodimas.my.id"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Portfolio",
+            "item": "https://hellodimas.my.id/portfolio"
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{PROJECT_NAME}}",
+            "item": "https://hellodimas.my.id/portfolio/{{SLUG}}"
+          }]
+        }
+        </script>
+
+        <link rel="preload" as="image" href="../assets/images/project/{{SLUG}}/{{HERO_IMAGE_FILENAME}}" fetchpriority="high">
+        <link rel="preload" as="video" href="../assets/videos/project/{{SLUG}}/{{SHOWREEL_FILENAME}}" type="video/mp4" fetchpriority="high">
+
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
+        <link href="../css/style.css?v=17" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="../widget.css?v=1">
+
+        <style>
+            /* Hero background: swap the URL for this project's hero still */
+            .hero-bg-image {
+                background-image: url('../assets/images/project/{{SLUG}}/{{HERO_IMAGE_FILENAME}}');
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center center;
+                z-index: 0;
+                will-change: transform;
+                animation: kenBurns 24s ease-in-out infinite;
+            }
+
+            @keyframes kenBurns {
+                0% { transform: scale(1.08); }
+                50% { transform: scale(1.16); }
+                100% { transform: scale(1.08); }
+            }
+
+            /* [FIX] If this project's Selected Outputs grid doesn't have exactly 4 items,
+               delete this whole block and let the shared .bento-grid default layout handle it. */
+        </style>
+
+        <script type="text/javascript">
+            !function(o, c) {
+                var n = c.documentElement
+                  , t = " w-mod-";
+                n.className += t + "js",
+                ("ontouchstart"in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+            }(window, document);
+        </script>
+        <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
+        <link rel="manifest" href="/manifest.json">
+
+        <!-- Anti-Flicker Inline CSS — must stay here in <head>, before #preloader's markup exists in <body> -->
+        <style>
+            body.preloader-active { overflow: hidden; }
+            #preloader { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader.finished { transform: translateY(-100%); }
+            .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
+            .counter-wrapper.fade-out { opacity: 0; }
+            #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
+            .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
+            .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
+            .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
+            .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
+            .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
+            @media (max-width: 768px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        </style>
+        <script>
+            // Real-progress preloader, gated on the hero image (LCP) and showreel metadata.
+            document.addEventListener("DOMContentLoaded", () => {
+                const footerPromise = fetch('../footer.html').then(response => response.text());
+
+                const heroImg = new Image();
+                heroImg.src = '../assets/images/project/{{SLUG}}/{{HERO_IMAGE_FILENAME}}';
+                const heroImagePromise = new Promise((resolve) => {
+                    if (heroImg.complete) { resolve(); return; }
+                    heroImg.onload = resolve;
+                    heroImg.onerror = resolve;
+                    setTimeout(resolve, 4000);
+                });
+
+                const showreelVideoPromise = new Promise((resolve) => {
+                    const video = document.querySelector('#showreel .showreel-video, #showreel video');
+                    if (!video) { resolve(); return; }
+                    if (video.readyState >= 1) { resolve(); return; }
+                    video.addEventListener('loadedmetadata', resolve, { once: true });
+                    video.addEventListener('error', resolve, { once: true });
+                    setTimeout(resolve, 4000);
+                });
+
+                const preloader = document.getElementById('preloader');
+                const counter = document.getElementById('counter');
+                const bar = document.getElementById('bar');
+                const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
+                const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
+
+                let currentProgress = 0;
+                const HOLD_AT = 90;
+                let assetsSettled = false;
+                Promise.all([footerPromise, heroImagePromise, showreelVideoPromise]).then(() => {
+                    assetsSettled = true;
+                });
+
+                function updateCounter() {
+                    const jump = Math.floor(Math.random() * 40) + 30;
+                    currentProgress += jump;
+                    const ceiling = assetsSettled ? 100 : HOLD_AT;
+                    if (currentProgress > ceiling) currentProgress = ceiling;
+
+                    if (counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
+                    if (bar) bar.style.width = currentProgress + "%";
+
+                    if (phraseEl) {
+                        let pIndex = Math.floor((currentProgress / 100) * phrases.length);
+                        if (pIndex >= phrases.length) pIndex = phrases.length - 1;
+                        phraseEl.innerText = phrases[pIndex];
+                    }
+
+                    const delay = currentProgress < ceiling ? Math.floor(Math.random() * 20) + 10 : 80;
+
+                    if (currentProgress < 100) {
+                        setTimeout(updateCounter, delay);
+                    } else {
+                        const counterWrapper = document.querySelector('.counter-wrapper');
+                        if (counterWrapper) counterWrapper.classList.add('fade-out');
+
+                        footerPromise.then((footerData) => {
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = footerData;
+                            tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));
+                            const footerContainer = document.getElementById('footer-container');
+                            if (footerContainer) footerContainer.innerHTML = tempDiv.innerHTML;
+                            requestAnimationFrame(() => {
+                                if (window.Webflow) {
+                                    Webflow.destroy();
+                                    Webflow.ready();
+                                    if (Webflow.require('ix2')) Webflow.require('ix2').init();
+                                }
+                                if (typeof window.initFooterGSAP === 'function') window.initFooterGSAP();
+                                if (window.ScrollTrigger) ScrollTrigger.refresh();
+                                setTimeout(finishLoading, 50);
+                            });
+                        }).catch(() => finishLoading());
+                    }
+                }
+
+                function finishLoading() {
+                    if (preloader) preloader.classList.add('finished');
+                    document.body.style.overflow = "auto";
+                    if (window.lenis) window.lenis.start();
+                    window.dispatchEvent(new CustomEvent('preloaderDone'));
+                }
+
+                document.body.classList.add('preloader-active');
+                setTimeout(updateCounter, 50);
+            });
+        </script>
+    </head>
+    <body class="body-2" style="--page-accent: {{ACCENT_HEX — a hex color pulled from the brand, e.g. #007291}};">
+        <div id="preloader">
+            <div class="top-corners">
+                <div class="corner-text">LOADING</div>
+                <div class="corner-text">PLEASE WAIT</div>
+            </div>
+            <div class="counter-wrapper"><span id="counter">0%</span></div>
+            <div class="bottom-corners">
+                <div class="corner-text">SYSTEM CHECK</div>
+                <div class="corner-text">FETCHING CASE STUDY</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+        </div>
+
+        <!-- Sticky Dot Navigation — delete any <a> whose section you drop below -->
+        <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
+            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#showreel" class="cs-nav-item"><span class="cs-nav-label">Showreel</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#outputs" class="cs-nav-item"><span class="cs-nav-label">Selected Outputs</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#process" class="cs-nav-item"><span class="cs-nav-label">Process</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#testimonial" class="cs-nav-item"><span class="cs-nav-label">Testimonial</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Insights</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+        </nav>
+
+        <main class="body-wrapper">
+            <div id="navbar-container"></div>
+
+            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
+                <div class="hero-bg-image"></div>
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
+                    <div class="global-padding">
+                        <div class="cs-hero-wrapper">
+                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">{{PROJECT_NAME — all caps, e.g. brand + campaign}}</h1>
+                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">{{CAMPAIGN_TAGLINE — e.g. "Ramadan 2026 Campaign"}}</div>
+                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
+                                <span>{{YEAR}}</span>
+                                <span class="cs-meta-separator">•</span>
+                                <span>Photographer & Video Editor</span>
+                                <!-- If this project spans pre-production too, consider: "Concept, Shoot & Edit"
+                                     to signal the end-to-end scope — see conversation notes on role framing. -->
+                            </div>
+                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
+                                <button class="cs-share-btn" aria-label="Share this project">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                    Share Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Overview -->
+            <section id="overview" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
+                            </div>
+                            <div class="about-main-content">
+                                <!-- Audio Narrator Player — record a VO once the case study text below is final;
+                                     see vo-scripts/ for the format used on the Prestachill case study. -->
+                                <div class="audio-narrator-wrapper">
+                                    <div class="audio-label">Listen to Project</div>
+                                    <div class="audio-player-container">
+                                        <audio id="audio-narrator" preload="metadata">
+                                            <source src="../assets/audio/vo-{{SLUG}}.mp3" type="audio/mpeg">
+                                        </audio>
+                                        <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
+                                            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+                                        <div class="audio-time-current">0:00</div>
+                                        <div class="audio-progress-container">
+                                            <div class="audio-progress-fill"></div>
+                                            <div class="audio-tooltip">0:00</div>
+                                        </div>
+                                        <div class="audio-time-total">0:00</div>
+                                        <button class="audio-control-btn speed-btn">1x</button>
+                                    </div>
+                                </div>
+
+                                <div class="about-text-block">
+                                    <p class="about-paragraph">
+                                        {{OVERVIEW_PARAGRAPH_1 — what the project was and the core idea behind it. Keep the same plain, matter-of-fact tone as other case studies — no hype-reel language.}}
+                                    </p>
+                                    <p class="about-paragraph">
+                                        {{OVERVIEW_PARAGRAPH_2 — your specific scope. Since this is end-to-end at Observisual, say plainly which stages you touched: concept/pre-production input, the shoot itself, edit, grading. Don't overclaim stages you didn't own.}}
+                                    </p>
+
+                                    <div class="about-divider"></div>
+                                    <div class="about-meta-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                                        <div class="meta-item">
+                                            <span class="meta-label">Duration</span>
+                                            <span class="meta-value">{{DURATION — e.g. "3 Weeks"}}</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <span class="meta-label">Industry</span>
+                                            <span class="meta-value">{{INDUSTRY — e.g. "Hospitality / F&B"}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Showreel -->
+            <section id="showreel" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="showreel-wrapper" style="background-image: url('../assets/images/project/{{SLUG}}/{{SHOWREEL_POSTER_FILENAME}}'); background-size: cover; background-position: center;">
+                            <video autoplay loop muted playsinline preload="auto" poster="../assets/images/project/{{SLUG}}/{{SHOWREEL_POSTER_FILENAME}}" class="showreel-video video-fade" style="width: 100%; height: 100%; object-fit: cover;" onloadeddata="this.classList.add('is-ready')">
+                                <source src="../assets/videos/project/{{SLUG}}/{{SHOWREEL_FILENAME}}" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Campaign Essence -->
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            "{{ESSENCE_QUOTE — one sentence describing the assignment in your own words, matching the style of other case studies (e.g. Prestachill's "Creating short-form content for PrestaChill that reminds students to celebrate their small wins.")}}"
+                        </blockquote>
+                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. The Challenge -->
+            <section id="hardskills" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
+                            </div>
+                            <div class="about-main-content">
+                                <div class="about-text-block">
+                                    <h3 class="about-lead-text text-reveal">{{CHALLENGE_HEADLINE — the one-sentence version of the problem}}</h3>
+                                    <p class="about-paragraph">{{CHALLENGE_BODY — what made this hard: audience mismatch, brand recognition, timing, budget, location constraints, etc.}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. The Approach — duplicate a .solution-video-item block for each approach point (2-3 is typical) -->
+            <section id="solution" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">The Approach</h2>
+                            </div>
+                        </div>
+                        <div class="solution-showcase">
+                            <!-- Approach item 1 -->
+                            <div class="solution-video-item has-reel">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[01]</span>
+                                    <h3 class="sol-title">{{APPROACH_1_HEADLINE}}</h3>
+                                    <p class="sol-desc">{{APPROACH_1_BODY — the specific decision you made and why. If this came from pre-production/concept thinking rather than just execution, say so plainly.}}</p>
+                                </div>
+                                <div class="solution-video-player">
+                                    <div class="video-player-wrapper is-reel">
+                                        <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/{{SLUG}}/{{APPROACH_1_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Approach item 2 — copy the block above again for a 3rd point if needed -->
+                            <div class="solution-video-item" style="column-gap: 96px;">
+                                <div class="solution-video-content">
+                                    <span class="sol-number">[02]</span>
+                                    <h3 class="sol-title">{{APPROACH_2_HEADLINE}}</h3>
+                                    <p class="sol-desc">{{APPROACH_2_BODY}}</p>
+                                </div>
+                                <div class="solution-video-player">
+                                    <div class="video-player-wrapper is-reel">
+                                        <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/{{SLUG}}/{{APPROACH_2_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Selected Outputs (Bento Grid) — duplicate .bento-item for each piece of content, 4-6 is typical -->
+            <section id="outputs" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Selected Outputs</h2>
+                            </div>
+                        </div>
+                        <div class="bento-grid">
+                            <!-- Output 1 -->
+                            <div class="bento-item is-wide">
+                                <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/{{SLUG}}/{{OUTPUT_1_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                <span class="bento-select-caption">{{OUTPUT_1_CAPTION — e.g. "Highest Engagement"}}</span>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">{{OUTPUT_1_TITLE}}</h3>
+                                    <p class="bento-desc">{{OUTPUT_1_DESCRIPTION}}</p>
+                                    <div class="bento-actions">
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
+                                        </button>
+                                        <a href="{{OUTPUT_1_SOCIAL_URL — public link, e.g. Instagram/TikTok post}}" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View post"><span class="bento-btn-label">View Post</span></a>
+                                        <button class="bento-btn bento-stats-toggle">
+                                            Stats
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                        </button>
+                                    </div>
+                                    <!-- Only include stats that are public/visible on the platform itself — no internal client analytics -->
+                                    <div class="bento-stats-panel">
+                                        <div class="bento-stat"><span class="stat-val">{{VIEWS}}</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Views</span></div>
+                                        <div class="bento-stat"><span class="stat-val">{{LIKES}}</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Likes</span></div>
+                                        <div class="bento-stat"><span class="stat-val">{{COMMENTS}}</span><span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Comments</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Output 2 — copy this block for however many outputs this project has -->
+                            <div class="bento-item">
+                                <video class="bento-video" loop muted playsinline preload="metadata"><source src="../assets/videos/project/{{SLUG}}/{{OUTPUT_2_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                <span class="bento-select-caption">{{OUTPUT_2_CAPTION}}</span>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">{{OUTPUT_2_TITLE}}</h3>
+                                    <p class="bento-desc">{{OUTPUT_2_DESCRIPTION}}</p>
+                                    <div class="bento-actions">
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
+                                        </button>
+                                        <a href="{{OUTPUT_2_SOCIAL_URL}}" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="View post"><span class="bento-btn-label">View Post</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. The Impact — use only publicly visible platform metrics (views/engagement rate), never internal client data -->
+            <section id="impact" class="data-validation-section section-margin fade-in-section" aria-labelledby="impact-heading">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                            <div class="section-headline">
+                                <h2 id="impact-heading" class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Impact</h2>
+                            </div>
+                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">{{IMPACT_CONTEXT_LINE — one sentence framing why these numbers matter, e.g. paid vs organic}}</p>
+                        </div>
+                        <div class="data-grid">
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number">{{METRIC_1_VALUE}}</div>
+                                <div class="data-label">{{METRIC_1_LABEL}}</div>
+                                <div class="metric-tooltip">{{METRIC_1_DETAIL}}</div>
+                            </div>
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number">{{METRIC_2_VALUE}}</div>
+                                <div class="data-label">{{METRIC_2_LABEL}}</div>
+                                <div class="metric-tooltip">{{METRIC_2_DETAIL}}</div>
+                            </div>
+                            <div class="data-item" tabindex="0">
+                                <div class="data-number">{{METRIC_3_VALUE}}</div>
+                                <div class="data-label">{{METRIC_3_LABEL}}</div>
+                                <div class="metric-tooltip">{{METRIC_3_DETAIL}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. Process & Craft — BTS stills, safe to publish -->
+            <section id="process" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headlne-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Process & Craft</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bits-and-pieces-wrapper">
+                    <div class="slider-wrapper">
+                        <div class="swiper bits-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/{{SLUG}}/bts-1.webp" alt="{{BTS_1_ALT_TEXT}}" class="photo-img" loading="lazy" decoding="async" fetchpriority="low">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/{{SLUG}}/bts-2.webp" alt="{{BTS_2_ALT_TEXT}}" class="photo-img" loading="lazy" decoding="async" fetchpriority="low">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="photo-card">
+                                        <img src="../assets/images/project/{{SLUG}}/bts-3.webp" alt="{{BTS_3_ALT_TEXT}}" class="photo-img" loading="lazy" decoding="async" fetchpriority="low">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. Client Testimonial — only include once you actually have a quote; delete this section if not -->
+            <section id="testimonial" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="cs-testimonial-inner">
+                            <svg class="cs-testimonial-icon" width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 20.16C0 8.64 6.72 1.6 16.96 0L18.72 4.48C11.52 6.4 8.32 10.72 7.68 15.68C8.32 15.36 9.28 15.2 10.24 15.2C14.4 15.2 17.6 18.24 17.6 22.72C17.6 27.2 14.08 30.56 9.6 30.56C4.16 30.56 0 26.24 0 20.16ZM21.76 20.16C21.76 8.64 28.48 1.6 38.72 0L40.48 4.48C33.28 6.4 30.08 10.72 29.44 15.68C30.08 15.36 31.04 15.2 32 15.2C36.16 15.2 39.36 18.24 39.36 22.72C39.36 27.2 35.84 30.56 31.36 30.56C25.92 30.56 21.76 26.24 21.76 20.16Z" fill="currentColor"/>
+                            </svg>
+                            <h3 class="cs-testimonial-quote">
+                                "{{TESTIMONIAL_QUOTE}}"
+                            </h3>
+                            <div class="cs-testimonial-attribution">
+                                <div class="cs-testimonial-avatar-wrap">
+                                    <img class="cs-testimonial-avatar" src="../assets/images/project/{{SLUG}}/{{TESTIMONIAL_AVATAR_FILENAME}}" alt="{{TESTIMONIAL_NAME}}, {{TESTIMONIAL_ROLE}}">
+                                    <img class="cs-testimonial-brand-badge" src="{{CLIENT_BRAND_LOGO_PATH}}" alt="{{CLIENT_BRAND_NAME}} logo">
+                                </div>
+                                <span class="cs-testimonial-name">{{TESTIMONIAL_NAME}}</span>
+                                <span class="cs-testimonial-role">{{TESTIMONIAL_ROLE}}, {{CLIENT_BRAND_NAME}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 11. Key Insights -->
+            <section id="key-takeaways" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Key Insights</div>
+                            </div>
+                            <div class="about-main-content">
+                                <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
+                                    <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">{{INSIGHT_1_HEADLINE}}</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">{{INSIGHT_1_BODY}}</p>
+                                    </div>
+                                    <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">{{INSIGHT_2_HEADLINE}}</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">{{INSIGHT_2_BODY}}</p>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">{{INSIGHT_3_HEADLINE}}</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">{{INSIGHT_3_BODY}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 12. Credits — Agency line included per the Observisual decision: brand name stays the
+                 case study subject, Dimas's role stays most prominent, Observisual credited as the agency. -->
+            <section id="credits" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="credits-divider"></div>
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
+                            </div>
+                        </div>
+                        <div class="credits-grid">
+                            <div class="credits-group">
+                                <h4 class="credits-role">Agency</h4>
+                                <ul class="credits-list">
+                                    <li><a href="{{OBSERVISUAL_URL}}" target="_blank" rel="noopener noreferrer">Observisual</a></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h4 class="credits-role">Post-Production & Technical Execution</h4>
+                                <ul class="credits-list">
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Photographer & Video Editor)</span></li>
+                                </ul>
+                            </div>
+                            <!-- Add more credits-group blocks for any teammates involved (strategy, production management, etc.) -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 13. Soft CTA -->
+            <section class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="premium-soft-cta">
+                            <h2 class="premium-soft-cta-title">{{CTA_HEADLINE — e.g. "Need someone to shoot, cut, and grade it?"}}</h2>
+                            <p class="premium-soft-cta-desc">{{CTA_SUBLINE}}</p>
+                            <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
+                                Start a Project
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 14. Next Project Navigation -->
+            <section class="next-project-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <a href="{{NEXT_PROJECT_URL}}" class="next-project-link">
+                        <span class="next-label">Next Project</span>
+                        <h2 class="next-title">{{NEXT_PROJECT_TITLE}}</h2>
+                    </a>
+                </div>
+            </section>
+
+            <div id="footer-container"></div>
+        </main>
+
+        <div id="mdkg-widget-container"></div>
+
+        <div id="lightbox-modal" class="lightbox-modal">
+            <span class="lightbox-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </span>
+            <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
+        </div>
+
+        <div id="video-modal" class="lightbox-modal">
+            <span class="lightbox-close video-modal-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </span>
+            <div class="video-modal-content">
+                <video id="modal-video-player" controls autoplay playsinline loop></video>
+            </div>
+        </div>
+
+        <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6933c25a0996b0f96f5c2bc3" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.68ccafdb.96c19bd230e42fc3.js" type="text/javascript" integrity="sha384-2Gg0jo0+ykKe902FwuSM0IpzRc+bq8KTSOUw36jNNWJxclLGXolsR1N1zHWBg3Yj" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+
+        <script defer src="../script.js?v=15"></script>
+        <script defer src="../custom.js"></script>
+        <script defer src="../widget.js?v=1.3"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const showreelVideo = document.querySelector('.showreel-video');
+                if (!showreelVideo) return;
+                const revealVideo = () => showreelVideo.classList.add('is-ready');
+                showreelVideo.addEventListener('loadeddata', revealVideo);
+                showreelVideo.addEventListener('canplay', revealVideo);
+                setTimeout(revealVideo, 3000);
+                showreelVideo.load();
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const initCSHero = () => {
+                    if (typeof gsap === 'undefined') {
+                        setTimeout(initCSHero, 50);
+                        return;
+                    }
+                    gsap.fromTo('.cs-anim-el',
+                        { y: 30, opacity: 0, filter: 'blur(10px)', scale: 0.98 },
+                        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.5, stagger: 0.2, ease: "power3.out", delay: 0.1 }
+                    );
+                };
+                initCSHero();
+            });
+        </script>
+        <script>
+            // Campaign Essence: per-letter reveal scrubbed to scroll position.
+            document.addEventListener('DOMContentLoaded', () => {
+                const initEssenceReveal = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initEssenceReveal, 50);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+                    const quote = document.getElementById('essence-quote');
+                    if (!quote) return;
+                    const originalText = quote.textContent.replace(/\s+/g, ' ').trim();
+                    quote.innerHTML = originalText
+                        .split(' ')
+                        .map(word => `<span class="essence-word-wrap" style="display:inline-block; overflow:hidden; vertical-align:top;"><span class="essence-word" style="opacity:0.08; display:inline-block; font-weight:800; transform:translateY(30px);">${word}</span></span>`)
+                        .join(' ');
+                    const words = quote.querySelectorAll('.essence-word');
+                    gsap.to(words, {
+                        opacity: 1, y: 0, duration: 0.4, stagger: 4 / words.length, ease: 'none',
+                        scrollTrigger: { trigger: quote, start: 'top 95%', end: 'bottom 60%', scrub: 0.3 }
+                    });
+                };
+                initEssenceReveal();
+            });
+        </script>
+        <script>
+            // The Approach section: video players + scroll-in animation
+            document.addEventListener('DOMContentLoaded', () => {
+                const solutionSection = document.getElementById('solution');
+                if (!solutionSection) return;
+
+                const formatTime = (time) => new Date(time * 1000).toISOString().slice(14, 19);
+
+                function setupVideoPlayer(playerWrapper) {
+                    const video = playerWrapper.querySelector('.video-element');
+                    const playPauseBtn = playerWrapper.querySelector('.video-play-pause-btn');
+                    const muteBtn = playerWrapper.querySelector('.video-mute-btn');
+                    const timeline = playerWrapper.querySelector('.video-timeline');
+                    const currentTimeEl = playerWrapper.querySelector('.video-time-current');
+                    const durationEl = playerWrapper.querySelector('.video-time-duration');
+                    const fullscreenBtn = playerWrapper.querySelector('.video-fullscreen-btn');
+                    if (!video) return;
+
+                    playPauseBtn?.addEventListener('click', () => video.paused ? video.play() : video.pause());
+                    video.addEventListener('play', () => playPauseBtn?.classList.add('is-playing'));
+                    video.addEventListener('pause', () => playPauseBtn?.classList.remove('is-playing'));
+
+                    muteBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        video.muted = !video.muted;
+                        muteBtn.classList.toggle('is-muted', video.muted);
+                    });
+
+                    video.addEventListener('loadedmetadata', () => {
+                        if (durationEl) durationEl.textContent = formatTime(video.duration);
+                        if (timeline) timeline.max = video.duration;
+                    });
+                    video.addEventListener('timeupdate', () => {
+                        if (currentTimeEl) currentTimeEl.textContent = formatTime(video.currentTime);
+                        if (timeline) timeline.value = video.currentTime;
+                    });
+                    timeline?.addEventListener('input', () => video.currentTime = timeline.value);
+
+                    fullscreenBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!document.fullscreenElement) {
+                            playerWrapper.requestFullscreen().catch(err => console.error(err));
+                        } else if (document.exitFullscreen) {
+                            document.exitFullscreen().catch(err => console.error(err));
+                        }
+                    });
+
+                    const feedbackContainer = playerWrapper.querySelector('.video-center-feedback');
+                    const playFeedback = feedbackContainer?.querySelector('.icon-feedback-play');
+                    const pauseFeedback = feedbackContainer?.querySelector('.icon-feedback-pause');
+                    const triggerFeedback = (action) => {
+                        if (!playFeedback || !pauseFeedback) return;
+                        playFeedback.classList.remove('animate');
+                        pauseFeedback.classList.remove('animate');
+                        void playFeedback.offsetWidth;
+                        (action === 'play' ? playFeedback : pauseFeedback).classList.add('animate');
+                    };
+                    const togglePlay = () => {
+                        if (video.paused) { video.play(); triggerFeedback('play'); }
+                        else { video.pause(); triggerFeedback('pause'); }
+                    };
+                    video.addEventListener('click', togglePlay);
+                    const overlay = playerWrapper.querySelector('.video-hover-overlay');
+                    overlay?.addEventListener('click', (e) => {
+                        if (e.target.closest('button') || e.target.closest('input')) return;
+                        togglePlay();
+                    });
+                }
+
+                solutionSection.querySelectorAll('.video-player-wrapper').forEach(setupVideoPlayer);
+
+                const items = solutionSection.querySelectorAll('.solution-video-item');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.2, rootMargin: "0px 0px -100px 0px" });
+                items.forEach(item => observer.observe(item));
+            });
+        </script>
+        <script>
+            // Bento Grid: stats toggle + play modal + hover-scrub + tilt
+            document.addEventListener('DOMContentLoaded', () => {
+                const bentoGrid = document.querySelector('.bento-grid');
+                const videoModal = document.getElementById('video-modal');
+                const modalVideo = document.getElementById('modal-video-player');
+
+                const closeVideoModal = () => {
+                    if (videoModal) {
+                        videoModal.classList.remove('active');
+                        if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; }
+                        document.body.style.overflow = '';
+                    }
+                };
+
+                if (videoModal) {
+                    videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideoModal(); });
+                    const closeBtn = videoModal.querySelector('.video-modal-close');
+                    if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
+                    document.addEventListener('keydown', (e) => { if (e.key === "Escape" && videoModal.classList.contains('active')) closeVideoModal(); });
+                }
+
+                if (bentoGrid) {
+                    bentoGrid.addEventListener('click', (e) => {
+                        const toggleBtn = e.target.closest('.bento-stats-toggle');
+                        if (toggleBtn) {
+                            e.preventDefault();
+                            const bentoItem = toggleBtn.closest('.bento-item');
+                            if (bentoItem) {
+                                const wasOpen = bentoItem.classList.contains('stats-open');
+                                bentoItem.classList.toggle('stats-open');
+                                toggleBtn.classList.toggle('active');
+                                const statElements = bentoItem.querySelectorAll('.bento-stats-panel:not([style*="display: none"]) .stat-val');
+                                if (!wasOpen) {
+                                    statElements.forEach(statEl => {
+                                        gsap.killTweensOf(statEl);
+                                        const originalText = statEl.dataset.originalValue || statEl.textContent;
+                                        if (!statEl.dataset.originalValue) statEl.dataset.originalValue = originalText;
+                                        const match = originalText.match(/^([^0-9]*)([0-9\.,]+)([^0-9]*)$/);
+                                        if (match && typeof gsap !== 'undefined') {
+                                            const prefix = match[1] || '';
+                                            const numericString = match[2].replace(/,/g, '');
+                                            const targetVal = parseFloat(numericString);
+                                            const suffix = match[3] || '';
+                                            const hasDecimals = match[2].includes('.');
+                                            const decimals = hasDecimals ? match[2].split('.')[1].length : 0;
+                                            let proxy = { val: 0 };
+                                            gsap.to(proxy, {
+                                                val: targetVal, duration: 1.2, ease: "power2.out",
+                                                onUpdate: () => {
+                                                    let current;
+                                                    if (hasDecimals) current = proxy.val.toFixed(decimals);
+                                                    else current = Math.floor(proxy.val).toLocaleString('en-US');
+                                                    statEl.textContent = `${prefix}${current}${suffix}`;
+                                                },
+                                                onComplete: () => { statEl.textContent = originalText; }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    statElements.forEach(statEl => {
+                                        gsap.killTweensOf(statEl);
+                                        statEl.textContent = "0";
+                                    });
+                                }
+                            }
+                        }
+
+                        const playBtn = e.target.closest('.bento-play-btn');
+                        if (playBtn) {
+                            e.preventDefault();
+                            const bentoItem = playBtn.closest('.bento-item');
+                            const source = bentoItem.querySelector('source');
+                            if (source && videoModal && modalVideo) {
+                                modalVideo.src = source.src;
+                                videoModal.classList.add('active');
+                                modalVideo.play();
+                                document.body.style.overflow = 'hidden';
+                            }
+                        }
+                    });
+
+                    const bentoItems = bentoGrid.querySelectorAll('.bento-item');
+                    bentoItems.forEach(item => {
+                        const video = item.querySelector('.bento-video');
+                        if (video) {
+                            item.addEventListener('mouseenter', () => {
+                                const playPromise = video.play();
+                                if (playPromise !== undefined) playPromise.catch(() => {});
+                            });
+                            item.addEventListener('mouseleave', () => {
+                                video.pause();
+                                video.currentTime = 0;
+                            });
+                            let scrubReady = false;
+                            video.addEventListener('loadedmetadata', () => { scrubReady = true; });
+                            item.addEventListener('mousemove', (e) => {
+                                if (!scrubReady || !video.duration) return;
+                                const rect = item.getBoundingClientRect();
+                                const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+                                video.pause();
+                                video.currentTime = ratio * video.duration;
+                            });
+                        }
+                    });
+
+                    document.querySelectorAll('.bento-item').forEach(item => {
+                        const MAX_TILT = 6;
+                        item.addEventListener('mouseenter', () => {
+                            item.style.transition = 'transform 0.1s linear, box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                        });
+                        item.addEventListener('mousemove', (e) => {
+                            const rect = item.getBoundingClientRect();
+                            const px = (e.clientX - rect.left) / rect.width - 0.5;
+                            const py = (e.clientY - rect.top) / rect.height - 0.5;
+                            item.style.transform = `translate3d(0, -8px, 0) perspective(800px) rotateX(${(-py * MAX_TILT).toFixed(2)}deg) rotateY(${(px * MAX_TILT).toFixed(2)}deg)`;
+                        });
+                        item.addEventListener('mouseleave', () => {
+                            item.style.transition = '';
+                            item.style.transform = '';
+                        });
+                    });
+                }
+            });
+        </script>
+        <script>
+            // Sticky Dot Navigation Scrollspy
+            document.addEventListener('DOMContentLoaded', () => {
+                const sections = document.querySelectorAll('section[id]');
+                const navItems = document.querySelectorAll('.cs-nav-item');
+                let activeSection = null;
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            activeSection = entry.target;
+                            navItems.forEach(item => {
+                                item.classList.remove('active');
+                                if (item.getAttribute('href') === `#${entry.target.id}`) item.classList.add('active');
+                            });
+                        }
+                    });
+                }, { rootMargin: "-40% 0px -60% 0px" });
+                sections.forEach(sec => observer.observe(sec));
+
+                const RING_CIRCUMFERENCE = 50.27;
+                let ticking = false;
+                const updateRingProgress = () => {
+                    ticking = false;
+                    if (!activeSection) return;
+                    const rect = activeSection.getBoundingClientRect();
+                    const progress = Math.min(Math.max((-rect.top) / (rect.height - window.innerHeight || 1), 0), 1);
+                    const activeItem = document.querySelector('.cs-nav-item.active .cs-nav-dot-ring circle');
+                    if (activeItem) activeItem.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - progress);
+                };
+                window.addEventListener('scroll', () => {
+                    if (!ticking) { ticking = true; requestAnimationFrame(updateRingProgress); }
+                }, { passive: true });
+            });
+        </script>
+    </body>
+</html>

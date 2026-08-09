@@ -2856,7 +2856,7 @@ html.lenis, html.lenis body { height: auto; }
 .hero-carousel {
     position: absolute;
     left: 50%;
-    bottom: -38%;
+    bottom: -44%;
     width: 100vw;
     max-width: 100vw;
     transform: translateX(-50%);
