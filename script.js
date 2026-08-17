@@ -358,6 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // 15b. Magnetic Buttons
         initMagneticButtons();
 
+        // 15b-ii. About Section Showreel Player
+        try {
+            initAboutIntroPlayer();
+            initAboutIntroVideoModal();
+        } catch (err) {
+            console.error('initAboutIntroPlayer failed:', err);
+        }
+
         // 15c. Scroll-Linked Text Distortion
         // Wrapped in try/catch: a failure here must not be able to stop initClipPathReveal()
         // (and anything else) below it from running — that previously left the bento grid
@@ -945,29 +953,39 @@ function animateTextReveal(element) {
         return;
     }
 
-    const text = element.innerText;
+    // innerText (not textContent) so hand-authored <br> tags survive as \n instead of
+    // being silently dropped — otherwise a multi-line headline like "Hi, I'm Dimas<br>..."
+    // would get rebuilt as one continuous line with the break lost.
+    const lines = element.innerText.split('\n');
     element.innerHTML = '';
 
     const chars = [];
-    text.split(' ').forEach((word, wordIndex, words) => {
-        // Wrap each word so its letters can never be split across a line break
-        const wordSpan = document.createElement('span');
-        wordSpan.style.display = 'inline-block';
-        wordSpan.style.whiteSpace = 'nowrap';
+    lines.forEach((line, lineIndex) => {
+        const words = line.split(' ');
+        words.forEach((word, wordIndex) => {
+            // Wrap each word so its letters can never be split across a line break
+            const wordSpan = document.createElement('span');
+            wordSpan.style.display = 'inline-block';
+            wordSpan.style.whiteSpace = 'nowrap';
 
-        word.split('').forEach(char => {
-            const span = document.createElement('span');
-            span.textContent = char;
-            span.style.display = 'inline-block';
-            span.style.opacity = '0';
-            span.style.transform = 'translateY(20px)';
-            wordSpan.appendChild(span);
-            chars.push(span);
+            word.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                wordSpan.appendChild(span);
+                chars.push(span);
+            });
+            element.appendChild(wordSpan);
+
+            if (wordIndex < words.length - 1) {
+                element.appendChild(document.createTextNode(' '));
+            }
         });
-        element.appendChild(wordSpan);
 
-        if (wordIndex < words.length - 1) {
-            element.appendChild(document.createTextNode(' '));
+        if (lineIndex < lines.length - 1) {
+            element.appendChild(document.createElement('br'));
         }
     });
 
@@ -1511,7 +1529,29 @@ function initHeroCarousel() {
         const track = document.getElementById('hero-carousel-track');
         if (!root || !track) return;
 
-        const items = Array.from(track.querySelectorAll('.hero-carousel__item'));
+        const allItems = Array.from(track.querySelectorAll('.hero-carousel__item'));
+        if (!allItems.length) return;
+
+        // Detected up front (before filtering items below) so mobile/tablet can drop to
+        // fewer total cards — not just a narrower visible band — since phones/mid-range
+        // tablets are the devices most likely to struggle with several simultaneous video
+        // decodes plus the per-frame transform/opacity writes for every mounted card.
+        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        const isTablet = !isMobile && window.matchMedia('(max-width: 991px)').matches;
+        const isLaptop = !isMobile && !isTablet && window.matchMedia('(max-width: 1679px)').matches;
+        const isWideDesktop = !isMobile && !isTablet && !isLaptop;
+
+        // Fewer total cards on weaker-GPU tiers: every mounted card still gets a
+        // transform/opacity write each animation frame even while paused/hidden past the
+        // visible-band cutoff below, so trimming the DOM set itself (not just how many are
+        // actively decoding) reduces main-thread work on phones and tablets specifically.
+        const MAX_ITEMS = isMobile ? 18 : isTablet ? 16 : allItems.length;
+        const items = allItems.slice(0, MAX_ITEMS);
+        items.forEach(item => item.dataset.carouselActive = 'true');
+        allItems.forEach(item => {
+            if (!item.dataset.carouselActive) item.style.display = 'none';
+        });
+
         const count = items.length;
         if (!count) return;
 
@@ -1577,19 +1617,21 @@ function initHeroCarousel() {
         // gap with its own radius/positioning tier between tablet and true widescreen
         // desktop — see the matching .hero-carousel bottom-offset media query in
         // style.css for the vertical-position half of this fix.
-        const isMobile = window.matchMedia('(max-width: 767px)').matches;
-        const isTablet = !isMobile && window.matchMedia('(max-width: 991px)').matches;
-        const isLaptop = !isMobile && !isTablet && window.matchMedia('(max-width: 1679px)').matches;
-        // Wide desktop (external monitors, ultrawide, desktop rigs above ordinary laptop
-        // width) gets its own flatter tier: a larger RADIUS shallows the curve so the
-        // carousel doesn't dip round/steep on screens with this much horizontal room.
-        const isWideDesktop = !isMobile && !isTablet && !isLaptop;
+        // (isMobile/isTablet/isLaptop/isWideDesktop are computed above, before the item-count trim.)
         const RADIUS = isMobile ? 540 : isTablet ? 760 : isLaptop ? 800 : isWideDesktop ? 1050 : 950;
 
         let rotation = 0;
         let velocity = 0; // degrees/frame, decays after a drag/flick ends
         const AUTO_SPEED = 0.02; // degrees/frame constant auto-rotate (~1.2deg/s at 60fps)
         const FRICTION = 0.94; // how quickly flick velocity decays — higher = coasts longer
+
+        // Visible-band cutoff, tuned per tier — narrower on weaker-GPU devices so fewer
+        // videos are ever decoding/playing at once (mobile tightest, since phones are the
+        // most likely to stutter with several simultaneous video decodes; tablet a bit
+        // more headroom; desktop/laptop widest since they have the GPU/CPU budget for it).
+        const VISIBLE_CUTOFF = isMobile ? 32 : isTablet ? 40 : 45;
+        const FADE_SPAN = 10; // degrees of fade-out right before the cutoff, same on every tier
+        const FADE_START = VISIBLE_CUTOFF - FADE_SPAN;
 
         const render = () => {
             items.forEach((item, i) => {
@@ -1601,14 +1643,13 @@ function initHeroCarousel() {
                 const y = RADIUS - Math.cos(rad) * RADIUS; // 0 at the front-center, increasing toward the sides/back
                 const absAngle = Math.abs(angle);
 
-                // Cards more than ~45° from center have rotated past the visible top
-                // slice of the circle (they're around the back/sides) — skip rendering
-                // work on them entirely rather than positioning every card's worth of DOM
-                // writes every frame when only some are ever on screen at once. Lowered
-                // from 65° to keep the number of simultaneously-playing/decoding videos
-                // down (fewer cards in the visible band at once) after the item count was
-                // raised for a tighter gap — that's what was causing real scroll/drag lag.
-                if (absAngle > 45) {
+                // Cards beyond VISIBLE_CUTOFF from center have rotated past the visible top
+                // slice of the circle (they're around the back/sides) — skip rendering work
+                // on them entirely rather than positioning every card's worth of DOM writes
+                // every frame when only some are ever on screen at once. Narrowed from a
+                // flat 65° (kept fewer videos playing at once, was still causing real
+                // scroll/drag lag) down further per-tier above — that's the actual fix.
+                if (absAngle > VISIBLE_CUTOFF) {
                     if (item.style.display !== 'none') {
                         item.style.display = 'none';
                         pauseIfNeeded(item);
@@ -1621,11 +1662,10 @@ function initHeroCarousel() {
                 }
 
                 // Stay fully opaque/full-scale for most of the visible band — only the
-                // last ~10° before a card rotates out of view fades and shrinks it, so
-                // the fade reads as "this card is about to leave the edge," not a wash
-                // of dimness across the whole strip.
-                const FADE_START = 35; // degrees — cards below this stay fully opaque
-                const distance = Math.max(0, Math.min((absAngle - FADE_START) / (45 - FADE_START), 1));
+                // last FADE_SPAN degrees before a card rotates out of view fades and
+                // shrinks it, so the fade reads as "this card is about to leave the edge,"
+                // not a wash of dimness across the whole strip.
+                const distance = Math.max(0, Math.min((absAngle - FADE_START) / FADE_SPAN, 1));
                 const scale = 1 - distance * 0.25;
                 const opacity = 1 - distance * 1;
                 item.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${angle.toFixed(1)}deg) scale(${scale.toFixed(2)})`;
@@ -2057,6 +2097,140 @@ function initBitsSlider() {
 // =========================================
 // 15b. MAGNETIC CURSOR ATTRACTION
 // =========================================
+/**
+ * Homepage "About me" showreel card: hover only reveals the "Watch Showreel" label
+ * (no scrub controls on the small card itself — those live in the fullscreen modal
+ * instead, opened on click) plus a magnetic hover on the outer wrapper that nudges the
+ * card toward the cursor, matching initMagneticButtons()'s pull math below but tuned
+ * for a much larger element.
+ */
+function initAboutIntroPlayer() {
+    const magneticWrapper = document.getElementById('about-intro-magnetic');
+    const trigger = document.getElementById('about-intro-watch-trigger');
+    if (!trigger) return;
+
+    const sourceVideo = trigger.querySelector('.about-intro-video');
+    const videoModal = document.getElementById('video-modal');
+    const modalVideo = document.getElementById('modal-video-player');
+    const watchLabel = trigger.querySelector('.about-intro-watch-label');
+
+    // "Watch Showreel" label follows the cursor's own position inside the card (not
+    // fixed at center). Setting left/top directly from the raw mousemove event reads
+    // as rigid — the label teleports to the exact pixel every event, with no sense of
+    // weight or momentum. Lerping the label's actual position toward the cursor's
+    // target position a fraction each animation frame (instead of snapping instantly)
+    // is what makes cursor-follow elements read as smooth/premium rather than jittery.
+    //
+    // On top of that, the label now carries a sense of physicality: its horizontal
+    // velocity each frame (how fast currentX is still catching up to targetX) drives
+    // a scale-up and a left/right tilt, like a sticker being dragged and swinging on
+    // its own weight — settling back to scale(1) rotate(0) once the cursor stops.
+    if (watchLabel) {
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0, rafId = null;
+        const LERP_FACTOR = 0.18; // lower = laggier/smoother trail, higher = snappier
+        const MAX_TILT = 8; // degrees at top speed — subtle sway, not a big swing
+        const MAX_SCALE_BOOST = 0.06; // +6% size at top speed — barely-there grow
+        const VELOCITY_SETTLE = 0.05; // px/frame below which velocity is treated as "stopped"
+
+        const animateLabel = () => {
+            const prevX = currentX;
+            currentX += (targetX - currentX) * LERP_FACTOR;
+            currentY += (targetY - currentY) * LERP_FACTOR;
+
+            const velocityX = currentX - prevX; // px this frame, signed by direction
+            const speed = Math.min(Math.abs(velocityX) / 14, 1); // 0-1, needs a genuinely fast move to saturate
+            const tilt = Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
+            const scale = 1 + speed * MAX_SCALE_BOOST;
+
+            watchLabel.style.left = `${currentX}px`;
+            watchLabel.style.top = `${currentY}px`;
+            watchLabel.style.setProperty('--tilt', `${tilt.toFixed(2)}deg`);
+            watchLabel.style.setProperty('--scale', scale.toFixed(3));
+
+            // Stop the loop once position AND velocity have both settled, so the tilt/
+            // scale genuinely eases back to neutral instead of freezing mid-swing.
+            if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1 || Math.abs(velocityX) > VELOCITY_SETTLE) {
+                rafId = requestAnimationFrame(animateLabel);
+            } else {
+                watchLabel.style.setProperty('--tilt', '0deg');
+                watchLabel.style.setProperty('--scale', '1');
+                rafId = null;
+            }
+        };
+
+        trigger.addEventListener('mousemove', (e) => {
+            const rect = trigger.getBoundingClientRect();
+            targetX = e.clientX - rect.left;
+            targetY = e.clientY - rect.top;
+            if (rafId === null) {
+                // First move after being idle: snap the current position to the target
+                // immediately so the label doesn't visibly fly in from wherever it last
+                // stopped (e.g. the previous hover session's exit point).
+                currentX = targetX;
+                currentY = targetY;
+                watchLabel.style.left = `${currentX}px`;
+                watchLabel.style.top = `${currentY}px`;
+                rafId = requestAnimationFrame(animateLabel);
+            }
+        });
+    }
+
+    trigger.addEventListener('click', () => {
+        const source = sourceVideo?.querySelector('source');
+        if (source && videoModal && modalVideo) {
+            modalVideo.src = source.src;
+            videoModal.classList.add('active');
+            modalVideo.play();
+            document.body.style.overflow = 'hidden';
+        }
+    });
+
+    // 3D tilt: the card itself rotates on X/Y based on the cursor's position within
+    // it — no positional movement (no magnetic pull toward the cursor), purely a
+    // perspective tilt, like the card is a physical object being angled toward the
+    // viewer's eye. Cursor above center tilts the top back (rotateX positive), cursor
+    // right of center tilts the right edge back (rotateY positive), etc.
+    if (magneticWrapper && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const MAX_TILT = 10; // degrees at the card's edge
+
+        magneticWrapper.addEventListener('mousemove', (e) => {
+            const rect = trigger.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+            const py = (e.clientY - rect.top) / rect.height - 0.5;
+            const rotateY = Math.max(-1, Math.min(1, px * 2)) * MAX_TILT;
+            const rotateX = Math.max(-1, Math.min(1, -py * 2)) * MAX_TILT;
+            trigger.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+        });
+        magneticWrapper.addEventListener('mouseleave', () => {
+            trigger.style.transform = '';
+        });
+    }
+}
+
+/**
+ * Closes the About-section showreel's fullscreen video modal — shared close triggers
+ * (X button, backdrop click, Escape key), same pattern as the bento-grid video modal
+ * used on case study pages.
+ */
+function initAboutIntroVideoModal() {
+    const videoModal = document.getElementById('video-modal');
+    const modalVideo = document.getElementById('modal-video-player');
+    if (!videoModal) return;
+
+    const closeVideoModal = () => {
+        videoModal.classList.remove('active');
+        if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; }
+        document.body.style.overflow = '';
+    };
+
+    videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideoModal(); });
+    const closeBtn = videoModal.querySelector('.video-modal-close');
+    closeBtn?.addEventListener('click', closeVideoModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && videoModal.classList.contains('active')) closeVideoModal();
+    });
+}
+
 function initMagneticButtons() {
     const MAX_PULL = 12; // px the button can travel toward the cursor
     const RADIUS = 80; // px from center where the pull starts

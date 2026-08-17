@@ -22,12 +22,42 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
             {
+                id: 10,
+                title: "Ngaliwet Raos",
+                year: "2026",
+                category: "Video Production · Editing & Motion",
+                industry: "F&B",
+                roles: ["Video Production", "Editing & Motion"],
+                link: "",
+                clientName: "Ngaliwet Raos",
+                description: "Organic social content for Ngaliwet Raos, creating photography and video for its Instagram presence.",
+                brandInfo: "A Sundanese dining and catering brand bringing culture and togetherness to a new generation.",
+                image: "../assets/images/project/ngaliwet-raos/ngaliwet-main-hero.webp",
+                srcset: "",
+                ongoing: true
+            },
+            {
+                id: 9,
+                title: "Andrea Bocelli",
+                year: "2026",
+                category: "Video Production · Editing & Motion",
+                industry: "Live Event",
+                roles: ["Video Production", "Editing & Motion"],
+                link: "/portfolio/andrea-bocelli-romanza-indonesia",
+                clientName: "Panen Maya Digital",
+                description: "Visual production for Andrea Bocelli's Romanza 30th Anniversary World Tour in Indonesia.",
+                brandInfo: "Developed through Observisual for Panen Maya Digital, covering Andrea Bocelli's Romanza World Tour across two Indonesian shows in Borobudur and Jakarta.",
+                image: "../assets/images/project/andrea-bocelli/romanza-main-hero.webp",
+                srcset: "",
+                ongoing: true
+            },
+            {
                 id: 8,
                 title: "Torch Prestachill",
                 year: "2026",
-                category: "Video Production · Video Editing", 
+                category: "Video Production · Editing & Motion",
                 industry: "Fashion",
-                roles: ["Short-Form Video", "Launch Package"], 
+                roles: ["Video Production", "Editing & Motion"],
                 link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
@@ -40,9 +70,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 7, // Pastikan ID unik
                 title: "Torch × Gundam",
                 year: "2026",
-                category: "Video Production · Video Editing",
+                category: "Video Production · Editing & Motion · Color & Finishing",
                 industry: "Fashion", // [NEW] Properti Industri
-                roles: ["Brand Film", "Launch Package"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
+                roles: ["Video Production", "Editing & Motion", "Color & Finishing"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.", // Ganti dengan deskripsi proyek
@@ -54,9 +84,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Social Media · Digital Marketing",
+                category: "Editing & Motion · Concept Development",
                 industry: "F&B",
-                roles: ["Monthly Retainer", "Short-Form Video"],
+                roles: ["Editing & Motion", "Concept Development"],
                 link: "/portfolio/tsukamie",
                 clientName: "Tsukamie",
                 description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",

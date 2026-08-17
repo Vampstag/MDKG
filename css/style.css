@@ -316,7 +316,7 @@ p, li, span, .paragraph, .about-text {
 
 .nav-text {
     display: block;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.4s ease !important;
+    transition: transform 0.4s var(--ease-smooth), color 0.4s ease !important;
     transform: translateY(0%) !important;
     color: #111;
     font-weight: 500;
@@ -390,7 +390,7 @@ p, li, span, .paragraph, .about-text {
 .button-normal-black-wrapper-2,
 .button-normal-white-wrapper-2 {
     border-radius: 10px !important;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    transition: all 0.4s var(--ease-smooth) !important;
 }
 .button-normal-black-wrapper-2:hover {
     transform: translateY(-2px);
@@ -814,7 +814,7 @@ html.lenis, html.lenis body { height: auto; }
     pointer-events: none;
     opacity: 0;
     transform: translateY(10px) scale(0.95);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     z-index: 10000;
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -1029,7 +1029,7 @@ html.lenis, html.lenis body { height: auto; }
     margin: 0 auto 60px; /* Jarak ke tabs */
     background-color: #f9f9f9;
     border-radius: 16px;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); /* Smooth ease */
+    transition: all 0.5s var(--ease-smooth); /* Smooth ease */
     cursor: pointer;
     overflow: hidden;
     border: 1px solid #e5e5e5;
@@ -1154,7 +1154,7 @@ html.lenis, html.lenis body { height: auto; }
     color: var(--text-primary);
     cursor: pointer;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     /* Panah custom minimalis */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5l3 3 3-3'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -1191,7 +1191,7 @@ html.lenis, html.lenis body { height: auto; }
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     user-select: none;
 }
 
@@ -1202,7 +1202,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .premium-dropdown-selected svg {
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
     color: #999;
 }
 
@@ -1227,7 +1227,7 @@ html.lenis, html.lenis body { height: auto; }
     min-width: 180px;
     box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
     z-index: 100;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -1276,7 +1276,7 @@ html.lenis, html.lenis body { height: auto; }
     color: #666;
     cursor: pointer;
     outline: none;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     display: none; /* Hide by default */
     align-items: center;
     gap: 8px;
@@ -1445,7 +1445,7 @@ html.lenis, html.lenis body { height: auto; }
     padding: 14px 28px;
     border-radius: 14px; /* Squircle */
     transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     box-shadow: 0 10px 24px rgba(0,0,0,0.15);
 }
 
@@ -1514,12 +1514,12 @@ html.lenis, html.lenis body { height: auto; }
     transition: color 0.3s ease;
 }
 .client-accordion-trigger:hover { color: #111; }
-.client-accordion-trigger svg { transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+.client-accordion-trigger svg { transition: transform 0.4s var(--ease-smooth); }
 .client-accordion-trigger.is-open svg { transform: rotate(-180deg); }
 .client-accordion-content {
     height: 0;
     overflow: hidden;
-    transition: height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: height 0.4s var(--ease-smooth);
 }
 .client-accordion-content p {
     font-size: 0.85rem;
@@ -1571,7 +1571,7 @@ html.lenis, html.lenis body { height: auto; }
     border-radius: 32px;
     border: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05), 0 0 20px rgba(0,0,0,0.02);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
     z-index: 2;
 }
 
@@ -1652,7 +1652,7 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 600;
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     font-size: 1rem;
     letter-spacing: -0.01em;
     box-shadow: 0 4px 14px rgba(0,0,0,0.1);
@@ -1738,7 +1738,7 @@ html.lenis, html.lenis body { height: auto; }
     opacity: 1;
     width: 8px;
     height: 8px;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.5s var(--ease-smooth);
     border-radius: 3px; /* Squircle, not circle — matches the site's art direction */
     margin: 0 !important;
 }
@@ -1761,7 +1761,7 @@ html.lenis, html.lenis body { height: auto; }
     -webkit-backdrop-filter: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     z-index: 20;
 }
 
@@ -1801,7 +1801,7 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.03);
     overflow: hidden;
-    transition: box-shadow 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: box-shadow 0.5s var(--ease-smooth);
 }
 
 .bits-slider .swiper-slide-active .photo-card {
@@ -1875,7 +1875,7 @@ html.lenis, html.lenis body { height: auto; }
     border-radius: 4px;
     box-shadow: 0 0 50px rgba(0,0,0,0.5);
     transform: scale(0.95);
-    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.3s var(--ease-smooth);
 }
 
 .lightbox-modal.active .lightbox-content {
@@ -1898,14 +1898,14 @@ html.lenis, html.lenis body { height: auto; }
     justify-content: center;
     color: #fff;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     z-index: 10001;
 }
 
 .lightbox-close svg {
     width: 20px;
     height: 20px;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 .lightbox-close:hover {
@@ -1933,7 +1933,7 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     overflow: hidden;
     transform: scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1965,6 +1965,27 @@ html.lenis, html.lenis body { height: auto; }
         height: 100vh;
         border-radius: 0;
         aspect-ratio: auto;
+    }
+}
+
+/* [NEW] Homepage About-section showreel modal: landscape 16:9 (not the case-study
+   default's portrait 9:16), sized to fill most of the viewport width instead of the
+   narrow 420px cap meant for vertical reels. */
+.video-modal-content.video-modal-content--landscape {
+    width: 90vw;
+    max-width: 1100px;
+    height: auto;
+    aspect-ratio: 16/9;
+}
+.video-modal-content.video-modal-content--landscape #modal-video-player {
+    object-fit: contain;
+}
+@media (max-width: 767px) {
+    .video-modal-content.video-modal-content--landscape {
+        width: 100vw;
+        max-width: 100%;
+        height: auto;
+        border-radius: 0;
     }
 }
 
@@ -2180,6 +2201,290 @@ html.lenis, html.lenis body { height: auto; }
     color: #000;
     font-weight: 600;
     border-bottom: 1px solid #ccc;
+}
+
+/* [NEW] Homepage "About me" intro layout: big headline + "*" note stacked on the left,
+   showreel video on the right — separate from the shared .about-layout-grid (sidebar +
+   wide content) used everywhere else, since this section reads more like an editorial
+   splash than a two-column article body. Extra top padding beyond the shared
+   .section-margin gives it more breathing room from the hero above, matching the
+   airier feel of the reference layout. */
+.home-about-section--intro {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.about-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: start;
+}
+
+@media (min-width: 992px) {
+    .about-intro-grid {
+        grid-template-columns: 1.4fr 1fr;
+        gap: 100px;
+        /* Showreel sits bottom-right, aligned with the last line of the text column —
+           not vertically centered against the whole block — matching the reference
+           layout's asymmetric, editorial feel. */
+        align-items: end;
+    }
+}
+
+.about-intro-headline {
+    max-width: 40ch;
+    margin-bottom: 48px;
+    line-height: 1.35;
+}
+
+.about-intro-note {
+    display: flex;
+    gap: 40px;
+}
+
+.about-intro-note__marker {
+    flex-shrink: 0;
+    font-family: var(--font-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #999;
+    line-height: 1.6;
+}
+
+.about-intro-note__body .about-paragraph {
+    max-width: 42ch;
+}
+
+.about-intro-visual {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin-left: auto;
+    /* Generous hit area around the player itself (bigger than the card's own bounds,
+       via a symmetric negative margin so the extra hit zone doesn't visually pull the
+       card off its grid-centered position) so the magnetic hover effect (see
+       initAboutIntroPlayer in script.js) starts reacting as soon as the cursor is
+       anywhere near the card, not only once it's directly over the video. */
+    padding: 60px;
+    margin: -60px 0;
+}
+
+/* A plain <button>, not a .video-player-wrapper — hover only ever reveals the "Watch
+   Showreel" label below, no scrub controls on the card itself. Clicking opens the
+   fullscreen video-modal (see initAboutIntroPlayer in script.js) where the native
+   <video controls> timeline/playhead lives instead. */
+.about-intro-player {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+    padding: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #111;
+    cursor: pointer;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.25), 0 10px 24px -12px rgba(0,0,0,0.15);
+    transition: transform 0.35s var(--ease-smooth), box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.about-intro-player:hover {
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3), 0 14px 28px -12px rgba(0,0,0,0.2);
+}
+
+.about-intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+
+/* "Watch Showreel" label — tracks the cursor's own position inside the card (set via
+   left/top in initAboutIntroPlayer's mousemove handler below, not this file), fading
+   in on hover only. Squircle, not a full pill, to match the site's art direction
+   elsewhere (grading-stack cards, grade-nav-btn, etc. all use a rounded-square radius
+   rather than fully round). */
+.about-intro-watch-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* --tilt/--scale are updated every animation frame from the cursor's horizontal
+       velocity (see initAboutIntroPlayer in script.js) — faster sideways movement
+       swings the label and grows it slightly, like a sticker being dragged, easing
+       back to rotate(0)/scale(1) once the cursor settles. Defaults here (0deg/1) cover
+       the instant before JS has run a frame yet. */
+    --tilt: 0deg;
+    --scale: 1;
+    transform: translate(-50%, -50%) rotate(var(--tilt)) scale(var(--scale));
+    z-index: 3;
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 8px 16px;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.15s ease-out;
+    white-space: nowrap;
+}
+.about-intro-player:hover .about-intro-watch-label {
+    opacity: 1;
+}
+
+@media (max-width: 767px) {
+    .about-intro-headline {
+        max-width: none;
+    }
+    .about-intro-note {
+        gap: 16px;
+    }
+}
+
+/* [NEW] Thin facts strip under the About intro: "Based in Bandung" / "*" / "Currently
+   creating at..." — a quiet three-column line, not a full section, so it reads as a
+   caption beneath the intro rather than competing with it for attention. */
+.about-facts-strip {
+    border-top: 1px solid #F0F0F0;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    /* Overrides .section-margin's 128px bottom gap (64px on mobile) — this is a thin
+       caption strip, not a full section, so it shouldn't carry the same amount of
+       whitespace after it as the sections above/below it. */
+    margin-bottom: 40px !important;
+}
+
+@media (max-width: 767px) {
+    .about-facts-strip {
+        margin-bottom: 32px !important;
+    }
+}
+
+.about-facts-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.about-facts-col--left,
+.about-facts-col--right {
+    text-align: center;
+}
+.about-facts-col--center {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .about-facts-grid {
+        /* flex + justify-content:space-between (not a grid with 1fr side columns) so the
+           left block sits flush against the container's own left edge and the right
+           block sits flush against its right edge — matching where every other
+           section's content starts/ends — regardless of how wide either text block is.
+           The centered "*" is pulled to the true midpoint independently via absolute
+           positioning, since its own natural position would otherwise drift with
+           whichever side's text is longer. */
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        position: relative;
+        text-align: left;
+    }
+    .about-facts-col--left {
+        text-align: left;
+    }
+    .about-facts-col--right {
+        text-align: right;
+    }
+    .about-facts-col--center {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+    }
+}
+
+.about-facts-line {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #111;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .about-facts-line {
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+}
+
+/* "@Observ" / "@Torch" — same weight as the sentence around it (no bold), set apart
+   instead by a muted gray and slightly wider letter-spacing, reading as a quiet tag
+   rather than a shouted link. Hover swaps to a continuously sweeping black shine
+   (gradient-text shimmer, looping while hovered) instead of a static underline. */
+.about-facts-link {
+    display: inline-block;
+    position: relative;
+    font-weight: inherit;
+    letter-spacing: 0.02em;
+    color: #999;
+    text-decoration: none;
+}
+/* The shine gradient/background-clip properties stay applied at all times (not just
+   on :hover) so nothing about the text-clipping setup itself appears/disappears —
+   only its opacity toggles. Switching color:transparent + background-clip on and off
+   together on :hover was what caused the flash: for one frame the base #999 color
+   hadn't painted back in yet while the gradient clip had already vanished, so the
+   text had nothing to render with. Keeping the clip permanent and cross-fading
+   opacity instead avoids that gap entirely. */
+.about-facts-link::before {
+    content: attr(data-label);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: linear-gradient(
+        100deg,
+        #111 30%,
+        #999 45%,
+        #111 60%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.about-facts-link:hover::before {
+    opacity: 1;
+    animation: aboutFactsShine 1.6s linear infinite;
+}
+
+@keyframes aboutFactsShine {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.about-facts-marker {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #999;
+}
+
+@media (min-width: 768px) {
+    .about-facts-marker {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
 }
 
 /* [NEW] Editorial stacked-item list: replaces boxed/shadowed icon-card grids
@@ -2506,7 +2811,7 @@ html.lenis, html.lenis body { height: auto; }
     .cs-sticky-nav { display: none; } /* Hide on mobile/tablet */
 }
 .cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 4px; }
-.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
+.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s var(--ease-smooth); }
 /* --page-accent falls back to #111 when a page doesn't set it (only case studies with
    a brand color on <body> override it), so the active nav dot picks up that project's
    own brand color instead of being flat black on every case study alike. */
@@ -2530,7 +2835,7 @@ html.lenis, html.lenis body { height: auto; }
 .cs-nav-item.active .cs-nav-dot-ring { opacity: 1; }
 .cs-nav-label {
     position: absolute; right: 24px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 600; color: #111;
-    opacity: 0; transform: translateX(10px); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0; transform: translateX(10px); transition: all 0.3s var(--ease-smooth);
     pointer-events: none; white-space: nowrap; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 .cs-nav-item:hover .cs-nav-label { opacity: 1; transform: translateX(0); }
@@ -2966,24 +3271,29 @@ html.lenis, html.lenis body { height: auto; }
         bottom: -18%;
     }
     .hero-carousel__item {
-        width: 116px;
-        margin-left: -58px;
-        margin-top: -77.5px;
+        /* Sized against the 18-card mobile MAX_ITEMS/RADIUS in initHeroCarousel (chord
+           distance between adjacent cards at that count/radius is ~187px) so a small,
+           consistent gap survives instead of a wide empty gap between cards. */
+        width: 150px;
+        margin-left: -75px;
+        margin-top: -100px;
         border-radius: 12px;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     /* Tablet: between the phone and desktop tuning — cards a bit smaller than desktop's
-       230px, radius scaled down to match (see isTablet in initHeroCarousel). */
+       230px, radius scaled down to match (see isTablet in initHeroCarousel). Sized against
+       the 16-card tablet MAX_ITEMS/RADIUS (chord distance between adjacent cards at that
+       count/radius is ~296px) so a small, consistent gap survives instead of a wide one. */
     .hero-carousel {
         height: 480px;
         bottom: -30%;
     }
     .hero-carousel__item {
-        width: 162px;
-        margin-left: -81px;
-        margin-top: -108px;
+        width: 266px;
+        margin-left: -133px;
+        margin-top: -177px;
     }
 }
 
@@ -3270,7 +3580,7 @@ html.lenis, html.lenis body { height: auto; }
     }
 
     .hero-huge-title {
-        font-size: clamp(2.6rem, 11vw, 3.6rem);
+        font-size: clamp(3.2rem, 15vw, 4.6rem);
         margin-bottom: 16px;
     }
     .hero-subtitle {
@@ -3449,6 +3759,23 @@ html.lenis, html.lenis body { height: auto; }
     height: 24px;
 }
 
+/* Pink Roulette and Ngaliwet Raos are compact/near-square marks (unlike the wide
+   wordmarks above), so the shared height alone renders them much narrower than the
+   others — bumped up so their visual footprint reads proportionally, not undersized. */
+.marquee-logo.logo-pink-roulette {
+    height: 168px;
+    margin-right: 1.5rem;
+}
+/* Gap on Pink Roulette's left comes from the *preceding* logo's own margin-right
+   (Tsukamie), not from Pink Roulette itself — targeted here via the adjacent-sibling
+   selector so only the logo immediately before Pink Roulette gets pulled in. */
+.marquee-logo + .marquee-logo.logo-pink-roulette {
+    margin-left: -1.5rem;
+}
+.marquee-logo.logo-ngaliwet {
+    height: 60px;
+}
+
 @keyframes marquee-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); /* Moves exactly half the total width */ }
@@ -3461,6 +3788,16 @@ html.lenis, html.lenis body { height: auto; }
     }
     .marquee-logo.logo-berka {
         height: 36px;
+    }
+    .marquee-logo.logo-pink-roulette {
+        height: 252px;
+        margin-right: 2rem;
+    }
+    .marquee-logo + .marquee-logo.logo-pink-roulette {
+        margin-left: -2rem;
+    }
+    .marquee-logo.logo-ngaliwet {
+        height: 90px;
     }
     .marquee-content { gap: 0; padding-right: 0; }
     .marquee-wrapper { mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); }
@@ -3543,7 +3880,7 @@ html.lenis, html.lenis body { height: auto; }
     padding: 24px 20px; /* Significantly reduced padding to save space */
     border-radius: 12px;
     border: 1px solid rgba(0,0,0,0.04);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
 }
 
 .why-item:hover {
@@ -3666,7 +4003,7 @@ html.lenis, html.lenis body { height: auto; }
     height: auto;
     opacity: 0.3; /* Kontras kedalaman 3D */
     transform: scale(0.8); /* Efek 3D ditekankan */
-    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.8s var(--ease-smooth), opacity 0.8s var(--ease-smooth);
 }
 .works-slider .swiper-slide-active {
     opacity: 1;
@@ -4268,7 +4605,7 @@ html.lenis, html.lenis body { height: auto; }
     backdrop-filter: blur(20px) saturate(180%); /* Blur lebih kuat & saturasi tinggi */
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-color: rgba(0,0,0,0.1);
-    animation: slideUpSticky 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    animation: slideUpSticky 0.5s var(--ease-smooth);
 }
 
 @keyframes slideUpSticky {
@@ -4328,7 +4665,7 @@ html.lenis, html.lenis body { height: auto; }
     flex-grow: 1;
     background-color: rgba(0, 0, 0, 0.15); /* Warna inactive */
     border-radius: 4px;
-    transition: background-color 0.1s ease, height 0.2s ease;
+    transition: background-color 0.25s var(--ease-smooth), height 0.25s var(--ease-smooth);
     min-width: 2px;
     pointer-events: none; /* Biarkan container yang menangani klik */
     will-change: height; /* Performance optimization for JS animation */
@@ -4520,7 +4857,10 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: color 0.3s ease, transform 0.15s ease-out;
+    /* Covers both the magnetic-hover pull (see initMagneticButtons in script.js, which
+       sets transform directly per mousemove) and the mouseleave reset back to '' —
+       without this transition, both read as an instant snap rather than an eased glide. */
+    transition: color 0.3s ease, transform 0.35s var(--ease-smooth);
 }
 .cs-share-btn:hover {
     color: #ffffff;
@@ -4541,7 +4881,7 @@ html.lenis, html.lenis body { height: auto; }
 #footer-container a.w-inline-block img,
 .footer-social-link img,
 a.social-icon img {
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    transition: all 0.4s var(--ease-smooth) !important;
     will-change: transform, opacity;
 }
 
@@ -4583,7 +4923,7 @@ a.social-icon:hover img {
     border-radius: 12px;
     background-color: #f5f5f7;
     color: #111;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     border: 1px solid rgba(0,0,0,0.04);
     text-decoration: none;
 }
@@ -4651,7 +4991,7 @@ a.social-icon:hover img {
 .badge-icon {
     width: 36px; height: 36px; object-fit: contain;
     filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 .software-badge:hover .badge-icon { transform: scale(1.15) rotate(10deg); }
@@ -4980,7 +5320,7 @@ a.social-icon:hover img {
 }
 .addon-dropdown-icon {
     color: #888;
-    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.5s var(--ease-smooth);
 }
 .addon-has-dropdown.is-open .addon-dropdown-icon {
     transform: rotate(180deg);
@@ -5064,7 +5404,7 @@ a.social-icon:hover img {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), background 0.3s, color 0.3s;
+    transition: transform 0.6s var(--ease-smooth), background 0.3s, color 0.3s;
     flex-shrink: 0;
 }
 .service-accordion__item.is-active .service-accordion__icon {
@@ -5304,7 +5644,7 @@ a.social-icon:hover img {
     background-color: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 .credits-list li a:hover {
@@ -5691,7 +6031,7 @@ a.social-icon:hover img {
     background-color: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 .article-image-caption a:hover {
@@ -5735,7 +6075,7 @@ a.social-icon:hover img {
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 10px; /* Minimalist Squircle */
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
@@ -5753,7 +6093,7 @@ a.social-icon:hover img {
 .back-to-journal svg {
     width: 20px;
     height: 20px;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 .back-to-journal:hover svg {
@@ -5811,7 +6151,7 @@ a.social-icon:hover img {
     font-size: 0.9rem;
     font-weight: 600;
     color: #555;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
 }
 
 .article-like-btn:hover {
@@ -5948,7 +6288,7 @@ a.social-icon:hover img {
     text-align: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.3s var(--ease-smooth);
     z-index: 10;
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     pointer-events: none;
@@ -6128,7 +6468,7 @@ a.social-icon:hover img {
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.05em;
-    color: rgba(17,17,17,0.3);
+    color: rgba(17,17,17,0.55);
     transition: color 0.4s ease;
 }
 
@@ -6147,7 +6487,7 @@ a.social-icon:hover img {
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: rgba(17,17,17,0.32);
+    color: rgba(17,17,17,0.6);
     transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -6338,7 +6678,7 @@ a.social-icon:hover img {
     width: 100%; 
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.8s var(--ease-smooth);
     transform: scale(1.02); /* Anti edge-bleeding: Gambar selalu sedikit melebih batas (anti-mengecil) */
     z-index: 1;
 }
@@ -6422,12 +6762,12 @@ a.social-icon:hover img {
     justify-content: center; 
     color: #fff; 
         margin-bottom: auto; /* Mendorong ikon ke atas, memberi ruang lega di tengah kartu */
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
 }
 .bento-icon-wrapper svg {
     width: 28px;
     height: 28px;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
 }
 .bento-item:hover .bento-icon-wrapper, .bento-item.is-active .bento-icon-wrapper {
     background: rgba(255,255,255,0.15);
@@ -6446,7 +6786,7 @@ a.social-icon:hover img {
     line-height: 1.3;
     margin-bottom: 0px;
     transform: translateY(10px);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), margin-bottom 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth), margin-bottom 0.4s var(--ease-smooth);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -6464,7 +6804,7 @@ a.social-icon:hover img {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     transform: translateY(10px);
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.4s var(--ease-smooth);
 }
 
 /* [NEW] Plus Icon Indicator */
@@ -6477,7 +6817,7 @@ a.social-icon:hover img {
     border-radius: 12px; /* Squircle, not circle — matches the site's art direction */
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.7);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.4s var(--ease-smooth);
     flex-shrink: 0;
 }
 
@@ -6507,7 +6847,7 @@ a.social-icon:hover img {
     opacity: 0;
     overflow: hidden;
     transform: translateY(15px);
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.5s var(--ease-smooth);
 }
 
 /* [NEW] One-line stat readout under .bento-desc, same reveal animation, slightly brighter/bolder
@@ -6522,7 +6862,7 @@ a.social-icon:hover img {
     opacity: 0;
     overflow: hidden;
     transform: translateY(15px);
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.5s var(--ease-smooth);
 }
 
 .bento-item:hover .bento-desc,
@@ -6576,7 +6916,7 @@ a.social-icon:hover img {
     flex-wrap: wrap;
     transform: translateY(10px);
     opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1), transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
     margin-top: 20px;
 }
 
@@ -6608,7 +6948,7 @@ a.social-icon:hover img {
     font-weight: 600;
     text-decoration: none !important;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s var(--ease-smooth);
     transform: translateZ(0); /* Mencegah glitch render dari backdrop-filter */
     will-change: transform, background-color;
     outline: none;
@@ -6692,7 +7032,7 @@ a.social-icon:hover img {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.5s var(--ease-smooth);
 }
 
 .bento-item.stats-open .bento-stats-panel {
@@ -6829,7 +7169,7 @@ a.social-icon:hover img {
 .about-scroll-step {
     opacity: 0.2;
     transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.6s var(--ease-smooth);
     max-width: 500px;
 }
 

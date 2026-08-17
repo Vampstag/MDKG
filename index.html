@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8"/>
 
-        <!-- Google Fonts (Inter) fetched first, ahead of every other resource — the
+        <!-- Google Fonts (Inter) fetcheTygd first, ahead of every other resource — the
              preloader's #counter renders at font-size:15vw, so if Inter hasn't arrived by
              first paint the fallback system font shows first and reflows into Inter's
              different character widths once it loads, visible as the counter "jumping"
@@ -433,7 +433,7 @@
                  wrapper and scrolls normally underneath it. -->
             <div id="content-reveal" style="position: relative; z-index: 2; background-color: #FAFAFA; border-radius: 32px 32px 0 0; overflow: hidden; box-shadow: 0 -20px 60px rgba(0,0,0,0.08);">
             <!-- Site Essence -->
-            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; border-top: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px; margin-bottom: 0 !important;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
 
@@ -443,24 +443,51 @@
                     </div>
                 </div>
             </section>
-            <section class="home-about-section section-margin fade-in-section">
+            <section class="about-facts-strip section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-facts-grid">
+                            <div class="about-facts-col about-facts-col--left">
+                                <p class="about-facts-line">Based in Bandung</p>
+                            </div>
+                            <div class="about-facts-col about-facts-col--center">
+                                <span class="about-facts-marker">*</span>
+                            </div>
+                            <div class="about-facts-col about-facts-col--right">
+                                <p class="about-facts-line">Currently pushing<br>visual boundaries at <a href="https://www.instagram.com/observisual/" target="_blank" rel="noopener noreferrer" class="about-facts-link" data-label="@Observ">@Observ</a></p>
+                                <p class="about-facts-line">Formerly at <a href="https://www.instagram.com/torch.id/" target="_blank" rel="noopener noreferrer" class="about-facts-link" data-label="@Torch">@Torch</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="home-about-section home-about-section--intro section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <section id="about-section" class="about-section-wrapper">
-                            <div class="about-layout-grid"> 
-                                <div class="about-sidebar">
-                                    <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">About me</h2>
-                                </div>
-                                <div class="about-main-content">
-                                    <div data-w-id="17981745-b76c-fdb8-d5a0-45626b3a0fb4" class="about-text-block">
-                                        <h3 class="about-lead-text text-reveal">Good creative starts with understanding people.</h3>
-                                        <p class="about-paragraph fade-in-section">
-                                            I'm a Brand Creative based in Bandung with a background in marketing. I start by understanding how people think before deciding what to make. Whether it's a campaign, a website, or a video, I look for the idea that best connects a brand with its audience.
-                                        </p>
-                                        <p class="about-paragraph fade-in-section">
-                                            I believe the best creative comes from curiosity, collaboration, and paying attention to the details that shape how people experience a brand.
-                                        </p>
+                            <div class="about-intro-grid">
+                                <div class="about-intro-text">
+                                    <h3 class="about-lead-text about-intro-headline text-reveal">Hi, I'm Dimas.<br>I cherish good ideas, thoughtful visuals, and the people they're made for.</h3>
+
+                                    <div class="about-intro-note">
+                                        <span class="about-intro-note__marker">*</span>
+                                        <div class="about-intro-note__body">
+                                            <p class="about-paragraph fade-in-section">
+                                                Hi there, it looks like you've landed on my portfolio.
+                                            </p>
+                                            <p class="about-paragraph fade-in-section">
+                                                Whether you're curious about me, seeking inspiration, or just wandered in, I'm delighted to welcome you to my creative universe.
+                                            </p>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="about-intro-visual" id="about-intro-magnetic">
+                                    <button type="button" class="about-intro-player" id="about-intro-watch-trigger" aria-label="Watch full showreel">
+                                        <video class="about-intro-video" autoplay loop muted playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
+                                            <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                                        </video>
+                                        <div class="about-intro-watch-label">Watch Showreel</div>
+                                    </button>
                                 </div>
                             </div>
                         </section>
@@ -525,8 +552,8 @@
                              per row, panel reveals description + placeholder BTS photo.
                              Kept in sync with services.html: same 4 rows, same copy. -->
                         <div class="services-accordion-v2">
-                            <div class="services-acc-row is-open" data-target="home-svc-1">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="true">
+                            <div class="services-acc-row" data-target="home-svc-1">
+                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
                                     <span class="services-acc-row__num">01</span>
                                     <span class="services-acc-row__title">Video Production</span>
                                     <span class="services-acc-row__toggle">
@@ -569,7 +596,7 @@
                                 </button>
                                 <div class="services-acc-row__panel">
                                     <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Creating a consistent visual language across every asset, from technical correction to the final grade.</p>
+                                        <p class="services-acc-row__desc">Building a consistent visual language across every asset, from technical correction to the final grade.</p>
                                         <div class="services-acc-row__visual services-acc-row__visual--fade-cycle">
                                             <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
                                             <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
@@ -588,14 +615,14 @@
                             <div class="services-acc-row" data-target="home-svc-4">
                                 <button class="services-acc-row__trigger" type="button" aria-expanded="false">
                                     <span class="services-acc-row__num">04</span>
-                                    <span class="services-acc-row__title">Creative Strategy</span>
+                                    <span class="services-acc-row__title">Concept Development</span>
                                     <span class="services-acc-row__toggle">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                     </span>
                                 </button>
                                 <div class="services-acc-row__panel">
                                     <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Turning audience insights into creative concepts, content formats, and execution that serve both the brand and the people it's made for.</p>
+                                        <p class="services-acc-row__desc">Turning briefs and audience insights into visual concepts, storyboards, and content directions that fit the brand.</p>
                                         <div class="services-acc-row__visual">
                                             <img src="assets/images/project/torch/bts-2.webp" alt="" loading="lazy" decoding="async">
                                         </div>
@@ -616,18 +643,30 @@
                                     <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
                                     <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
                                     <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
+                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
                                     <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
                                     <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
                                     <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
+                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
                                 </div>
                                 <!-- Set 2 (Exact Duplicate for seamless infinite loop) -->
                                 <div class="marquee-content" aria-hidden="true">
                                     <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
                                     <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
                                     <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
+                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
                                     <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
                                     <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
                                     <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
+                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
+                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
                                 </div>
                             </div>
                         </div>
@@ -745,6 +784,18 @@
             <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
         </div>
 
+        <!-- [NEW] Video Modal for the About section showreel — hover on the card only
+             shows the "Watch Showreel" label (no scrub controls), clicking opens this
+             fullscreen modal where the native <video controls> timeline/playhead lives. -->
+        <div id="video-modal" class="lightbox-modal">
+            <span class="lightbox-close video-modal-close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </span>
+            <div class="video-modal-content video-modal-content--landscape">
+                <video id="modal-video-player" controls autoplay playsinline loop></video>
+            </div>
+        </div>
+
         <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6933c25a0996b0f96f5c2bc3" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.f3a08821b4e31f89.js" type="text/javascript" integrity="sha384-jdiRdsaXtUN5LkaeQxuxSJeDi/u9yfDo8k3p7iBrSa0ZxuEsPQsdVokoQHgyJGi/" crossorigin="anonymous"></script>
         <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.a0696411b8212572.js" type="text/javascript" integrity="sha384-dwg30zM2jU7kUnZxcdPhSjuLVIUiLbiVi44KYUrE1jEzOLwj+a1sT1s4b+0HG1Kf" crossorigin="anonymous"></script>
@@ -761,7 +812,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=46"></script>
+        <script defer src="script.js?v=49"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.3"></script>
         <script>
