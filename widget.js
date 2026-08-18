@@ -432,14 +432,55 @@ class MdkgWidget {
             };
             
             audio.volume = this.currentVolume;
-            
+
             // Set src tanpa auto-load
             audio.src = this.playlist[this.currentTrackIndex].src;
-            
+
             // Save volume to localStorage whenever it changes
             audio.addEventListener('volumechange', () => {
                 localStorage.setItem('mdkg_volume', audio.volume);
             });
+
+            // [NEW] Continue across page navigations: every full page load rebuilds this
+            // <audio> element from scratch (this is a multi-page site, not an SPA), so
+            // without persisting playback position/state, moving to another page always
+            // silently restarted the track from 0:00 and dropped whether it was playing.
+            // Position is saved on a light interval (not every timeupdate — that fires
+            // many times a second and localStorage writes aren't free) plus on the
+            // events that actually change state, then restored here before playback
+            // starts on the new page.
+            const wasPlaying = localStorage.getItem('mdkg_was_playing') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('mdkg_playback_time') || '0');
+            const savedTrackIndexAtSave = localStorage.getItem('mdkg_track_index_at_save');
+            // Only trust the saved position if it was saved for the SAME track we're
+            // about to load — otherwise (e.g. track advanced via 'ended' on the last
+            // page, or the saved index was for a different song entirely) seeking to a
+            // stale timestamp would jump into the middle of the wrong song.
+            const positionIsForCurrentTrack = savedTrackIndexAtSave !== null && parseInt(savedTrackIndexAtSave, 10) === this.currentTrackIndex;
+
+            const savePlaybackState = () => {
+                localStorage.setItem('mdkg_playback_time', audio.currentTime.toString());
+                localStorage.setItem('mdkg_track_index_at_save', this.currentTrackIndex.toString());
+                localStorage.setItem('mdkg_was_playing', (!audio.paused).toString());
+            };
+            let saveInterval = null;
+            const startSaveInterval = () => {
+                if (saveInterval) return;
+                saveInterval = setInterval(savePlaybackState, 2000);
+            };
+            const stopSaveInterval = () => {
+                clearInterval(saveInterval);
+                saveInterval = null;
+                savePlaybackState(); // capture the final state right as playback stops
+            };
+
+            if (positionIsForCurrentTrack && savedTime > 0) {
+                audio.addEventListener('loadedmetadata', () => {
+                    // Guard against a stale timestamp beyond the (now current) track's
+                    // actual duration.
+                    if (savedTime < audio.duration) audio.currentTime = savedTime;
+                }, { once: true });
+            }
             
             const updateTrackMetadata = () => {
                 const track = this.playlist[this.currentTrackIndex];
@@ -458,7 +499,31 @@ class MdkgWidget {
             
             // Load UI awal
             updateTrackMetadata();
-            
+
+            // Keep the saved position/state in sync with actual playback, and auto-resume
+            // below only reads a stable snapshot of what the LAST page left behind.
+            audio.addEventListener('play', startSaveInterval);
+            audio.addEventListener('pause', stopSaveInterval);
+            audio.addEventListener('beforeunload', savePlaybackState);
+            window.addEventListener('pagehide', savePlaybackState);
+
+            // Auto-resume: if the previous page was actively playing when it unloaded
+            // (not a manual pause), continue from where it left off instead of the
+            // track silently going quiet on navigation. Requires a user gesture on the
+            // very first page load (browser autoplay policy) — this only fires audio
+            // that was already flowing from user interaction on an earlier page, so the
+            // policy is satisfied in practice once the user has pressed play once.
+            if (wasPlaying) {
+                isUserPaused = false;
+                audio.preload = 'auto';
+                audio.play().then(() => updateUI(true)).catch(() => {
+                    // Autoplay blocked (e.g. very first page of the session, no prior
+                    // gesture yet) — leave it paused/ready; the saved position is still
+                    // there for whenever the user does press play.
+                    updateUI(false);
+                });
+            }
+
             const updateUI = (isPlaying) => {
                 const track = this.playlist[this.currentTrackIndex];
                 
@@ -541,6 +606,26 @@ class MdkgWidget {
                 }, { threshold: 0.1 }); // Aktif ketika 10% elemen footer muncul di layar
                 footerObserver.observe(footerContainer);
             }
+
+            // [NEW] Pause when the tab/window loses focus (backgrounded, minimized,
+            // switched away from) — resume automatically when it regains focus, but only
+            // if the user hadn't manually paused it themselves before backgrounding.
+            // isBackgroundPaused (distinct from isUserPaused) tracks specifically whether
+            // THIS listener is the one that paused it, so it never overrides — or gets
+            // confused with — an explicit user pause.
+            let isBackgroundPaused = false;
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    if (!audio.paused) {
+                        isBackgroundPaused = true;
+                        audio.pause();
+                        updateUI(false);
+                    }
+                } else if (isBackgroundPaused && !isUserPaused) {
+                    isBackgroundPaused = false;
+                    audio.play().then(() => updateUI(true)).catch(() => {});
+                }
+            });
 
             // [NEW] Global Media Listeners: Menangkap aksi play/pause/mute pada SEMUA media bersuara di website
             const handleMediaPlayback = (e) => {

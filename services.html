@@ -86,7 +86,7 @@
         }
         </script>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="css/style.css?v=40">
+        <link rel="stylesheet" href="css/style.css?v=87">
         <link rel="stylesheet" href="widget.css?v=1">
         
         <style>
@@ -915,7 +915,7 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="premium-soft-cta">
-                            <h2 class="premium-soft-cta-title">Have a project in mind?</h2>
+                            <h2 class="premium-soft-cta-title text-reveal">Have a project in mind?</h2>
                             <p class="premium-soft-cta-desc">Share your brief, your timeline, and any reference you have. If you don't have a formal brief, a few sentences about what you're trying to do is enough to start.</p>
                             <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
                                 Send a Brief
@@ -939,7 +939,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         
         <!-- Custom Logic -->
-        <script defer src="script.js?v=17"></script>
+        <script defer src="script.js?v=33"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js"></script>
         
@@ -997,9 +997,9 @@
                         setTimeout(initServicesHero, 50);
                         return;
                     }
-                    gsap.fromTo('.cs-anim-el', 
+                    gsap.fromTo('.cs-anim-el',
                         { y: 30, opacity: 0, filter: 'blur(10px)', scale: 0.98 },
-                        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.5, stagger: 0.2, ease: "power3.out", delay: 0.1 }
+                        { y: 0, opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1.5, stagger: 0.2, ease: "power2.out", delay: 0.1 }
                     );
                 };
                 initServicesHero();

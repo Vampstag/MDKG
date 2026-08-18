@@ -344,7 +344,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // 11. Tab Title Switch
         initTabTitleSwitch();
 
-        // 12. Scroll-Velocity Marquee (replaces the old fixed-duration CSS loop)
+        // 12. Logo Marquee — measures exact loop width (see initLogoMarqueeLoop)
+        initLogoMarqueeLoop();
+
+        // 12b. Featured Work Card Tilt — cursor-driven, see initWorkCardTilt
+        initWorkCardTilt();
+
+        // 12c. Case Study Hero Showreel — pause off-screen, see initCaseStudyShowreelVisibility
+        initCaseStudyShowreelVisibility();
 
         // 13. Data Validation Counter
         initDataCounter();
@@ -362,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             initAboutIntroPlayer();
             initAboutIntroVideoModal();
+            initAboutShowreelReveal();
         } catch (err) {
             console.error('initAboutIntroPlayer failed:', err);
         }
@@ -704,6 +712,124 @@ function initNavbar() {
 // =========================================
 // 18. SEAMLESS PAGE TRANSITION
 // =========================================
+// Synthesized (no mp3 asset) via Web Audio API, same approach already used elsewhere
+// on the site (see playLockFeedback in portfolio.js) rather than adding a new audio
+// dependency for two one-off sounds. One shared AudioContext, created lazily on first
+// actual use — browsers require a user gesture before audio can play, and a link click
+// (the exit sound's trigger) satisfies that; the arrival sound on the next page relies
+// on the browser still considering the session "activated" from that same click, which
+// is standard behavior but not guaranteed on every browser, so both sounds are wrapped
+// in try/catch and silently no-op if audio can't play — the transition itself must
+// never depend on sound succeeding.
+let __pageTransitionAudioCtx = null;
+function getPageTransitionAudioCtx() {
+    if (__pageTransitionAudioCtx) return __pageTransitionAudioCtx;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    __pageTransitionAudioCtx = new AudioContextClass();
+    return __pageTransitionAudioCtx;
+}
+
+// Filtered white noise, not an oscillator tone — a sine/oscillator sweep reads as a
+// musical pitch bend (a "digital beep"), which is exactly the "aneh, mencolok, digital"
+// character that didn't work here. Real whoosh sounds (wind, air movement, fabric) are
+// noise-based: broadband white noise pushed through a lowpass filter whose cutoff
+// frequency sweeps down over the sound's duration is the standard technique for a
+// natural, breathy, LOW-weighted whoosh with no discernible pitch at all.
+function createNoiseBuffer(ctx, durationSeconds) {
+    const bufferSize = Math.ceil(ctx.sampleRate * durationSeconds);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+    }
+    return buffer;
+}
+
+// Exit sound: a low, breathy whoosh sweeping downward in tone — signals "leaving"
+// as an unobtrusive texture under the overlay's own swipe, not a sound anyone should
+// consciously register.
+function playPageExitSfx() {
+    try {
+        const ctx = getPageTransitionAudioCtx();
+        if (!ctx) return;
+        const duration = 0.4;
+        const noise = ctx.createBufferSource();
+        noise.buffer = createNoiseBuffer(ctx, duration);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        // Sweeping the cutoff down (not up) is what gives this its "heavy/low" weight —
+        // it opens with some air/texture and settles into a dull, low rumble rather than
+        // brightening toward a hiss.
+        filter.frequency.setValueAtTime(900, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + duration);
+        filter.Q.value = 0.7;
+
+        const gain = ctx.createGain();
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        // Quiet, quick attack and a longer soft tail — kept low enough (peak 0.05) that
+        // it sits under the visual transition as texture, not a sound effect in its
+        // own right.
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+        noise.start(ctx.currentTime);
+        noise.stop(ctx.currentTime + duration);
+    } catch (e) { /* audio is a nicety, never block navigation on it */ }
+}
+
+// Arrival sound: the same low noise-whoosh technique, mirrored — a short breath
+// settling in, marking "you've landed" without a rising pitch that would read as a
+// notification chime.
+function playPageArrivalSfx() {
+    try {
+        const ctx = getPageTransitionAudioCtx();
+        if (!ctx) return;
+        const duration = 0.3;
+        const noise = ctx.createBufferSource();
+        noise.buffer = createNoiseBuffer(ctx, duration);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(120, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(500, ctx.currentTime + 0.12);
+        filter.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + duration);
+        filter.Q.value = 0.7;
+
+        const gain = ctx.createGain();
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+        noise.start(ctx.currentTime);
+        noise.stop(ctx.currentTime + duration);
+    } catch (e) { /* audio is a nicety, never block navigation on it */ }
+}
+
+// Arrival fires once per page load, right as this page's own preloader finishes (every
+// page on the site dispatches 'preloaderDone' — see each page's inline preloader
+// script) — that's the moment the visual transition actually completes from the
+// visitor's side, not DOMContentLoaded, which fires earlier while the overlay is
+// typically still covering the screen.
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.body.classList.contains('preloader-active')) {
+        window.addEventListener('preloaderDone', playPageArrivalSfx, { once: true });
+    } else {
+        // No preloader on this page (or it already finished before this script ran) —
+        // play immediately rather than waiting on an event that will never fire.
+        playPageArrivalSfx();
+    }
+});
+
 function initPageTransitions() {
     if (typeof gsap === 'undefined') return;
 
@@ -745,6 +871,8 @@ function initPageTransitions() {
         ) return;
 
         e.preventDefault();
+
+        playPageExitSfx();
 
         // [NEW] Narrative transition: if the clicked link (or an ancestor, e.g. a project
         // card) carries a data-accent-color, tint the overlay with it instead of always
@@ -884,19 +1012,21 @@ function animateExperienceItem(item) {
     const company = item.querySelector('.experience-item__company');
     const meta = item.querySelector('.experience-item__meta');
 
-    // Use a GSAP timeline for a controlled, staggered sequence
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    
+    // Use a GSAP timeline for a controlled, staggered sequence. Ease/duration match
+    // the site's standard reveal weight (see --reveal-duration/.fade-in-section in
+    // css/style.css) so this reads as the same visual language, not its own thing.
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+
     tl.to(item, {
         opacity: 1,
         x: 0,
-        duration: 0.8,
+        duration: 0.7,
         clearProps: "transform" // [FIX] Cegah bentrok dengan CSS hover transition
     })
-    .fromTo([title, company, meta], 
+    .fromTo([title, company, meta],
         { y: 20, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 },
-        "-=0.6" // Overlap animations for a smoother effect
+        "-=0.55" // Overlap animations for a smoother effect
     );
 }
 
@@ -963,10 +1093,22 @@ function animateTextReveal(element) {
     lines.forEach((line, lineIndex) => {
         const words = line.split(' ');
         words.forEach((word, wordIndex) => {
-            // Wrap each word so its letters can never be split across a line break
+            // Wrap each word so its letters can never be split across a line break.
+            // font-weight: inherit is explicit here because the shared `span { ... }`
+            // rule in css/style.css (used for ordinary inline text like italics/links)
+            // sets font-weight: 400 for every span on the page — a real, generic global
+            // rule, not a bug on its own. It never affected headlines before because
+            // headline text used to render as a plain text node inside the <h2>, never
+            // wrapped in a span. This function is the one place that changes that: it
+            // rebuilds the heading's text into per-character spans for the stagger
+            // animation, and those spans were silently picking up the global span rule's
+            // 400 weight instead of the heading's own 700 — the actual root cause of the
+            // mobile/desktop weight mismatch (mobile skips this per-char rebuild
+            // entirely, see the early return above, so it never hit this at all).
             const wordSpan = document.createElement('span');
             wordSpan.style.display = 'inline-block';
             wordSpan.style.whiteSpace = 'nowrap';
+            wordSpan.style.fontWeight = 'inherit';
 
             word.split('').forEach(char => {
                 const span = document.createElement('span');
@@ -994,7 +1136,7 @@ function animateTextReveal(element) {
         opacity: 1,
         duration: 0.6,
         stagger: 0.015,
-        ease: "power3.out"
+        ease: "power2.out" // matches the site's standard reveal ease (see .fade-in-section)
     });
 }
 
@@ -1490,9 +1632,18 @@ function initHeroDepthParallax() {
         }
     });
 
-    window.addEventListener('mousemove', (e) => {
-        const nx = (e.clientX / window.innerWidth) * 2 - 1;
-        const ny = (e.clientY / window.innerHeight) * 2 - 1;
+    // RAF-throttled: native mousemove can fire 60-120+ times/sec on a precision mouse,
+    // and the handler below creates one gsap.to() tween per item on every call — with
+    // several items that's real per-event CPU/GC pressure. Coalescing to "at most once
+    // per rendered frame" keeps the motion just as responsive (a frame is already the
+    // smallest visible unit) while cutting the redundant work between frames.
+    let pendingEvent = null;
+    let rafScheduled = false;
+    const applyParallax = () => {
+        rafScheduled = false;
+        if (!pendingEvent) return;
+        const nx = (pendingEvent.clientX / window.innerWidth) * 2 - 1;
+        const ny = (pendingEvent.clientY / window.innerHeight) * 2 - 1;
         items.forEach(item => {
             const strength = parseFloat(item.dataset.parallaxStrength) || 0;
             // Only rotation + z here, never x/y — Draggable/GSAP already own this item's x/y
@@ -1506,6 +1657,13 @@ function initHeroDepthParallax() {
                 overwrite: 'auto',
             });
         });
+    };
+    window.addEventListener('mousemove', (e) => {
+        pendingEvent = e;
+        if (!rafScheduled) {
+            rafScheduled = true;
+            requestAnimationFrame(applyParallax);
+        }
     });
 }
 
@@ -1674,7 +1832,38 @@ function initHeroCarousel() {
             });
         };
 
+        // This carousel used to keep rotating (and writing transform/opacity to every
+        // visible card) via gsap.ticker forever, even long after the user had scrolled
+        // it completely off-screen — down at the FAQ or footer, this was still doing
+        // per-frame work for zero visual benefit, which is a real contributor to a
+        // phone feeling like it's under constant load the whole time the page is open,
+        // not just during the first scroll. Gate the ticker callback itself behind an
+        // IntersectionObserver so it's a no-op whenever the carousel isn't in view.
+        let carouselIsVisible = true; // assume visible until the observer's first callback fires
+        if (typeof IntersectionObserver !== 'undefined') {
+            const visibilityObserver = new IntersectionObserver((entries) => {
+                carouselIsVisible = entries[0].isIntersecting;
+                if (!carouselIsVisible) {
+                    // Stopping the ticker alone leaves whatever cards were mid-playback
+                    // still decoding — pause every currently-visible card's video outright
+                    // so scrolling past the hero actually frees up that decode work, not
+                    // just the transform/opacity writes.
+                    items.forEach(pauseIfNeeded);
+                } else {
+                    // render()'s own playIfNeeded() calls only fire on a display:none →
+                    // '' transition, which won't happen again for cards that were already
+                    // visible when we paused them above — resume those explicitly so
+                    // scrolling back up doesn't leave the carousel silently frozen.
+                    items.forEach((item) => {
+                        if (item.style.display !== 'none') playIfNeeded(item);
+                    });
+                }
+            }, { threshold: 0 });
+            visibilityObserver.observe(root);
+        }
+
         gsap.ticker.add(() => {
+            if (!carouselIsVisible) return;
             if (Math.abs(velocity) > 0.001) {
                 rotation += velocity;
                 velocity *= FRICTION;
@@ -2105,75 +2294,13 @@ function initBitsSlider() {
  * for a much larger element.
  */
 function initAboutIntroPlayer() {
-    const magneticWrapper = document.getElementById('about-intro-magnetic');
     const trigger = document.getElementById('about-intro-watch-trigger');
     if (!trigger) return;
 
-    const sourceVideo = trigger.querySelector('.about-intro-video');
+    const sourceVideo = trigger.querySelector('.about-showreel-video');
     const videoModal = document.getElementById('video-modal');
     const modalVideo = document.getElementById('modal-video-player');
     const watchLabel = trigger.querySelector('.about-intro-watch-label');
-
-    // "Watch Showreel" label follows the cursor's own position inside the card (not
-    // fixed at center). Setting left/top directly from the raw mousemove event reads
-    // as rigid — the label teleports to the exact pixel every event, with no sense of
-    // weight or momentum. Lerping the label's actual position toward the cursor's
-    // target position a fraction each animation frame (instead of snapping instantly)
-    // is what makes cursor-follow elements read as smooth/premium rather than jittery.
-    //
-    // On top of that, the label now carries a sense of physicality: its horizontal
-    // velocity each frame (how fast currentX is still catching up to targetX) drives
-    // a scale-up and a left/right tilt, like a sticker being dragged and swinging on
-    // its own weight — settling back to scale(1) rotate(0) once the cursor stops.
-    if (watchLabel) {
-        let targetX = 0, targetY = 0, currentX = 0, currentY = 0, rafId = null;
-        const LERP_FACTOR = 0.18; // lower = laggier/smoother trail, higher = snappier
-        const MAX_TILT = 8; // degrees at top speed — subtle sway, not a big swing
-        const MAX_SCALE_BOOST = 0.06; // +6% size at top speed — barely-there grow
-        const VELOCITY_SETTLE = 0.05; // px/frame below which velocity is treated as "stopped"
-
-        const animateLabel = () => {
-            const prevX = currentX;
-            currentX += (targetX - currentX) * LERP_FACTOR;
-            currentY += (targetY - currentY) * LERP_FACTOR;
-
-            const velocityX = currentX - prevX; // px this frame, signed by direction
-            const speed = Math.min(Math.abs(velocityX) / 14, 1); // 0-1, needs a genuinely fast move to saturate
-            const tilt = Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
-            const scale = 1 + speed * MAX_SCALE_BOOST;
-
-            watchLabel.style.left = `${currentX}px`;
-            watchLabel.style.top = `${currentY}px`;
-            watchLabel.style.setProperty('--tilt', `${tilt.toFixed(2)}deg`);
-            watchLabel.style.setProperty('--scale', scale.toFixed(3));
-
-            // Stop the loop once position AND velocity have both settled, so the tilt/
-            // scale genuinely eases back to neutral instead of freezing mid-swing.
-            if (Math.abs(targetX - currentX) > 0.1 || Math.abs(targetY - currentY) > 0.1 || Math.abs(velocityX) > VELOCITY_SETTLE) {
-                rafId = requestAnimationFrame(animateLabel);
-            } else {
-                watchLabel.style.setProperty('--tilt', '0deg');
-                watchLabel.style.setProperty('--scale', '1');
-                rafId = null;
-            }
-        };
-
-        trigger.addEventListener('mousemove', (e) => {
-            const rect = trigger.getBoundingClientRect();
-            targetX = e.clientX - rect.left;
-            targetY = e.clientY - rect.top;
-            if (rafId === null) {
-                // First move after being idle: snap the current position to the target
-                // immediately so the label doesn't visibly fly in from wherever it last
-                // stopped (e.g. the previous hover session's exit point).
-                currentX = targetX;
-                currentY = targetY;
-                watchLabel.style.left = `${currentX}px`;
-                watchLabel.style.top = `${currentY}px`;
-                rafId = requestAnimationFrame(animateLabel);
-            }
-        });
-    }
 
     trigger.addEventListener('click', () => {
         const source = sourceVideo?.querySelector('source');
@@ -2185,25 +2312,65 @@ function initAboutIntroPlayer() {
         }
     });
 
-    // 3D tilt: the card itself rotates on X/Y based on the cursor's position within
-    // it — no positional movement (no magnetic pull toward the cursor), purely a
-    // perspective tilt, like the card is a physical object being angled toward the
-    // viewer's eye. Cursor above center tilts the top back (rotateX positive), cursor
-    // right of center tilts the right edge back (rotateY positive), etc.
-    if (magneticWrapper && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        const MAX_TILT = 10; // degrees at the card's edge
+    // Cursor-follow label physics only — the 3D perspective tilt this used to also
+    // drive made sense on a small boxed card, but reads as excessive/disorienting on
+    // a viewport-width full-bleed strip (see .about-showreel-section), so it's been
+    // dropped here. canHover is kept as a guard purely so the label doesn't try to
+    // track touch input, which has no persistent "hover position" to follow.
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        magneticWrapper.addEventListener('mousemove', (e) => {
+    if (watchLabel && canHover) {
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0, rafId = null;
+        const LERP_FACTOR = 0.18; // lower = laggier/smoother trail, higher = snappier
+        const MAX_TILT = 8; // label sway, degrees at top speed — subtle, not a big swing
+        const MAX_SCALE_BOOST = 0.06; // label grow, +6% at top speed — barely-there
+        const VELOCITY_SETTLE = 0.05; // px/frame below which velocity is treated as "stopped"
+
+        const animate = () => {
+            const prevX = currentX;
+            currentX += (targetX - currentX) * LERP_FACTOR;
+            currentY += (targetY - currentY) * LERP_FACTOR;
+
+            const velocityX = currentX - prevX; // px this frame, signed by direction
+            const settled = Math.abs(targetX - currentX) < 0.1 && Math.abs(targetY - currentY) < 0.1 && Math.abs(velocityX) < VELOCITY_SETTLE;
+
+            if (watchLabel) {
+                // Offset down-right of the raw cursor position so the label never sits
+                // directly under the OS cursor icon — centered-on-cursor was getting
+                // visually blocked by the pointer itself.
+                const speed = Math.min(Math.abs(velocityX) / 14, 1); // 0-1, needs a genuinely fast move to saturate
+                const tilt = settled ? 0 : Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
+                const scale = settled ? 1 : 1 + speed * MAX_SCALE_BOOST;
+                watchLabel.style.left = `${currentX + 18}px`;
+                watchLabel.style.top = `${currentY + 22}px`;
+                watchLabel.style.setProperty('--tilt', `${tilt.toFixed(2)}deg`);
+                watchLabel.style.setProperty('--scale', scale.toFixed(3));
+            }
+
+            if (!settled) {
+                rafId = requestAnimationFrame(animate);
+            } else {
+                if (watchLabel) {
+                    watchLabel.style.setProperty('--tilt', '0deg');
+                    watchLabel.style.setProperty('--scale', '1');
+                }
+                rafId = null;
+            }
+        };
+
+        trigger.addEventListener('mousemove', (e) => {
             const rect = trigger.getBoundingClientRect();
-            const px = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-            const py = (e.clientY - rect.top) / rect.height - 0.5;
-            const rotateY = Math.max(-1, Math.min(1, px * 2)) * MAX_TILT;
-            const rotateX = Math.max(-1, Math.min(1, -py * 2)) * MAX_TILT;
-            trigger.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+            targetX = e.clientX - rect.left;
+            targetY = e.clientY - rect.top;
+            if (rafId === null) {
+                // First move after being idle: snap the current position to the target
+                // immediately so nothing visibly flies in from wherever it last stopped.
+                currentX = targetX;
+                currentY = targetY;
+                rafId = requestAnimationFrame(animate);
+            }
         });
-        magneticWrapper.addEventListener('mouseleave', () => {
-            trigger.style.transform = '';
-        });
+
     }
 }
 
@@ -2229,6 +2396,97 @@ function initAboutIntroVideoModal() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && videoModal.classList.contains('active')) closeVideoModal();
     });
+}
+
+/**
+ * Full-bleed showreel "unveiling" motion: as the strip scrolls into view, its
+ * clip-path opens from a narrow centered band out to the full edge-to-edge width
+ * (curtains-opening effect) while the video underneath slowly scales down from a
+ * slight zoom — both scrubbed to scroll position so scrolling back up reverses
+ * cleanly, matching the site's other scroll-scrubbed reveals (e.g. the homepage
+ * essence quote). This is the "premium motion" the section's CSS clip-path/scale
+ * starting values (see .about-showreel-wrapper/.about-showreel-video) are built to
+ * animate away from.
+ */
+function initAboutShowreelReveal() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    const section = document.querySelector('.about-showreel-section');
+    const wrapper = document.querySelector('.about-showreel-wrapper');
+    const video = document.querySelector('.about-showreel-video');
+    if (!section || !wrapper) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Reduced motion: skip the scrubbed curtain-opening/parallax and just present the
+    // strip fully open and settled.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.set(wrapper, { clipPath: 'inset(0% 0% 0% 0% round 0px)' });
+        if (video) gsap.set(video, { '--showreel-parallax-scale': 1 });
+        return;
+    }
+
+    // Explicit starting ("closed") state set here, in JS, right before ScrollTrigger
+    // takes over — not in the stylesheet. CSS applies at first paint, well before this
+    // function runs; if the closed clip-path lived there, the page would already show
+    // the narrow band, and this gsap.set() plus the scrub below would then visibly
+    // "restart" the animation from that same narrow point a beat later — the jump this
+    // was built to fix. Setting it here means the very first frame anyone sees already
+    // has GSAP in control, so there's exactly one continuous motion, not two.
+    gsap.set(wrapper, { clipPath: 'inset(0% 42% 0% 42% round 18px)' });
+    if (video) gsap.set(video, { '--showreel-parallax-scale': 1.08 });
+
+    gsap.to(wrapper, {
+        clipPath: 'inset(0% 0% 0% 0% round 0px)',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: section,
+            // Starts as soon as the section's top edge enters the viewport at all, and
+            // finishes well before it's scrolled past — the previous 90%→35% range was
+            // too narrow relative to a normal scroll speed, so the clip-path was still
+            // visibly catching up (looking "stuck" mid-open) by the time the section
+            // was already prominently on screen, rather than having finished opening
+            // on the way in.
+            start: 'top bottom',
+            end: 'top 20%',
+            scrub: 0.15
+        }
+    });
+
+    if (video) {
+        // Driven via a CSS custom property (read by .about-showreel-video's own
+        // transform: scale(var(--showreel-parallax-scale))) rather than GSAP setting
+        // `transform` directly, so this composes with — instead of overwriting —
+        // any other transform source on the element.
+        gsap.to(video, {
+            '--showreel-parallax-scale': 1,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 0.6
+            }
+        });
+
+        // Pause decode/playback the instant the strip scrolls off-screen — this video
+        // had no such gate before and kept decoding indefinitely once scrolled past,
+        // same class of cost the hero carousel's ticker already guards against (see
+        // initHeroCarousel's IntersectionObserver). Muted autoplay video resumes
+        // automatically once back in view; no play() promise handling needed since
+        // it's muted (autoplay restrictions don't apply).
+        if ('IntersectionObserver' in window) {
+            const videoVisibilityObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { rootMargin: '200px 0px' });
+            videoVisibilityObserver.observe(video);
+        }
+    }
 }
 
 function initMagneticButtons() {
@@ -2807,6 +3065,229 @@ function initTabTitleSwitch() {
             favicon.href = originalFavicon;
         }
     });
+}
+//#endregion
+
+//#region LOGO MARQUEE LOOP
+// =========================================
+// 9b. LOGO MARQUEE — DRAGGABLE COVERFLOW LOOP
+// =========================================
+/**
+ * Replaces the old CSS @keyframes auto-scroll with a manual drag-and-spin loop, same
+ * physics pattern as the hero video carousel (initHeroCarousel): a constant auto-scroll
+ * velocity, pointer drag that overrides it and tracks hand velocity, and momentum that
+ * decays via friction after release — rather than GSAP's InertiaPlugin (not loaded on
+ * this page; the hero carousel made the same call for the same reason: a plugin-based
+ * inertia felt like it "snapped" rather than coasting).
+ *
+ * Every frame also writes a per-item --marquee-scale based on that item's horizontal
+ * distance from the wrapper's own center — 1 at dead-center, falling off toward the
+ * mask-faded edges — so the strip reads as a coverflow (center logo prominent, side
+ * logos smaller) instead of a flat uniform-size scroll, per the user's request.
+ *
+ * The two duplicate .marquee-content sets loop the position with modulo arithmetic on
+ * the measured set width (not CSS keyframes), so dragging past either end wraps
+ * seamlessly in either direction — the same "never runs out" feel as the auto-scroll
+ * version, just now also draggable.
+ */
+function initLogoMarqueeLoop() {
+    const wrapper = document.getElementById('logo-marquee-wrapper');
+    const track = document.getElementById('logo-marquee-track');
+    if (!wrapper || !track) return;
+
+    const items = Array.from(track.querySelectorAll('.marquee-item'));
+    if (!items.length) return;
+
+    let setWidth = 0;
+    const measure = () => {
+        const firstSet = track.querySelector('.marquee-content');
+        if (!firstSet) return;
+        const w = firstSet.getBoundingClientRect().width;
+        if (w > 0) setWidth = w;
+    };
+    measure();
+    window.addEventListener('load', measure);
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(measure, 200);
+    });
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let x = 0; // current translateX, px — always kept within [-setWidth, 0) via wrapping
+    let velocity = 0; // px/frame, decays after a drag/flick ends
+    const AUTO_SPEED = prefersReducedMotion ? 0 : 0.6; // px/frame constant auto-scroll
+    const FRICTION = 0.94; // matches the hero carousel's own coast-down feel
+
+    let isDragging = false;
+    let lastPointerX = 0;
+    let lastPointerTime = 0;
+
+    // Pause entirely off-screen (scrolled past) — same performance pattern as the hero
+    // carousel and the About showreel video: no reason to keep writing transforms every
+    // frame for a strip nobody can see.
+    let isVisible = true;
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+            entries.forEach(entry => { isVisible = entry.isIntersecting; });
+        }, { rootMargin: '200px 0px' }).observe(wrapper);
+    }
+
+    const render = () => {
+        if (!isVisible) {
+            requestAnimationFrame(render);
+            return;
+        }
+        if (!isDragging) {
+            x -= (AUTO_SPEED + velocity);
+            velocity *= FRICTION;
+            if (Math.abs(velocity) < 0.01) velocity = 0;
+        }
+        // Wrap into [-setWidth, 0) so the two duplicate sets always cover the visible
+        // band regardless of drag direction/distance. Only actually reassigns x when
+        // it's genuinely out of range (a plain +=/-= comparison, not a modulo run every
+        // single frame) — recomputing x through the modulo operator unconditionally on
+        // every frame, even the vast majority where nothing needed wrapping, was
+        // introducing tiny floating-point rounding drift each frame that read as a
+        // faint stutter in what should have been a perfectly linear scroll.
+        if (setWidth > 0) {
+            if (x <= -setWidth) x += setWidth;
+            else if (x > 0) x -= setWidth;
+        }
+        track.style.transform = `translate3d(${x}px, 0, 0)`;
+
+        requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+
+    const getPointerX = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
+
+    const onPointerDown = (e) => {
+        isDragging = true;
+        wrapper.classList.add('is-dragging');
+        lastPointerX = getPointerX(e);
+        lastPointerTime = performance.now();
+        velocity = 0;
+    };
+    const onPointerMove = (e) => {
+        if (!isDragging) return;
+        const pointerX = getPointerX(e);
+        const now = performance.now();
+        const dt = Math.max(now - lastPointerTime, 1);
+        // Damped "spin" like the hero carousel's own drag (see initHeroCarousel's
+        // onPointerMove: rotation += dx * 0.04), not a 1:1 "track sticks exactly to the
+        // cursor" drag — the earlier version set x = trackStartX + (pointerX -
+        // dragStartX) directly, which reads as the strip physically glued to the mouse.
+        // Here each frame's pointer delta only nudges x by a fraction, so it feels like
+        // spinning a wheel with the hand rather than dragging a slider.
+        const dx = pointerX - lastPointerX;
+        x += dx * 0.6;
+        // Hand velocity in px/frame (assuming ~16.7ms/frame), so it composes with the
+        // same FRICTION decay used for AUTO_SPEED after release.
+        velocity = -((dx * 0.6) / dt) * 16.7;
+        lastPointerX = pointerX;
+        lastPointerTime = now;
+    };
+    const onPointerUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        wrapper.classList.remove('is-dragging');
+        // velocity already holds the last measured hand speed — render()'s friction
+        // decay picks it up next frame and coasts it down, same as the hero carousel.
+    };
+
+    wrapper.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    wrapper.addEventListener('touchstart', onPointerDown, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerUp);
+    // Safety net: if the mouse leaves the browser window entirely mid-drag (or the tab
+    // loses focus), no mouseup ever fires on window — without this, isDragging stays
+    // stuck true and the strip reads as permanently "glued" until the user happens to
+    // mouse back in and click again.
+    window.addEventListener('blur', onPointerUp);
+    document.addEventListener('mouseleave', onPointerUp);
+
+    // Dragging shouldn't also trigger a logo's own link/hover click.
+    wrapper.addEventListener('click', (e) => {
+        if (Math.abs(velocity) > 0.5) e.preventDefault();
+    }, true);
+}
+//#endregion
+
+//#region WORK CARD CURSOR TILT
+// =========================================
+// 9c. FEATURED WORK CARD — CURSOR-DRIVEN TILT
+// =========================================
+/**
+ * Both featured homepage cards (.work-card, clickable and locked/is-ongoing alike)
+ * tilt toward the cursor's position inside the card rather than a fixed hover angle
+ * — same "tracks the mouse" language as the About section's showreel label
+ * (initAboutIntroPlayer), applied here to rotateX/rotateY instead of position.
+ * canHover guards touch input, which has no persistent hover position to track.
+ */
+function initWorkCardTilt() {
+    const cards = document.querySelectorAll('.work-card');
+    if (!cards.length) return;
+
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canHover) return;
+
+    const MAX_TILT = 6; // degrees at the card's edge — subtle, not a big swing
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width; // 0-1 across the card
+            const py = (e.clientY - rect.top) / rect.height;
+
+            // Cursor right/top should tilt the card toward the viewer on that edge —
+            // rotateY follows horizontal position, rotateX is inverted from vertical.
+            const tiltY = (px - 0.5) * 2 * MAX_TILT;
+            const tiltX = -(py - 0.5) * 2 * MAX_TILT;
+
+            card.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+            card.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.setProperty('--tilt-x', '0deg');
+            card.style.setProperty('--tilt-y', '0deg');
+        });
+    });
+}
+//#endregion
+
+//#region CASE STUDY HERO SHOWREEL VISIBILITY GATE
+// =========================================
+// 9d. CASE STUDY HERO SHOWREEL — PAUSE OFF-SCREEN
+// =========================================
+/**
+ * Every case study page (torch-x-gundam, tsukamie, andrea-bocelli, etc.) autoplays
+ * one `.showreel-video` in its hero, `preload="auto"` — the heaviest possible preload
+ * setting, chosen deliberately since it's the hero/LCP element. That's fine while it's
+ * on-screen, but these are long scroll pages: once the user scrolls past the hero, the
+ * video kept decoding/playing indefinitely with nothing gating it, unlike the homepage
+ * hero carousel (see initHeroCarousel) which already pauses off-screen. Same fix here.
+ */
+function initCaseStudyShowreelVisibility() {
+    if (!('IntersectionObserver' in window)) return;
+    const videos = document.querySelectorAll('.showreel-video');
+    if (!videos.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.play().catch(() => {});
+            } else {
+                entry.target.pause();
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+
+    videos.forEach(v => observer.observe(v));
 }
 //#endregion
 

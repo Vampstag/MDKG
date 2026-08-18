@@ -69,7 +69,7 @@
         </script>
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="css/style.css?v=5">
+        <link rel="stylesheet" href="css/style.css?v=87">
         <link rel="stylesheet" href="widget.css?v=1">
 
         <style>
@@ -159,6 +159,23 @@
                 cursor: pointer;
                 user-select: none;
                 -webkit-user-select: none;
+            }
+            /* Entrance reveal for batch-appended items (see fun-grid's IntersectionObserver
+               below) — opacity/scale only, not translateY, since the desktop canvas-pan
+               mode positions .fun-item absolutely and already owns its own transform for
+               dragging; stacking a translate here would fight that. */
+            .fun-item--reveal {
+                opacity: 0;
+                transform: scale(0.96);
+                transition: opacity var(--reveal-duration, 0.7s) var(--ease-smooth, cubic-bezier(0.19, 1, 0.22, 1)),
+                            transform var(--reveal-duration, 0.7s) var(--ease-smooth, cubic-bezier(0.19, 1, 0.22, 1));
+            }
+            .fun-item--reveal.is-visible {
+                opacity: 1;
+                transform: scale(1);
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .fun-item--reveal { opacity: 1; transform: none; transition: none; }
             }
             .fun-item-media {
                 width: 100%;
@@ -622,7 +639,7 @@
         <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script defer src="script.js?v=15"></script>
+        <script defer src="script.js?v=33"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.3"></script>
 
@@ -698,10 +715,24 @@
                     });
                 };
 
+                // Same reveal weight as the rest of the site (see --reveal-duration/
+                // .fade-in-section in css/style.css) — items were previously appearing
+                // with zero entrance animation, since this grid is batch-built in JS
+                // rather than static HTML the shared IntersectionObserver could pick up.
+                const itemObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            itemObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
+
                 const buildItem = (item) => {
                     const el = document.createElement('div');
-                    el.className = 'fun-item';
+                    el.className = 'fun-item fun-item--reveal';
                     el.style.aspectRatio = '3/4';
+                    itemObserver.observe(el);
 
                     if (item.type === 'image') {
                         el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="fun-item-media">`;

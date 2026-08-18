@@ -128,7 +128,7 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css?v=52">
+        <link rel="stylesheet" href="css/style.css?v=87">
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -465,33 +465,55 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <section id="about-section" class="about-section-wrapper">
+                            <!-- Text-only two-column layout now — headline left, "*" note right.
+                                 The showreel used to live in this grid as a small card; it's now
+                                 its own full-bleed section below (see .about-showreel-section),
+                                 edge-to-edge instead of boxed in a corner. -->
                             <div class="about-intro-grid">
                                 <div class="about-intro-text">
                                     <h3 class="about-lead-text about-intro-headline text-reveal">Hi, I'm Dimas.<br>I cherish good ideas, thoughtful visuals, and the people they're made for.</h3>
-
-                                    <div class="about-intro-note">
-                                        <span class="about-intro-note__marker">*</span>
-                                        <div class="about-intro-note__body">
-                                            <p class="about-paragraph fade-in-section">
-                                                Hi there, it looks like you've landed on my portfolio.
-                                            </p>
-                                            <p class="about-paragraph fade-in-section">
-                                                Whether you're curious about me, seeking inspiration, or just wandered in, I'm delighted to welcome you to my creative universe.
-                                            </p>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="about-intro-visual" id="about-intro-magnetic">
-                                    <button type="button" class="about-intro-player" id="about-intro-watch-trigger" aria-label="Watch full showreel">
-                                        <video class="about-intro-video" autoplay loop muted playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
-                                            <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
-                                        </video>
-                                        <div class="about-intro-watch-label">Watch Showreel</div>
-                                    </button>
+                                <div class="about-intro-note">
+                                    <div class="about-intro-note__body">
+                                        <p class="about-paragraph fade-in-section">
+                                            Thanks for stopping by. I hope you enjoy looking through the work as much as I enjoyed making it.
+                                        </p>
+                                        <p class="about-paragraph fade-in-section">
+                                            Whether you're here out of curiosity, looking for inspiration, or simply having a look around, I hope you find something worth staying for.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </section>
                     </div>
+                </div>
+            </section>
+            <!-- Full-bleed showreel: breaks out of the padded page column entirely (same
+                 viewport-relative-width technique as the hero carousel) so it reads as a
+                 genuine edge-to-edge cinematic strip, not a boxed card. Scroll-driven reveal
+                 (clip-path opening + slight parallax scale via GSAP ScrollTrigger, see
+                 initAboutShowreelReveal in script.js) gives it a premium "unveiling" motion
+                 as it enters the viewport, instead of just fading in like a normal section. -->
+            <section class="about-showreel-section fade-in-section">
+                <div class="about-showreel-wrapper" id="about-intro-magnetic">
+                    <button type="button" class="about-showreel-player" id="about-intro-watch-trigger" aria-label="Watch full showreel">
+                        <video class="about-showreel-video" autoplay loop muted playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
+                            <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                        </video>
+                        <div class="about-showreel-scrim"></div>
+                        <div class="about-intro-watch-label">
+                            <span class="about-intro-watch-label__icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </span>
+                            Watch Showreel
+                        </div>
+                        <!-- Plain transparent div sitting above the video, matching the hero carousel's
+                             own hit-layer fix: some browsers reserve part of a playing <video> for
+                             native scrub/PiP gesture handling even with pointer-events:none set on it,
+                             which was swallowing mousemove before it ever reached the button. A
+                             non-media element has no such special casing. -->
+                        <div class="about-intro-hit-layer" aria-hidden="true"></div>
+                    </button>
                 </div>
             </section>
             <section id="latest-work" class="latest-work-section section-margin fade-in-section">
@@ -512,14 +534,16 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- 2. Refactored Latest Work Section -->
+                            <!-- 2. Refactored Latest Work Section — asymmetric featured pair: lead card
+                                 (Torch x Gundam) wider/taller, second (Andrea Bocelli, on-going) narrower.
+                                 Hover-dim between the two is handled purely in CSS via
+                                 .work-cards-grid--featured:has(.work-card:hover). -->
+                            <div class="work-cards-grid work-cards-grid--featured">
                             <a href="/portfolio/torch-x-gundam" class="work-card">
-                                <div class="work-card__image-wrapper" style="background-image: url('assets/images/project/torch/poster_showreel_torchxgundam.webp'); background-size: cover; background-position: center;">
-                                    <video autoplay loop muted playsinline preload="auto" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp" class="work-card__video video-fade" onloadeddata="this.classList.add('is-ready')">
-                                        <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
-                                    </video>
+                                <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
+                                    <img src="assets/images/project/torch/torch-model-backpack.webp" alt="Torch x Gundam" class="work-card__image" loading="lazy" decoding="async">
                                     <!-- Existing Overlay -->
-                                    <div class="work-card__overlay"> 
+                                    <div class="work-card__overlay">
                                         <div class="work-card__metrics">
                                         <div class="metric-tag">1.8M Organic Views</div>
                                         <div class="metric-tag">4.7K+ Interactions</div>
@@ -536,99 +560,45 @@
                                     </div>
                                 </div>
                             </a>
+                            <div class="work-card is-ongoing">
+                                <div class="work-card__image-wrapper" style="background-image: url('assets/images/project/andrea-bocelli/romanza-main-hero.webp'); background-size: cover; background-position: center;">
+                                    <img src="assets/images/project/andrea-bocelli/romanza-main-hero.webp" alt="Andrea Bocelli — Romanza World Tour Indonesia" class="work-card__image" loading="lazy" decoding="async">
+                                    <div class="ongoing-badge">ON-GOING</div>
+                                    <div class="work-card__overlay">
+                                        <div class="work-card__metrics">
+                                            <div class="metric-tag">Romanza 30th Anniversary World Tour</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="work-card__info">
+                                    <h3 class="work-card__title">Andrea Bocelli</h3>
+                                    <div class="work-card__cta">
+                                        <span>On-going Project</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/portfolio/torch-prestachill" class="work-card">
+                                <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
+                                    <img src="assets/images/project/torch-prestachill/prestachill-main-model.webp" alt="Torch Prestachill" class="work-card__image" loading="lazy" decoding="async">
+                                    <div class="work-card__overlay">
+                                        <div class="work-card__metrics">
+                                            <div class="metric-tag">Organic Short-Form</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="work-card__info">
+                                    <h3 class="work-card__title">Torch Prestachill</h3>
+                                    <div class="work-card__cta">
+                                        <span>View Project</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
+                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="services" class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="section-headline-margin">
-                            <h2 class="section-headline-text text-reveal">Capabilities</h2>
-                        </div>
-                        <!-- Single-column accordion, same component as services.html's
-                             .services-accordion-v2 — big bold title + circular +/- toggle
-                             per row, panel reveals description + placeholder BTS photo.
-                             Kept in sync with services.html: same 4 rows, same copy. -->
-                        <div class="services-accordion-v2">
-                            <div class="services-acc-row" data-target="home-svc-1">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">01</span>
-                                    <span class="services-acc-row__title">Video Production</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Planning, directing, and shooting content for campaigns, social, and branded storytelling.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-1.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="services-acc-row" data-target="home-svc-2">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">02</span>
-                                    <span class="services-acc-row__title">Editing &amp; Motion</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Editing, motion design, sound, and pacing shaped for how each format is actually watched.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-4.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="services-acc-row" data-target="home-svc-3">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">03</span>
-                                    <span class="services-acc-row__title">Color &amp; Finishing</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Building a consistent visual language across every asset, from technical correction to the final grade.</p>
-                                        <div class="services-acc-row__visual services-acc-row__visual--fade-cycle">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="services-acc-row" data-target="home-svc-4">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">04</span>
-                                    <span class="services-acc-row__title">Concept Development</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Turning briefs and audience insights into visual concepts, storyboards, and content directions that fit the brand.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-2.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -636,37 +606,38 @@
             <section class="logo-marquee-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="marquee-wrapper">
-                            <div class="marquee-track">
+                        <h2 class="marquee-heading text-reveal">Brands I've had the pleasure to work with</h2>
+                        <div class="marquee-wrapper" id="logo-marquee-wrapper">
+                            <div class="marquee-track" id="logo-marquee-track">
                                 <!-- Set 1 -->
                                 <div class="marquee-content">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
-                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
-                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                 </div>
                                 <!-- Set 2 (Exact Duplicate for seamless infinite loop) -->
                                 <div class="marquee-content" aria-hidden="true">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
-                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy">
-                                    <img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy">
-                                    <img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy">
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                 </div>
                             </div>
                         </div>
@@ -812,7 +783,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=49"></script>
+        <script defer src="script.js?v=33"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.3"></script>
         <script>

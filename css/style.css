@@ -40,6 +40,14 @@
     /* Typography Scale (Inter) */
     --font-primary: 'Inter', sans-serif;
     
+    /* Eyebrow/overline label — the single tracking value for every small uppercase
+       "kicker" label site-wide (credits roles, article meta, hero subtitles, badges,
+       etc). These previously ranged from 0.02em to 0.3em (plus a few in px) across ~15
+       rules doing the exact same visual job — unified here so every eyebrow label now
+       reads as one consistent typographic voice instead of each component inventing
+       its own tracking. */
+    --tracking-eyebrow: 0.1em;
+
     /* Fluid Typography: clamp(min, preferred, max) */
     --text-display: clamp(2.5rem, 10vw + 1rem, 8.5rem); /* Hero Text - Optimized min for mobile */
     --text-h1: clamp(2rem, 5vw + 1rem, 4.5rem);
@@ -65,6 +73,14 @@
     --radius-lg: 24px;
     --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04); /* More subtle, Apple-like shadow */
     --shadow-hover: 0 20px 40px -8px rgba(0, 0, 0, 0.1); /* Smoother lift */
+
+    /* Entrance Motion Standard — the single duration/distance every .fade-in-section
+       reveal uses, so unrelated sections across every page read as one visual
+       language rather than each animating on its own improvised timing. GSAP tweens
+       (text-reveal chars, card staggers) can't consume this var directly, but should
+       be hand-tuned to the same ~0.6-0.7s/power2.out "weight" as this CSS transition. */
+    --reveal-duration: 0.7s;
+    --reveal-distance: 28px;
 }
 
 /* Global Reset: Remove Mobile Tap Highlight */
@@ -137,7 +153,7 @@ h1, h2, h3, h4, h5, h6,
     color: #111; /* Softer black for premium feel */
 }
 
-.home-hero-headline-text-2 { font-size: var(--text-display) !important; }
+.home-hero-headline-text-2 { font-size: var(--text-display); }
 .section-headline-text {
     font-size: var(--text-h2) !important;
     font-weight: 300 !important; /* Light editorial weight — !important so Webflow's utility classes (e.g. .text-weight-semibold) can't override it and cause a bold-then-light flash */
@@ -186,16 +202,20 @@ p, li, span, .paragraph, .about-text {
 }
 .about-paragraph:hover, 
 .sol-desc:hover, 
-.takeaway-text:hover, 
-.why-desc:hover, 
+.takeaway-text:hover,
+.why-desc:hover,
 .faq__answer p:hover,
 .article-content p:hover {
-    color: #111 !important; /* Berubah menjadi hitam pekat */
+    /* No !important: each :hover combo here (0,2,0 — class/element + pseudo-class)
+       already outranks its own base rule's specificity (0,1,0), e.g. .about-paragraph
+       at line 2255 or .why-desc at line 4240 — the pseudo-class alone is enough to win
+       regardless of source order. */
+    color: #111; /* Berubah menjadi hitam pekat */
 }
 
 /* Khusus untuk teks dengan background gelap (seperti di Bento Grid) */
 .bento-desc:hover {
-    color: #ffffff !important; /* Berubah menjadi putih solid */
+    color: #ffffff; /* Berubah menjadi putih solid — :hover (0,2,0) already outranks .bento-desc's own base rule (0,1,0) */
 }
 /* #endregion */
 
@@ -316,8 +336,8 @@ p, li, span, .paragraph, .about-text {
 
 .nav-text {
     display: block;
-    transition: transform 0.4s var(--ease-smooth), color 0.4s ease !important;
-    transform: translateY(0%) !important;
+    transition: transform 0.4s var(--ease-smooth), color 0.4s ease !important; /* Overrides Webflow's own .nav-text transition timing from the CDN stylesheet */
+    transform: translateY(0%);
     color: #111;
     font-weight: 500;
 }
@@ -337,7 +357,9 @@ p, li, span, .paragraph, .about-text {
 .navigation-link:hover .nav-text,
 .navigation-link.w--current .nav-text,
 .navigation-link.active .nav-text {
-    transform: translateY(-100%) !important;
+    /* No !important needed: this descendant-combo selector (0,2,0) already outranks
+       .nav-text's own base rule (0,1,0) above, so it wins the cascade naturally. */
+    transform: translateY(-100%);
 }
 
 /* Hover Line Animation Polish */
@@ -619,6 +641,42 @@ body.preloader-active { overflow: hidden; }
     border-width: 6px; border-style: solid; border-color: #fff transparent transparent transparent;
 }
 
+/* #endregion */
+
+/* #region 4b. SCROLL REVEAL CONTRACT */
+/* =========================================
+   4b. SCROLL REVEAL CONTRACT (.fade-in-section)
+   The single source of truth for the "simple fade-in" path of
+   initObserverAnimations() in script.js: that function only ever toggles the
+   `.is-visible` class on intersect, so the actual pre-state/motion has to live
+   here — without it, plain .fade-in-section elements had no visible animation
+   at all (this was a real, silently-broken gap). .text-reveal is deliberately
+   excluded: it builds its own hidden-then-revealed <span> chars entirely in JS
+   (animateTextReveal) and would double-animate if it also inherited this
+   opacity transition. Elements with a bespoke JS-driven reveal (#latest-journal,
+   .experience-item) opt out via JS removing/never needing this class's effect,
+   so this stays the shared default for everything else.
+   ========================================= */
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    transition: opacity var(--reveal-duration) var(--ease-smooth),
+                transform var(--reveal-duration) var(--ease-smooth);
+    will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-section {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
 /* #endregion */
 
 /* #region 5. LAYOUT & SPACING */
@@ -966,19 +1024,28 @@ html.lenis, html.lenis body { height: auto; }
    ========================================= */
 @media (min-width: 992px) {
     .home-hero-headline-wrapper {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: center !important;
-        flex-wrap: nowrap !important;
-        width: 100% !important;
+        /* No !important: this single-class rule doesn't need to beat anything else at
+           this specificity within style.css (the values also match the mobile-first
+           base rule at line 178, so this block mainly exists for width/display at this
+           breakpoint). The one real fight was .page-portfolio wanting a different
+           flex-direction — see .home-hero-headline-wrapper.page-portfolio below, which
+           is more specific (two classes) and now wins that on its own. */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        width: 100%;
     }
 
     .home-hero-headline-text-2 {
-        white-space: nowrap !important;
-        display: inline-block !important;
+        /* No !important on any of these: same selector/specificity as the mobile-first
+           rule above, but this @media block comes later in source, so it already wins
+           at 992px+ through normal cascade order. */
+        white-space: nowrap;
+        display: inline-block;
         /* Adjusted clamp to ensure text fits on one line without overflow */
-        font-size: clamp(3.5rem, 9vw, 7.5rem) !important;
+        font-size: clamp(3.5rem, 9vw, 7.5rem);
     }
 
     /* Remove any manual line breaks on desktop */
@@ -1312,7 +1379,9 @@ html.lenis, html.lenis body { height: auto; }
    17. PORTFOLIO HERO SUBTITLE
    ========================================= */
 .home-hero-headline-wrapper.page-portfolio {
-    flex-direction: column !important;
+    /* No !important: two classes (0,2,0) already outranks the single-class
+       .home-hero-headline-wrapper rule above (0,1,0), including its @media variant. */
+    flex-direction: column;
     gap: 24px;
 }
 
@@ -2214,6 +2283,9 @@ html.lenis, html.lenis body { height: auto; }
     padding-bottom: 0;
 }
 
+/* Text-only two-column layout: headline left, "*" note right — the showreel used to
+   be the right column here but now lives in its own full-bleed section below (see
+   .about-showreel-section), so this grid is purely editorial copy on both sides. */
 .about-intro-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -2223,24 +2295,33 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (min-width: 992px) {
     .about-intro-grid {
-        grid-template-columns: 1.4fr 1fr;
+        grid-template-columns: 1.3fr 1fr;
         gap: 100px;
-        /* Showreel sits bottom-right, aligned with the last line of the text column —
-           not vertically centered against the whole block — matching the reference
-           layout's asymmetric, editorial feel. */
-        align-items: end;
+        align-items: start;
     }
 }
 
 .about-intro-headline {
     max-width: 40ch;
-    margin-bottom: 48px;
-    line-height: 1.35;
+    margin-bottom: 0;
+    /* Tightened from 1.35 to match .about-lead-text's editorial 1.2 baseline elsewhere
+       on the site — the looser leading here was reading as noticeably less tight than
+       every other headline on the page. */
+    line-height: 1.2;
 }
 
 .about-intro-note {
     display: flex;
-    gap: 40px;
+    gap: 24px;
+}
+
+@media (min-width: 992px) {
+    .about-intro-note {
+        /* Nudges the note down to roughly align its first line with the headline's
+           own optical middle, rather than both columns starting flush at the top —
+           reads more like an intentional pairing than two unrelated blocks. */
+        padding-top: 12px;
+    }
 }
 
 .about-intro-note__marker {
@@ -2256,57 +2337,23 @@ html.lenis, html.lenis body { height: auto; }
     max-width: 42ch;
 }
 
-.about-intro-visual {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    margin-left: auto;
-    /* Generous hit area around the player itself (bigger than the card's own bounds,
-       via a symmetric negative margin so the extra hit zone doesn't visually pull the
-       card off its grid-centered position) so the magnetic hover effect (see
-       initAboutIntroPlayer in script.js) starts reacting as soon as the cursor is
-       anywhere near the card, not only once it's directly over the video. */
-    padding: 60px;
-    margin: -60px 0;
-}
-
-/* A plain <button>, not a .video-player-wrapper — hover only ever reveals the "Watch
-   Showreel" label below, no scrub controls on the card itself. Clicking opens the
-   fullscreen video-modal (see initAboutIntroPlayer in script.js) where the native
-   <video controls> timeline/playhead lives instead. */
-.about-intro-player {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 16/9;
-    border: none;
-    padding: 0;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #111;
-    cursor: pointer;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.25), 0 10px 24px -12px rgba(0,0,0,0.15);
-    transition: transform 0.35s var(--ease-smooth), box-shadow 0.3s ease;
-    will-change: transform;
-}
-
-.about-intro-player:hover {
-    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3), 0 14px 28px -12px rgba(0,0,0,0.2);
-}
-
-.about-intro-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
+/* Sits above the video, receives every pointer event so mousemove/click always reach
+   here instead of occasionally getting captured by the <video> itself — see the HTML
+   comment for why. z-index above everything else in the card except the watch label,
+   which needs to render visually on top of this layer (though it's pointer-events:none
+   already, so it wouldn't intercept clicks either way). */
+.about-intro-hit-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
 }
 
 /* "Watch Showreel" label — tracks the cursor's own position inside the card (set via
    left/top in initAboutIntroPlayer's mousemove handler below, not this file), fading
-   in on hover only. Squircle, not a full pill, to match the site's art direction
-   elsewhere (grading-stack cards, grade-nav-btn, etc. all use a rounded-square radius
-   rather than fully round). */
+   in on hover only. Frosted-glass treatment matching the site's own floating widgets
+   (see .mdkg-widget-player in widget.css: blur+saturate backdrop, translucent
+   border, squircle radius) rather than a flat dark chip — a dark tint instead of
+   the widgets' light one, since this sits over video, not the page background. */
 .about-intro-watch-label {
     position: absolute;
     top: 0;
@@ -2320,21 +2367,52 @@ html.lenis, html.lenis body { height: auto; }
     --scale: 1;
     transform: translate(-50%, -50%) rotate(var(--tilt)) scale(var(--scale));
     z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 9px;
     font-family: var(--font-primary);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #fff;
-    background: rgba(0, 0, 0, 0.55);
-    padding: 8px 16px;
-    border-radius: 10px;
+    background: rgba(20, 20, 20, 0.35);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 10px 20px 10px 14px;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.15s ease-out;
+    /* Only opacity eases here — transform (position/tilt/scale) is rewritten every
+       animation frame by the JS lerp loop in initAboutIntroPlayer, which already does
+       its own smoothing via LERP_FACTOR. Also transitioning transform in CSS meant the
+       browser was easing toward each new frame's target on top of the JS lerp already
+       easing toward it — two smoothing layers fighting/compounding, which read as
+       laggy/stiff instead of fluid. */
+    transition: opacity 0.25s ease;
     white-space: nowrap;
 }
-.about-intro-player:hover .about-intro-watch-label {
+
+.about-intro-watch-label__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111;
+}
+.about-intro-watch-label__icon svg {
+    width: 10px;
+    height: 10px;
+    margin-left: 1px; /* optical centering — a play triangle's own visual weight sits left of its bounding box */
+}
+
+.about-showreel-player:hover .about-intro-watch-label {
     opacity: 1;
 }
 
@@ -2347,6 +2425,84 @@ html.lenis, html.lenis body { height: auto; }
     }
 }
 
+/* [NEW] Full-bleed showreel strip — breaks out of the padded page column entirely
+   (viewport-relative width, same technique as .hero-carousel) so it reads as a
+   genuine edge-to-edge cinematic band, not a card boxed inside the content column.
+   Height is a viewport-relative clamp rather than a fixed aspect-ratio, since at
+   full document width a strict 16:9 or 21:9 box would run either too short (wide
+   desktop) or too tall (narrow mobile) to read as "cinematic" at every breakpoint. */
+.about-showreel-section {
+    width: 100%;
+    overflow: hidden;
+    margin-top: var(--space-20);
+    margin-bottom: var(--space-32);
+}
+
+@media (max-width: 767px) {
+    .about-showreel-section {
+        margin-top: var(--space-12);
+        margin-bottom: var(--space-16);
+    }
+}
+
+.about-showreel-wrapper {
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    aspect-ratio: 16 / 9;
+    max-height: 720px;
+    /* No clip-path here by default — the "closed" starting state is applied by JS
+       (gsap.set, right before ScrollTrigger takes over — see initAboutShowreelReveal
+       in script.js) the instant GSAP is ready, not baked into the stylesheet. Setting
+       it here meant the page's very first paint already showed the narrow clipped
+       band (CSS applies before any JS runs), so by the time GSAP attached its
+       ScrollTrigger a beat later, the strip visibly snapped from "already narrow" to
+       "narrow, now actually animating" — read as a jarring jump rather than one
+       continuous open. JS owning the entire lifecycle (initial state included) keeps
+       it as a single motion. The no-JS fallback is simply "fully open, no clip" —
+       degrading gracefully to a static full-bleed video is better than an unopenable
+       clipped one. */
+    will-change: clip-path;
+}
+
+.about-showreel-player {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    background: #111;
+    overflow: hidden;
+}
+
+.about-showreel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    /* Subtle parallax scale as the strip scrolls through the viewport (see
+       initAboutShowreelReveal), driven by a CSS variable so the transform composes
+       cleanly with the fixed positioning above rather than fighting over the same
+       property from two places. */
+    transform: scale(var(--showreel-parallax-scale, 1.08));
+    will-change: transform;
+}
+
+.about-showreel-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.25) 100%);
+    pointer-events: none;
+}
+
 /* [NEW] Thin facts strip under the About intro: "Based in Bandung" / "*" / "Currently
    creating at..." — a quiet three-column line, not a full section, so it reads as a
    caption beneath the intro rather than competing with it for attention. */
@@ -2356,13 +2512,15 @@ html.lenis, html.lenis body { height: auto; }
     padding-bottom: 32px;
     /* Overrides .section-margin's 128px bottom gap (64px on mobile) — this is a thin
        caption strip, not a full section, so it shouldn't carry the same amount of
-       whitespace after it as the sections above/below it. */
-    margin-bottom: 40px !important;
+       whitespace after it as the sections above/below it. No !important needed: same
+       specificity as .section-margin (both single classes on the same element), but
+       this rule comes later in source, so it already wins the cascade. */
+    margin-bottom: 40px;
 }
 
 @media (max-width: 767px) {
     .about-facts-strip {
-        margin-bottom: 32px !important;
+        margin-bottom: 32px;
     }
 }
 
@@ -2475,15 +2633,15 @@ html.lenis, html.lenis body { height: auto; }
 
 .about-facts-marker {
     font-family: var(--font-primary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #999;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111;
 }
 
 @media (min-width: 768px) {
     .about-facts-marker {
-        font-size: 1.1rem;
-        font-weight: 600;
+        font-size: 1.8rem;
+        font-weight: 800;
     }
 }
 
@@ -2555,7 +2713,7 @@ html.lenis, html.lenis body { height: auto; }
 .meta-label {
     font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-eyebrow);
     color: #888;
     font-weight: 600;
 }
@@ -2668,6 +2826,81 @@ html.lenis, html.lenis body { height: auto; }
         gap: 60px 40px; /* More vertical gap */
     }
 }
+
+/* Asymmetric "one large, one small" featured layout — one card carries more visual
+   weight (wider column + taller image ratio) to read as the lead story, the other
+   as a supporting second. Hovering either card dims its sibling via the group's
+   own hover state (:has, no JS needed) so attention pulls toward whichever the
+   cursor is actually on, matching the reference layout the user provided. */
+.work-cards-grid--featured {
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+/* Three cards: one full-width lead on top, two narrower cards sharing a row below.
+   Grid-column spans (not source order) control the layout, so the DOM order can stay
+   "top card, bottom-left card, bottom-right card" and read top-to-bottom naturally. */
+.work-cards-grid--featured .work-card:nth-child(1) {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+    .work-cards-grid--featured {
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+        gap: 24px;
+    }
+    .work-cards-grid--featured .work-card__image-wrapper {
+        aspect-ratio: auto;
+        height: 100%;
+        min-height: 460px;
+    }
+    .work-cards-grid--featured .work-card:nth-child(1) .work-card__image-wrapper {
+        min-height: 560px;
+    }
+    .work-cards-grid--featured .work-card {
+        display: flex;
+        flex-direction: column;
+    }
+    .work-cards-grid--featured .work-card__image-wrapper {
+        flex: 1;
+    }
+}
+
+.work-card .ongoing-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+.work-card.is-ongoing {
+    cursor: default;
+}
+.work-card.is-ongoing .work-card__image {
+    /* Base crop (not from hover) — the Bocelli source photo has empty headroom above
+       the subject that object-fit:cover alone doesn't crop tightly enough at this
+       card's aspect ratio, showing as a gap of background above his hair. This sits
+       UNDER the shared .work-card:hover scale(1.03) below (same rule, same selector
+       specificity — the two combine on hover) rather than replacing it, so the Ken
+       Burns hover-zoom stays identical across every featured card, locked or not,
+       instead of this card silently opting out of the shared motion language. */
+    transform: scale(1.08);
+}
+.work-card.is-ongoing:hover .work-card__image {
+    transform: scale(1.08) scale(1.015);
+}
 /* #region 25. REFACTORED WORK CARD */
 /* =========================================
    25. LATEST WORK CARD (PREMIUM)
@@ -2686,8 +2919,21 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .work-card:hover {
-    transform: translateY(-6px) scale(1.005);
+    /* Base hover state — shadow lift plus a slight scale. The actual TILT angle is
+       cursor-driven, not a fixed hover angle: --tilt-x/--tilt-y are set every
+       mousemove frame by initWorkCardTilt() (script.js) based on cursor position
+       inside the card, and default to 0deg here so the card sits flat until JS has
+       run a frame. Applies identically to both featured cards (Torch's clickable
+       card and Bocelli's locked/is-ongoing card) via the same selector/mechanism. */
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    transform: perspective(800px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.005);
     box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    /* Transform needs to track mousemove frames closely, not ease over the card's
+       usual 0.5s — a slow transition here would make the tilt visibly lag behind the
+       cursor (same class of bug fixed earlier on the showreel's cursor-follow label).
+       Shadow/scale keep the card's normal weight via the base 0.5s transition above. */
+    transition: transform 0.15s ease-out, box-shadow 0.5s var(--ease-smooth);
 }
 
 .work-card__image-wrapper {
@@ -2698,6 +2944,9 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .work-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -2714,7 +2963,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 .work-card:hover .work-card__image,
 .work-card:hover .work-card__video {
-    transform: scale(1.03);
+    transform: scale(1.015);
 }
 
 @media (min-width: 768px) {
@@ -2793,7 +3042,7 @@ html.lenis, html.lenis body { height: auto; }
     .tldr-wrapper { padding: 24px; }
 }
 .tldr-item { display: flex; flex-direction: column; gap: 8px; }
-.tldr-label { font-family: var(--font-primary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; font-weight: 700; }
+.tldr-label { font-family: var(--font-primary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: #888; font-weight: 700; }
 .tldr-text { font-family: var(--font-primary); font-size: 1rem; color: #111; font-weight: 500; line-height: 1.5; }
 
 /* Sticky Dot Navigation */
@@ -3710,22 +3959,75 @@ html.lenis, html.lenis body { height: auto; }
     width: 100%;
     overflow: hidden;
     background-color: transparent;
-    padding-top: var(--space-8);
-    padding-bottom: var(--space-8);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+}
+
+/* Short editorial kicker above the marquee — gives the empty gap above the logo strip
+   a reason to exist (context: "why is there a row of logos here") without competing
+   with the "Featured Case Study" headline above it in weight, so it reads as a quiet
+   transition line rather than a second full section title. */
+.marquee-heading {
+    font-family: var(--font-primary);
+    /* Root cause of the earlier mobile-bold/desktop-thin mismatch wasn't this rule —
+       it was the desktop-only per-character text-reveal rebuild in animateTextReveal()
+       (script.js) wrapping this heading's text in <span> elements, which then matched
+       the page's generic `span { font-weight: 400 }` rule instead of inheriting this
+       700. Fixed at the source (the span creation itself now sets font-weight:
+       inherit) rather than patched here with !important, so this stays a normal,
+       overridable declaration. */
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: #111;
+    text-align: center;
+    /* --space-6 (24px), not the section-headline-margin desktop convention
+       (--space-20/80px) — this is a short label-then-content pair, not a full section
+       headline with its own body copy underneath, so it reads as one connected unit
+       with the marquee rather than two separately-spaced blocks. */
+    margin: 0 0 var(--space-6) 0;
 }
 
 .marquee-wrapper {
     width: 100%;
     overflow: hidden;
+    /* Sized to the tallest logo in the strip (Pink Roulette, 168px mobile / 252px
+       desktop — see .logo-pink-roulette below) plus breathing room on both sides, so
+       every logo's full height renders without the wrapper silently cropping the top
+       or bottom of the tallest mark. */
+    min-height: 220px;
+    display: flex;
+    align-items: center;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
+@media (min-width: 992px) {
+    .marquee-wrapper {
+        min-height: 320px;
+    }
+}
+
+.marquee-wrapper {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.marquee-wrapper.is-dragging {
+    cursor: grabbing;
+}
+
 .marquee-track {
     display: flex;
+    align-items: center;
     width: max-content; /* Ganti fit-content ke max-content agar tidak wrapping */
     gap: 0; /* Pastikan gap 0 */
-    animation: marquee-scroll 30s linear infinite;
+    /* Position is now owned entirely by initLogoMarqueeLoop() (script.js) — a manual
+       drag-with-momentum loop (same pattern as the hero carousel's own drag physics),
+       not a CSS @keyframes animation. A CSS animation can't be paused mid-drag without
+       fighting JS for control of the same transform, and can't report "where am I
+       right now" for the per-logo center-scale effect below to measure against. */
     will-change: transform;
     transform: translate3d(0, 0, 0); /* Force Hardware Acceleration */
 }
@@ -3738,15 +4040,31 @@ html.lenis, html.lenis body { height: auto; }
     flex-shrink: 0;
 }
 
+.marquee-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4rem;
+}
+
 .marquee-logo {
     height: 40px; /* Mobile height */
     width: auto;
     object-fit: contain;
-    margin-right: 4rem; /* Spacing dipindah ke margin item agar presisi */
+    /* No margin-right here — spacing is owned entirely by the wrapping .marquee-item
+       (see above) now that every logo sits in one, so it can't drift out of sync with
+       that uniform gap the way per-logo margins on this element used to. */
     filter: grayscale(100%) brightness(0); /* Black silhouettes */
     opacity: 0.6;
     transition: filter 0.3s ease, opacity 0.3s ease;
     cursor: pointer;
+    /* Without this, pressing down on a logo and moving the mouse starts the browser's
+       own native HTML5 image drag-ghost, which competes with initLogoMarqueeLoop's
+       custom pointer drag — a native drag captures the pointer on its own terms, so
+       mouseup on window sometimes never fires cleanly, leaving isDragging stuck true
+       and the strip reading as "stuck to the mouse" that never releases. */
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .marquee-logo:hover {
@@ -3761,40 +4079,28 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Pink Roulette and Ngaliwet Raos are compact/near-square marks (unlike the wide
    wordmarks above), so the shared height alone renders them much narrower than the
-   others — bumped up so their visual footprint reads proportionally, not undersized. */
+   others — bumped up so their visual footprint reads proportionally, not undersized.
+   No margin overrides here anymore: each logo now sits in its own .marquee-item
+   wrapper (see above), which owns one uniform gap for every logo regardless of its
+   individual width — the old per-logo margin nudges were tuned back when logos were
+   flat siblings with no wrapper, and left stacked on top of the new uniform spacing
+   they produced the visibly uneven gaps (tight here, wide there) the user flagged. */
 .marquee-logo.logo-pink-roulette {
     height: 168px;
-    margin-right: 1.5rem;
-}
-/* Gap on Pink Roulette's left comes from the *preceding* logo's own margin-right
-   (Tsukamie), not from Pink Roulette itself — targeted here via the adjacent-sibling
-   selector so only the logo immediately before Pink Roulette gets pulled in. */
-.marquee-logo + .marquee-logo.logo-pink-roulette {
-    margin-left: -1.5rem;
 }
 .marquee-logo.logo-ngaliwet {
     height: 60px;
 }
 
-@keyframes marquee-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); /* Moves exactly half the total width */ }
-}
-
 @media (min-width: 992px) {
-    .marquee-logo { 
-        height: 60px; /* Desktop height */ 
-        margin-right: 6rem; /* Spacing desktop */
+    .marquee-logo {
+        height: 60px; /* Desktop height */
     }
     .marquee-logo.logo-berka {
         height: 36px;
     }
     .marquee-logo.logo-pink-roulette {
         height: 252px;
-        margin-right: 2rem;
-    }
-    .marquee-logo + .marquee-logo.logo-pink-roulette {
-        margin-left: -2rem;
     }
     .marquee-logo.logo-ngaliwet {
         height: 90px;
@@ -3852,7 +4158,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 0.875rem; /* ~14px */
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-eyebrow);
     color: #000000;
     opacity: 0.6;
     font-weight: 500;
@@ -4298,7 +4604,7 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: var(--tracking-eyebrow);
     color: #888;
 }
 .cs-testimonial-translated {
@@ -4406,7 +4712,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 0.875rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-eyebrow);
     color: #999;
     margin-bottom: 24px;
     font-weight: 600;
@@ -4503,7 +4809,7 @@ html.lenis, html.lenis body { height: auto; }
 .audio-label {
     font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-eyebrow);
     color: #999;
     margin-bottom: 12px;
     font-weight: 600;
@@ -4712,7 +5018,7 @@ html.lenis, html.lenis body { height: auto; }
     line-height: 1.4;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.15em; /* Wider tracking for premium look */
+    letter-spacing: var(--tracking-eyebrow);
     color: #999;
     margin: 0;
 }
@@ -4785,7 +5091,7 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 0.875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.3em; /* Wide tracking (Anti-Plain) */
+    letter-spacing: var(--tracking-eyebrow);
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 32px;
     text-align: center;
@@ -4997,7 +5303,7 @@ a.social-icon:hover img {
 .software-badge:hover .badge-icon { transform: scale(1.15) rotate(10deg); }
 
 .badge-text { display: flex; flex-direction: column; justify-content: center; }
-.badge-label { font-family: var(--font-primary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); font-weight: 700; line-height: 1; margin-bottom: 6px; }
+.badge-label { font-family: var(--font-primary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: rgba(255,255,255,0.6); font-weight: 700; line-height: 1; margin-bottom: 6px; }
 .badge-name { font-family: var(--font-primary); font-size: 1.05rem; font-weight: 600; color: #fff; line-height: 1; letter-spacing: -0.01em; }
 /* #endregion */
 
@@ -5778,7 +6084,7 @@ a.social-icon:hover img {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--tracking-eyebrow);
     color: #888;
     margin-bottom: 16px;
 }
@@ -6000,7 +6306,7 @@ a.social-icon:hover img {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--tracking-eyebrow);
     color: #888;
 }
 
@@ -6236,7 +6542,7 @@ a.social-icon:hover img {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--tracking-eyebrow);
     color: #111;
     margin-bottom: 12px;
 }
@@ -6488,13 +6794,13 @@ a.social-icon:hover img {
     line-height: 1.15;
     letter-spacing: -0.02em;
     color: rgba(17,17,17,0.6);
-    transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: color 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
 }
 
 .services-acc-row.is-open .services-acc-row__title,
 .services-acc-row__trigger:hover .services-acc-row__title {
     color: #111;
-    transform: translateX(6px);
+    transform: translateX(8px);
 }
 
 /* Clean circle button, matching the FAQ accordion's plus-rotates-to-cross interaction
@@ -6541,26 +6847,42 @@ a.social-icon:hover img {
 
 .services-acc-row__panel-inner {
     padding-bottom: 56px;
+    /* Editorial two-column layout: description left, 16:9 visual right — a magazine
+       spread pairing, not a caption stacked under a full-width image. Collapses to a
+       single stacked column on narrow screens where side-by-side has no room to read
+       as anything but cramped. */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .services-acc-row__panel-inner {
+        grid-template-columns: 1.1fr 1fr;
+        gap: 64px;
+    }
 }
 
 .services-acc-row__desc {
     font-family: var(--font-primary);
-    font-size: clamp(1rem, 1.3vw, 1.15rem);
-    line-height: 1.7;
-    color: rgba(17,17,17,0.6);
-    max-width: 55ch;
-    margin: 0 0 32px;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    color: rgba(17,17,17,0.62);
+    max-width: 48ch;
+    margin: 0;
 }
 
-/* Squircle visual, revealed inline below the description — stretches the full width
-   of the row so it reads as a proper editorial image block, not a small thumbnail. */
+/* Squircle visual, 16:9 — paired beside the description rather than stacked full-width
+   underneath it, so it reads as a companion image, not an afterthought caption. */
 .services-acc-row__visual {
     position: relative;
     width: 100%;
-    aspect-ratio: 21/9;
-    border-radius: 20px;
+    aspect-ratio: 16/9;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 30px 70px -25px rgba(0,0,0,0.22);
+    box-shadow: 0 24px 56px -20px rgba(0,0,0,0.22), 0 8px 20px -10px rgba(0,0,0,0.12);
     transform-origin: center;
 }
 
@@ -6569,8 +6891,8 @@ a.social-icon:hover img {
     height: 100%;
     object-fit: cover;
     display: block;
-    transform: scale(1.08);
-    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.06);
+    transition: transform 0.9s var(--ease-smooth);
 }
 
 .services-acc-row.is-open .services-acc-row__visual img {
@@ -6590,8 +6912,8 @@ a.social-icon:hover img {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(1.08);
-    transition: opacity 1.8s ease-in-out, transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.06);
+    transition: opacity 1.8s ease-in-out, transform 0.9s var(--ease-smooth);
 }
 
 .services-acc-row.is-open .services-acc-row__visual--fade-cycle img {
@@ -6801,7 +7123,7 @@ a.social-icon:hover img {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 8px;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--tracking-eyebrow);
     text-transform: uppercase;
     transform: translateY(10px);
     transition: transform 0.4s var(--ease-smooth);
@@ -6968,7 +7290,11 @@ a.social-icon:hover img {
 }
 
 .bento-btn:active {
-    opacity: 1 !important; /* Menimpa efek global opacity: 0.8 yang membuat layar berkedip */
+    /* No !important: .bento-btn:active (class+pseudo) already outranks the global
+       a:active/button:active/.hover-trigger:active rule (element/class+pseudo) at
+       line 98 — a class selector beats a plain element selector at equal pseudo-class
+       weight, so this wins without needing to force it. */
+    opacity: 1; /* Menimpa efek global opacity: 0.8 yang membuat layar berkedip */
     transform: scale(0.96); /* Efek tombol fisik membal */
 }
 
@@ -7058,7 +7384,7 @@ a.social-icon:hover img {
     color: rgba(255,255,255,0.6);
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-eyebrow);
     margin-top: 4px;
     display: flex;
     align-items: center;
