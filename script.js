@@ -374,6 +374,13 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('initAboutIntroPlayer failed:', err);
         }
 
+        // 15b-iii. About Section 3D Accents
+        try {
+            initAboutAccent3D();
+        } catch (err) {
+            console.error('initAboutAccent3D failed:', err);
+        }
+
         // 15c. Scroll-Linked Text Distortion
         // Wrapped in try/catch: a failure here must not be able to stop initClipPathReveal()
         // (and anything else) below it from running — that previously left the bento grid
@@ -566,6 +573,21 @@ function loadFooter() {
 window.initFooterGSAP = function() {
     const footerContainer = document.getElementById('footer-container');
     if (!footerContainer) return;
+
+    // Footer 3D marquee icons (camera/asterisk/play button, see initAboutAccent3D) —
+    // called here rather than in the main init sequence because footer.html is fetched
+    // and injected asynchronously (see loadFooter()); this callback is the one place
+    // guaranteed to run after that injection completes on every page, homepage
+    // included (which loads the footer through its own inline preloader script, not
+    // loadFooter(), but still calls window.initFooterGSAP() at the same point).
+    if (!footerContainer.dataset.accent3dInit) {
+        footerContainer.dataset.accent3dInit = 'true'; // guard against double-init if this ever fires twice for the same footer
+        try {
+            initAboutAccent3D('.footer-accent-3d', { requireDesktop: false, interactive: false });
+        } catch (err) {
+            console.error('Footer 3D accents failed:', err);
+        }
+    }
 
     // Cari elemen pembungkus (kolom atau grid) di dalam footer untuk di-stagger
     let targets = footerContainer.querySelectorAll('.w-layout-grid > div, .footer-column, .footer-wrapper > div, .footer-main-block > div');
@@ -1150,74 +1172,14 @@ function initInteractiveHero() {
         return;
     }
 
-    // 1. Register Draggable
-    gsap.registerPlugin(Draggable);
-
-    // Only enable Draggable on non-mobile screens (desktop) for better scroll experience
-    if (window.matchMedia("(min-width: 992px)").matches) {
-        // 2. Initialize Draggable on items
-        Draggable.create(".drag-item", {
-            type: "x,y",
-            edgeResistance: 1,
-            bounds: ".hero-playground-section",
-            inertia: true,
-            onDrag: function() {
-                // Efek ayunan fisik (tilt) berdasarkan kecepatan tarik (deltaX)
-                const target = this.target;
-                const tilt = Math.max(-15, Math.min(15, this.deltaX * 0.4));
-                gsap.to(target, { rotation: target._baseRotation + tilt, duration: 0.5, ease: "power2.out", overwrite: "auto" });
-            },
-            onPress: function() {
-                const target = this.target;
-
-                // Simpan rotasi asli elemen dari CSS sebelum diubah-ubah
-                target._baseRotation = gsap.getProperty(target, "rotation") || 0;
-
-                // Depth-parallax (initHeroDepthParallax) gives each item its own base scale
-                // for the Z-depth illusion — press should scale up *from* that base, not
-                // snap every item to the same absolute 1.05 regardless of how small/large
-                // its depth already made it.
-                const base = parseFloat(target.dataset.baseScale) || 1;
-                const pressScale = base * 1.05;
-
-                // Lifting the item toward the "camera" while dragging deserves a bigger,
-                // punchier shadow than its resting depth-shadow (initHeroDepthParallax) —
-                // but it should still start from that item's own depth-shadow strength
-                // rather than one fixed value for every item regardless of how close/far it is.
-                if (target.classList.contains('sticker-item')) {
-                    const img = target.querySelector('img');
-                    gsap.to(target, { scale: pressScale, zIndex: 100, duration: 0.2 });
-                    gsap.to(img, { filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.2))", duration: 0.2 });
-                } else if (target.classList.contains('sticker-icon')) {
-                    gsap.to(target, { scale: pressScale, zIndex: 100, duration: 0.2, filter: "drop-shadow(0 25px 25px rgba(0,0,0,0.15))" });
-                } else {
-                    gsap.to(target, { scale: pressScale, zIndex: 100, boxShadow: "0 30px 60px rgba(0,0,0,0.15)", duration: 0.2 });
-                }
-            },
-            onRelease: function() {
-                const target = this.target;
-
-                // Kembalikan ke rotasi asli dengan efek memantul (elastic)
-                gsap.to(target, { rotation: target._baseRotation, ease: "elastic.out(1, 0.4)", duration: 1, overwrite: "auto" });
-
-                const base = parseFloat(target.dataset.baseScale) || 1;
-                // Restore this item's own depth-shadow (set once in initHeroDepthParallax)
-                // instead of a single generic shadow shared by every item.
-                const depthDropShadow = target.dataset.depthDropShadow || "drop-shadow(0 12px 15px rgba(0,0,0,0.1))";
-                const depthBoxShadow = target.dataset.depthBoxShadow || "0 20px 40px rgba(0,0,0,0.1)";
-
-                // Revert to the appropriate shadow type
-                if (target.classList.contains('sticker-item')) {
-                    const img = target.querySelector('img');
-                    gsap.to(target, { scale: base, zIndex: 'auto', duration: 0.2 });
-                    gsap.to(img, { filter: "drop-shadow(0 12px 15px rgba(0,0,0,0.1))", duration: 0.2 });
-                } else if (target.classList.contains('sticker-icon')) {
-                    gsap.to(target, { scale: base, zIndex: 'auto', duration: 0.2, filter: depthDropShadow });
-                } else {
-                    gsap.to(target, { scale: base, zIndex: 'auto', boxShadow: depthBoxShadow, duration: 0.2 });
-                }
-            }
-        });
+    // Draggable (drag-to-reposition) used to be enabled here for .drag-item (the two
+    // hero sparkles) — removed in favor of drag-to-rotate on the sparkles themselves
+    // (see initHero3DSparkles), which would otherwise fight this same mousedown/drag
+    // gesture for control of the same elements. gsap.registerPlugin(Draggable) is kept
+    // in case any other code path expects the plugin registered, even though nothing
+    // currently calls Draggable.create.
+    if (typeof Draggable !== 'undefined') {
+        gsap.registerPlugin(Draggable);
     }
 
     // 3. Entrance Animation (Pop in elements)
@@ -1285,7 +1247,7 @@ function initInteractiveHero() {
 //#endregion
 
 /**
- * Renders "Brand Creative" as real extruded 3D geometry in a WebGL canvas layered over the
+ * Renders "Visual Creative" as real extruded 3D geometry in a WebGL canvas layered over the
  * hero's <h1> text — lit, rotating gently toward the mouse. The <h1> itself is never
  * removed: it's the accessible/SEO copy and the automatic fallback if WebGL, the font, or
  * any Three.js dependency isn't available. Every failure path below simply leaves the
@@ -1348,7 +1310,7 @@ function initHero3DTitle(onReady) {
             'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', // Regular, not Bold — reads lighter/more editorial
             (font) => {
                 const group = new THREE.Group();
-                const lines = ['Brand', 'Creative'];
+                const lines = ['Visual', 'Creative'];
                 const lineSize = 13; // Sized up for more presence, still comfortably inside the canvas's 130% headroom
                 const lineGap = 15.5;
 
@@ -1557,21 +1519,511 @@ function initHero3DSparkles() {
 
             const clock = new THREE.Clock();
             const spinSpeed = 0.25 + idx * 0.08;
+
+            // Drag-to-rotate: same additive-offset-plus-momentum pattern as the About
+            // section's 3D accents (see initAboutAccent3D) and the hero carousel/logo
+            // marquee drags — dragOffsetY/X sit on top of the automatic idle spin
+            // rather than replacing it, so releasing never snaps back to "where
+            // auto-rotation would have been."
+            let isDragging = false;
+            let dragOffsetY = 0, dragOffsetX = 0;
+            let velocityY = 0;
+            let lastPointerX = 0, lastPointerY = 0, lastPointerTime = 0;
+            const FRICTION = 0.94;
+
             const animate = () => {
                 requestAnimationFrame(animate);
                 const t = clock.getElapsedTime();
-                mesh.rotation.y = t * spinSpeed;
-                mesh.rotation.x = Math.sin(t * 0.6) * 0.3;
+                if (!isDragging) {
+                    dragOffsetY += velocityY;
+                    velocityY *= FRICTION;
+                    if (Math.abs(velocityY) < 0.0002) velocityY = 0;
+                }
+                mesh.rotation.y = t * spinSpeed + dragOffsetY;
+                mesh.rotation.x = Math.sin(t * 0.6) * 0.3 + dragOffsetX;
                 mesh.rotation.z = Math.sin(t * 0.4 + idx) * 0.15;
                 renderer.render(scene, camera);
             };
             animate();
+
+            // Hold-and-rotate on the sparkle itself — same interaction as the About
+            // section's camera/play-button accents (see initAboutAccent3D), extended
+            // here so the whole site's small 3D accents behave consistently rather
+            // than only some of them being interactive.
+            canvas.style.pointerEvents = 'auto';
+            canvas.style.cursor = 'grab';
+
+            const getPointerXY = (e) => {
+                const point = e.touches ? e.touches[0] : e;
+                return { x: point.clientX, y: point.clientY };
+            };
+            const onDragStart = (e) => {
+                isDragging = true;
+                velocityY = 0;
+                canvas.style.cursor = 'grabbing';
+                const p = getPointerXY(e);
+                lastPointerX = p.x;
+                lastPointerY = p.y;
+                lastPointerTime = performance.now();
+            };
+            const onDragMove = (e) => {
+                if (!isDragging) return;
+                const p = getPointerXY(e);
+                const now = performance.now();
+                const dt = Math.max(now - lastPointerTime, 1);
+                const dx = p.x - lastPointerX;
+                const dy = p.y - lastPointerY;
+                dragOffsetY += dx * 0.012;
+                dragOffsetX = Math.max(-1, Math.min(1, dragOffsetX + dy * 0.008));
+                velocityY = (dx * 0.012 / dt) * 16.7;
+                lastPointerX = p.x;
+                lastPointerY = p.y;
+                lastPointerTime = now;
+            };
+            const onDragEnd = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                canvas.style.cursor = 'grab';
+            };
+
+            canvas.addEventListener('mousedown', onDragStart);
+            window.addEventListener('mousemove', onDragMove);
+            window.addEventListener('mouseup', onDragEnd);
+            canvas.addEventListener('touchstart', onDragStart, { passive: true });
+            window.addEventListener('touchmove', onDragMove, { passive: true });
+            window.addEventListener('touchend', onDragEnd);
+            window.addEventListener('blur', onDragEnd);
 
             wrapper.classList.add('has-3d-sparkle');
         });
     } catch (err) {
         console.error('initHero3DSparkles failed, falling back to flat glyphs:', err);
     }
+}
+
+/**
+ * Small WebGL accents in the About section: a play button (.about-accent-3d--play) and
+ * a camera (.about-accent-3d--camera) in the gap between the intro's two text columns,
+ * plus a 3D asterisk (.about-accent-3d--asterisk) replacing the flat "*" glyph in
+ * .about-facts-strip. All three are built from primitive/extruded THREE geometry
+ * grouped into one mesh; a plain icosahedron is the fallback shape for any
+ * .about-accent-3d canvas that isn't one of those three. Same chrome/metalness
+ * "editorial" material language as the hero's 3D title and sparkle stickers (see
+ * initHero3DTitle/initHero3DSparkles) so these read as the same visual system rather
+ * than a one-off decoration.
+ *
+ * Unlike initHero3DSparkles, this one IS visibility-gated: the hero sparkles' RAF loops
+ * run unconditionally for the page's whole lifetime (a real, known cost — see the
+ * performance audit that flagged it), and rather than repeat that here, each accent's
+ * render loop only runs while its own canvas is actually on-screen.
+ */
+function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = true, interactive = true } = {}) {
+    // Also reused for the footer's marquee icons (.footer-accent-3d, see initFooterAccent3D
+    // below) — that marquee is responsive at every width (clamp()-sized icons, no
+    // desktop-only grid layout the way the About section's accents are), so it opts out
+    // of the 992px gate via requireDesktop:false rather than duplicating this whole
+    // ~250-line function for a second selector.
+    const canvases = document.querySelectorAll(selector);
+    if (!canvases.length || typeof THREE === 'undefined') return;
+    if (requireDesktop && !window.matchMedia('(min-width: 992px)').matches) return; // hidden via CSS below 992px anyway — skip the WebGL cost entirely
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const buildEnvMap = (renderer) => {
+        const size = 64;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, 0, size);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.4, '#e4e4e4');
+        grad.addColorStop(0.7, '#3a3a3a');
+        grad.addColorStop(1, '#f2f2f2');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, size, size);
+        const tex = new THREE.CanvasTexture(canvas);
+        const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(size);
+        cubeRenderTarget.fromEquirectangularTexture(renderer, tex);
+        return cubeRenderTarget.texture;
+    };
+
+    // A minimal vintage-camera silhouette built from primitive geometries (box body,
+    // cylindrical lens barrel + front ring, small viewfinder hump) rather than an
+    // imported model — same approach as everything else in this function, no external
+    // asset dependency. Returns a THREE.Group so it can be scaled/rotated as one unit.
+    const buildCameraGroup = () => {
+        const group = new THREE.Group();
+
+        const body = new THREE.Mesh(new THREE.BoxGeometry(15, 9, 6));
+        group.add(body);
+
+        const lensBarrel = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.2, 5, 24));
+        lensBarrel.rotation.x = Math.PI / 2;
+        lensBarrel.position.set(0, 0, 5.2);
+        group.add(lensBarrel);
+
+        const lensRing = new THREE.Mesh(new THREE.CylinderGeometry(3.7, 3.7, 1, 24));
+        lensRing.rotation.x = Math.PI / 2;
+        lensRing.position.set(0, 0, 7.5);
+        group.add(lensRing);
+
+        // Inner lens glass — slightly recessed, a hair narrower than the ring so it
+        // reads as glass sitting inside the barrel rather than another solid disc.
+        const lensGlass = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 0.3, 24));
+        lensGlass.rotation.x = Math.PI / 2;
+        lensGlass.position.set(0, 0, 7.9);
+        group.add(lensGlass);
+
+        const viewfinder = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4));
+        viewfinder.position.set(-3, 6.5, -0.5);
+        group.add(viewfinder);
+
+        // Shutter button — small cylinder on the top-right of the body, angled slightly
+        // like a real shutter release rather than sitting flush/vertical.
+        const shutterButton = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.8, 16));
+        shutterButton.position.set(5.5, 4.7, 1.5);
+        shutterButton.rotation.z = 0.15;
+        group.add(shutterButton);
+
+        // Mode dial — a wider, flatter cylinder beside the shutter button, like a
+        // top-plate exposure/mode dial on a compact/rangefinder-style body.
+        const modeDial = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 0.6, 20));
+        modeDial.position.set(2.5, 4.7, 1.5);
+        group.add(modeDial);
+
+        // Hotshoe — a small raised block on top, where a flash would mount.
+        const hotshoe = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.6));
+        hotshoe.position.set(-4.5, 4.9, 0);
+        group.add(hotshoe);
+
+        // Strap lugs — two small rings on either side of the body, where a camera
+        // strap would clip on.
+        [-7.6, 7.6].forEach(x => {
+            const lug = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.22, 8, 16));
+            lug.position.set(x, 3, 0);
+            group.add(lug);
+        });
+
+        // Aperture ring — a second, slightly larger ring further forward on the lens
+        // barrel, subtly notched by uneven segments (fewer radial segments than the
+        // smooth lensRing/lensGlass) so it reads as a grippable knurled ring rather
+        // than another perfectly smooth disc.
+        const apertureRing = new THREE.Mesh(new THREE.CylinderGeometry(3.9, 3.9, 1.4, 14));
+        apertureRing.rotation.x = Math.PI / 2;
+        apertureRing.position.set(0, 0, 6.3);
+        group.add(apertureRing);
+
+        // Flash unit — a small block beside the hotshoe, like a compact pop-up/fixed
+        // flash housing rather than the hotshoe sitting alone.
+        const flashUnit = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 2.6));
+        flashUnit.position.set(1, 4.9, -1.5);
+        group.add(flashUnit);
+
+        // Bottom tripod mount — a small flat cylinder centered on the base, the socket
+        // every camera body has for a tripod plate.
+        const tripodMount = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.4, 16));
+        tripodMount.position.set(0, -4.7, 0);
+        group.add(tripodMount);
+
+        // Rear control buttons — two small flat discs on the back-left, standing in
+        // for menu/playback controls beside where the LCD would be.
+        [1.3, -0.7].forEach(y => {
+            const btn = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 14));
+            btn.rotation.x = Math.PI / 2;
+            btn.position.set(-6.5, y, -3.1);
+            group.add(btn);
+        });
+
+        // Battery door seam — a very thin, wide bar low on the body, reading as the
+        // hairline seam of a battery compartment door rather than a smooth unbroken
+        // bottom edge.
+        const batteryDoorSeam = new THREE.Mesh(new THREE.BoxGeometry(13, 0.15, 0.1));
+        batteryDoorSeam.position.set(0, -3.5, 3.05);
+        group.add(batteryDoorSeam);
+
+        // Second focus ring — set further back on the barrel, closer to the body, so
+        // the lens reads as a two-ring zoom assembly (focus + aperture) rather than a
+        // single control ring.
+        const focusRing = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 1, 16));
+        focusRing.rotation.x = Math.PI / 2;
+        focusRing.position.set(0, 0, 3.6);
+        group.add(focusRing);
+
+        // Brand badge — a tiny flat plate on the front face, standing in for a
+        // manufacturer logo/nameplate.
+        const badge = new THREE.Mesh(new THREE.BoxGeometry(3, 1, 0.15));
+        badge.position.set(-5, -2, 3.05);
+        group.add(badge);
+
+        // Flash hinge — a slim bar along the flash unit's rear edge, implying it's a
+        // hinged pop-up housing rather than one solid fixed block.
+        const flashHinge = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 2.2, 10));
+        flashHinge.rotation.z = Math.PI / 2;
+        flashHinge.position.set(1, 4.9, -2.7);
+        group.add(flashHinge);
+
+        return group;
+    };
+
+    // An asterisk (*) — three thin extruded bars crossing at 60° from each other, the
+    // same glyph shape as .about-facts-marker's flat "*" span (see .about-facts-strip
+    // in index.html) but rendered as real 3D geometry instead of a text character.
+    const buildAsteriskGroup = () => {
+        const group = new THREE.Group();
+        const barShape = new THREE.Shape();
+        const halfLen = 8, halfWidth = 1.1;
+        barShape.moveTo(-halfWidth, -halfLen);
+        barShape.lineTo(halfWidth, -halfLen);
+        barShape.lineTo(halfWidth, halfLen);
+        barShape.lineTo(-halfWidth, halfLen);
+        barShape.closePath();
+        const barGeometry = new THREE.ExtrudeGeometry(barShape, {
+            depth: 2.2,
+            bevelEnabled: true,
+            bevelThickness: 0.35,
+            bevelSize: 0.3,
+            bevelSegments: 3,
+            curveSegments: 6,
+        });
+        barGeometry.center();
+
+        [0, Math.PI / 3, (2 * Math.PI) / 3].forEach(angle => {
+            const bar = new THREE.Mesh(barGeometry, undefined); // material assigned uniformly via group.traverse() by the caller
+            bar.rotation.z = angle;
+            group.add(bar);
+        });
+
+        return group;
+    };
+
+    // A play button — the same outer-ring shape as the torus this replaces, but with a
+    // real extruded triangle solid sitting inside it (echoing the ▶ icon already used
+    // next to "Watch Showreel" — see .about-intro-watch-label__icon in index.html),
+    // rather than the torus's plain empty ring.
+    const buildPlayButtonGroup = () => {
+        const group = new THREE.Group();
+
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(9, 1.6, 20, 48));
+        group.add(ring);
+
+        const shape = new THREE.Shape();
+        // Equilateral-ish triangle pointing along +x, centered near the ring's own
+        // center — matches a play icon's slightly-right-of-center optical balance
+        // (a symmetric triangle reads as leaning left, the same reason .about-intro-
+        // watch-label__icon's own SVG nudges its play glyph with margin-left).
+        const r = 6;
+        shape.moveTo(r, 0);
+        shape.lineTo(-r * 0.6, r * 0.85);
+        shape.lineTo(-r * 0.6, -r * 0.85);
+        shape.closePath();
+        const triangle = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {
+            depth: 3,
+            bevelEnabled: true,
+            bevelThickness: 0.4,
+            bevelSize: 0.3,
+            bevelSegments: 3,
+            curveSegments: 8,
+        }));
+        triangle.geometry.center();
+        triangle.position.x = 0.8; // Optical nudge right, same reasoning as the shape offset above
+        group.add(triangle);
+
+        return group;
+    };
+
+    canvases.forEach((canvas) => {
+        const isPlayButton = canvas.classList.contains('about-accent-3d--play') || canvas.classList.contains('footer-accent-3d--play');
+        const isCamera = canvas.classList.contains('about-accent-3d--camera') || canvas.classList.contains('footer-accent-3d--camera');
+        const isAsterisk = canvas.classList.contains('about-accent-3d--asterisk') || canvas.classList.contains('footer-accent-3d--asterisk');
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        const w = Math.max(canvas.clientWidth, 40);
+        const h = Math.max(canvas.clientHeight, 40);
+        renderer.setSize(w, h, false);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        // Named viewCamera (not camera) to avoid clashing with isCamera below, which
+        // refers to the camera-shaped 3D accent, not the THREE.PerspectiveCamera.
+        const viewCamera = new THREE.PerspectiveCamera(35, w / h, 0.1, 200);
+        viewCamera.position.z = 32;
+
+        // Same three-point editorial lighting as the hero's 3D title/sparkles.
+        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+        const key = new THREE.DirectionalLight(0xfff4e6, 1.2);
+        key.position.set(-30, 40, 50);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xe8eefc, 0.5);
+        fill.position.set(30, -15, 20);
+        scene.add(fill);
+        const rim = new THREE.DirectionalLight(0xffffff, 0.9);
+        rim.position.set(20, -20, -30);
+        scene.add(rim);
+
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x1a1a1a,
+            metalness: 0.85,
+            roughness: 0.16,
+            clearcoat: 1,
+            clearcoatRoughness: 0.08,
+            envMap: buildEnvMap(renderer),
+            envMapIntensity: 1.2,
+            reflectivity: 1,
+        });
+
+        // Camera and play-button shapes are each a Group of several meshes sharing one
+        // material (each needs its own Mesh instance since a Group has no single
+        // geometry of its own), while the icosahedron is still a single Mesh — mesh
+        // below refers to whichever ends up in the scene, so the rest of this function
+        // (fit-to-canvas, rotation) doesn't need to branch on which case it is.
+        let mesh;
+        if (isCamera || isPlayButton || isAsterisk) {
+            mesh = isCamera ? buildCameraGroup() : isPlayButton ? buildPlayButtonGroup() : buildAsteriskGroup();
+            mesh.traverse(child => { if (child.isMesh) child.material = material; });
+        } else {
+            const geometry = new THREE.IcosahedronGeometry(10, 0); // detail 0 = flat-faceted, not the smoothed sphere-like higher-detail version
+            mesh = new THREE.Mesh(geometry, material);
+            mesh.geometry.center();
+        }
+        scene.add(mesh);
+
+        // Fit to canvas the same way initHero3DSparkles does — scale so the mesh's
+        // bounding sphere fills ~80% of the camera's view height, independent of the
+        // geometry's own raw numbers. THREE.Box3 works for both a single Mesh and a
+        // Group (it walks all descendants), so this one path covers every shape here.
+        const box = new THREE.Box3().setFromObject(mesh);
+        const sphere = box.getBoundingSphere(new THREE.Sphere());
+        const boundRadius = sphere.radius;
+        const distance = viewCamera.position.z - mesh.position.z;
+        const viewHeight = 2 * Math.tan((viewCamera.fov * Math.PI / 180) / 2) * distance;
+        const targetRadius = (viewHeight / 2) * 0.8;
+        mesh.scale.setScalar(targetRadius / boundRadius);
+
+        let rafId = null;
+        let isVisible = false;
+        const clock = new THREE.Clock();
+        const spinSpeed = isPlayButton ? 0.18 : isCamera ? 0.2 : isAsterisk ? 0.3 : 0.24;
+
+        // Drag-to-rotate: dragOffsetY/X accumulate on top of the automatic idle spin
+        // rather than replacing it, so releasing the drag doesn't snap back to where
+        // auto-rotation "would have been" — it continues smoothly from wherever the
+        // user left it. velocityY carries hand speed into a momentum coast after
+        // release (FRICTION decay), same physics pattern as the hero carousel drag and
+        // the logo marquee drag (see initHeroCarousel/initLogoMarqueeLoop) — established
+        // site convention for "grab and spin" rather than a one-off for this element.
+        let isDragging = false;
+        let dragOffsetY = 0, dragOffsetX = 0;
+        let velocityY = 0;
+        let lastPointerX = 0, lastPointerY = 0, lastPointerTime = 0;
+        let dragMovedDistance = 0; // accumulated |dx| across the current drag gesture — distinguishes a real drag from a stray click
+        const FRICTION = 0.94;
+
+        const animate = () => {
+            const t = clock.getElapsedTime();
+            if (!isDragging) {
+                dragOffsetY += velocityY;
+                velocityY *= FRICTION;
+                if (Math.abs(velocityY) < 0.0002) velocityY = 0;
+            }
+            mesh.rotation.y = t * spinSpeed + dragOffsetY;
+            mesh.rotation.x = Math.sin(t * 0.5) * 0.35 + dragOffsetX;
+            renderer.render(scene, viewCamera);
+            rafId = requestAnimationFrame(animate);
+        };
+
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !isVisible) {
+                        isVisible = true;
+                        clock.start();
+                        animate();
+                    } else if (!entry.isIntersecting && isVisible) {
+                        isVisible = false;
+                        if (rafId !== null) {
+                            cancelAnimationFrame(rafId);
+                            rafId = null;
+                        }
+                    }
+                });
+            }, { rootMargin: '100px 0px' }).observe(canvas);
+        } else {
+            animate(); // no IntersectionObserver support — fall back to always-on rather than never rendering
+        }
+
+        // Hold-and-rotate: click/touch-drag directly on the canvas to view the model
+        // from any angle. Purely additive to the idle auto-spin (see animate() above),
+        // so it never fights or overrides the ambient motion — it just steers it. Opted
+        // out entirely for the footer marquee icons (interactive:false, see
+        // window.initFooterGSAP's call site) — those sit inside an <a> wrapping the
+        // whole marquee, and even with the stopPropagation/click-guard below, adding a
+        // drag gesture on top of a link the user expects to just click was more risk
+        // than the interaction was worth there. They stay auto-spinning only.
+        if (!interactive) return;
+
+        canvas.style.pointerEvents = 'auto'; // .about-accent-3d is pointer-events:none by default (purely decorative) — this one canvas opts back in since it's now interactive
+        canvas.style.cursor = 'grab';
+
+        const getPointerXY = (e) => {
+            const point = e.touches ? e.touches[0] : e;
+            return { x: point.clientX, y: point.clientY };
+        };
+
+        const onDragStart = (e) => {
+            isDragging = true;
+            velocityY = 0;
+            dragMovedDistance = 0;
+            canvas.style.cursor = 'grabbing';
+            const p = getPointerXY(e);
+            lastPointerX = p.x;
+            lastPointerY = p.y;
+            lastPointerTime = performance.now();
+            // Some of these canvases (the footer marquee icons — see initFooterAccent3D
+            // call site) sit inside an <a> wrapping the entire marquee for the "Let's
+            // Chat" link. Without stopping propagation here, starting a drag on the
+            // icon also starts a click-drag gesture on that anchor, and depending on
+            // browser/OS a mouseup anywhere within it can still fire as a navigating
+            // click — this keeps the drag gesture from ever reaching the link at all.
+            e.stopPropagation();
+        };
+        const onDragMove = (e) => {
+            if (!isDragging) return;
+            const p = getPointerXY(e);
+            const now = performance.now();
+            const dt = Math.max(now - lastPointerTime, 1);
+            const dx = p.x - lastPointerX;
+            const dy = p.y - lastPointerY;
+            dragMovedDistance += Math.abs(dx) + Math.abs(dy);
+            dragOffsetY += dx * 0.012;
+            dragOffsetX = Math.max(-1, Math.min(1, dragOffsetX + dy * 0.008)); // clamped so it can't be dragged into an upside-down/disorienting flip
+            velocityY = (dx * 0.012 / dt) * 16.7; // normalized to a ~60fps-equivalent per-frame value, same as the hero carousel/marquee drag
+            lastPointerX = p.x;
+            lastPointerY = p.y;
+            lastPointerTime = now;
+        };
+        const onDragEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            canvas.style.cursor = 'grab';
+        };
+
+        canvas.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', onDragEnd);
+        canvas.addEventListener('touchstart', onDragStart, { passive: true });
+        window.addEventListener('touchmove', onDragMove, { passive: true });
+        window.addEventListener('touchend', onDragEnd);
+        // Same stuck-drag safety net as the logo marquee (initLogoMarqueeLoop) — if the
+        // pointer leaves the window entirely mid-drag, no mouseup fires on window.
+        window.addEventListener('blur', onDragEnd);
+        // A genuine drag (moved a real distance, not just a stray sub-pixel jitter on
+        // mousedown) shouldn't also register as a click on this canvas — matters when
+        // the canvas sits inside an <a> (the footer marquee icons), where a click would
+        // otherwise navigate right as the user was just trying to rotate the model.
+        canvas.addEventListener('click', (e) => {
+            if (dragMovedDistance > 4) e.stopPropagation();
+        }, true);
+    });
 }
 
 /**
@@ -1933,13 +2385,19 @@ function initHeroCarousel() {
 /**
  * Pins the hero section in place while #content-reveal (everything below it: Site Essence
  * through FAQ) scrolls up to cover it, instead of the hero scrolling away like a normal
- * section. Enabled on all screen sizes (previously desktop-only) — the hero is now a
- * full-viewport (100dvh) section on mobile too, so the pin effect reads the same way.
+ * section. Desktop/large-tablet only (>=992px) — below that, .hero-playground-section is
+ * `position: static; height: auto` (see css/style.css, the 991px and 767px breakpoints),
+ * so pinning it there fights the CSS and was the cause of the gap/stutter right at the
+ * hero-to-essence transition on phones and small tablets: ScrollTrigger's pin math assumes
+ * a fixed-height, positioned element, and toggling a static/auto-height one to `fixed`
+ * markup mid-scroll produced exactly that visible seam and jank. Below 992px the sections
+ * now just stack and scroll normally, which is also lighter on mobile GPUs.
  */
 function initHeroRevealPin() {
     const hero = document.querySelector('.hero-playground-section');
     const reveal = document.getElementById('content-reveal');
     if (!hero || !reveal || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (!window.matchMedia('(min-width: 992px)').matches) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -2321,56 +2779,69 @@ function initAboutIntroPlayer() {
 
     if (watchLabel && canHover) {
         let targetX = 0, targetY = 0, currentX = 0, currentY = 0, rafId = null;
+        let hasPositioned = false; // true once the first mousemove has set a real target
         const LERP_FACTOR = 0.18; // lower = laggier/smoother trail, higher = snappier
         const MAX_TILT = 8; // label sway, degrees at top speed — subtle, not a big swing
         const MAX_SCALE_BOOST = 0.06; // label grow, +6% at top speed — barely-there
-        const VELOCITY_SETTLE = 0.05; // px/frame below which velocity is treated as "stopped"
 
+        // Runs continuously for the entire time the cursor is over the trigger, not
+        // just until the label "settles" — the previous version stopped the rAF loop
+        // once velocity dropped near zero (rafId = null), so the *next* mousemove event
+        // hit the "loop not running" branch and snapped currentX/Y straight to the new
+        // target instead of continuing to lerp from wherever the label actually was.
+        // That snap-after-any-pause is what read as stiff/kaku — any brief stop-then-move
+        // (completely normal cursor behavior) broke the smoothing. Keeping one continuous
+        // loop alive means every frame, moving or paused, always lerps toward the latest
+        // target — never a hard jump.
         const animate = () => {
             const prevX = currentX;
             currentX += (targetX - currentX) * LERP_FACTOR;
             currentY += (targetY - currentY) * LERP_FACTOR;
 
             const velocityX = currentX - prevX; // px this frame, signed by direction
-            const settled = Math.abs(targetX - currentX) < 0.1 && Math.abs(targetY - currentY) < 0.1 && Math.abs(velocityX) < VELOCITY_SETTLE;
 
             if (watchLabel) {
                 // Offset down-right of the raw cursor position so the label never sits
                 // directly under the OS cursor icon — centered-on-cursor was getting
                 // visually blocked by the pointer itself.
                 const speed = Math.min(Math.abs(velocityX) / 14, 1); // 0-1, needs a genuinely fast move to saturate
-                const tilt = settled ? 0 : Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
-                const scale = settled ? 1 : 1 + speed * MAX_SCALE_BOOST;
+                const tilt = Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
+                const scale = 1 + speed * MAX_SCALE_BOOST;
                 watchLabel.style.left = `${currentX + 18}px`;
                 watchLabel.style.top = `${currentY + 22}px`;
                 watchLabel.style.setProperty('--tilt', `${tilt.toFixed(2)}deg`);
                 watchLabel.style.setProperty('--scale', scale.toFixed(3));
             }
 
-            if (!settled) {
-                rafId = requestAnimationFrame(animate);
-            } else {
-                if (watchLabel) {
-                    watchLabel.style.setProperty('--tilt', '0deg');
-                    watchLabel.style.setProperty('--scale', '1');
-                }
-                rafId = null;
-            }
+            rafId = requestAnimationFrame(animate);
         };
 
         trigger.addEventListener('mousemove', (e) => {
             const rect = trigger.getBoundingClientRect();
             targetX = e.clientX - rect.left;
             targetY = e.clientY - rect.top;
-            if (rafId === null) {
-                // First move after being idle: snap the current position to the target
-                // immediately so nothing visibly flies in from wherever it last stopped.
+            if (!hasPositioned) {
+                // Very first move over the trigger: snap so nothing flies in from a
+                // stale 0,0 — this is the one legitimate case for a hard jump.
                 currentX = targetX;
                 currentY = targetY;
+                hasPositioned = true;
+            }
+            if (rafId === null) {
                 rafId = requestAnimationFrame(animate);
             }
         });
 
+        trigger.addEventListener('mouseleave', () => {
+            // Stop the loop once the cursor actually leaves — no reason to keep writing
+            // transforms every frame for a label that's invisible again (opacity is
+            // handled by the :hover CSS rule). hasPositioned stays true so re-entering
+            // resumes lerping toward the new position instead of re-snapping.
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        });
     }
 }
 

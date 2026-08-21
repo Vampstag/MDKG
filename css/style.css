@@ -2287,6 +2287,7 @@ html.lenis, html.lenis body { height: auto; }
    be the right column here but now lives in its own full-bleed section below (see
    .about-showreel-section), so this grid is purely editorial copy on both sides. */
 .about-intro-grid {
+    position: relative; /* Anchors .about-accent-3d--torus (absolute) directly to the grid, independent of .about-intro-note's own padding-top */
     display: grid;
     grid-template-columns: 1fr;
     gap: 48px;
@@ -2317,10 +2318,13 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (min-width: 992px) {
     .about-intro-note {
-        /* Nudges the note down to roughly align its first line with the headline's
-           own optical middle, rather than both columns starting flush at the top —
-           reads more like an intentional pairing than two unrelated blocks. */
-        padding-top: 12px;
+        /* Drops the right column clearly below the headline's own block, instead of
+           both columns beginning flush at the top — an intentional stair-step offset
+           for a more editorial, less "two boxes side by side" feel. Sized generously
+           enough (well past the headline's own ~3-4 line height at this column width)
+           that the note starts under the headline at every viewport in this range, not
+           just lining up with it partway down. */
+        padding-top: 320px;
     }
 }
 
@@ -2335,6 +2339,12 @@ html.lenis, html.lenis body { height: auto; }
 
 .about-intro-note__body .about-paragraph {
     max-width: 42ch;
+    /* Smaller and lighter than .about-paragraph's usual size/color — this note is meant
+       to read as a quiet aside beneath the headline, not a second block of body copy
+       competing with it. */
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    color: #888;
+    line-height: 1.65;
 }
 
 /* Sits above the video, receives every pointer event so mousemove/click always reach
@@ -2435,7 +2445,11 @@ html.lenis, html.lenis body { height: auto; }
     width: 100%;
     overflow: hidden;
     margin-top: var(--space-20);
-    margin-bottom: var(--space-32);
+    /* Wider than the site's standard .section-margin (128px) — this section is a
+       full-bleed dark video strip, so the transition into the next (light) section
+       reads as noticeably tighter than the same gap between two ordinary light
+       sections, even at an identical pixel value. */
+    margin-bottom: 190px;
 }
 
 @media (max-width: 767px) {
@@ -2507,6 +2521,7 @@ html.lenis, html.lenis body { height: auto; }
    creating at..." — a quiet three-column line, not a full section, so it reads as a
    caption beneath the intro rather than competing with it for attention. */
 .about-facts-strip {
+    position: relative; /* Anchors .about-accent-3d--torus (absolute) to this section */
     border-top: 1px solid #F0F0F0;
     padding-top: 32px;
     padding-bottom: 32px;
@@ -2530,6 +2545,59 @@ html.lenis, html.lenis body { height: auto; }
     align-items: center;
     gap: 16px;
     text-align: center;
+}
+
+/* Abstract 3D accents (see initAboutAccent3D in script.js) — small, quiet WebGL
+   geometry filling otherwise-empty whitespace around the About text, rather than
+   leaving it blank. Desktop only: at this size on a phone screen they'd either crowd
+   the text or need to shrink so far they'd read as visual noise, not an accent, so
+   they're hidden below the same 992px breakpoint the rest of this two-column layout
+   switches at. */
+.about-accent-3d {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .about-accent-3d {
+        display: block;
+        /* Decorative by default — but initAboutAccent3D (script.js) re-enables pointer
+           events on the canvas itself via inline style so it can be grabbed and
+           rotated, since these sit in the grid's own empty gap rather than overlapping
+           any text this would otherwise need to stay click-through for. */
+        pointer-events: none;
+    }
+
+    /* Both accents sit in the empty gap BETWEEN the two text columns (not attached to
+       either column's own text — every earlier attempt to anchor one to a column ended
+       up shoving that column's text over or landing the geometry somewhere that read as
+       randomly stranded next to unrelated copy). Positioned by percentage across the
+       whole grid: the left column is 1.3fr of a 2.3fr total (1.3fr + 1fr), so ~56%
+       marks roughly where that column ends and the gap begins. */
+    .about-accent-3d--play {
+        position: absolute;
+        top: 100px;
+        left: 68%;
+        width: 130px;
+        height: 130px;
+    }
+
+    /* Sits inside .about-facts-col--center's own normal flow (that column is already
+       position:absolute + centered — see below — so this doesn't need its own absolute
+       positioning like --play/--camera above, which anchor to a different, unrelated
+       parent (.about-intro-grid) entirely). */
+    .about-accent-3d--asterisk {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+    }
+
+    .about-accent-3d--camera {
+        position: absolute;
+        top: 320px;
+        left: 24%;
+        width: 160px;
+        height: 160px;
+    }
 }
 
 .about-facts-col--left,
@@ -2642,6 +2710,15 @@ html.lenis, html.lenis body { height: auto; }
     .about-facts-marker {
         font-size: 1.8rem;
         font-weight: 800;
+    }
+}
+
+@media (min-width: 992px) {
+    /* The 3D asterisk (see .about-accent-3d--asterisk below) takes over from the flat
+       text glyph at this breakpoint — same cutoff every other .about-accent-3d in this
+       section already uses, so this stays visually in sync with the others. */
+    .about-facts-marker {
+        display: none;
     }
 }
 
@@ -2889,17 +2966,34 @@ html.lenis, html.lenis body { height: auto; }
     cursor: default;
 }
 .work-card.is-ongoing .work-card__image {
-    /* Base crop (not from hover) — the Bocelli source photo has empty headroom above
-       the subject that object-fit:cover alone doesn't crop tightly enough at this
-       card's aspect ratio, showing as a gap of background above his hair. This sits
-       UNDER the shared .work-card:hover scale(1.03) below (same rule, same selector
-       specificity — the two combine on hover) rather than replacing it, so the Ken
-       Burns hover-zoom stays identical across every featured card, locked or not,
-       instead of this card silently opting out of the shared motion language. */
-    transform: scale(1.08);
+    /* This card is now the featured grid's full-width lead (see .work-cards-grid--featured
+       .work-card:nth-child(1) in index.html/style.css) — a much wider, shorter crop
+       window than the narrow card this was originally tuned for. The old scale(1.08)
+       was sized for that narrower box and, stretched across the new wide aspect ratio,
+       pushed the subject's face up and out of frame. object-position keeps the actual
+       subject (face, not body) centered in whatever the wide crop shows; the smaller
+       scale is enough headroom-trim without the aggressive crop the narrow layout needed. */
+    transform: scale(1.02);
+    /* Pulled further up (10% not 20%) — the featured card's container is much wider
+       than tall (~2.4:1), so object-fit:cover crops from the top and bottom first;
+       the subject's face/shoulders were still landing too low and getting cut at the
+       bottom edge. */
+    object-position: 50% 10%;
 }
 .work-card.is-ongoing:hover .work-card__image {
-    transform: scale(1.08) scale(1.015);
+    transform: scale(1.02) scale(1.015);
+}
+/* Pre-cropped source (card-featured-bocelli.webp), shot/cropped specifically at this
+   card's own ~2.5:1 aspect ratio — the scale/object-position hacks above were only
+   ever needed to compensate for a photo that wasn't sized for this container in the
+   first place. With a purpose-built crop, plain cover at the image's natural framing
+   is correct; the workaround values would just re-introduce the mismatch they fixed. */
+.work-card.is-ongoing .work-card__image--precropped {
+    transform: none;
+    object-position: 50% 50%;
+}
+.work-card.is-ongoing:hover .work-card__image--precropped {
+    transform: scale(1.015);
 }
 /* #region 25. REFACTORED WORK CARD */
 /* =========================================
@@ -3193,7 +3287,7 @@ html.lenis, html.lenis body { height: auto; }
    26. HERO PLAYGROUND (APPLE STYLE)
    ========================================= */
 .hero-playground-section {
-    position: relative; /* GSAP ScrollTrigger (pin:true, see initHeroRevealPin in script.js) takes over positioning at runtime on desktop */
+    position: relative; /* GSAP ScrollTrigger (pin:true, see initHeroRevealPin in script.js) takes over positioning at runtime — desktop/large-tablet only (>=992px), guarded in JS */
     width: 100%;
     height: 100vh; /* Full viewport height */
     min-height: 700px;

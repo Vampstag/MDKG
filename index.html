@@ -11,13 +11,13 @@
              the race before #preloader's first paint. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        <title>M. Dimas K. G. | Brand Creative in Video, Brand & Web</title>
-        <meta content="Bandung-based creative working across video, brand, and web. I start with who's watching and how we want them to feel, then build the craft — from a single edit to a full brand system — around that." name="description"/>
-        <meta content="M. Dimas K. G. | Brand Creative in Video, Brand & Web" property="og:title"/>
-        <meta content="Bandung-based creative working across video, brand, and web. I start with who's watching and how we want them to feel, then build the craft — from a single edit to a full brand system — around that." property="og:description"/>
+        <title>M. Dimas K. G. | Visual Creative</title>
+        <meta content="Bandung-based visual creative working across video, photography, and design. I start with who's watching and how we want them to feel, then build the craft around that." name="description"/>
+        <meta content="M. Dimas K. G. | Visual Creative" property="og:title"/>
+        <meta content="Bandung-based visual creative working across video, photography, and design. I start with who's watching and how we want them to feel, then build the craft around that." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
-        <meta content="M. Dimas K. G. | Brand Creative in Video, Brand & Web" property="twitter:title"/>
-        <meta content="Bandung-based creative working across video, brand, and web. I start with who's watching and how we want them to feel, then build the craft — from a single edit to a full brand system — around that." property="twitter:description"/>
+        <meta content="M. Dimas K. G. | Visual Creative" property="twitter:title"/>
+        <meta content="Bandung-based visual creative working across video, photography, and design. I start with who's watching and how we want them to feel, then build the craft around that." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
         <meta property="og:type" content="website"/>
         <meta content="summary_large_image" name="twitter:card"/>
@@ -59,10 +59,10 @@
           "@type": "Person",
           "name": "M. Dimas K. G.",
           "alternateName": "Dimas",
-          "jobTitle": "Brand Creative",
+          "jobTitle": "Visual Creative",
           "url": "https://hellodimas.my.id",
           "image": "https://hellodimas.my.id/assets/images/open-graphimage.png",
-          "description": "Bandung-based creative working across video, brand, and web, building craft around who's watching and how they should feel.",
+          "description": "Bandung-based visual creative working across video, photography, and design, building craft around who's watching and how they should feel.",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Bandung",
@@ -128,7 +128,7 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css?v=87">
+        <link rel="stylesheet" href="css/style.css?v=92">
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -318,10 +318,11 @@
     <!-- 1. Performance: Preload LCP Image -->
     <link rel="preload" as="image" href="assets/images/home/dimas4.webp" fetchpriority="high">
 
-    <!-- 2. Performance: Preload Showreel Video -->
-    <link rel="preload" as="video" href="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm" fetchpriority="high">
-    <!-- 3. Performance: Preload Poster Image -->
-    <link rel="preload" as="image" href="assets/images/project/torch/poster_showreel_torchxgundam.webp" fetchpriority="high">
+    <!-- Showreel video/poster are intentionally NOT preloaded here — they're below-the-fold
+         (About section) and the showreel <video> already declares preload="metadata", so it
+         only fetches metadata until it scrolls into view / plays. Forcing them via
+         fetchpriority="high" link preload competed with the LCP image and fonts for
+         bandwidth on first paint, which is what made mobile feel heavy on load. -->
 
     </head>
     <body class="body-2">
@@ -350,13 +351,13 @@
                         
                         <!-- LAYER 1: Static Text (Background) -->
                         <div class="hero-static-layer">
-                            <!-- [NEW] 3D title canvas: initHero3DTitle() in script.js renders "Brand Creative"
+                            <!-- [NEW] 3D title canvas: initHero3DTitle() in script.js renders "Visual Creative"
                                  as real extruded WebGL geometry here and hides the h1 below once it succeeds.
                                  The h1 stays in the DOM as the accessible/SEO text and as the fallback for
                                  browsers without WebGL support — see the try/catch guard in that function. -->
                             <canvas id="hero-3d-title-canvas" class="hero-3d-title-canvas" aria-hidden="true"></canvas>
                             <h1 class="hero-huge-title">
-                                Brand<br>Creative
+                                Visual<br>Creative
                             </h1>
                         </div>
 
@@ -451,6 +452,15 @@
                                 <p class="about-facts-line">Based in Bandung</p>
                             </div>
                             <div class="about-facts-col about-facts-col--center">
+                                <!-- 3D asterisk (real WebGL geometry — same chrome/metalness
+                                     material language as the other 3D accents on this page,
+                                     see initAboutAccent3D in script.js) replaces the flat "*"
+                                     text character this used to be. Below 992px .about-accent-3d
+                                     hides entirely and this falls back to the plain glyph, same
+                                     pattern as every other 3D accent on this page (no separate
+                                     fallback element needed — CSS below just un-hides the text
+                                     marker at that breakpoint instead). -->
+                                <canvas class="about-accent-3d about-accent-3d--asterisk" aria-hidden="true"></canvas>
                                 <span class="about-facts-marker">*</span>
                             </div>
                             <div class="about-facts-col about-facts-col--right">
@@ -483,6 +493,15 @@
                                         </p>
                                     </div>
                                 </div>
+                                <!-- Small abstract 3D accents (real WebGL geometry — same
+                                     chrome/metalness material language as the hero's 3D
+                                     title/sparkles, see initAboutAccent3D in script.js), placed
+                                     in the empty gap BETWEEN the two text columns rather than
+                                     attached to either one's own text — anchored directly to
+                                     .about-intro-grid (position:relative there) and positioned
+                                     by percentage, independent of both columns' internal layout. -->
+                                <canvas class="about-accent-3d about-accent-3d--play" aria-hidden="true"></canvas>
+                                <canvas class="about-accent-3d about-accent-3d--camera" aria-hidden="true"></canvas>
                             </div>
                         </section>
                     </div>
@@ -535,10 +554,28 @@
                                 </div>
                             </div>
                             <!-- 2. Refactored Latest Work Section — asymmetric featured pair: lead card
-                                 (Torch x Gundam) wider/taller, second (Andrea Bocelli, on-going) narrower.
+                                 (Andrea Bocelli, on-going) wider/taller, second (Torch x Gundam) narrower.
                                  Hover-dim between the two is handled purely in CSS via
                                  .work-cards-grid--featured:has(.work-card:hover). -->
                             <div class="work-cards-grid work-cards-grid--featured">
+                            <div class="work-card is-ongoing">
+                                <div class="work-card__image-wrapper" style="background-image: url('assets/images/project/andrea-bocelli/card-featured-bocelli.webp'); background-size: cover; background-position: center;">
+                                    <img src="assets/images/project/andrea-bocelli/card-featured-bocelli.webp" alt="Andrea Bocelli — Romanza World Tour Indonesia" class="work-card__image work-card__image--precropped" loading="lazy" decoding="async">
+                                    <div class="ongoing-badge">ON-GOING</div>
+                                    <div class="work-card__overlay">
+                                        <div class="work-card__metrics">
+                                            <div class="metric-tag">Romanza 30th Anniversary World Tour</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="work-card__info">
+                                    <h3 class="work-card__title">Andrea Bocelli</h3>
+                                    <div class="work-card__cta">
+                                        <span>On-going Project</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
                             <a href="/portfolio/torch-x-gundam" class="work-card">
                                 <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
                                     <img src="assets/images/project/torch/torch-model-backpack.webp" alt="Torch x Gundam" class="work-card__image" loading="lazy" decoding="async">
@@ -560,24 +597,6 @@
                                     </div>
                                 </div>
                             </a>
-                            <div class="work-card is-ongoing">
-                                <div class="work-card__image-wrapper" style="background-image: url('assets/images/project/andrea-bocelli/romanza-main-hero.webp'); background-size: cover; background-position: center;">
-                                    <img src="assets/images/project/andrea-bocelli/romanza-main-hero.webp" alt="Andrea Bocelli — Romanza World Tour Indonesia" class="work-card__image" loading="lazy" decoding="async">
-                                    <div class="ongoing-badge">ON-GOING</div>
-                                    <div class="work-card__overlay">
-                                        <div class="work-card__metrics">
-                                            <div class="metric-tag">Romanza 30th Anniversary World Tour</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="work-card__info">
-                                    <h3 class="work-card__title">Andrea Bocelli</h3>
-                                    <div class="work-card__cta">
-                                        <span>On-going Project</span>
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                    </div>
-                                </div>
-                            </div>
                             <a href="/portfolio/torch-prestachill" class="work-card">
                                 <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
                                     <img src="assets/images/project/torch-prestachill/prestachill-main-model.webp" alt="Torch Prestachill" class="work-card__image" loading="lazy" decoding="async">
@@ -783,7 +802,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=33"></script>
+        <script defer src="script.js?v=35"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.3"></script>
         <script>
