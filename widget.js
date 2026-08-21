@@ -11,7 +11,7 @@ const widgetConfig = {
     initialVolume: 0.4,                   // Volume awal (0.0 sampai 1.0)
     
     // CACHE BUSTER: Ubah angka ini (misal ke '1.1') setiap kali kamu mengganti file mp3 agar browser otomatis memuat lagu baru.
-    audioVersion: '1.0',
+    audioVersion: '1.1',
     
     // DAFTAR LAGU (PLAYLIST)
     // Tambahkan lagu baru dengan format: { src: 'file.mp3', title: 'Judul', artist: 'Band', cover: 'gambar.jpg' },
@@ -19,8 +19,14 @@ const widgetConfig = {
         { src: 'audio/bgmusic.mp3', title: 'Smells Like Teen Spirit', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
         { src: 'audio/bgmusic2.mp3', title: 'Come As You Are', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
         { src: 'audio/bgmusic3.mp3', title: 'Something In The Way', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        // Lagu baru yang ke-4 ditambahkan di bawah ini (Ganti gambar dan teksnya sesuai kebutuhan)
-        { src: 'audio/bgmusic4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' }
+        { src: 'audio/bgmusic4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        // [TODO] Feast — slot disiapkan, file mp3 & cover BELUM ada. Taruh file mp3 di
+        // audio/ (mis. audio/feast-tarot.mp3) dan cover di assets/images/ (mis.
+        // assets/images/cover-feast.webp), lalu ganti src/cover di bawah ini agar match.
+        { src: 'audio/feast-tarot.mp3', title: 'Tarot', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'audio/feast-arteri.mp3', title: 'Arteri', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'audio/feast-kami-belum-tentu.mp3', title: 'Kami Belum Tentu', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'audio/feast-o-tuan.mp3', title: 'O, Tuan', artist: 'Feast', cover: 'assets/images/cover-feast.webp' }
     ]
 };
 //#endregion
@@ -102,143 +108,11 @@ class MdkgWidget {
         this.initMusicPlayer();
         this.initScrollBehavior();
         this.initMagneticButton();
-        this.initUISound();
     }
 
-    // --- [NEW] Feature: Minimal UI Sound Design ---
-    // Off by default (localStorage-persisted). No audio files — everything is synthesized
-    // with Web Audio, but rebuilt away from a bare sine oscillator (which reads as a harsh
-    // "digital beep" — a pure sine at audible UI frequencies has none of the softness real
-    // tactile sound design relies on). Each tick now layers a short filtered-noise "breath"
-    // under a soft sine body, low-pass filtered, with per-play randomization of pitch/timing
-    // and a distinct character per element type — so it's varied and textured rather than
-    // one identical blip repeated everywhere.
-    initUISound() {
-        const toggle = document.querySelector('.mdkg-ui-sound-toggle');
-        if (!toggle) return;
-
-        let enabled = localStorage.getItem('mdkg_ui_sound') === 'true';
-        let audioCtx = null;
-        let noiseBuffer = null;
-
-        const ensureCtx = () => {
-            if (!audioCtx) {
-                const Ctx = window.AudioContext || window.webkitAudioContext;
-                if (Ctx) audioCtx = new Ctx();
-            }
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        };
-
-        // A short buffer of white noise, reused across every play — filtered per-play
-        // rather than regenerated, since generating fresh noise per tick is wasted work.
-        const getNoiseBuffer = (ctx) => {
-            if (noiseBuffer) return noiseBuffer;
-            const length = ctx.sampleRate * 0.15;
-            noiseBuffer = ctx.createBuffer(1, length, ctx.sampleRate);
-            const data = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
-            return noiseBuffer;
-        };
-
-        // rand(a, b): small helper for per-play variation so repeated ticks of the same
-        // kind never sound perfectly identical, the way a physical switch never does.
-        const rand = (a, b) => a + Math.random() * (b - a);
-
-        /**
-         * Plays one soft, muffled tick — a low sine body (rounded further by a low low-pass
-         * cutoff and a gentle attack) with a very quiet, dark-filtered noise breath underneath
-         * for texture. No bright noise band and no fundamental above ~500Hz survives the
-         * filtering, which is what keeps this from reading as a "digital beep." baseFreq/
-         * noiseTone/duration/peak define the tick's character; each is nudged randomly per
-         * play within a small range for natural variation.
-         */
-        const playTick = ({ baseFreq, noiseTone, duration, peak }) => {
-            const ctx = ensureCtx();
-            if (!ctx) return;
-            const now = ctx.currentTime;
-            const freq = baseFreq * rand(0.96, 1.04);
-            const dur = duration * rand(0.9, 1.1);
-
-            // Sine body: low-pass cutoff sits just above the fundamental (not 2.2x it),
-            // so only the round low end survives — no edge, no upper harmonics.
-            const osc = ctx.createOscillator();
-            const oscFilter = ctx.createBiquadFilter();
-            const oscGain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now);
-            oscFilter.type = 'lowpass';
-            oscFilter.frequency.setValueAtTime(freq * 1.15, now);
-            oscFilter.Q.value = 0.3;
-            oscGain.gain.setValueAtTime(0, now);
-            oscGain.gain.linearRampToValueAtTime(peak, now + 0.018);
-            oscGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-            osc.connect(oscFilter);
-            oscFilter.connect(oscGain);
-            oscGain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + dur + 0.02);
-
-            // Noise breath: a dark, heavily low-passed (not bandpassed) whisper of texture,
-            // much quieter than the sine body, just enough to feel tactile rather than tonal.
-            const noise = ctx.createBufferSource();
-            noise.buffer = getNoiseBuffer(ctx);
-            const noiseFilter = ctx.createBiquadFilter();
-            const noiseGain = ctx.createGain();
-            noiseFilter.type = 'lowpass';
-            noiseFilter.frequency.setValueAtTime(noiseTone * rand(0.9, 1.1), now);
-            noiseFilter.Q.value = 0.4;
-            noiseGain.gain.setValueAtTime(0, now);
-            noiseGain.gain.linearRampToValueAtTime(peak * 0.22, now + 0.01);
-            noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 0.4);
-            noise.connect(noiseFilter);
-            noiseFilter.connect(noiseGain);
-            noiseGain.connect(ctx.destination);
-            noise.start(now);
-            noise.stop(now + dur * 0.4 + 0.02);
-        };
-
-        // Distinct, subtle character per element type — variety instead of one tick
-        // reused everywhere, but all sharing the same soft/muffled "premium" quality.
-        // Frequencies pulled well down from the original (720/480/340/560Hz) into a
-        // rounder, lower range, with much quieter peaks and a dark noise texture.
-        const TICKS = {
-            hoverLink: { baseFreq: 320, noiseTone: 900, duration: 0.06, peak: 0.012 },
-            hoverCard: { baseFreq: 240, noiseTone: 700, duration: 0.08, peak: 0.014 },
-            click: { baseFreq: 200, noiseTone: 600, duration: 0.1, peak: 0.02 },
-            enable: { baseFreq: 260, noiseTone: 800, duration: 0.12, peak: 0.028 },
-        };
-
-        const updateToggleUI = () => {
-            toggle.setAttribute('aria-pressed', String(enabled));
-            toggle.classList.toggle('is-active', enabled);
-        };
-        updateToggleUI();
-
-        toggle.addEventListener('click', () => {
-            enabled = !enabled;
-            localStorage.setItem('mdkg_ui_sound', String(enabled));
-            updateToggleUI();
-            if (enabled) { ensureCtx(); playTick(TICKS.enable); } // confirmation blip on enable
-        });
-
-        // Delegated so it covers content injected after this runs (case-study video players,
-        // bento cards, etc) without needing a listener registered per element.
-        document.addEventListener('mouseover', (e) => {
-            if (!enabled) return;
-            if (e.target.closest('.bento-item, .drag-item')) {
-                playTick(TICKS.hoverCard);
-            } else if (e.target.closest('a, button')) {
-                playTick(TICKS.hoverLink);
-            }
-        });
-        document.addEventListener('click', (e) => {
-            if (!enabled) return;
-            if (e.target.closest('a, button')) {
-                playTick(TICKS.click);
-            }
-        });
-    }
+    // NOTE: the old initUISound() (synthesized hover/click tick sounds, toggle button)
+    // has been removed per explicit request — the feature and its toggle button are gone,
+    // not just disabled.
 
     // --- [NEW] Fungsi Lightbox Cover ---
     showLightbox(src) {
@@ -321,7 +195,7 @@ class MdkgWidget {
                     </svg>
                 </div>
                 <div class="mdkg-player-content">
-                    <span class="mdkg-player-text">PLAY</span>
+                    <span class="mdkg-player-text"></span>
                     <!-- [NEW] Track Info (Judul & Band) -->
                     <div class="mdkg-track-info">
                         <span class="mdkg-track-title">Title</span>
@@ -340,12 +214,25 @@ class MdkgWidget {
                         <line x1="19" y1="5" x2="19" y2="19"></line>
                     </svg>
                 </div>
-                <!-- [NEW] UI Sound Toggle: micro-sounds on hover/click across the site, off by default -->
-                <button class="mdkg-ui-sound-toggle" title="Toggle interface sounds" aria-pressed="false">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
-                    </svg>
-                </button>
+                <!-- [NEW] Playlist Toggle: back in the player (moved out to the navbar and
+                     back per feedback). Uses the same .nav-playlist-btn/.nav-playlist-panel
+                     classes as before the move — initMusicPlayer() in this file already
+                     handles multiple instances of these (it used to support a desktop nav
+                     button + a mobile nav button), so this is just a third instance, no JS
+                     changes needed. -->
+                <div class="mdkg-player-playlist-wrapper">
+                    <button type="button" class="nav-playlist-btn" title="Playlist" aria-expanded="false" aria-haspopup="listbox">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="nav-playlist-panel nav-playlist-panel--player" role="listbox" aria-label="Playlist"></div>
+                </div>
             </div>
         `;
     }
@@ -496,7 +383,7 @@ class MdkgWidget {
                     coverImg.src = track.cover;
                 }
             };
-            
+
             // Load UI awal
             updateTrackMetadata();
 
@@ -533,7 +420,7 @@ class MdkgWidget {
                     if (iconPlaying) iconPlaying.style.display = 'block';
                 } else {
                     player.classList.remove('playing');
-                    if (text) { text.innerText = "PAUSED"; }
+                    if (text) { text.innerText = ""; }
                     if (iconMuted) iconMuted.style.display = 'block';
                     if (iconPlaying) iconPlaying.style.display = 'none';
                 }
@@ -542,6 +429,7 @@ class MdkgWidget {
             // Play/Pause Toggle
             player.addEventListener('click', (e) => {
                 if (e.target.closest('.mdkg-next-btn')) return; // Ignore next button clicks
+                if (e.target.closest('.nav-playlist-btn') || e.target.closest('.nav-playlist-panel')) return; // Ignore playlist toggle/panel clicks
 
                 // [NEW] Jika piringan diklik, buka Lightbox (bukan play/pause)
                 if (e.target.closest('.mdkg-player-cover') && !audio.paused) {
@@ -560,6 +448,25 @@ class MdkgWidget {
                 }
             });
 
+            // [NEW] Jump to an arbitrary track (used by both the playlist panel and, as
+            // its (index+1)%length case, the Next button below) instead of only ever
+            // stepping forward one at a time.
+            const selectTrack = (index) => {
+                this.currentTrackIndex = index;
+                localStorage.setItem('mdkg_last_track_index', this.currentTrackIndex); // Save to localStorage
+
+                updateTrackMetadata(); // Update Teks & Gambar di UI dulu
+                renderPlaylistPanel(); // Refresh highlight ke lagu yang baru aktif
+
+                audio.src = this.playlist[this.currentTrackIndex].src;
+                audio.preload = "auto"; // User sudah berinteraksi, aman untuk diload
+                audio.load(); // [FIX] Wajib dipanggil untuk Safari iOS agar src baru dikenali
+                audio.play().then(() => {
+                    isUserPaused = false;
+                    updateUI(true);
+                }).catch(e => console.error("Track switch failed:", e));
+            };
+
             // Next Track Logic
             const playNext = () => {
                 // Fitur Loop: Jika cuma 1 lagu, tombol Next akan me-replay lagu dari awal
@@ -571,23 +478,73 @@ class MdkgWidget {
                     }).catch(e => console.error("Replay failed:", e));
                     return;
                 }
-                
-                this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
-                localStorage.setItem('mdkg_last_track_index', this.currentTrackIndex); // Save to localStorage
-                
-                updateTrackMetadata(); // Update Teks & Gambar di UI dulu
-                
-                audio.src = this.playlist[this.currentTrackIndex].src;
-                audio.preload = "auto"; // User sudah klik interaksi next, aman untuk diload
-                audio.load(); // [FIX] Wajib dipanggil untuk Safari iOS agar src baru dikenali
-                audio.play().then(() => {
-                    isUserPaused = false;
-                    updateUI(true);
-                }).catch(e => console.error("Next track failed:", e));
+
+                selectTrack((this.currentTrackIndex + 1) % this.playlist.length);
             };
 
             if (nextBtn) nextBtn.addEventListener('click', playNext);
-            
+
+            // --- Playlist Panel ---
+            // [NEW] Lives in the navbar (see navbar.html, .nav-playlist-btn/.nav-playlist-panel),
+            // not inside the floating player — moved out so the player itself stays compact.
+            // Two instances exist in the DOM (desktop CTA row + mobile menu overlay, same
+            // pattern as the two "Let's Talk" buttons) since only one is visible at a given
+            // viewport width via CSS breakpoints, not JS — so every operation here targets
+            // ALL matches, not just the first. The navbar itself is also injected async
+            // (loadNavbar() in script.js, separate from this widget's own init), so these
+            // queries can legitimately return nothing if it hasn't landed yet.
+            const getPlaylistPanels = () => document.querySelectorAll('.nav-playlist-panel');
+            const getPlaylistBtns = () => document.querySelectorAll('.nav-playlist-btn');
+
+            const renderPlaylistPanel = () => {
+                const itemsHtml = this.playlist.map((track, index) => `
+                    <button type="button" class="nav-playlist-item${index === this.currentTrackIndex ? ' is-active' : ''}" data-index="${index}" role="option" aria-selected="${index === this.currentTrackIndex}">
+                        <span class="nav-playlist-item-title">${track.title}</span>
+                        <span class="nav-playlist-item-artist">${track.artist}</span>
+                    </button>
+                `).join('');
+                getPlaylistPanels().forEach((panel) => { panel.innerHTML = itemsHtml; });
+            };
+            renderPlaylistPanel();
+
+            const closeAllPlaylistPanels = () => {
+                getPlaylistPanels().forEach((panel) => panel.classList.remove('is-open'));
+                getPlaylistBtns().forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+            };
+
+            document.addEventListener('click', (e) => {
+                // Toggle open/closed when a playlist button is clicked — close any other
+                // open instance first so desktop/mobile panels never both show at once.
+                const clickedBtn = e.target.closest('.nav-playlist-btn');
+                if (clickedBtn) {
+                    e.stopPropagation();
+                    // The button and its panel are siblings inside the same wrapper/overlay.
+                    const panel = clickedBtn.parentElement ? clickedBtn.parentElement.querySelector('.nav-playlist-panel') : null;
+                    const wasOpen = panel ? panel.classList.contains('is-open') : false;
+                    closeAllPlaylistPanels();
+                    if (panel && !wasOpen) {
+                        panel.classList.add('is-open');
+                        clickedBtn.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                // Pick a track when a playlist item is clicked
+                const item = e.target.closest('.nav-playlist-item');
+                if (item) {
+                    e.stopPropagation();
+                    const index = parseInt(item.dataset.index, 10);
+                    if (index !== this.currentTrackIndex) selectTrack(index);
+                    closeAllPlaylistPanels();
+                    return;
+                }
+
+                // Click anywhere else closes any open panel
+                if (!e.target.closest('.nav-playlist-panel')) {
+                    closeAllPlaylistPanels();
+                }
+            });
+
             // Fitur Auto Loop jika 1 Lagu (Gunakan 'loop' native agar transisinya super mulus)
             if (this.playlist.length === 1) {
                 audio.loop = true;

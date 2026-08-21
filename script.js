@@ -1879,7 +1879,7 @@ function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = tru
         let mesh;
         if (isCamera || isPlayButton || isAsterisk) {
             mesh = isCamera ? buildCameraGroup() : isPlayButton ? buildPlayButtonGroup() : buildAsteriskGroup();
-            mesh.traverse(child => { if (child.isMesh) child.material = material; });
+            mesh.traverse(child => { if (child.isMesh && !child.userData.skipMaterial) child.material = material; });
         } else {
             const geometry = new THREE.IcosahedronGeometry(10, 0); // detail 0 = flat-faceted, not the smoothed sphere-like higher-detail version
             mesh = new THREE.Mesh(geometry, material);
