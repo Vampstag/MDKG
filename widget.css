@@ -594,7 +594,10 @@
         box-sizing: border-box;
         gap: 6px;
         border-radius: 14px; /* [FIX] Bentuk squircle di mobile */
-        max-width: max-content;
+        max-width: min(max-content, calc(100vw - 40px)); /* [FIX] Was plain max-content
+            (unbounded) — on very narrow screens (~320px) with a long status message on
+            the left, an unbounded player could get squeezed against or overlap
+            .mdkg-widget-status; this caps it to the viewport regardless. */
         border: none; /* [FIX] Menghapus border transparan di mobile */
     }
 
@@ -614,6 +617,27 @@
     .mdkg-player-icon svg {
         width: 20px; /* Diperkecil agar widget tidak terlalu lebar */
         height: 20px;
+    }
+
+    /* [FIX] .mdkg-next-btn/.nav-playlist-btn keep their compact 20-24px visual size (so
+       the player itself doesn't get wider) but gain an invisible ::before hitbox padded
+       out to the ~44px touch target accessibility guidelines call for — a 20px box alone
+       is under half that, and real thumbs miss it often on a phone. position:relative is
+       needed on the button itself for the pseudo-element's absolute positioning to anchor
+       to it rather than the page. */
+    .mdkg-next-btn,
+    .nav-playlist-btn {
+        position: relative;
+    }
+    .mdkg-next-btn::before,
+    .nav-playlist-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 44px;
+        height: 44px;
+        transform: translate(-50%, -50%);
     }
 
     .mdkg-next-btn {
@@ -669,8 +693,24 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
     .mdkg-widget-header { display: none; } /* Hide clock on mobile */
-    .mdkg-widget-status-row { margin-bottom: 0; margin-right: auto; }
-    .mdkg-status-text { font-size: 11px; line-height: 1.2; white-space: nowrap; } /* Mencegah elipsis/kepotong */
+    .mdkg-widget-status-row {
+        margin-bottom: 0;
+        margin-right: auto;
+        min-width: 0; /* Lets the row actually shrink below its content size so the ellipsis
+            below can kick in — a flex child defaults to min-width:auto, which ignores
+            overflow rules entirely and instead pushes the sibling .mdkg-book-btn out. */
+    }
+    .mdkg-status-text {
+        font-size: 11px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* [FIX] Safety valve for very narrow screens (~320px): the
+            fixed-position status card and player card sit on the same row with a shared,
+            tight budget (max-width: calc(100vw - 120px) below), and nowrap alone with no
+            way to shrink could force the two cards to overlap or push the player off-
+            screen. Ellipsis here means the text truncates instead. */
+    }
     
     .mdkg-book-btn {
         width: 32px; height: 32px; padding: 0; border-radius: 0; flex-shrink: 0;

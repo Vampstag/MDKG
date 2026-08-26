@@ -1674,26 +1674,40 @@ function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = tru
         lensGlass.position.set(0, 0, 7.9);
         group.add(lensGlass);
 
-        const viewfinder = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4));
-        viewfinder.position.set(-3, 6.5, -0.5);
-        group.add(viewfinder);
+        // Shutter speed dial — sits toward the right edge of the top plate, next to the
+        // shutter button (its real position on a rangefinder body), not centered/oversized.
+        const shutterDial = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.7, 24));
+        shutterDial.position.set(3.6, 4.85, 0.8);
+        group.add(shutterDial);
 
-        // Shutter button — small cylinder on the top-right of the body, angled slightly
+        // Small numbered ring detail sitting slightly proud of the main dial, echoing
+        // the printed speed markings without needing actual text geometry.
+        const shutterDialRing = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.7, 0.2, 24, 1, true));
+        shutterDialRing.position.set(3.6, 5.0, 0.8);
+        group.add(shutterDialRing);
+
+        // Shutter button — small cylinder further right, past the dial, angled slightly
         // like a real shutter release rather than sitting flush/vertical.
-        const shutterButton = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.8, 16));
-        shutterButton.position.set(5.5, 4.7, 1.5);
+        const shutterButton = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.7, 16));
+        shutterButton.position.set(6.2, 4.85, 1.6);
         shutterButton.rotation.z = 0.15;
         group.add(shutterButton);
 
-        // Mode dial — a wider, flatter cylinder beside the shutter button, like a
-        // top-plate exposure/mode dial on a compact/rangefinder-style body.
-        const modeDial = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 0.6, 20));
-        modeDial.position.set(2.5, 4.7, 1.5);
-        group.add(modeDial);
+        // Power/drive collar — a wide, flat ring around the shutter button's base, the
+        // twist collar a rangefinder body has there for on/off + drive mode.
+        const powerCollar = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 0.35, 20));
+        powerCollar.position.set(6.2, 4.7, 1.6);
+        group.add(powerCollar);
 
-        // Hotshoe — a small raised block on top, where a flash would mount.
-        const hotshoe = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1.6));
-        hotshoe.position.set(-4.5, 4.9, 0);
+        // Frame-counter dial — small dial off to the left, separate from the viewfinder
+        // block, matching the little top-left dial in the reference photo.
+        const frameCounter = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.5, 20));
+        frameCounter.position.set(-7, 4.6, 1.8);
+        group.add(frameCounter);
+
+        // Hotshoe — a small raised block on top, between the viewfinder and the dial.
+        const hotshoe = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.9, 1.4));
+        hotshoe.position.set(-1.8, 4.9, -0.5);
         group.add(hotshoe);
 
         // Strap lugs — two small rings on either side of the body, where a camera
@@ -1713,10 +1727,11 @@ function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = tru
         apertureRing.position.set(0, 0, 6.3);
         group.add(apertureRing);
 
-        // Flash unit — a small block beside the hotshoe, like a compact pop-up/fixed
-        // flash housing rather than the hotshoe sitting alone.
-        const flashUnit = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 2.6));
-        flashUnit.position.set(1, 4.9, -1.5);
+        // Flash unit — a small block beside the hotshoe (which now sits between the
+        // viewfinder and shutter dial, matching the reference layout), like a compact
+        // pop-up/fixed flash housing rather than the hotshoe sitting alone.
+        const flashUnit = new THREE.Mesh(new THREE.BoxGeometry(2, 1.3, 2.4));
+        flashUnit.position.set(-1.8, 4.9, -2.5);
         group.add(flashUnit);
 
         // Bottom tripod mount — a small flat cylinder centered on the base, the socket
@@ -1757,10 +1772,44 @@ function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = tru
 
         // Flash hinge — a slim bar along the flash unit's rear edge, implying it's a
         // hinged pop-up housing rather than one solid fixed block.
-        const flashHinge = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 2.2, 10));
+        const flashHinge = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 2, 10));
         flashHinge.rotation.z = Math.PI / 2;
-        flashHinge.position.set(1, 4.9, -2.7);
+        flashHinge.position.set(-1.8, 4.9, -3.7);
         group.add(flashHinge);
+
+        // Diopter adjustment knob — small ridged cylinder near where the viewfinder
+        // eyepiece would be, on the back-left of the top plate.
+        const diopterKnob = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.45, 12));
+        diopterKnob.rotation.z = Math.PI / 2;
+        diopterKnob.position.set(-4.5, 4.8, -2.6);
+        group.add(diopterKnob);
+
+        // Front grip texture bar — a raised panel on the right-front of the body (where
+        // a right hand's fingers wrap around), standing in for the textured/rubberized
+        // grip strip real camera bodies have there.
+        const gripBar = new THREE.Mesh(new THREE.BoxGeometry(1.6, 5.5, 0.6));
+        gripBar.position.set(6.2, -0.5, 3.15);
+        group.add(gripBar);
+
+        // Rear thumb rest — a raised pad on the back-right, the grip's rear counterpart
+        // to the front gripBar above.
+        const thumbRest = new THREE.Mesh(new THREE.BoxGeometry(1.8, 3, 0.7));
+        thumbRest.position.set(6, 1.8, -2.8);
+        thumbRest.rotation.z = -0.08;
+        group.add(thumbRest);
+
+        // Extra rear control button, alongside the existing pair, filling out the
+        // menu/playback cluster on the back of the body.
+        const extraRearButton = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 14));
+        extraRearButton.rotation.x = Math.PI / 2;
+        extraRearButton.position.set(-6.5, -2.7, -3.1);
+        group.add(extraRearButton);
+
+        // Cold shoe cover — a thin cap sitting in the hotshoe's contact channel, slightly
+        // narrower/shorter than the shoe itself so it reads as an insert.
+        const coldShoeCover = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.25, 1.1));
+        coldShoeCover.position.set(-1.8, 5.4, -0.5);
+        group.add(coldShoeCover);
 
         return group;
     };

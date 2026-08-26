@@ -11,7 +11,7 @@ const widgetConfig = {
     initialVolume: 0.4,                   // Volume awal (0.0 sampai 1.0)
     
     // CACHE BUSTER: Ubah angka ini (misal ke '1.1') setiap kali kamu mengganti file mp3 agar browser otomatis memuat lagu baru.
-    audioVersion: '1.1',
+    audioVersion: '1.2',
     
     // DAFTAR LAGU (PLAYLIST)
     // Tambahkan lagu baru dengan format: { src: 'file.mp3', title: 'Judul', artist: 'Band', cover: 'gambar.jpg' },
@@ -20,13 +20,9 @@ const widgetConfig = {
         { src: 'audio/bgmusic2.mp3', title: 'Come As You Are', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
         { src: 'audio/bgmusic3.mp3', title: 'Something In The Way', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
         { src: 'audio/bgmusic4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        // [TODO] Feast — slot disiapkan, file mp3 & cover BELUM ada. Taruh file mp3 di
-        // audio/ (mis. audio/feast-tarot.mp3) dan cover di assets/images/ (mis.
-        // assets/images/cover-feast.webp), lalu ganti src/cover di bawah ini agar match.
-        { src: 'audio/feast-tarot.mp3', title: 'Tarot', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
-        { src: 'audio/feast-arteri.mp3', title: 'Arteri', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
-        { src: 'audio/feast-kami-belum-tentu.mp3', title: 'Kami Belum Tentu', artist: 'Feast', cover: 'assets/images/cover-feast.webp' },
-        { src: 'audio/feast-o-tuan.mp3', title: 'O, Tuan', artist: 'Feast', cover: 'assets/images/cover-feast.webp' }
+        { src: 'audio/Tarot.mp3', title: 'Tarot', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'audio/Arteri.mp3', title: 'Arteri', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'audio/o,Tuan.mp3', title: 'O, Tuan', artist: '.Feast', cover: 'assets/images/cover-feast.webp' }
     ]
 };
 //#endregion
@@ -73,9 +69,11 @@ class MdkgWidget {
             };
         });
         
-        // Load last played index from localStorage
+        // Load last played index from localStorage — first-ever visit (nothing saved yet)
+        // picks a random track instead of always starting on track 0, so repeat visitors
+        // (who do have a saved index) don't hear the same opening track every time either.
         const savedIndex = localStorage.getItem('mdkg_last_track_index');
-        this.currentTrackIndex = savedIndex ? parseInt(savedIndex) : 0;
+        this.currentTrackIndex = savedIndex !== null ? parseInt(savedIndex, 10) : Math.floor(Math.random() * this.playlist.length);
         
         // Validate index in case playlist changed
         if (this.currentTrackIndex >= this.playlist.length) this.currentTrackIndex = 0;
@@ -389,25 +387,42 @@ class MdkgWidget {
 
             // Keep the saved position/state in sync with actual playback, and auto-resume
             // below only reads a stable snapshot of what the LAST page left behind.
+            // NOTE: 'beforeunload' is a window/document event, not one an <audio> element
+            // ever fires — attaching it to `audio` (as this used to) silently never ran.
+            // 'pagehide' (window-level, below) is the one that actually saves state on
+            // navigation; visibilitychange is a second, earlier-firing safety net since
+            // 'pagehide' fires later in the unload sequence and some mobile browsers can
+            // skip straight to page-discard without a clean pagehide.
             audio.addEventListener('play', startSaveInterval);
             audio.addEventListener('pause', stopSaveInterval);
-            audio.addEventListener('beforeunload', savePlaybackState);
             window.addEventListener('pagehide', savePlaybackState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) savePlaybackState();
+            });
 
             // Auto-resume: if the previous page was actively playing when it unloaded
             // (not a manual pause), continue from where it left off instead of the
-            // track silently going quiet on navigation. Requires a user gesture on the
-            // very first page load (browser autoplay policy) — this only fires audio
-            // that was already flowing from user interaction on an earlier page, so the
-            // policy is satisfied in practice once the user has pressed play once.
+            // track silently going quiet on navigation. This IS a fresh page load with
+            // no direct user gesture of its own — browsers can and do block audio.play()
+            // here under their autoplay policy regardless of gestures on a *previous*
+            // page, so failure here is expected in some browsers, not a bug on its own.
+            // On failure, the UI shows PLAY (not silently "stuck") and one click resumes
+            // from the saved position, which loadedmetadata above already restored.
             if (wasPlaying) {
                 isUserPaused = false;
                 audio.preload = 'auto';
-                audio.play().then(() => updateUI(true)).catch(() => {
-                    // Autoplay blocked (e.g. very first page of the session, no prior
-                    // gesture yet) — leave it paused/ready; the saved position is still
-                    // there for whenever the user does press play.
-                    updateUI(false);
+                audio.muted = false;
+                const attemptResume = () => audio.play().then(() => updateUI(true)).catch(() => updateUI(false));
+                attemptResume();
+                // If the browser blocked it, the very next real interaction anywhere on
+                // the page counts as a user gesture — retry once then, instead of making
+                // the visitor specifically find and click the tiny player to un-stick it.
+                const retryOnFirstInteraction = () => {
+                    if (!audio.paused) return; // already resumed (e.g. the attempt above actually succeeded)
+                    attemptResume();
+                };
+                ['pointerdown', 'keydown'].forEach((evt) => {
+                    document.addEventListener(evt, retryOnFirstInteraction, { once: true, passive: true });
                 });
             }
 
