@@ -438,8 +438,8 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
 
-                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
-                            Turning human insight<br>into visual stories<br>worth remembering.
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.2rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111; word-break: keep-all;">
+                            Turning human insight<br>into visual stories<br>worth telling.
                         </blockquote>
                     </div>
                 </div>
@@ -849,36 +849,27 @@
                         .join('<br>');
 
                     const words = quote.querySelectorAll('.essence-word');
+                    const isMobile = !window.matchMedia('(min-width: 992px)').matches;
 
-                    // Mobile: the scroll-scrubbed per-word reveal below re-renders opacity/
-                    // transform on every one of these spans every scroll frame, tied
-                    // directly to scroll position via scrub. That's fine on desktop, but on
-                    // mobile — scrolling at this exact point in the page also coincides with
-                    // #content-reveal sliding up over the pinned hero (see initHeroRevealPin)
-                    // — stacking two scroll-driven animations on the same frames read as
-                    // stutter/jank ("kepotong, ngelag"). A single one-shot fade-in (play once
-                    // when the quote enters the viewport, no scrub, no per-word stagger tied
-                    // to scroll) keeps the reveal without competing for frame budget with the
-                    // hero-reveal pin.
-                    if (!window.matchMedia('(min-width: 992px)').matches) {
-                        gsap.set(words, { opacity: 1, y: 0 });
-                        gsap.from(words, {
-                            opacity: 0,
-                            y: 16,
-                            duration: 0.6,
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: quote,
-                                start: 'top 90%',
-                                once: true
-                            }
-                        });
-                        return;
+                    // Mobile used to skip the scroll-scrubbed reveal entirely (a one-shot
+                    // fade instead) because it used to run alongside the pinned-hero's own
+                    // scroll-driven animation (see initHeroRevealPin in script.js) and the
+                    // two stacked on the same scroll frames read as stutter/jank ("kepotong,
+                    // ngelag"). initHeroRevealPin is desktop-only (>=992px) now, so that
+                    // conflict is gone — the scrub reveal below runs everywhere. On mobile the
+                    // starting translateY(30px) (set inline above) is cleared upfront instead
+                    // of animated, since animating transform on many small inline-block spans
+                    // is the more expensive part of this effect on weaker mobile GPUs — words
+                    // still reveal via opacity, they just don't also drift up. Without this
+                    // clear they'd otherwise get left sitting 30px offset forever, since the
+                    // tween below would never animate y back to 0 for them.
+                    if (isMobile) {
+                        gsap.set(words, { y: 0 });
                     }
 
                     gsap.to(words, {
                         opacity: 1,
-                        y: 0,
+                        ...(isMobile ? {} : { y: 0 }),
                         duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
                         stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
                         ease: 'none',
@@ -886,7 +877,9 @@
                             trigger: quote,
                             start: 'top 95%',   // reveal starts as soon as the quote first appears at the bottom
                             end: 'bottom 60%',  // finishes well after the quote has scrolled up, so it plays out slowly
-                            scrub: 0.3 // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                            scrub: 0.3, // ties progress directly to scroll position, so scrolling up reverses it (text-out)
+                            fastScrollEnd: true, // a fast fling shouldn't leave later words stuck mid-fade waiting for scroll to "catch up"
+                            invalidateOnRefresh: true
                         }
                     });
                 };

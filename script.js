@@ -1305,9 +1305,12 @@ function initHero3DTitle(onReady) {
             clearcoatRoughness: 0.25,
         });
 
+        // Self-hosted (previously loaded from threejs.org directly) — on mobile networks
+        // that external fetch was slow/unreliable enough to blow past a usable load time,
+        // silently leaving the canvas hidden and only the flat <h1> fallback visible.
         const loader = new THREE.FontLoader();
         loader.load(
-            'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', // Regular, not Bold — reads lighter/more editorial
+            'assets/fonts/helvetiker_regular.typeface.json', // Regular, not Bold — reads lighter/more editorial
             (font) => {
                 const group = new THREE.Group();
                 const lines = ['Visual', 'Creative'];
@@ -2434,19 +2437,21 @@ function initHeroCarousel() {
 /**
  * Pins the hero section in place while #content-reveal (everything below it: Site Essence
  * through FAQ) scrolls up to cover it, instead of the hero scrolling away like a normal
- * section. Desktop/large-tablet only (>=992px) — below that, .hero-playground-section is
- * `position: static; height: auto` (see css/style.css, the 991px and 767px breakpoints),
- * so pinning it there fights the CSS and was the cause of the gap/stutter right at the
- * hero-to-essence transition on phones and small tablets: ScrollTrigger's pin math assumes
- * a fixed-height, positioned element, and toggling a static/auto-height one to `fixed`
- * markup mid-scroll produced exactly that visible seam and jank. Below 992px the sections
- * now just stack and scroll normally, which is also lighter on mobile GPUs.
+ * section. Runs on desktop (>=992px) and phones (<=767px) — both have
+ * .hero-playground-section at a fixed height with real positioning (see css/style.css,
+ * the 767px breakpoint: `position: relative; height: 100dvh`), which is what
+ * ScrollTrigger's pin math needs. The 768-991px tablet band in between still leaves that
+ * section `position: static; height: auto`, so pinning it there fights the CSS and was
+ * the original cause of the gap/stutter right at the hero-to-essence transition — that
+ * band is skipped below.
  */
 function initHeroRevealPin() {
     const hero = document.querySelector('.hero-playground-section');
     const reveal = document.getElementById('content-reveal');
     if (!hero || !reveal || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    if (!window.matchMedia('(min-width: 992px)').matches) return;
+    const isDesktop = window.matchMedia('(min-width: 992px)').matches;
+    const isPhone = window.matchMedia('(max-width: 767px)').matches;
+    if (!isDesktop && !isPhone) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -2456,6 +2461,7 @@ function initHeroRevealPin() {
         endTrigger: reveal,
         end: 'top top',
         pin: true,
+        pinType: isPhone ? 'transform' : undefined, // avoids position:fixed on phones, where address-bar show/hide otherwise fights the pin and can leave a gap
         pinSpacing: false, // reveal should scroll up over the pinned hero, not push it away
     });
 

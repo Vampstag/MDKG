@@ -7710,3 +7710,14 @@ a.social-icon:hover img {
 .flip-img, .flip-video { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* #endregion */
 
+/* #essence-quote ("Turning human insight / into visual stories / worth remembering."):
+   the inline clamp() in index.html keeps each authored <br> line to one visual line down
+   to phone width, but the longest line ("Turning human insight", bold/tight-tracked) can
+   still wrap to 2 lines on very narrow phones (~360px and under), turning the intended
+   3-line quote into 4. Shrinking further at that width keeps it to 3 lines everywhere. */
+@media (max-width: 380px) {
+    #essence-quote {
+        font-size: 1.9rem !important;
+    }
+}
+
