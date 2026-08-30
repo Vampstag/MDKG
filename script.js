@@ -2834,36 +2834,51 @@ function initAboutIntroPlayer() {
 
     if (watchLabel && canHover) {
         let targetX = 0, targetY = 0, currentX = 0, currentY = 0, rafId = null;
+        let velX = 0, velY = 0; // spring velocity, px/frame — this is what gives the label mass
         let hasPositioned = false; // true once the first mousemove has set a real target
-        const LERP_FACTOR = 0.18; // lower = laggier/smoother trail, higher = snappier
-        const MAX_TILT = 8; // label sway, degrees at top speed — subtle, not a big swing
-        const MAX_SCALE_BOOST = 0.06; // label grow, +6% at top speed — barely-there
+        // Spring physics instead of a plain lerp: a lerp always moves a fixed fraction
+        // of the remaining distance per frame, so it converges in a few frames no
+        // matter how far the target jumps — reads as light/instant regardless of the
+        // constants, which is why tuning LERP_FACTOR alone couldn't add real weight.
+        // A spring instead accelerates toward the target and carries momentum past
+        // it, then eases back — the overshoot-and-settle is what actually reads as
+        // "something with mass," not just "something delayed."
+        const STIFFNESS = 0.018; // lower = softer pull, more felt lag/distance before it catches up to the cursor
+        const DAMPING = 0.88; // lower = more overshoot/bounce before settling, higher = more inertia carried each frame
+        const MAX_TILT = 16; // label sway, degrees at top speed
+        const MAX_SCALE_BOOST = 0.14; // label grow, +14% at top speed
 
         // Runs continuously for the entire time the cursor is over the trigger, not
-        // just until the label "settles" — the previous version stopped the rAF loop
-        // once velocity dropped near zero (rafId = null), so the *next* mousemove event
-        // hit the "loop not running" branch and snapped currentX/Y straight to the new
-        // target instead of continuing to lerp from wherever the label actually was.
-        // That snap-after-any-pause is what read as stiff/kaku — any brief stop-then-move
-        // (completely normal cursor behavior) broke the smoothing. Keeping one continuous
-        // loop alive means every frame, moving or paused, always lerps toward the latest
-        // target — never a hard jump.
+        // just until the label "settles" — stopping the rAF loop once velocity drops
+        // near zero would mean the *next* mousemove event hits a "loop not running"
+        // branch and snaps currentX/Y straight to the new target instead of continuing
+        // to spring from wherever the label actually was, which reads as a hard jump.
         const animate = () => {
-            const prevX = currentX;
-            currentX += (targetX - currentX) * LERP_FACTOR;
-            currentY += (targetY - currentY) * LERP_FACTOR;
-
-            const velocityX = currentX - prevX; // px this frame, signed by direction
+            const dx = targetX - currentX;
+            const dy = targetY - currentY;
+            velX = (velX + dx * STIFFNESS) * DAMPING;
+            velY = (velY + dy * STIFFNESS) * DAMPING;
+            currentX += velX;
+            currentY += velY;
 
             if (watchLabel) {
                 // Offset down-right of the raw cursor position so the label never sits
                 // directly under the OS cursor icon — centered-on-cursor was getting
                 // visually blocked by the pointer itself.
-                const speed = Math.min(Math.abs(velocityX) / 14, 1); // 0-1, needs a genuinely fast move to saturate
-                const tilt = Math.max(-1, Math.min(1, velocityX / 14)) * MAX_TILT;
+                // Driven by the spring's own velocity (how fast the label itself is
+                // currently swinging), not the raw mouse delta — this is what makes the
+                // tilt/scale feel like a consequence of the label's momentum rather
+                // than a 1:1 readout of cursor speed, and it's naturally already
+                // smoothed since velX only changes gradually frame to frame.
+                const speed = Math.min(Math.abs(velX) / 10, 1); // 0-1, needs genuine swing speed to saturate
+                const tilt = Math.max(-1, Math.min(1, velX / 10)) * MAX_TILT;
                 const scale = 1 + speed * MAX_SCALE_BOOST;
-                watchLabel.style.left = `${currentX + 18}px`;
-                watchLabel.style.top = `${currentY + 22}px`;
+                // Offset down-right of the cursor, pushed well outside the cursor
+                // icon's own footprint — but pulled back left/up from the very corner
+                // (less right shift, less downward drop) so it doesn't sit too far off
+                // to the right or too low beneath the pointer.
+                watchLabel.style.left = `${currentX + 6}px`;
+                watchLabel.style.top = `${currentY + 34}px`;
                 watchLabel.style.setProperty('--tilt', `${tilt.toFixed(2)}deg`);
                 watchLabel.style.setProperty('--scale', scale.toFixed(3));
             }
@@ -2880,6 +2895,8 @@ function initAboutIntroPlayer() {
                 // stale 0,0 — this is the one legitimate case for a hard jump.
                 currentX = targetX;
                 currentY = targetY;
+                velX = 0;
+                velY = 0;
                 hasPositioned = true;
             }
             if (rafId === null) {

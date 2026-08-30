@@ -662,8 +662,13 @@ body.preloader-active { overflow: hidden; }
 .fade-in-section {
     opacity: 0;
     transform: translateY(var(--reveal-distance));
+    /* `transition` is a shorthand: without listing color here too, this rule fully
+       replaces (not merges with) the `.about-paragraph` etc. hover-transition rule
+       above whenever an element carries both classes — making its color hover snap
+       instantly instead of easing like the case-study text that lacks this class. */
     transition: opacity var(--reveal-duration) var(--ease-smooth),
-                transform var(--reveal-duration) var(--ease-smooth);
+                transform var(--reveal-duration) var(--ease-smooth),
+                color 0.4s ease;
     will-change: opacity, transform;
 }
 
@@ -1425,10 +1430,11 @@ html.lenis, html.lenis body { height: auto; }
 
 .image-wrap {
     position: relative;
+    display: block;
     overflow: hidden;
     width: 100%;
     background-color: #f5f5f7;
-    transform: translateZ(0);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 /* Portfolio specific text padding */
@@ -2350,6 +2356,13 @@ html.lenis, html.lenis body { height: auto; }
     line-height: 1.65;
 }
 
+.about-intro-note__body .about-paragraph:hover {
+    /* Same specificity (0,2,0) as the base rule above, so it must come after it in
+       source order to win — otherwise #888 would beat the shared .about-paragraph:hover
+       rule and this text wouldn't darken like the case study copy does. */
+    color: #111;
+}
+
 /* Sits above the video, receives every pointer event so mousemove/click always reach
    here instead of occasionally getting captured by the <video> itself — see the HTML
    comment for why. z-index above everything else in the card except the watch label,
@@ -2378,7 +2391,13 @@ html.lenis, html.lenis body { height: auto; }
        the instant before JS has run a frame yet. */
     --tilt: 0deg;
     --scale: 1;
-    transform: translate(-50%, -50%) rotate(var(--tilt)) scale(var(--scale));
+    /* Entrance scale (0.001 turns var(--scale) into the label's overall grow-in size,
+       separate from the velocity-driven --scale the JS lerp loop also writes into —
+       multiplying them together means show/hide gets its own eased scale-in on top of
+       the per-frame velocity scale, instead of the label popping to full size the
+       instant opacity crosses 0. */
+    --enter: 0;
+    transform: translate(-50%, -50%) rotate(var(--tilt)) scale(calc(var(--scale) * (0.85 + var(--enter) * 0.15)));
     z-index: 3;
     display: flex;
     align-items: center;
@@ -2398,14 +2417,22 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
     opacity: 0;
     pointer-events: none;
-    /* Only opacity eases here — transform (position/tilt/scale) is rewritten every
-       animation frame by the JS lerp loop in initAboutIntroPlayer, which already does
-       its own smoothing via LERP_FACTOR. Also transitioning transform in CSS meant the
-       browser was easing toward each new frame's target on top of the JS lerp already
-       easing toward it — two smoothing layers fighting/compounding, which read as
-       laggy/stiff instead of fluid. */
-    transition: opacity 0.25s ease;
+    /* --enter and opacity both ease here, giving the label a soft grow-in/shrink-out
+       instead of a hard pop — transform's own rotate(--tilt)/scale(--scale) terms stay
+       untransitioned since those are rewritten every animation frame by the JS lerp
+       loop in initAboutIntroPlayer, which already does its own smoothing via
+       LERP_FACTOR; transitioning the whole transform property would have doubled up
+       on that smoothing (browser easing toward each new frame's target on top of the
+       JS lerp already easing toward it), which is what read as laggy/stiff. Easing
+       --enter and opacity alone avoids that since neither is touched by the rAF loop. */
+    transition: opacity 0.4s ease, --enter 0.55s cubic-bezier(0.22, 1.4, 0.36, 1);
     white-space: nowrap;
+}
+
+@property --enter {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
 }
 
 .about-intro-watch-label__icon {
@@ -2427,6 +2454,14 @@ html.lenis, html.lenis body { height: auto; }
 
 .about-showreel-player:hover .about-intro-watch-label {
     opacity: 1;
+    --enter: 1;
+}
+
+/* Subtle physical response on the video itself so the whole hover feels like one
+   reaction, not just a label popping up in isolation — a faint darken+zoom, like the
+   footage settling its weight toward the cursor. */
+.about-showreel-player:hover .about-showreel-video {
+    filter: brightness(0.92);
 }
 
 @media (max-width: 767px) {
@@ -2510,6 +2545,7 @@ html.lenis, html.lenis body { height: auto; }
        cleanly with the fixed positioning above rather than fighting over the same
        property from two places. */
     transform: scale(var(--showreel-parallax-scale, 1.08));
+    transition: filter 0.5s ease;
     will-change: transform;
 }
 
@@ -3007,7 +3043,18 @@ html.lenis, html.lenis body { height: auto; }
    and slightly up to keep the subject in frame instead. */
 @media (max-width: 991px) {
     .work-card.is-ongoing .work-card__image--precropped {
-        object-position: 38% 35%;
+        /* romanza-main-hero.webp is a wide 1920x1080 shot with the subject occupying
+           only the center-left third and a lot of empty dark backdrop around him. The
+           mobile/tablet card box is much narrower and taller than 16:9, so cover's crop
+           window ends up a thin vertical sliver of that wide photo — still centered on
+           the subject (object-position below), but zoomed too far out, leaving him
+           looking small and off-center inside a mostly-empty dark box. Scaling the
+           image up crops in tighter on the subject instead of the surrounding void. */
+        transform: scale(1.1);
+        object-position: 53% 30%;
+    }
+    .work-card.is-ongoing:hover .work-card__image--precropped {
+        transform: scale(1.1) scale(1.015);
     }
 }
 /* #region 25. REFACTORED WORK CARD */
@@ -3050,6 +3097,13 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     aspect-ratio: 4/3; /* 4:3 Ratio agar WebM tidak terpotong */
     background-color: #f5f5f7;
+    /* Mobile Safari/Chrome sometimes fail to clip an absolutely-positioned, transformed
+       child (.work-card__image) to the parent .work-card's rounded corner via its
+       overflow:hidden alone, especially once .work-card's own transform/will-change
+       kicks in on hover — a sliver of the square image corner then shows through at
+       the top of the card (visible behind the ON-GOING badge on the Bocelli card).
+       Giving this wrapper its own matching radius forces the clip at this level too. */
+    border-radius: inherit;
 }
 
 /* Background fallback shown briefly before the <img>/<picture> paints (was an inline
