@@ -21,34 +21,35 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
-            {
-                id: 12,
-                title: "Pink Roulette",
-                year: "2026",
-                category: "Video Production · Editing & Motion",
-                industry: "F&B",
-                roles: ["Video Production", "Editing & Motion"],
-                link: "",
-                clientName: "Pink Roulette",
-                description: "Video production and editing for Pink Roulette's social media presence.",
-                brandInfo: "Pink Roulette.",
-                image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
-                srcset: ""
-            },
-            {
-                id: 11,
-                title: "Dunkin Donuts",
-                year: "2026",
-                category: "Video Production · Editing & Motion",
-                industry: "F&B",
-                roles: ["Video Production", "Editing & Motion"],
-                link: "",
-                clientName: "Dunkin Donuts",
-                description: "Video production and editing for Dunkin Donuts' social media presence.",
-                brandInfo: "Dunkin Donuts.",
-                image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
-                srcset: ""
-            },
+            // Hidden for now — Pink Roulette (id 12) and Dunkin Donuts (id 11) cards, per request.
+            // {
+            //     id: 12,
+            //     title: "Pink Roulette",
+            //     year: "2026",
+            //     category: "Video Production · Editing & Motion",
+            //     industry: "F&B",
+            //     roles: ["Video Production", "Editing & Motion"],
+            //     link: "",
+            //     clientName: "Pink Roulette",
+            //     description: "Video production and editing for Pink Roulette's social media presence.",
+            //     brandInfo: "Pink Roulette.",
+            //     image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
+            //     srcset: ""
+            // },
+            // {
+            //     id: 11,
+            //     title: "Dunkin Donuts",
+            //     year: "2026",
+            //     category: "Video Production · Editing & Motion",
+            //     industry: "F&B",
+            //     roles: ["Video Production", "Editing & Motion"],
+            //     link: "",
+            //     clientName: "Dunkin Donuts",
+            //     description: "Video production and editing for Dunkin Donuts' social media presence.",
+            //     brandInfo: "Dunkin Donuts.",
+            //     image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
+            //     srcset: ""
+            // },
             {
                 id: 10,
                 title: "Ngaliwet Raos",
