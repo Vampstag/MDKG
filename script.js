@@ -1372,8 +1372,21 @@ function initHero3DTitle(onReady) {
                 });
 
                 const clock = new THREE.Clock();
+                // Was an unconditional RAF loop — kept rendering every frame even once the
+                // hero scrolled off past the pinned reveal, stacking GPU work on top of the
+                // 15+ carousel videos and the scroll pin itself while scrolling through the
+                // sections below (e.g. the intro/positioning-statement text), which is what
+                // showed up as mobile jank there. Only render while the hero is actually
+                // in/near the viewport.
+                let isInView = true;
+                const io = new IntersectionObserver((entries) => {
+                    isInView = entries[0].isIntersecting;
+                }, { rootMargin: '200px 0px' });
+                io.observe(canvas);
+
                 const animate = () => {
                     requestAnimationFrame(animate);
+                    if (!isInView) return;
                     group.rotation.y += (targetRotY - group.rotation.y) * 0.05;
                     group.rotation.x += (-targetRotX - group.rotation.x) * 0.05;
                     // A slow idle drift so it doesn't look frozen when the mouse hasn't moved
@@ -1384,6 +1397,20 @@ function initHero3DTitle(onReady) {
 
                 canvas.classList.add('is-active');
                 signalReady();
+
+                // Mobile GPUs under memory pressure (heavy scroll-pinned hero + many carousel
+                // videos) can drop the WebGL context mid-session. Without handling this, the
+                // canvas stayed marked .is-active (so the h1 fallback stayed hidden via the
+                // CSS sibling rule) while rendering nothing — the title visually vanished
+                // while scrolling, instead of falling back to the flat text. Restore the
+                // fallback on loss, and let the browser's own restore re-trigger a repaint.
+                canvas.addEventListener('webglcontextlost', (e) => {
+                    e.preventDefault();
+                    canvas.classList.remove('is-active');
+                }, false);
+                canvas.addEventListener('webglcontextrestored', () => {
+                    canvas.classList.add('is-active');
+                }, false);
             },
             undefined,
             () => {
