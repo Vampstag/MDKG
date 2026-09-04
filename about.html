@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
@@ -82,7 +82,7 @@
         </script>
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="css/style.css?v=107">
+        <link rel="stylesheet" href="css/style.css?v=110">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="widget.css?v=15">
 
@@ -223,7 +223,7 @@
                 width: 100%;
                 max-width: 420px;
                 aspect-ratio: 4/5;
-                border-radius: 16px;
+                border-radius: 0;
                 overflow: hidden;
                 cursor: pointer;
                 background: #eee;
@@ -253,11 +253,11 @@
                 right: 16px;
                 width: 44px;
                 height: 44px;
-                border-radius: 16px; /* Squircle, not circle — matches the site's art direction */
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
                 border: none;
                 background: rgba(255,255,255,0.9);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
+                
+                
                 color: #111;
                 display: flex;
                 align-items: center;
@@ -267,7 +267,7 @@
                 transform: scale(0.85);
                 transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
                 z-index: 10;
-                box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+                box-shadow: none;
             }
             .about-reactive-photo:hover .about-greeting-play-icon {
                 opacity: 1;
@@ -285,15 +285,15 @@
                 align-items: center;
                 justify-content: center;
                 background: rgba(0,0,0,0.85);
-                backdrop-filter: blur(6px);
-                -webkit-backdrop-filter: blur(6px);
+                
+                
             }
             .about-greeting-modal.is-active { display: flex; }
             .about-greeting-modal-inner {
                 position: relative;
                 width: min(90vw, 380px);
                 aspect-ratio: 9/16;
-                border-radius: 16px;
+                border-radius: 0;
                 overflow: hidden;
                 background: #000;
             }
@@ -308,7 +308,7 @@
                 right: 12px;
                 width: 36px;
                 height: 36px;
-                border-radius: 12px; /* Squircle, not circle — matches the site's art direction */
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
                 background: rgba(255,255,255,0.15);
                 color: #fff;
                 border: none;
@@ -329,9 +329,9 @@
                 left: 0;
                 width: 320px;
                 aspect-ratio: 16/9;
-                border-radius: 14px;
+                border-radius: 0;
                 overflow: hidden;
-                box-shadow: 0 20px 50px -10px rgba(0,0,0,0.35);
+                box-shadow: none;
                 border: 1px solid rgba(255,255,255,0.1);
                 background: #111;
                 opacity: 0;
