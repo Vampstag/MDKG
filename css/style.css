@@ -4022,23 +4022,11 @@ html.lenis, html.lenis body { height: auto; }
         line-height: 1.5;
     }
 
-    /* Sparkles: kept (previously hidden entirely on mobile), sized down and pulled in
-       closer to the title so they still read at phone width. */
-    .sticker-icon {
-        width: 70px;
-        height: 70px;
-    }
-    .sticker-icon--pill {
-        width: 58px;
-        height: 58px;
-    }
-    .hero-drag-layer .drag-item:nth-of-type(1) {
-        top: 4%; left: 4%; right: auto; bottom: auto;
-        transform: rotate(-8deg) scale(0.85);
-    }
-    .hero-drag-layer .drag-item:nth-of-type(2) {
-        top: 4%; right: 4%; left: auto; bottom: auto;
-        transform: rotate(8deg) scale(0.85);
+    /* Sparkles (3D chrome stars): desktop-only element now — hidden entirely on phones
+       rather than falling back to the flat "✦" glyph, for a cleaner uncluttered mobile
+       hero and one less thing competing for render budget. */
+    .hero-drag-layer {
+        display: none;
     }
 
     /* Hide the remaining decorative stickers not used in the current hero (kept for
