@@ -1263,8 +1263,13 @@ function initHero3DTitle(onReady) {
         const canvas = document.getElementById('hero-3d-title-canvas');
         if (!canvas) { signalReady(); return; }
         if (typeof THREE === 'undefined' || !THREE.FontLoader || !THREE.TextGeometry) { signalReady(); return; }
-        // Enabled on all screen sizes (previously desktop-only) so mobile/tablet get the
-        // same premium 3D chrome title instead of falling back to flat 2D text.
+        // Phones stay on the flat 2D <h1> fallback: this WebGL title, two more WebGL
+        // sparkle canvases, and an 18-video ring carousel all running together (plus the
+        // GSAP scroll pin) was the main source of mobile jank, and a slow/failed font
+        // fetch or WebGL init on a weak phone GPU could also leave the h1 hidden
+        // (opacity:0 once .is-active is set) with nothing rendered yet — a blank gap
+        // where the title should be. Skipping 3D entirely on phones removes both problems.
+        if (window.matchMedia('(max-width: 767px)').matches) { signalReady(); return; }
 
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         const container = canvas.parentElement;
@@ -1447,7 +1452,10 @@ function initHero3DSparkles() {
     try {
         const canvases = document.querySelectorAll('.sparkle-3d-canvas');
         if (!canvases.length || typeof THREE === 'undefined') return;
-        // Enabled on all screen sizes (previously desktop-only) for visual parity with mobile/tablet.
+        // Phones fall back to the plain "✦" glyph (.sparkle-fallback in the markup) —
+        // see initHero3DTitle's matching mobile skip above for why: too many concurrent
+        // WebGL contexts was the main mobile jank source.
+        if (window.matchMedia('(max-width: 767px)').matches) return;
 
         // Neutral white/grey studio-lighting gradient — same idea as before (an envMap gives
         // the chrome material something to reflect so its facets aren't flat), but colorless,

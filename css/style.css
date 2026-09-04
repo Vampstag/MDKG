@@ -3579,17 +3579,24 @@ html.lenis, html.lenis body { height: auto; }
 .hero-scroll-cue-line::after {
     content: '';
     position: absolute;
-    top: -100%;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: #111;
+    /* transform (not top) — compositor-only, so this keeps animating smoothly even while
+       the main thread is busy with the GSAP scroll pin / WebGL renders below. Animating
+       `top` here previously forced layout on every frame, which is what showed up as
+       stutter/gaps ("bolong") in the line on mobile. will-change hints the browser to
+       promote this to its own layer up front instead of on first animated frame. */
+    transform: translateY(-100%);
+    will-change: transform;
     animation: heroScrollCueDraw 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 @keyframes heroScrollCueDraw {
-    0% { top: -100%; }
-    50% { top: 0%; }
-    100% { top: 100%; }
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0%); }
+    100% { transform: translateY(100%); }
 }
 
 /* Full-bleed video carousel: 15 real project clips mounted on a genuine full circle
