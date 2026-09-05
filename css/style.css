@@ -37,13 +37,18 @@
     --text-primary: #111111;
     --ease-smooth: cubic-bezier(0.19, 1, 0.22, 1);
 
-    /* Typography Scale — two-font system. Inter carries display/heading/body copy
-       (the editorial voice); JetBrains Mono is reserved for the "system" voice —
-       labels, meta, tags, badges, filter/nav controls — anything that reads as UI
-       chrome or data rather than prose. Keeping that split consistent is what makes
-       the monospace read as an intentional hierarchy layer instead of a one-off. */
+    /* Editorial accent — the single non-neutral color in an otherwise monochrome
+       system. Deliberately used sparingly (status badges, index numerals) so it
+       reads as a curated flourish rather than a brand color competing with the
+       photography/video for attention. */
+    --accent: #A1341F;
+
+    /* Typography Scale (Inter) — single-font system. --font-mono is kept as an alias
+       of Inter (not removed) since ~30 rules across the site reference var(--font-mono)
+       for labels/meta/badges; pointing it back at Inter reverts every one of them to
+       the single-font look without having to touch each call site individually. */
     --font-primary: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --font-mono: 'Inter', sans-serif;
 
     /* Eyebrow/overline label — the single tracking value for every small uppercase
        "kicker" label site-wide (credits roles, article meta, hero subtitles, badges,
@@ -3041,7 +3046,7 @@ html.lenis, html.lenis body { height: auto; }
     top: 16px;
     left: 16px;
     z-index: 2;
-    background: #111;
+    background: transparent;
     border: none;
     color: #fff;
     font-family: var(--font-mono, 'Courier New', monospace);
@@ -3051,6 +3056,23 @@ html.lenis, html.lenis body { height: auto; }
     text-transform: uppercase;
     padding: 6px 12px;
     border-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.work-card .ongoing-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent);
+    animation: ongoing-pulse 2s var(--ease-smooth) infinite;
+}
+@keyframes ongoing-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(161, 52, 31, 0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(161, 52, 31, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(161, 52, 31, 0); }
 }
 
 .work-card.is-ongoing {
@@ -3224,15 +3246,15 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .metric-tag {
-    background: #111;
+    background: transparent;
     color: #fff;
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 0;
     font-family: var(--font-mono, 'Courier New', monospace);
     font-size: 0.75rem;
     font-weight: 400;
     letter-spacing: 0.02em;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .work-card__info {
@@ -4311,6 +4333,15 @@ html.lenis, html.lenis body { height: auto; }
 }
 .marquee-logo.logo-ngaliwet {
     height: 60px;
+}
+
+/* This mark is a wide script wordmark with a long trailing flourish line, so at
+   its tall fixed height it renders much wider than the other logos — the shared
+   uniform .marquee-item margin then reads as an oversized gap around it since the
+   flourish itself already eats extra horizontal space. Pull this item's own
+   margin in to compensate, without touching its (correctly tall) height. */
+.marquee-item:has(.logo-pink-roulette) {
+    margin-right: 2rem;
 }
 
 @media (min-width: 992px) {
