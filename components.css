@@ -594,7 +594,7 @@
     text-decoration: none;
     color: inherit;
     position: relative;
-    border-radius: 20px;
+    border-radius: 0; /* Sharp editorial edges, matches the site's art direction */
     transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s var(--ease-smooth);
     border: none;
     background-color: #ffffff;
@@ -662,7 +662,7 @@
 .project-image-wrapper {
     position: relative;
     overflow: hidden;
-    border-radius: 20px 20px 0 0;
+    border-radius: 0; /* Sharp editorial edges, matches the site's art direction */
     aspect-ratio: 4/3;
     background-color: #f5f5f7;
 }
@@ -680,7 +680,7 @@
     -webkit-backdrop-filter: blur(8px);
     color: #fff;
     padding: 6px 12px;
-    border-radius: 8px;
+    border-radius: 0; /* Sharp editorial edges, matches the site's art direction */
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.1em;

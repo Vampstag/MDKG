@@ -131,7 +131,7 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="../css/style.css?v=112">
+        <link rel="stylesheet" href="../css/style.css?v=124">
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -306,19 +306,19 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="wrapper-mobile-and-desktop">
-                            <!-- Search Bar -->
-                            <div class="portfolio-search-container">
-                                <div class="search-icon">
-                                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                </div>
-                                <input type="text" id="portfolio-search" class="search-input" placeholder="Search projects...">
-                                <div class="clear-icon">
-                                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                </div>
-                            </div>
-
                             <!-- Dropdown Filters -->
                             <div class="portfolio-filters-wrapper">
+                                <!-- Search Bar — first item in the same row/system as the filter
+                                     dropdowns below, not a separate floating element above them. -->
+                                <div class="portfolio-search-container">
+                                    <div class="search-icon">
+                                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </div>
+                                    <input type="text" id="portfolio-search" class="search-input" placeholder="Search projects...">
+                                    <div class="clear-icon">
+                                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    </div>
+                                </div>
                                 <select id="filter-industry" class="custom-select">
                                     <option value="all">All Industries</option>
                                     <option value="Fashion">Fashion</option>
@@ -330,9 +330,11 @@
                                 <select id="filter-role" class="custom-select">
                                     <option value="all">All Services</option>
                                     <option value="Video Production">Video Production</option>
-                                    <option value="Editing & Motion">Editing & Motion</option>
-                                    <option value="Color & Finishing">Color & Finishing</option>
-                                    <option value="Concept Development">Concept Development</option>
+                                    <option value="Photo Production">Photo Production</option>
+                                    <option value="Editing">Editing</option>
+                                    <option value="Motion Graphic">Motion Graphic</option>
+                                    <option value="Color Grading">Color Grading</option>
+                                    <option value="Social Media">Social Media</option>
                                 </select>
                                 
                                 <select id="filter-year" class="custom-select">

@@ -54,9 +54,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 10,
                 title: "Ngaliwet Raos",
                 year: "2026",
-                category: "Video Production · Editing & Motion",
+                category: "Video Production · Photo Production · Editing · Motion Graphic",
                 industry: "F&B",
-                roles: ["Video Production", "Editing & Motion"],
+                roles: ["Video Production", "Photo Production", "Editing", "Motion Graphic"],
                 link: "",
                 clientName: "Ngaliwet Raos",
                 description: "Organic social content for Ngaliwet Raos, creating photography and video for its Instagram presence.",
@@ -69,13 +69,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 9,
                 title: "Andrea Bocelli",
                 year: "2026",
-                category: "Video Production · Editing & Motion",
+                category: "Video Production · Editing · Motion Graphic",
                 industry: "Live Event",
-                roles: ["Video Production", "Editing & Motion"],
+                roles: ["Video Production", "Editing", "Motion Graphic"],
                 link: "/portfolio/andrea-bocelli-romanza-indonesia",
-                clientName: "Panen Maya Digital",
+                clientName: "Andrea Bocelli",
                 description: "Visual production for Andrea Bocelli's Romanza 30th Anniversary World Tour in Indonesia.",
-                brandInfo: "Developed through Observisual for Panen Maya Digital, covering Andrea Bocelli's Romanza World Tour across two Indonesian shows in Borobudur and Jakarta.",
+                brandInfo: "Andrea Bocelli is set to return to Indonesia for two special concerts in Borobudur and JIExpo, Jakarta, as part of his worldwide tour celebrating 30 years of Romanza, the landmark album that helped establish his global career.",
                 image: "../assets/images/project/andrea-bocelli/romanza-main-hero.webp",
                 srcset: "",
                 ongoing: true
@@ -84,9 +84,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 8,
                 title: "Torch Prestachill",
                 year: "2026",
-                category: "Video Production · Editing & Motion",
+                category: "Video Production · Editing · Motion Graphic",
                 industry: "Fashion",
-                roles: ["Video Production", "Editing & Motion"],
+                roles: ["Video Production", "Editing", "Motion Graphic"],
                 link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
@@ -99,9 +99,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 7, // Pastikan ID unik
                 title: "Torch × Gundam",
                 year: "2026",
-                category: "Video Production · Editing & Motion · Color & Finishing",
+                category: "Video Production · Editing · Motion Graphic · Color Grading",
                 industry: "Fashion", // [NEW] Properti Industri
-                roles: ["Video Production", "Editing & Motion", "Color & Finishing"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
+                roles: ["Video Production", "Editing", "Motion Graphic", "Color Grading"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.", // Ganti dengan deskripsi proyek
@@ -113,9 +113,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Editing & Motion · Concept Development",
+                category: "Video Production · Photo Production · Editing · Social Media",
                 industry: "F&B",
-                roles: ["Editing & Motion", "Concept Development"],
+                roles: ["Video Production", "Photo Production", "Editing", "Social Media"],
                 link: "/portfolio/tsukamie",
                 clientName: "Tsukamie",
                 description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",
@@ -151,6 +151,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
         };
 
         // --- NEW: Event Delegation for Client Accordion & Shake Animation ---
+        // Closes any other open "About [Client]" accordion — only one stays open at a
+        // time, whether that's because the user opened a different card's accordion or
+        // clicked anywhere else on the page.
+        const closeOtherAccordions = (exceptTrigger) => {
+            document.querySelectorAll('.client-accordion-trigger.is-open').forEach(openTrigger => {
+                if (openTrigger === exceptTrigger) return;
+                openTrigger.classList.remove('is-open');
+                const openContent = openTrigger.nextElementSibling;
+                if (openContent) openContent.style.height = '0px';
+            });
+        };
+
         if (gridContainer) {
             gridContainer.addEventListener('click', (e) => {
                 const trigger = e.target.closest('.client-accordion-trigger');
@@ -158,7 +170,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     e.preventDefault();
                     const content = trigger.nextElementSibling;
                     const isOpen = trigger.classList.contains('is-open');
-                    
+
+                    closeOtherAccordions(trigger);
+
                     if (isOpen) {
                         trigger.classList.remove('is-open');
                         content.style.height = '0px';
@@ -166,9 +180,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         trigger.classList.add('is-open');
                         content.style.height = content.scrollHeight + 'px';
                     }
-                    
+
                     // Optional: Refresh ScrollTrigger after animation so page physics don't break
-                    setTimeout(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 400); 
+                    setTimeout(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 400);
                 }
 
                 // [NEW] Animasi goyang (shake) gembok jika card on-going diklik
@@ -200,7 +214,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
             });
         }
-        
+
+        // Clicking anywhere outside an open accordion (another card, a filter, the
+        // page background) closes it too — not just clicking its own trigger again.
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.client-info-accordion')) return;
+            closeOtherAccordions(null);
+        });
+
         let currentSearch = '';
         let currentIndustry = 'all'; // [NEW] State default filter industri
         let currentRole = 'all'; // [NEW] State default filter role
@@ -307,13 +328,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                         }
                                     </div>
                                 </${WrapperTag}>
-                                <div class="margin-15px right" style="flex-direction: column; align-items: stretch; gap: 10px;">
-                                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                                        ${categoryBadgesHTML}
+                                <div class="margin-15px right">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                        <${WrapperTag} ${hrefAttr} class="text-block-3 portfolio-title-link">${project.title}</${WrapperTag}>
+                                        <div class="text-block-3" style="pointer-events: none; flex-shrink: 0;">${project.ongoing ? 'On-going' : project.year}</div>
                                     </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
-                                        <${WrapperTag} ${hrefAttr} class="text-block-3 portfolio-title-link" style="font-size: clamp(1.35rem, 4vw, 1.75rem); letter-spacing: -0.03em;">${project.title}</${WrapperTag}>
-                                        <div class="text-block-3" style="pointer-events: none; margin-top: 6px; flex-shrink: 0; font-size: 1rem;">${project.ongoing ? 'On-going' : project.year}</div>
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        ${categoryBadgesHTML}
                                     </div>
                                     <div class="client-info-accordion">
                                         <div class="client-accordion-trigger">

@@ -1163,24 +1163,29 @@ html.lenis, html.lenis body { height: auto; }
    16. PORTFOLIO GRID & SEARCH UI
    ========================================= */
 
-/* Search Bar Styling */
+/* Search Bar Styling — sits as the first item in .portfolio-filters-wrapper's row
+   now (not a separate circle-that-expands element floating above the filters), so
+   it's sized/styled to match .custom-select's footprint and reads as one unified
+   filter system instead of two visually different UI patterns stacked vertically. */
 .portfolio-search-container {
     position: relative;
-    width: 54px; /* Initial width (circle) */
-    height: 54px;
-    max-width: 54px;
-    margin: 0 auto 60px; /* Jarak ke tabs */
+    display: flex;
+    align-items: center;
+    width: 220px;
+    max-width: 220px;
+    height: 47px; /* Matches .custom-select's rendered height (12px+12px padding + line-height) so both sit flush in the same row */
+    margin: 0;
     background-color: #f9f9f9;
     border-radius: 0;
-    transition: all 0.5s var(--ease-smooth); /* Smooth ease */
-    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+    cursor: text;
     overflow: hidden;
     border: 1px solid #e5e5e5;
+    flex-shrink: 0;
 }
 
-.portfolio-search-container.active {
-    width: 100%;
-    max-width: 400px;
+.portfolio-search-container.active,
+.portfolio-search-container:focus-within {
     background-color: #fff;
     border-color: #000;
     box-shadow: none;
@@ -1189,30 +1194,36 @@ html.lenis, html.lenis body { height: auto; }
 .search-input {
     width: 100%;
     height: 100%;
-    padding: 0 24px 0 54px;
+    padding: 12px 40px 12px 44px;
     border: none;
     background: transparent;
     font-family: var(--font-primary);
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--text-primary);
     outline: none;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease 0.1s;
-}
-
-.portfolio-search-container.active .search-input {
     opacity: 1;
     pointer-events: auto;
 }
 
+.search-input::placeholder {
+    color: var(--text-primary);
+    opacity: 0.6;
+}
+
 .search-icon {
     position: absolute;
-    left: 17px; /* Centered in 54px */
+    left: 16px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    /* Geometric center (translateY(-50%) alone) reads as too low: the magnifying-
+       glass glyph's circle sits in the SVG's upper-left area with its handle
+       trailing down-right (viewBox 0 0 24 24, circle at cx11/cy11/r8, handle to
+       21,21) — the visual "weight" of the glyph is above the box's true center,
+       so centering the box exactly makes the icon itself look off. Nudging up
+       ~1px compensates for that optical imbalance. */
+    transform: translateY(calc(-50% - 1px));
+    width: 16px;
+    height: 16px;
     color: #111;
     pointer-events: none;
     z-index: 2;
@@ -1221,11 +1232,11 @@ html.lenis, html.lenis body { height: auto; }
 
 .clear-icon {
     position: absolute;
-    right: 20px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     color: #999;
     cursor: pointer;
     opacity: 0;
@@ -1254,6 +1265,14 @@ html.lenis, html.lenis body { height: auto; }
     gap: 40px;
     width: 100%;
     margin-top: 40px;
+    /* Default grid behavior (align-items: stretch) forces every card in a row to
+       match the tallest one — so opening one card's "About [Client]" accordion
+       (which grows that card) stretched its row-neighbor to match, even though the
+       neighbor's own accordion was closed. That neighbor's height:100% + flex-column
+       then pushed the leftover space to the bottom of ITS card, showing as empty
+       space below its already-closed, already-empty-text accordion. Each card should
+       size to its own content instead of its row's tallest sibling. */
+    align-items: start;
 }
 
 @media (min-width: 768px) {
@@ -1478,15 +1497,32 @@ html.lenis, html.lenis body { height: auto; }
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    border-radius: 0;
+    border-radius: 0 !important; /* Webflow's shared stylesheet rules for this element's other classes (w-inline-block etc) were winning the rounded-corner property — see .image-wrap below for the same fix */
     overflow: hidden;
     text-decoration: none;
+    /* height was 100% here, which — even with #portfolio-grid's align-items:start —
+       still let this card try to fill its grid cell whenever the cell's own auto-sized
+       track ended up taller (e.g. a row-neighbor's accordion is open). A closed card
+       has no content that needs that extra height, so the leftover space showed up
+       as dead space below its own already-closed accordion. Removing height:100%
+       makes every card size purely to its own content, independent of its siblings. */
     color: var(--text-primary);
     box-shadow: none;
     border: 1px solid rgba(0, 0, 0, 0.08);
     transition: transform 0.6s var(--ease-smooth);
     will-change: transform;
-    height: 100%;
+}
+
+.blog-main-wrapper img,
+.blog-main-wrapper .paralax-image {
+    border-radius: 0 !important;
+}
+
+/* Corner "view project" arrow button — had no local rule at all before, so it was
+   rendering with whatever radius Webflow's shared stylesheet gives .w-inline-block/
+   button elements by default instead of the site's sharp-edge language. */
+.blog-main-wrapper .button-icon-main {
+    border-radius: 0 !important;
 }
 
 .blog-main-wrapper:hover {
@@ -1499,16 +1535,28 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     width: 100%;
     background-color: #f5f5f7;
-    border-radius: 0;
+    /* !important: this element also carries Webflow's own .w-inline-block class (see
+       portfolio.js's card markup — class="image-wrap auto full-ratio w-inline-block"),
+       and the Webflow shared stylesheet's own rules for that class were still winning
+       the rounded-corner property over this same-specificity single-class selector,
+       leaving these cards visibly rounded despite the site's sharp-edge editorial
+       direction everywhere else. */
+    border-radius: 0 !important;
 }
 
 /* Portfolio specific text padding */
 .blog-main-wrapper .margin-15px.right {
-    padding: 32px 28px;
+    /* This is a single vertical stack (category badges, then the title row, then the
+       accordion) — align-items:center on the outer flex-column was a leftover from
+       when this was a simple row, and had no real effect on a column layout with
+       width:100% children, but the loose padding/gap rhythm below was what actually
+       read as "cramped" against the site's editorial spacing elsewhere. */
+    padding: 28px 28px 24px;
     margin: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
     width: 100%;
     box-sizing: border-box;
     background: #fff;
@@ -1521,6 +1569,7 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: -0.03em;
     color: #111;
     margin: 0;
+    line-height: 1.2;
 }
 
 .blog-main-wrapper .margin-15px.right .text-block-3:last-child {
@@ -1650,9 +1699,11 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding-top: 16px;
-    border-top: 1px solid rgba(0,0,0,0.03);
-    margin-top: 20px;
+    /* Parent's own gap:14px already provides the separation from the title row above
+       — the old padding-top/margin-top combo stacked on top of that, which is what
+       pushed this trigger down further than the rest of the card's spacing rhythm. */
+    padding-top: 14px;
+    border-top: 1px solid rgba(0,0,0,0.06);
     transition: color 0.3s ease;
 }
 .client-accordion-trigger:hover { color: #111; }
@@ -1674,7 +1725,13 @@ html.lenis, html.lenis body { height: auto; }
     letter-spacing: normal;
 }
 
-/* [NEW] Portfolio Card Category Badge */
+/* [NEW] Portfolio Card Category Badge — one badge per category (Video Production,
+   Editing & Motion, Color & Finishing, etc), rendered as separate elements by
+   portfolio.js's categoryBadgesHTML (split on the '·' in each project's category
+   string). A stronger, more visible border here (was a barely-there 8% black) is
+   what actually reads as "separate chips" at a glance instead of one continuous
+   label — the DOM/spacing were already correct, the border was just too faint to
+   register as a boundary between adjacent badges. */
 .portfolio-card-category-badge {
     display: inline-flex;
     align-items: center;
@@ -1683,11 +1740,11 @@ html.lenis, html.lenis body { height: auto; }
     padding: 3px 8px;
     border-radius: 0; /* Squircle, not circle — matches the site's art direction */
     font-family: var(--font-primary);
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(0, 0, 0, 0.18);
     line-height: 1.2;
     white-space: nowrap;
 }
