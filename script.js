@@ -1188,9 +1188,16 @@ function initInteractiveHero() {
     // Split the hero title into per-letter spans so it reveals letter by letter on load,
     // instead of animating in as a single blurred block. Line breaks (<br>) are preserved
     // so "Brand" / "Creative" still stack the same way.
+    // Desktop-only: this whole reveal (the split + its GSAP timeline below) sits behind
+    // runAnimations(), which itself waits on the navbar/footer fetch and the preloader —
+    // on a slow mobile connection that stacked delay was leaving the title's letters
+    // stuck at opacity:0 (invisible) until either the timeline finally ran or the 2500ms
+    // safety-net timeout below fired. Mobile skips the split/animation entirely and the
+    // title is just plain visible text from first paint, same as its CSS default.
+    const isDesktopHero = window.matchMedia('(min-width: 992px)').matches;
     const heroTitle = document.querySelector(".hero-huge-title");
     let heroTitleChars = [];
-    if (heroTitle && !heroTitle.dataset.split) {
+    if (isDesktopHero && heroTitle && !heroTitle.dataset.split) {
         heroTitle.dataset.split = 'true'; // guard against double-init re-splitting already-split spans
         const lines = heroTitle.innerHTML.split(/<br\s*\/?>/i);
         heroTitle.innerHTML = '';
@@ -2485,8 +2492,13 @@ function initHeroRevealPin() {
     const reveal = document.getElementById('content-reveal');
     if (!hero || !reveal || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     const isDesktop = window.matchMedia('(min-width: 992px)').matches;
-    const isPhone = window.matchMedia('(max-width: 767px)').matches;
-    if (!isDesktop && !isPhone) return;
+    // Phones no longer get the pinned "rising card" reveal: pinning the hero kept its
+    // 18-video carousel (plus the scroll-driven pin math itself) actively rendering for
+    // the entire scroll-through of #content-reveal — on real phone hardware that showed
+    // up as exactly the lag/stutter reported scrolling from the hero into the "essence"
+    // section right after it. Desktop keeps the pin (GPU/CPU headroom to spare); mobile
+    // just scrolls the hero and reveal normally, one after the other.
+    if (!isDesktop) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -2496,7 +2508,6 @@ function initHeroRevealPin() {
         endTrigger: reveal,
         end: 'top top',
         pin: true,
-        pinType: isPhone ? 'transform' : undefined, // avoids position:fixed on phones, where address-bar show/hide otherwise fights the pin and can leave a gap
         pinSpacing: false, // reveal should scroll up over the pinned hero, not push it away
     });
 
