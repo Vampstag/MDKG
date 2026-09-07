@@ -1939,14 +1939,14 @@ html.lenis, html.lenis body { height: auto; }
     width: 8px;
     height: 8px;
     transition: all 0.5s var(--ease-smooth);
-    border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+    border-radius: 50%;
     margin: 0 !important;
 }
 
 .bits-slider .swiper-pagination-bullet-active {
     background: #111111;
     width: 32px; /* Lebih elegan ala Apple UI */
-    border-radius: 0; /* Squircle, matches the inactive bullet's radius */
+    border-radius: 4px; /* Pill shape once stretched wide — a full 50% would just round the short ends */
 }
 
 /* Custom Navigation Arrows for Bits Slider */
@@ -1956,7 +1956,7 @@ html.lenis, html.lenis body { height: auto; }
     background: #111; /* Kontras gelap agar terlihat jelas di atas background putih */
     width: 56px;
     height: 56px;
-    border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+    border-radius: 50%;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: none;
@@ -3371,7 +3371,7 @@ html.lenis, html.lenis body { height: auto; }
     .cs-sticky-nav { display: none; } /* Hide on mobile/tablet */
 }
 .cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 4px; }
-.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 0; background-color: rgba(0,0,0,0.15); transition: all 0.3s var(--ease-smooth); }
+.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s var(--ease-smooth); }
 /* --page-accent falls back to #111 when a page doesn't set it (only case studies with
    a brand color on <body> override it), so the active nav dot picks up that project's
    own brand color instead of being flat black on every case study alike. */
@@ -4872,7 +4872,7 @@ html.lenis, html.lenis body { height: auto; }
 .cs-testimonial-avatar {
     width: 64px;
     height: 64px;
-    border-radius: 0;
+    border-radius: 50%;
     object-fit: cover;
     margin-bottom: 8px;
     box-shadow: none;
@@ -7361,38 +7361,6 @@ a.social-icon:hover img {
 
 .bento-item:hover .bento-video, .bento-item.is-active .bento-video {
     transform: scale(1.05);
-}
-
-/* [NEW] Selection caption — a small always-visible label explaining WHY this piece was
-   chosen for Selected Outputs (highest engagement, widest reach, etc), so a reviewer
-   doesn't have to guess the curation logic. Sits above the overlay, visible without hover. */
-.bento-select-caption {
-    position: absolute;
-    top: 24px;
-    left: 24px;
-    z-index: 4;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: #111;
-    border: none;
-    border-radius: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    pointer-events: none;
-}
-@media (max-width: 767px) {
-    .bento-select-caption {
-        top: 16px;
-        left: 16px;
-        padding: 5px 10px;
-        font-size: 0.65rem;
-    }
 }
 
 .bento-overlay {
