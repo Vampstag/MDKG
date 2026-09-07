@@ -1215,19 +1215,22 @@ html.lenis, html.lenis body { height: auto; }
     position: absolute;
     left: 16px;
     top: 50%;
-    /* Geometric center (translateY(-50%) alone) reads as too low: the magnifying-
-       glass glyph's circle sits in the SVG's upper-left area with its handle
-       trailing down-right (viewBox 0 0 24 24, circle at cx11/cy11/r8, handle to
-       21,21) — the visual "weight" of the glyph is above the box's true center,
-       so centering the box exactly makes the icon itself look off. Nudging up
-       ~1px compensates for that optical imbalance. */
-    transform: translateY(calc(-50% - 1px));
+    transform: translateY(-50%);
     width: 16px;
     height: 16px;
     color: #111;
     pointer-events: none;
     z-index: 2;
     transition: color 0.3s ease;
+}
+
+/* Inline <svg> defaults to display:inline, which sits it on a text baseline and leaves
+   descender space below the glyph inside its box — that leftover space was what made
+   the search icon read as sitting too low even though its box itself was centered.
+   display:block removes the baseline gap so the glyph fills its box evenly. */
+.search-icon svg,
+.clear-icon svg {
+    display: block;
 }
 
 .clear-icon {
