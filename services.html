@@ -257,86 +257,57 @@
             <section id="core-services" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <!-- Single-column accordion: big bold title + circular +/- toggle per row.
-                             Opening a row reveals a tag list of what's included, then the squircle
-                             visual, then a short description — all inline, stacked below the title,
-                             instead of a separate side panel. Placeholder photos stand in until real
-                             service photography is shot — swap the <img src> per row when ready. -->
-                        <div class="services-accordion-v2">
-                            <div class="services-acc-row" data-target="svc-1">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">01</span>
-                                    <span class="services-acc-row__title">Video Production</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Planning, directing, and shooting content for campaigns, social, and branded storytelling.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-1.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
-                                    </div>
+                        <!-- Sticky scroll showcase: the image column pins on the right while the
+                             text column (index + title + description) scrolls past on the left;
+                             each .services-sticky__step activates its own image as it crosses
+                             center-screen. Driven by ScrollTrigger below. Placeholder photos
+                             stand in until real service photography is shot. -->
+                        <div class="services-sticky" id="services-sticky">
+                            <div class="services-sticky__text">
+                                <div class="services-sticky__step is-active" data-target="svc-1">
+                                    <span class="services-sticky__num">01</span>
+                                    <h3 class="services-sticky__title">Video Production</h3>
+                                    <p class="services-sticky__desc">Planning, directing, and shooting content for campaigns, social, and branded storytelling.</p>
+                                </div>
+                                <div class="services-sticky__step" data-target="svc-2">
+                                    <span class="services-sticky__num">02</span>
+                                    <h3 class="services-sticky__title">Editing &amp; Motion</h3>
+                                    <p class="services-sticky__desc">Editing, motion design, sound, and pacing shaped for how each format is actually watched.</p>
+                                </div>
+                                <div class="services-sticky__step" data-target="svc-3">
+                                    <span class="services-sticky__num">03</span>
+                                    <h3 class="services-sticky__title">Color &amp; Finishing</h3>
+                                    <p class="services-sticky__desc">Building a consistent visual language across every asset, from technical correction to the final grade.</p>
+                                </div>
+                                <div class="services-sticky__step" data-target="svc-4">
+                                    <span class="services-sticky__num">04</span>
+                                    <h3 class="services-sticky__title">Concept Development</h3>
+                                    <p class="services-sticky__desc">Turning briefs and audience insights into visual concepts, storyboards, and content directions that fit the brand.</p>
                                 </div>
                             </div>
-                            <div class="services-acc-row" data-target="svc-2">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">02</span>
-                                    <span class="services-acc-row__title">Editing &amp; Motion</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Editing, motion design, sound, and pacing shaped for how each format is actually watched.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-4.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
+
+                            <div class="services-sticky__visual-col">
+                                <div class="services-sticky__visual">
+                                    <div class="services-sticky__image is-active" data-target="svc-1">
+                                        <img src="assets/images/project/torch/bts-1.webp" alt="Video Production" loading="lazy" decoding="async">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="services-acc-row" data-target="svc-3">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">03</span>
-                                    <span class="services-acc-row__title">Color &amp; Finishing</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Building a consistent visual language across every asset, from technical correction to the final grade.</p>
-                                        <div class="services-acc-row__visual services-acc-row__visual--fade-cycle">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                            <img src="assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        </div>
+                                    <div class="services-sticky__image" data-target="svc-2">
+                                        <img src="assets/images/project/torch/bts-4.webp" alt="Editing &amp; Motion" loading="lazy" decoding="async">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="services-acc-row" data-target="svc-4">
-                                <button class="services-acc-row__trigger" type="button" aria-expanded="false">
-                                    <span class="services-acc-row__num">04</span>
-                                    <span class="services-acc-row__title">Concept Development</span>
-                                    <span class="services-acc-row__toggle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    </span>
-                                </button>
-                                <div class="services-acc-row__panel">
-                                    <div class="services-acc-row__panel-inner">
-                                        <p class="services-acc-row__desc">Turning briefs and audience insights into visual concepts, storyboards, and content directions that fit the brand.</p>
-                                        <div class="services-acc-row__visual">
-                                            <img src="assets/images/project/torch/bts-2.webp" alt="" loading="lazy" decoding="async">
-                                        </div>
+                                    <div class="services-sticky__image services-sticky__image--fade-cycle" data-target="svc-3">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                    </div>
+                                    <div class="services-sticky__image" data-target="svc-4">
+                                        <img src="assets/images/project/torch/bts-2.webp" alt="Concept Development" loading="lazy" decoding="async">
                                     </div>
                                 </div>
                             </div>
@@ -1088,106 +1059,54 @@
                 initAccordionReveal();
             });
             
-            // Script for the Services Accordion (single-column, +/- toggle rows, inline
-            // tags + squircle visual + description revealed below the title when open).
-            // Height is animated with GSAP rather than a CSS grid-rows 0fr/1fr snap, so the
-            // open/close reads as a smooth, liquid unfold instead of a mechanical toggle.
+            // Script for the Services sticky scroll showcase: the visual column (right)
+            // pins in place while the text column (left) scrolls past; each
+            // .services-sticky__step becomes "active" as it crosses the vertical center,
+            // swapping which .services-sticky__image is shown via crossfade. Pinning +
+            // step activation both run through ScrollTrigger, one trigger per step.
             window.addEventListener('preloaderDone', () => {
-                const initServicesAccordion = () => {
-                    if (typeof gsap === 'undefined') {
-                        setTimeout(initServicesAccordion, 50);
+                const initServicesSticky = () => {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initServicesSticky, 50);
                         return;
                     }
 
-                    const rows = document.querySelectorAll('.services-acc-row');
-                    if (!rows.length) return;
+                    const wrapper = document.querySelector('.services-sticky');
+                    const steps = document.querySelectorAll('.services-sticky__step');
+                    const images = document.querySelectorAll('.services-sticky__image');
+                    const visualCol = document.querySelector('.services-sticky__visual-col');
+                    if (!wrapper || !steps.length || !images.length || !visualCol) return;
 
-                    // Opening/closing a row changes the accordion's total height, which shifts
-                    // every section below it (Services Essence's scroll-scrubbed quote reveal
-                    // included) — without a refresh, ScrollTrigger keeps using the trigger
-                    // positions it measured on page load and the reveal drifts out of sync with
-                    // where the quote actually sits after the layout has moved.
-                    const refreshScrollTrigger = () => {
-                        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-                    };
-
-                    const closeRow = (row) => {
-                        const panel = row.querySelector('.services-acc-row__panel');
-                        row.classList.remove('is-open');
-                        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'false');
-                        gsap.to(panel, { height: 0, opacity: 0, duration: 0.6, ease: 'power3.inOut', onComplete: refreshScrollTrigger });
-                    };
-
-                    const openRow = (row) => {
-                        const panel = row.querySelector('.services-acc-row__panel');
-                        const inner = row.querySelector('.services-acc-row__panel-inner');
-                        row.classList.add('is-open');
-                        row.querySelector('.services-acc-row__trigger').setAttribute('aria-expanded', 'true');
-                        gsap.set(panel, { height: 'auto' });
-                        const targetHeight = panel.offsetHeight;
-                        gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: targetHeight, opacity: 1, duration: 0.8, ease: 'power3.inOut', onComplete: () => { panel.style.height = 'auto'; refreshScrollTrigger(); } });
-                        gsap.fromTo(inner, { y: 16 }, { y: 0, duration: 0.7, ease: 'power3.out', delay: 0.05 });
-
-                        // Auto-snap so the opened row's title sits a fixed comfortable distance
-                        // from the top of the viewport — not the row's own vertical center,
-                        // since once opened the row is much taller than the viewport (title +
-                        // description + image) and centering just the trigger left most of the
-                        // revealed content below the fold. Runs after the height animation
-                        // settles so the measurement reflects the row's final expanded size,
-                        // and uses Lenis for smoothness consistent with the rest of the site.
-                        const OFFSET_FROM_TOP = 120;
-                        setTimeout(() => {
-                            const rect = row.getBoundingClientRect();
-                            const targetY = window.scrollY + rect.top - OFFSET_FROM_TOP;
-                            if (window.lenis) {
-                                window.lenis.scrollTo(targetY, { duration: 1.0 });
-                            } else {
-                                window.scrollTo({ top: targetY, behavior: 'smooth' });
-                            }
-                        }, 850);
-                    };
-
-                    const toggle = (targetId) => {
-                        rows.forEach(row => {
-                            const isTarget = row.dataset.target === targetId;
-                            const isOpen = row.classList.contains('is-open');
-                            if (isTarget) {
-                                isOpen ? closeRow(row) : openRow(row);
-                            } else if (isOpen) {
-                                closeRow(row);
-                            }
+                    // Only pin on wider viewports — on mobile the two columns stack and
+                    // pinning a full-height image while short text steps scroll past would
+                    // just trap the user in an oversized image with nothing to do.
+                    const mm = gsap.matchMedia();
+                    mm.add('(min-width: 900px)', () => {
+                        ScrollTrigger.create({
+                            trigger: wrapper,
+                            start: 'top top',
+                            end: 'bottom bottom',
+                            pin: visualCol,
+                            anticipatePin: 1
                         });
-                    };
-
-                    rows.forEach(row => {
-                        const trigger = row.querySelector('.services-acc-row__trigger');
-                        trigger.addEventListener('click', () => toggle(row.dataset.target));
                     });
 
-                    // The first row starts marked .is-open in the markup, but the panel's
-                    // CSS default is height:0 — set its real height now so it renders open
-                    // instead of flashing collapsed before any click happens.
-                    const initiallyOpen = document.querySelector('.services-acc-row.is-open');
-                    if (initiallyOpen) {
-                        const panel = initiallyOpen.querySelector('.services-acc-row__panel');
-                        gsap.set(panel, { height: 'auto', opacity: 1 });
-                    }
+                    const activate = (targetId) => {
+                        steps.forEach(step => step.classList.toggle('is-active', step.dataset.target === targetId));
+                        images.forEach(img => img.classList.toggle('is-active', img.dataset.target === targetId));
+                    };
 
-                    // Staggered fade/slide-in as the section scrolls into view, so the list
-                    // reads as an entrance rather than sitting static on the page.
-                    if (typeof ScrollTrigger !== 'undefined') {
-                        gsap.set(rows, { opacity: 0, y: 30 });
+                    steps.forEach(step => {
                         ScrollTrigger.create({
-                            trigger: '.services-accordion-v2',
-                            start: 'top 85%',
-                            once: true,
-                            onEnter: () => {
-                                gsap.to(rows, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1 });
-                            }
+                            trigger: step,
+                            start: 'top center',
+                            end: 'bottom center',
+                            onEnter: () => activate(step.dataset.target),
+                            onEnterBack: () => activate(step.dataset.target)
                         });
-                    }
+                    });
                 };
-                initServicesAccordion();
+                initServicesSticky();
 
                 // Auto-crossfades Color & Finishing's stacked graded stills — same helper
                 // used on the homepage's copy of this accordion (see initServicesFadeCycle

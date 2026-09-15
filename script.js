@@ -2688,7 +2688,7 @@ function initHomeServicesAccordion() {
  * to gate the interval on open/closed state — simpler than starting/stopping per toggle.
  */
 function initServicesFadeCycle() {
-    document.querySelectorAll('.services-acc-row__visual--fade-cycle').forEach((wrapper) => {
+    document.querySelectorAll('.services-acc-row__visual--fade-cycle, .services-list-row__visual--fade-cycle, .services-sticky__image--fade-cycle').forEach((wrapper) => {
         const frames = Array.from(wrapper.querySelectorAll('img'));
         if (frames.length < 2) return;
         let current = frames.findIndex((img) => img.classList.contains('is-active'));
