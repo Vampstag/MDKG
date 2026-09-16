@@ -889,8 +889,8 @@ html.lenis, html.lenis body { height: auto; }
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: #f5f5f7; /* Ultra clean Apple off-white */
-    padding: 120px 20px 40px;
+    background-color: #fff; /* Matches the site's white page background instead of a separate off-white */
+    padding: 160px 20px 80px;
     position: relative;
     z-index: 10; /* Turunkan z-index agar tidak menutupi mobile menu overlay (998) */
 }
@@ -907,13 +907,15 @@ html.lenis, html.lenis body { height: auto; }
 
 .error-code {
     font-family: var(--font-primary);
-    font-size: clamp(8rem, 25vw, 18rem);
+    font-size: clamp(6rem, 18vw, 11rem); /* Brought down from clamp(8rem,25vw,18rem) — the old
+        scale was disproportionate to every other headline on the site (e.g. --text-display
+        tops out at 8.5rem) and read as oversized/off-brand rather than confidently large. */
     font-weight: 800;
-    line-height: 0.8;
-    letter-spacing: -0.05em;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
     margin: 0;
-    color: rgba(29, 29, 31, 0.04);
-    margin-bottom: -30px;
+    color: #111;
+    margin-bottom: 8px;
     position: relative;
     z-index: 1;
     user-select: none;
@@ -921,23 +923,25 @@ html.lenis, html.lenis body { height: auto; }
 
 .error-heading {
     font-family: var(--font-primary);
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: var(--text-h4);
     font-weight: 700;
-    color: #1d1d1f;
+    color: #111;
     letter-spacing: -0.03em;
-    margin: 0 0 12px 0;
+    margin: 0 0 16px 0;
     z-index: 2;
     position: relative;
 }
 
 .error-message {
     font-family: var(--font-primary);
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    line-height: 1.5;
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
     margin-top: 0;
     margin-bottom: 48px;
-    font-weight: 400;
-    color: #86868b;
+    font-weight: var(--body-copy-weight);
+    color: var(--body-copy-color);
+    text-transform: none; /* Overrides the shared Webflow CSS's default uppercase on <p>, which made this read as a hard, all-caps warning banner instead of quiet body copy. */
     max-width: 42ch;
     text-align: center;
     background-color: transparent;
@@ -945,43 +949,45 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 2;
 }
 
-/* 404 Button Styling */
+/* 404 Button Styling — matches the site's standard dark CTA button instead of a bespoke
+   outlined-ghost variant, so "Return Home" reads as the same primary action language used
+   everywhere else (e.g. the navbar's "Let's Talk" button). */
 .error-section .button-normal-black-wrapper-2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background-color: transparent;
-    color: #1d1d1f;
+    background-color: #111;
+    color: #fff;
     padding: 14px 28px;
     border-radius: 0; /* Squircle, not circle — matches the site's art direction */
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 1px solid #d2d2d7;
+    border: 1px solid #111;
     box-shadow: none;
     z-index: 2;
     position: relative;
 }
 
 .error-section .button-normal-black-wrapper-2:hover {
-    background-color: #e8e8ed;
-    border-color: #d2d2d7;
-    transform: none;
+    background-color: #333;
+    border-color: #333;
+    transform: translateY(-2px);
     box-shadow: none;
 }
 
 .error-section .button-normal-black-text-2 {
-    color: #1d1d1f;
+    color: #fff;
     font-weight: 500;
     font-size: 1rem;
 }
 
 .error-section .button-normal-black-arrow-image-white-2 {
-    display: none !important;
+    display: block !important; /* Button background is now dark (#111) — the white arrow reads correctly against it, the black one wouldn't */
 }
 
 .error-section .button-normal-black-arrow-image-black-2 {
-    display: block !important;
+    display: none !important;
 }
 /* #endregion */
 
@@ -1815,7 +1821,9 @@ html.lenis, html.lenis body { height: auto; }
     width: 100%;
     max-width: 360px;
     position: relative;
-    background: #ffffff;
+    background: #fafafa; /* Was pure white, same as .error-section's own background — the card
+        had no visible separation from the page behind it. A hair of gray plus the existing
+        border is enough to read as a distinct card without a shadow. */
     padding: 32px;
     border-radius: 0;
     border: 1px solid rgba(0, 0, 0, 0.08);
