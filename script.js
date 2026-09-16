@@ -2492,15 +2492,19 @@ function initHeroRevealPin() {
     const reveal = document.getElementById('content-reveal');
     if (!hero || !reveal || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     const isDesktop = window.matchMedia('(min-width: 992px)').matches;
-    // Phones no longer get the pinned "rising card" reveal: pinning the hero kept its
-    // 18-video carousel (plus the scroll-driven pin math itself) actively rendering for
-    // the entire scroll-through of #content-reveal — on real phone hardware that showed
-    // up as exactly the lag/stutter reported scrolling from the hero into the "essence"
-    // section right after it. Desktop keeps the pin (GPU/CPU headroom to spare); mobile
-    // just scrolls the hero and reveal normally, one after the other.
-    if (!isDesktop) return;
 
     gsap.registerPlugin(ScrollTrigger);
+
+    // Phones used to skip the pinned "rising card" reveal entirely, because pinning the
+    // hero kept its 18-video carousel actively decoding for the whole scroll-through of
+    // #content-reveal — on real phone hardware that was the actual source of the reported
+    // lag/stutter, not the pin math itself. Rather than dropping the effect (the visual
+    // language — #content-reveal sliding up to cover the pinned hero — is the same one
+    // the site uses elsewhere and is expected here too), mobile now keeps the pin but
+    // explicitly pauses every hero carousel video for the pin's duration, resuming them
+    // once the reveal has scrolled past. That removes the concurrent-decode cost while
+    // keeping the actual "section below lifts up over the section above" motion.
+    const heroVideos = isDesktop ? [] : Array.from(hero.querySelectorAll('video'));
 
     ScrollTrigger.create({
         trigger: hero,
@@ -2509,6 +2513,10 @@ function initHeroRevealPin() {
         end: 'top top',
         pin: true,
         pinSpacing: false, // reveal should scroll up over the pinned hero, not push it away
+        onEnter: () => heroVideos.forEach(v => v.pause()),
+        onEnterBack: () => heroVideos.forEach(v => v.pause()),
+        onLeave: () => heroVideos.forEach(v => { if (v.dataset.carouselActive) v.play().catch(() => {}); }),
+        onLeaveBack: () => heroVideos.forEach(v => { if (v.dataset.carouselActive) v.play().catch(() => {}); })
     });
 
     // Mobile browsers resize the viewport (dvh) as the URL bar collapses/expands on
@@ -2700,55 +2708,6 @@ function initServicesFadeCycle() {
             frames[next].classList.add('is-active');
             current = next;
         }, 2600);
-    });
-}
-
-/**
- * Journal article "like" button. Deliberately localStorage-only for now: the count is
- * per-browser, not a shared/global count synced across visitors — that scope limit is a
- * known next step (would need a small backend like Supabase), not an oversight. Each
- * article's like state and count are keyed off the current page path, so every journal
- * entry tracks its own independently without needing a per-page article ID in markup.
- */
-function initArticleLike() {
-    const btn = document.querySelector('.article-like-btn');
-    if (!btn) return;
-
-    const storageKey = `mdkg_liked_${window.location.pathname}`;
-    const countKey = `mdkg_like_count_${window.location.pathname}`;
-    const countEl = btn.querySelector('.article-like-count');
-
-    // Baseline count so a fresh browser doesn't show "0" on an article that clearly
-    // already has engagement — purely cosmetic, has no bearing on the real (absent)
-    // global count. Deterministic per-path so it doesn't reshuffle on every reload.
-    const seedFor = (path) => {
-        let hash = 0;
-        for (let i = 0; i < path.length; i++) hash = (hash * 31 + path.charCodeAt(i)) | 0;
-        return 8 + (Math.abs(hash) % 40); // a small, plausible-looking starting count
-    };
-
-    let liked = localStorage.getItem(storageKey) === 'true';
-    let count = parseInt(localStorage.getItem(countKey), 10);
-    if (isNaN(count)) {
-        count = seedFor(window.location.pathname) + (liked ? 1 : 0);
-    }
-
-    const render = () => {
-        btn.setAttribute('aria-pressed', String(liked));
-        if (countEl) countEl.textContent = count.toString();
-    };
-    render();
-
-    btn.addEventListener('click', () => {
-        liked = !liked;
-        count += liked ? 1 : -1;
-        localStorage.setItem(storageKey, String(liked));
-        localStorage.setItem(countKey, String(count));
-        render();
-        if (liked) {
-            btn.classList.add('is-liking');
-            setTimeout(() => btn.classList.remove('is-liking'), 300);
-        }
     });
 }
 
@@ -3011,6 +2970,29 @@ function initAboutShowreelReveal() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         gsap.set(wrapper, { clipPath: 'inset(0% 0% 0% 0% round 0px)' });
         if (video) gsap.set(video, { '--showreel-parallax-scale': 1 });
+        return;
+    }
+
+    // Desktop-only scrub, same gating as initHeroRevealPin and the essence-quote reveal
+    // (index.html): two live ScrollTrigger scrub listeners recalculating clip-path and a
+    // CSS custom property every scroll frame is real main-thread/paint cost on phones,
+    // stacked on top of an autoplaying video. Mobile gets a plain one-shot fade-up instead,
+    // matching the site's standard .fade-in-section language.
+    if (!window.matchMedia('(min-width: 992px)').matches) {
+        gsap.set(wrapper, { clipPath: 'inset(0% 0% 0% 0% round 0px)' });
+        if (video) gsap.set(video, { '--showreel-parallax-scale': 1 });
+        gsap.set(section, { opacity: 0, y: 30 });
+        gsap.to(section, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 90%',
+                once: true
+            }
+        });
         return;
     }
 

@@ -73,7 +73,7 @@
             "https://www.linkedin.com/in/dimasghadavi",
             "https://www.instagram.com/vampstag/"
           ],
-          "email": "contact@hellodimas.my.id",
+          "email": "dhiitakrisnaa@gmail.com",
           "telephone": "+62859106526627",
           "alumniOf": {
             "@type": "CollegeOrUniversity",
@@ -620,7 +620,7 @@
                                     </div>
                                 </div>
                                 <div class="work-card__info">
-                                    <h3 class="work-card__title">Torch Prestachill</h3>
+                                    <h3 class="work-card__title">Torch: Prestachill</h3>
                                     <div class="work-card__cta">
                                         <span>View Project</span>
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -819,8 +819,15 @@
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
         <script>
-            // [NEW] Site Essence: per-word reveal scrubbed to scroll position.
-            // Scrubbing (not a one-shot play) is what makes it reverse cleanly on scroll-up.
+            // [NEW] Site Essence reveal. Desktop keeps the per-word reveal scrubbed to scroll
+            // position (scrubbing is what makes it reverse cleanly on scroll-up). Mobile gets
+            // a plain one-shot fade-up instead — matching the site's standard .fade-in-section
+            // language (translateY(30)->0 + opacity, ~0.6s, power2.out, played once via
+            // IntersectionObserver) rather than a scroll-tied per-word animation. The per-word
+            // span-splitting used to run on mobile too but with the translateY dropped (kept
+            // opacity-only) purely for GPU cost — that made the reveal read as a flat fade
+            // with no motion, not a deliberate stylistic choice, so mobile now skips the
+            // word-splitting machinery entirely rather than running a degraded version of it.
             document.addEventListener('DOMContentLoaded', () => {
                 const initEssenceReveal = () => {
                     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
@@ -831,6 +838,24 @@
 
                     const quote = document.getElementById('essence-quote');
                     if (!quote) return;
+
+                    const isMobile = !window.matchMedia('(min-width: 992px)').matches;
+
+                    if (isMobile) {
+                        gsap.set(quote, { opacity: 0, y: 30 });
+                        gsap.to(quote, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: quote,
+                                start: 'top 90%',
+                                once: true // one-shot, not scroll-scrubbed — plays once and stays
+                            }
+                        });
+                        return;
+                    }
 
                     // Split on the markup's own <br> tags first, so hand-authored line breaks
                     // survive — otherwise reading plain textContent below would collapse them
@@ -850,27 +875,10 @@
                         .join('<br>');
 
                     const words = quote.querySelectorAll('.essence-word');
-                    const isMobile = !window.matchMedia('(min-width: 992px)').matches;
-
-                    // Mobile used to skip the scroll-scrubbed reveal entirely (a one-shot
-                    // fade instead) because it used to run alongside the pinned-hero's own
-                    // scroll-driven animation (see initHeroRevealPin in script.js) and the
-                    // two stacked on the same scroll frames read as stutter/jank ("kepotong,
-                    // ngelag"). initHeroRevealPin is desktop-only (>=992px) now, so that
-                    // conflict is gone — the scrub reveal below runs everywhere. On mobile the
-                    // starting translateY(30px) (set inline above) is cleared upfront instead
-                    // of animated, since animating transform on many small inline-block spans
-                    // is the more expensive part of this effect on weaker mobile GPUs — words
-                    // still reveal via opacity, they just don't also drift up. Without this
-                    // clear they'd otherwise get left sitting 30px offset forever, since the
-                    // tween below would never animate y back to 0 for them.
-                    if (isMobile) {
-                        gsap.set(words, { y: 0 });
-                    }
 
                     gsap.to(words, {
                         opacity: 1,
-                        ...(isMobile ? {} : { y: 0 }),
+                        y: 0,
                         duration: 0.4, // shorter than the gap between words, so each word's transition finishes before the next starts
                         stagger: 4 / words.length, // wide gap between words so each reveal reads as a distinct step, not a blurred sweep
                         ease: 'none',

@@ -139,15 +139,6 @@
                             <p>Maybe creative life is simply learning how to leave traces of feeling inside the things we make, hoping someone else recognizes them without needing them explained.<span class="end-mark">◼</span></p>
                         </div>
 
-                        <!-- Like widget: localStorage-only for now (see initArticleLike in
-                             script.js) — the count is per-browser, not synced across visitors. -->
-                        <div class="article-like-block cs-anim-el" style="opacity: 0;">
-                            <p class="article-like-note">If this resonated with you, a like means more than you'd think.</p>
-                            <button class="article-like-btn" type="button" aria-pressed="false" aria-label="Like this article">
-                                <svg class="article-like-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                <span class="article-like-count">0</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -172,12 +163,6 @@
                     gsap.fromTo('.cs-anim-el', { y: 30, opacity: 0, filter: 'blur(10px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.15, ease: "power2.out", delay: 0.1 });
                 };
                 initAnim();
-
-                const initLike = () => {
-                    if (typeof initArticleLike !== 'function') { setTimeout(initLike, 50); return; }
-                    initArticleLike();
-                };
-                initLike();
             });
         </script>
     </body>

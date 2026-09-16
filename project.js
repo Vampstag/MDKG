@@ -7,7 +7,7 @@ const projectsData = [
         id: "torch-prestachill",
         featured: false,
         category: "Video Production · Video Editing",
-        title: "Torch Prestachill",
+        title: "Torch: Prestachill",
         role: "Videographer & Video Editor",
         image: "assets/images/project/torch-prestachill/torch-prestachill-model.webp",
         link: "#",

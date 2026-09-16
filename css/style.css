@@ -14,15 +14,37 @@
        into the same element via radial-gradient, so the page reads like a scanned/printed
        sheet — texture concentrated in the corners the way ink/light falloff shows on real
        paper, not just uniform noise. Opacity pushed high enough to actually register instead
-       of a barely-there hint; overlay blend keeps it from ever muddying text contrast. */
+       of a barely-there hint; overlay blend keeps it from ever muddying text contrast.
+       isolation:isolate scopes mix-blend-mode's compositing to just this element instead of
+       the whole page, and contain:strict/will-change:opacity keep it off the main-thread
+       repaint path during scroll — a full-viewport fixed+blend layer is one of the pricier
+       things you can ask mobile GPUs to recomposite every frame otherwise. */
     opacity: 0.18;
     mix-blend-mode: overlay;
+    isolation: isolate;
+    contain: strict;
+    will-change: opacity;
     background-image:
         radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.5) 150%),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35   0 0 0 0 0.3   0 0 0 0 0.22  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
     background-repeat: no-repeat, repeat, repeat;
     background-size: 100% 100%, auto, auto;
+}
+/* On phones, drop to a single, coarser, static-looking noise layer: two layered SVG
+   feTurbulence filters plus a blend mode is real GPU/CPU cost on mobile chipsets, and the
+   texture is subtle enough at this size that the second fine-grain layer barely reads
+   anyway. Also drop mix-blend-mode there — blending is one of the most expensive paint
+   operations on low-end mobile GPUs, and a flat low-opacity overlay reads close enough. */
+@media (max-width: 767px), (pointer: coarse) {
+    .grain-overlay {
+        mix-blend-mode: normal;
+        opacity: 0.06;
+        background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: auto;
+    }
 }
 /* #endregion */
 
@@ -65,6 +87,33 @@
     --text-h3: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
     --text-h4: clamp(1.25rem, 2vw + 1rem, 2rem);
     --text-body: clamp(1rem, 0.5vw + 0.875rem, 1.125rem); /* 16px -> 18px */
+
+    /* Editorial Body Copy — the single shared voice for every descriptive/prose paragraph
+       on a light background (case-study copy, about/skill text, article body, etc). Defined
+       once here so the whole site reads as one consistent typographic system instead of each
+       component picking its own size/weight/leading/color; a future tone change (e.g.
+       heavier weight, different gray) happens by editing these four values, not by hunting
+       down every class that uses them. Sizing is up from the old ~1rem baseline and leading
+       is tightened well below the ~1.6-1.8 "airy" range — that combination (bigger type, but
+       condensed) is what reads as confident/editorial rather than a small stretched
+       paragraph. Weight stays at regular (400): at this size, 500+ started reading heavy/bold
+       rather than just "confident". Color is a mid-gray at rest (deliberately not too dark —
+       full-strength near-black on a first pass read as harsh for straight body copy) that
+       darkens toward near-black on :hover as an interaction cue (see the shared hover rule
+       further below, e.g. `.sol-desc:hover`). */
+    --body-copy-size: clamp(1.05rem, 1.3vw, 1.15rem);
+    --body-copy-leading: 1.35;
+    --body-copy-weight: 400;
+    --body-copy-tracking: -0.005em;
+    --body-copy-color: #666;
+    --body-copy-color-hover: #111;
+
+    /* Secondary/meta text — eyebrow labels, captions, accordion triggers, badges, etc. Before
+       this token existed, four different grays (#555, #666, #888, #999) were all doing this
+       exact same "muted secondary text" job with no shared reference point, which read as
+       accidental rather than a deliberate lighter tier below --body-copy-color. One token
+       here so future secondary text has an obvious default instead of picking a new gray. */
+    --text-secondary-color: #888;
 
     /* Spacing System (Base 4px/8px) */
     --space-1: 0.25rem;  /* 4px */
@@ -126,7 +175,7 @@
     font-weight: 500;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: #999;
+    color: var(--text-secondary-color);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -273,8 +322,8 @@ p, li, span, .paragraph, .about-text {
 .article-content p {
     transition: color 0.4s ease;
 }
-.about-paragraph:hover, 
-.sol-desc:hover, 
+.about-paragraph:hover,
+.sol-desc:hover,
 .takeaway-text:hover,
 .why-desc:hover,
 .faq__answer p:hover,
@@ -283,7 +332,7 @@ p, li, span, .paragraph, .about-text {
        already outranks its own base rule's specificity (0,1,0), e.g. .about-paragraph
        at line 2255 or .why-desc at line 4240 — the pseudo-class alone is enough to win
        regardless of source order. */
-    color: #111; /* Berubah menjadi hitam pekat */
+    color: var(--body-copy-color-hover);
 }
 
 /* Khusus untuk teks dengan background gelap (seperti di Bento Grid) */
@@ -312,7 +361,7 @@ p, li, span, .paragraph, .about-text {
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), padding 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.4s ease;
     transform: translateY(0%);
     overflow: visible;
-    padding: 1rem 5% !important; /* Edge-to-Edge Spacing */
+    padding: 0.65rem 5% !important; /* Edge-to-Edge Spacing */
     box-sizing: border-box;
     height: auto;
     display: flex;
@@ -1240,7 +1289,7 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    color: #999;
+    color: var(--text-secondary-color);
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
@@ -1368,7 +1417,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .premium-dropdown-selected svg {
     transition: transform 0.4s var(--ease-smooth);
-    color: #999;
+    color: var(--text-secondary-color);
 }
 
 .premium-dropdown.open .premium-dropdown-selected svg {
@@ -1465,7 +1514,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 0.85rem;
     font-weight: 500;
-    color: #888;
+    color: var(--text-secondary-color);
     margin-bottom: 24px;
 }
 /* #endregion */
@@ -1577,7 +1626,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .blog-main-wrapper .margin-15px.right .text-block-3:last-child {
     font-weight: 600;
-    color: #888;
+    color: var(--text-secondary-color);
     font-size: 1rem;
 }
 
@@ -1612,12 +1661,12 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .portfolio-description {
-    color: #fff;
+    color: #fff; /* Dark-background overlay context — white stays correct here, only weight is unified below */
     font-size: 1rem;
     margin-bottom: 20px;
     transform: translateY(20px);
     transition: transform 0.4s ease;
-    font-weight: 500;
+    font-weight: var(--body-copy-weight);
 }
 
 .blog-main-wrapper:hover .portfolio-description {
@@ -1688,7 +1737,7 @@ html.lenis, html.lenis body { height: auto; }
     transition: color 0.3s ease;
 }
 .portfolio-title-link:hover {
-    color: #555 !important;
+    color: var(--text-secondary-color) !important;
 }
 
 .client-accordion-trigger {
@@ -1698,7 +1747,7 @@ html.lenis, html.lenis body { height: auto; }
     cursor: pointer;
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: #888;
+    color: var(--text-secondary-color);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -1718,14 +1767,14 @@ html.lenis, html.lenis body { height: auto; }
     transition: height 0.4s var(--ease-smooth);
 }
 .client-accordion-content p {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: #555;
+    font-size: 0.85rem; /* Smaller measure is intentional here — compact accordion copy, not a full paragraph */
+    line-height: var(--body-copy-leading);
+    color: var(--body-copy-color);
     margin: 12px 0 0 0;
     padding-bottom: 4px;
-    font-weight: 400;
+    font-weight: var(--body-copy-weight);
     text-transform: none;
-    letter-spacing: normal;
+    letter-spacing: var(--body-copy-tracking);
 }
 
 /* [NEW] Portfolio Card Category Badge — one badge per category (Video Production,
@@ -1739,7 +1788,7 @@ html.lenis, html.lenis body { height: auto; }
     display: inline-flex;
     align-items: center;
     background-color: transparent;
-    color: #666;
+    color: var(--text-secondary-color);
     padding: 3px 8px;
     border-radius: 0; /* Squircle, not circle — matches the site's art direction */
     font-family: var(--font-primary);
@@ -2296,12 +2345,13 @@ html.lenis, html.lenis body { height: auto; }
 
 .faq__answer p {
     font-family: var(--font-primary);
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #555;
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
+    color: var(--body-copy-color); /* :hover (line ~318) darkens to --body-copy-color-hover */
     max-width: 60ch;
     margin: 0;
-    font-weight: 400; /* Menipiskan teks (normal) untuk estetika yang lebih premium */
+    font-weight: var(--body-copy-weight);
 }
 
 @media (max-width: 767px) {
@@ -2385,12 +2435,13 @@ html.lenis, html.lenis body { height: auto; }
 
 .about-paragraph {
     font-family: var(--font-primary);
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    line-height: 1.6;
-    color: #555; /* Softer text color for reading */
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
+    color: var(--body-copy-color); /* :hover (line ~318) darkens to --body-copy-color-hover */
     margin-bottom: 28px;
     max-width: 55ch;
-    font-weight: 400; /* Set to normal weight */
+    font-weight: var(--body-copy-weight);
 }
 
 .text-highlight {
@@ -2460,7 +2511,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 1.25rem;
     font-weight: 600;
-    color: #999;
+    color: var(--text-secondary-color);
     line-height: 1.6;
 }
 
@@ -2470,7 +2521,7 @@ html.lenis, html.lenis body { height: auto; }
        to read as a quiet aside beneath the headline, not a second block of body copy
        competing with it. */
     font-size: clamp(0.9rem, 1.1vw, 1rem);
-    color: #888;
+    color: var(--text-secondary-color);
     line-height: 1.65;
 }
 
@@ -2817,7 +2868,7 @@ html.lenis, html.lenis body { height: auto; }
     position: relative;
     font-weight: inherit;
     letter-spacing: 0.02em;
-    color: #999;
+    color: var(--text-secondary-color);
     text-decoration: none;
 }
 /* The shine gradient/background-clip properties stay applied at all times (not just
@@ -2948,7 +2999,7 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #888;
+    color: var(--text-secondary-color);
     font-weight: 500;
 }
 
@@ -3029,11 +3080,12 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .skill-card__paragraph {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #555;
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
+    color: var(--body-copy-color);
     transition: color 0.4s ease;
-    font-weight: 400; /* Set to normal weight */
+    font-weight: var(--body-copy-weight);
 }
 
 .skill-card__wrapper:hover .skill-card__divider {
@@ -3328,7 +3380,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .work-card__title { font-size: clamp(1.35rem, 4vw, 1.75rem); font-weight: 700; margin: 0; letter-spacing: -0.03em; }
-.work-card__cta { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: #555; }
+.work-card__cta { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary-color); }
 /* #endregion */
 
 /* #region 32b. EXECUTIVE SUMMARY (TL;DR) & STICKY NAV */
@@ -3353,7 +3405,7 @@ html.lenis, html.lenis body { height: auto; }
     .tldr-wrapper { padding: 24px; }
 }
 .tldr-item { display: flex; flex-direction: column; gap: 8px; }
-.tldr-label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: #888; font-weight: 500; }
+.tldr-label { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--text-secondary-color); font-weight: 500; }
 .tldr-text { font-family: var(--font-primary); font-size: 1rem; color: #111; font-weight: 500; line-height: 1.5; }
 
 /* Sticky Dot Navigation */
@@ -3405,7 +3457,7 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateX(0);
     background: transparent;
     box-shadow: none;
-    color: #888;
+    color: var(--text-secondary-color);
 }
 /* #endregion */
 
@@ -4504,10 +4556,11 @@ html.lenis, html.lenis body { height: auto; }
 
 .why-desc {
     font-family: var(--font-primary);
-    font-size: 0.9375rem; /* Slightly smaller body text */
-    line-height: 1.6;
-    color: #666;
-    font-weight: 400;
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
+    color: var(--body-copy-color);
+    font-weight: var(--body-copy-weight);
     margin: 0;
 }
 
@@ -4630,12 +4683,13 @@ html.lenis, html.lenis body { height: auto; }
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px;
-    align-items: center;
+    align-items: start;
 }
 
 @media (min-width: 992px) {
     .solution-video-item {
         grid-template-columns: 1fr 1.5fr; /* 40% text, 60% video */
+        gap: 64px;
     }
     /* Reverse order for second item */
     .solution-video-item:nth-child(even) {
@@ -4661,16 +4715,17 @@ html.lenis, html.lenis body { height: auto; }
    how the site's default even-numbered .solution-video-item already flips text to the
    right column (see .solution-video-item:nth-child(even) above) — this gets the same
    left/right alternation for an .is-timeline item, which stays full-width instead of
-   going two-column. Capped width + margin-left:auto keeps the paragraph a readable column
-   pinned to the right edge, not stretched edge-to-edge with ragged-left lines. */
-.solution-video-content--right {
-    /* text-align:right (the first version of this) made every line ragged-left/jagged
-       instead of a clean block, which read as messy rather than "flipped right" — the
-       block itself is what should sit on the right side; the text inside it stays
-       left-aligned so each line still reads as a normal, tidy paragraph. */
+   going two-column. The paragraph stays a narrow, readable column (not stretched to the
+   video's full width — that would just mean lines run edge-to-edge, not "positioned right")
+   and margin-left:auto pins that whole column to the right so its right edge lines up with
+   the video below. text-align stays left on the paragraph itself: text-align:right there
+   made every line ragged-left/jagged instead of a clean block, which read as messy rather
+   than "flipped right". */
+.solution-video-content--right .sol-desc {
     text-align: left;
     max-width: 60ch;
     margin-left: auto;
+    margin-right: 0;
 }
 
 .solution-video-player {
@@ -4708,11 +4763,16 @@ html.lenis, html.lenis body { height: auto; }
 
 .sol-desc {
     font-family: var(--font-primary);
-    font-size: clamp(1rem, 1.5vw, 1.25rem); /* Disamakan dengan .about-paragraph */
-    color: #555;
-    line-height: 1.6;
+    font-size: var(--body-copy-size);
+    color: var(--body-copy-color); /* :hover below (line ~277) darkens to --body-copy-color-hover */
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
     max-width: 55ch; /* Lebar disesuaikan agar flow bacaan lebih enak */
-    font-weight: 400;
+    font-weight: var(--body-copy-weight);
+    text-wrap: pretty; /* Avoids ugly line breaks (e.g. a lone word wrapping to its own line) in narrow columns like the has-reel grid */
+}
+.sol-desc + .sol-desc {
+    margin-top: 32px;
 }
 
 /* --- Key Takeaways Grid --- */
@@ -4745,11 +4805,12 @@ html.lenis, html.lenis body { height: auto; }
     color: #111;
 }
 .takeaway-text {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
+    font-size: var(--body-copy-size);
+    color: var(--body-copy-color);
+    line-height: var(--body-copy-leading);
+    letter-spacing: var(--body-copy-tracking);
     max-width: none;
-    font-weight: 400;
+    font-weight: var(--body-copy-weight);
 }
 
 /* --- Graded Frame Stills: Fanned Deck ---
@@ -4905,14 +4966,14 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #888;
+    color: var(--text-secondary-color);
 }
 .cs-testimonial-translated {
     font-family: var(--font-primary);
     font-size: 0.75rem;
     font-weight: 400;
     font-style: italic;
-    color: #999;
+    color: var(--text-secondary-color);
     margin-top: 4px;
 }
 
@@ -4975,7 +5036,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 .video-timeline::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
-    background: #fff; border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+    background: #fff; border-radius: 50%;
+}
+.video-timeline::-moz-range-thumb {
+    width: 14px; height: 14px;
+    background: #fff; border: none; border-radius: 50%;
 }
 .video-time { display: flex; gap: 4px; font-size: 0.75rem; color: white; font-weight: 500; font-variant-numeric: tabular-nums; }
 
@@ -5016,7 +5081,7 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #999;
+    color: var(--text-secondary-color);
     margin-bottom: 24px;
     font-weight: 500;
 }
@@ -5044,11 +5109,74 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (min-width: 992px) {
     /* Layout khusus Reels: Teks lebih lebar (1.5), Video lebih ramping (1) */
+    /* Reel video is capped at 380px (see .video-player-wrapper.is-reel) — sizing its column
+       with fr units left it flush against one edge with a dead gap before the text, which is
+       what made the pairing look far apart despite the .solution-video-item gap. auto sizes
+       the column to the video's actual width instead. */
     .solution-video-item.has-reel {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: auto 1fr;
+        gap: 80px;
     }
     .solution-video-item.has-reel:nth-child(even) {
-        grid-template-columns: 1fr 1.5fr; /* Video di kiri, Teks di kanan */
+        grid-template-columns: auto 1fr; /* Teks di kiri, Video di kanan */
+    }
+    /* The general .solution-video-item:nth-child(even) rule above (which pushes
+       .solution-video-content to grid-column:2 for every even item) was fighting this
+       column-template swap for .has-reel items specifically — undo it here so has-reel's
+       own left/right stays in DOM order (content first = left) instead of being forced right. */
+    .solution-video-item.has-reel:nth-child(even) .solution-video-content {
+        grid-column: 1;
+    }
+    /* .video-player-wrapper.is-reel's margin:0 auto (needed to center it in other contexts,
+       e.g. the 4-up .approach-reel-grid) was also centering it inside this auto-sized grid
+       track, pulling it away from the column's left edge instead of sitting flush there. */
+    .solution-video-item.has-reel .video-player-wrapper.is-reel {
+        margin: 0;
+    }
+    /* Even items put the video in the 1fr column (right side, sized much wider than the
+       video's own 380px cap) — margin:0 above just left it flush against that column's LEFT
+       edge, stopping short of the section's true right edge. Push it to the column's right
+       edge instead so it lines up with the right edge of the paragraph column above it. */
+    .solution-video-item.has-reel:nth-child(even) .video-player-wrapper.is-reel {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    /* [NEW] .has-reel--flip: manual override to mirror a specific has-reel item (video left,
+       text right) independent of its nth-child parity — used where the automatic even/odd
+       alternation doesn't give the left/right pairing a given item needs for visual balance
+       against its neighbor. */
+    .solution-video-item.has-reel.has-reel--flip {
+        grid-template-columns: 1fr auto;
+    }
+    .solution-video-item.has-reel.has-reel--flip .solution-video-content {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .solution-video-item.has-reel.has-reel--flip .solution-video-player {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    /* Flip puts the video in the 1fr column (left side here) — same issue as the even-item
+       case above: margin:0 auto would center it in that wide column instead of sitting flush
+       against its left edge, so it needs the opposite flush direction from that override. */
+    .solution-video-item.has-reel.has-reel--flip .video-player-wrapper.is-reel {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    /* Bottom-align this item's two columns on desktop (video is much shorter than the base
+       .solution-video-item's align-items:start would suggest, so it read stuck to the top
+       with a big empty gap below it before the next section). Scoped to min-width:992px only
+       — on mobile the columns stack in DOM order regardless of align-items, so text still
+       renders above the video there as normal. */
+    .solution-video-item.has-reel.has-reel--flip {
+        align-items: end;
+    }
+    /* The text column is a full 1fr track here (much wider than the 40%-column items use),
+       so .sol-desc's 55ch cap barely constrains it and lines run editorial-unfriendly long.
+       Narrow it to a proper magazine-column measure — size/leading now come from the shared
+       .sol-desc rule above. */
+    .solution-video-item.has-reel .sol-desc {
+        max-width: 34ch;
     }
 }
 
@@ -5147,7 +5275,7 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #999;
+    color: var(--text-secondary-color);
     margin-bottom: 12px;
     font-weight: 500;
 }
@@ -5354,7 +5482,7 @@ html.lenis, html.lenis body { height: auto; }
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #999;
+    color: var(--text-secondary-color);
     margin: 0;
 }
 
@@ -5377,7 +5505,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Sub-text styling (e.g. roles in brackets) */
 .credits-list li span {
-    color: #888;
+    color: var(--text-secondary-color);
     font-weight: 400;
     font-size: 0.75rem; /* 12px */
     margin-left: 4px;
@@ -5892,7 +6020,7 @@ a.social-icon:hover img {
 }
 
 .pricing-works-icon {
-    color: #888;
+    color: var(--text-secondary-color);
     flex-shrink: 0;
     display: flex;
     margin-top: 2px;
@@ -5940,7 +6068,7 @@ a.social-icon:hover img {
 }
 .addon-subitem-price { font-weight: 400; color: #666; font-feature-settings: "tnum" on; }
 
-.addon-note { font-size: 0.8rem; color: #999; margin-top: 6px; line-height: 1.5; font-weight: 400; }
+.addon-note { font-size: 0.8rem; color: var(--text-secondary-color); margin-top: 6px; line-height: 1.5; font-weight: 400; }
 
 /* Premium Addon Dropdown */
 .addon-has-dropdown {
@@ -5961,7 +6089,7 @@ a.social-icon:hover img {
     opacity: 0.7;
 }
 .addon-dropdown-icon {
-    color: #888;
+    color: var(--text-secondary-color);
     transition: transform 0.5s var(--ease-smooth);
 }
 .addon-has-dropdown.is-open .addon-dropdown-icon {
@@ -6424,7 +6552,7 @@ a.social-icon:hover img {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #888;
+    color: var(--text-secondary-color);
     margin-bottom: 16px;
 }
 
@@ -6464,7 +6592,11 @@ a.social-icon:hover img {
     .journal-home-grid {
         display: flex;
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        /* proximity (not mandatory): mandatory forces a snap on every scroll gesture no
+           matter how small, so a light finger-drag still committed to jumping a full card
+           over — proximity only snaps once the scroll naturally settles near a snap point,
+           so a small nudge can stay put instead of being forced to the next card. */
+        scroll-snap-type: x proximity;
         gap: 16px; /* Jarak antar kartu */
         /* [FIX] Full bleed trick agar menempel layar 100% tanpa margin gap */
         width: 100vw;
@@ -6553,22 +6685,26 @@ a.social-icon:hover img {
 }
 
 .article-content p {
-    font-size: 1.1875rem; /* ~19px untuk kenyamanan baca ekstra */
-    line-height: 1.8;
-    color: #333333; /* Kontras lebih baik dan tajam dari #444 */
+    font-size: 1.1875rem; /* ~19px untuk kenyamanan baca ekstra — long-form reading needs a
+        bigger measure than the shared --body-copy-size, which is tuned for shorter card copy. */
+    line-height: 1.5; /* Tightened from 1.8 to match the site's editorial leading — still
+        looser than --body-copy-leading (1.35) since this is long-form reading, not a card. */
+    letter-spacing: var(--body-copy-tracking);
+    color: #333333; /* Darker than --body-copy-color: long-form reading needs more contrast
+        than a short card paragraph does over a full article's worth of text. */
     margin-bottom: 32px; /* Spasi antar paragraf lebih lega (breathing room) */
     max-width: 65ch; /* Constrain width for optimal reading */
     margin-left: auto;
     margin-right: auto;
-    font-weight: 400;
+    font-weight: var(--body-copy-weight);
 }
 
 /* [PREMIUM] Lead Paragraph (First Paragraph) */
 .article-content > p.lead-paragraph {
     font-size: 1.35rem; /* Jauh lebih menarik perhatian */
-    line-height: 1.6;
+    line-height: var(--body-copy-leading);
     color: #111; /* Lebih hitam */
-    font-weight: 400; /* Tetap tipis elegan */
+    font-weight: var(--body-copy-weight);
     letter-spacing: -0.01em;
 }
 
@@ -6647,14 +6783,14 @@ a.social-icon:hover img {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: var(--tracking-eyebrow);
-    color: #888;
+    color: var(--text-secondary-color);
 }
 
 .article-image-caption {
     font-family: var(--font-mono);
     text-align: center;
     font-size: 0.7rem;
-    color: #888;
+    color: var(--text-secondary-color);
     text-transform: uppercase;
     letter-spacing: 0.15em;
     margin-top: 16px;
@@ -6762,67 +6898,6 @@ a.social-icon:hover img {
     vertical-align: baseline;
 }
 
-/* [NEW] Article Like Widget — localStorage-only counter (see initArticleLike in
-   script.js). Per-browser, not a synced/global count across visitors; that's a
-   deliberate scope limit for now, not a bug — a shared count needs a small backend. */
-.article-like-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    margin: 48px 0 0;
-    text-align: center;
-}
-
-.article-like-note {
-    font-family: var(--font-primary);
-    font-size: 0.9rem;
-    font-style: italic;
-    color: rgba(17,17,17,0.5);
-    margin: 0;
-}
-
-.article-like-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    border-radius: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-    background: #fff;
-    cursor: pointer;
-    font-family: var(--font-primary);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #555;
-    transition: all 0.3s var(--ease-smooth);
-}
-
-.article-like-btn:hover {
-    border-color: rgba(0,0,0,0.2);
-    transform: translateY(-2px);
-    box-shadow: none;
-}
-
-.article-like-icon {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), fill 0.2s ease, stroke 0.2s ease;
-}
-
-.article-like-btn[aria-pressed="true"] {
-    color: #111;
-    border-color: rgba(0, 0, 0, 0.3);
-    background: rgba(0, 0, 0, 0.06);
-}
-
-.article-like-btn[aria-pressed="true"] .article-like-icon {
-    fill: #111;
-    stroke: #111;
-}
-
-.article-like-btn.is-liking .article-like-icon {
-    transform: scale(1.3);
-}
-
 /* [PREMIUM] Article Footer (Tags & Share) */
 .article-footer {
     margin-top: 60px;
@@ -6844,7 +6919,7 @@ a.social-icon:hover img {
 }
 
 .article-share { display: flex; align-items: center; gap: 16px; font-size: 0.85rem; font-weight: 600; color: #111; }
-.article-share span { font-family: var(--font-mono); color: #999; text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem; }
+.article-share span { font-family: var(--font-mono); color: var(--text-secondary-color); text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem; }
 .article-share a { color: #111; text-decoration: none; }
 
 /* [PREMIUM] Article Summary (TL;DR & TOC) */
@@ -6959,10 +7034,30 @@ a.social-icon:hover img {
 }
 
 /* Premium CTA Section */
+/* Full-bleed variant: the section itself spans the viewport edge-to-edge (breaking out of
+   global-wrapper's max-width) and holds a reserved media layer behind the copy, so a motion
+   carousel can be dropped into .cta-media-placeholder later without restructuring the markup. */
+.premium-soft-cta-fullbleed {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #050505;
+}
+.cta-media-placeholder {
+    position: absolute;
+    inset: 0;
+    background: #050505;
+    background-image: radial-gradient(circle at top right, rgba(255,255,255,0.05) 0%, transparent 60%);
+}
+
 .premium-soft-cta {
     position: relative;
-    background-color: #050505;
-    background-image: radial-gradient(circle at top right, rgba(255,255,255,0.05) 0%, transparent 60%);
+    z-index: 1;
     color: #fff;
     border-radius: 0;
     padding: 80px 40px;
@@ -6972,9 +7067,6 @@ a.social-icon:hover img {
     align-items: center;
     gap: 24px;
     box-shadow: none;
-    border: 1px solid rgba(255,255,255,0.05);
-    overflow: hidden;
-    z-index: 1;
 }
 
 @media (max-width: 767px) {
@@ -6984,14 +7076,13 @@ a.social-icon:hover img {
     }
 }
 
-.premium-soft-cta::before {
+.cta-media-placeholder::before {
     content: '';
     position: absolute;
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.03;
     pointer-events: none;
-    z-index: -1;
 }
 
 .premium-soft-cta-title {

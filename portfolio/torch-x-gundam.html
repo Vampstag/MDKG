@@ -143,32 +143,33 @@
                 animation: none; /* Berhenti berdenyut saat di-hover/dipegang */
             }
             
-            /* [NEW] Drag Hint Micro-interaction */
+            /* [NEW] Drag Hint Micro-interaction — opacity fades via CSS, position/wobble is driven by JS spring physics */
             .color-grade-slider:hover .drag-hint {
                 opacity: 1 !important;
-                transform: translateY(0) !important;
             }
-            
-            /* [NEW] Nav Buttons for Color Grade Slider */
+
+            /* [NEW] Nav Buttons for Color Grade Slider — hidden at rest, fades in on hover so the
+               image reads clean by default (matches the reference's ornament-free stills) */
             .grade-nav-btn {
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 40px;
-                height: 40px;
-                background: rgba(255,255,255,0.9);
-                
-                
-                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                width: 44px;
+                height: 44px;
+                background: none;
+                border-radius: 0;
                 display: flex; align-items: center; justify-content: center;
-                box-shadow: none; border: 1px solid rgba(0,0,0,0.05);
-                cursor: pointer; z-index: 20; color: #111; padding: 0;
-                transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+                box-shadow: none; border: none;
+                cursor: pointer; z-index: 20; color: #fff; padding: 0;
+                filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+                opacity: 0;
+                transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
             }
-            .grade-nav-btn:hover { background: #fff; transform: translateY(-50%) scale(1.1); box-shadow: none; }
+            .color-grade-slider:hover .grade-nav-btn { opacity: 1; }
+            .grade-nav-btn:hover { transform: translateY(-50%) scale(1.15); }
             .grade-nav-btn.prev-btn { left: 16px; }
             .grade-nav-btn.next-btn { right: 16px; }
-            
+
             /* [NEW] Pagination Dots for Color Grade Slider */
             .grade-pagination {
                 position: absolute;
@@ -178,9 +179,12 @@
                 display: flex;
                 gap: 8px;
                 z-index: 20;
+                opacity: 0;
+                transition: opacity 0.3s ease;
             }
+            .color-grade-slider:hover .grade-pagination { opacity: 1; }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                width: 6px; height: 6px; border-radius: 50%;
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: none;
             }
@@ -323,6 +327,11 @@
         </script>
     </head>
     <body class="body-2" style="--page-accent: #007291;">
+        <!-- Grain overlay is normally injected by script.js's injectGrainOverlay() IIFE, but
+             it wasn't showing up on this page for an unresolved reason — added statically
+             here as a guaranteed fallback so the site-wide film-grain texture (see .grain-overlay
+             in css/style.css) definitely renders regardless of script timing on this page. -->
+        <div class="grain-overlay" aria-hidden="true"></div>
         <div id="preloader">
             <div class="top-corners">
                 <div class="corner-text">LOADING</div>
@@ -514,7 +523,7 @@
                                         <div class="skill-card__header"><div class="skill-card__number">[03]</div></div>
                                         <div class="skill-card__divider"></div>
                                         <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Earning Trust With an Audience That Notices When It's Fake</div></div>
+                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Earning Trust From the Community</div></div>
                                             <div class="skill-card__text-block"><p class="skill-card__paragraph">For the Gundam community, authenticity mattered more than spectacle. Every visual decision had to support the world they recognized, not just the collaboration they expected.</p></div>
                                         </div>
                                     </div>
@@ -537,40 +546,34 @@
                         <!-- Premium Video Showcase -->
                         <div class="solution-showcase">
                             <!-- Item 1: Data-Driven Ads -->
-                            <div class="solution-video-item">
-                                <div class="solution-video-content">
-                                    <span class="sol-number">[01]</span>
-                                    <h3 class="sol-title">Cinematic Visual Execution</h3>
-                                    <p class="sol-desc">Instead of exaggerating the collaboration, the grade relied on industrial tones, retro sci-fi textures, and restrained contrast to make it feel naturally at home in the Gundam universe.</p>
+                            <div class="solution-video-item is-timeline">
+                                <div class="solution-video-content solution-video-content--right">
+                                    <p class="sol-desc">To keep the cinematic quality intact under a tight turnaround, the grade leaned on industrial tones, retro sci-fi textures, and restrained contrast, building a repeatable look that held up take after take instead of being reworked from scratch each time.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
                                     <!-- [NEW] data-after and data-before arrays contain the multiple frames to cycle through -->
-                                    <div class="color-grade-slider" data-after='["../assets/images/project/torch/color-grading-slider/after-1.webp", "../assets/images/project/torch/color-grading-slider/after-2.webp", "../assets/images/project/torch/color-grading-slider/after-3.webp"]' data-before='["../assets/images/project/torch/color-grading-slider/before-1.webp", "../assets/images/project/torch/color-grading-slider/before-2.webp", "../assets/images/project/torch/color-grading-slider/before-3.webp"]' style="position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; border-radius: 0; cursor: col-resize; box-shadow: none; container-type: inline-size;">
+                                    <div class="color-grade-slider" data-after='["../assets/images/project/torch/color-grading-slider/after-1.webp", "../assets/images/project/torch/color-grading-slider/after-2.webp", "../assets/images/project/torch/color-grading-slider/after-3.webp"]' data-before='["../assets/images/project/torch/color-grading-slider/before-1.webp", "../assets/images/project/torch/color-grading-slider/before-2.webp", "../assets/images/project/torch/color-grading-slider/before-3.webp"]' style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 0; cursor: col-resize; box-shadow: none; container-type: inline-size;">
                                         <!-- Final Graded Image -->
-                                        <img src="../assets/images/project/torch/color-grading-slider/after-1.webp" alt="Graded Video Frame" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-                                        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%); pointer-events: none; z-index: 1;"></div>
-                                        
+                                        <img src="../assets/images/project/torch/color-grading-slider/after-1.webp" alt="Graded Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+
                                         <!-- RAW Image -->
-                                        <div class="raw-image-wrapper" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; width: 50%; border-right: 2px solid rgba(255,255,255,0.8);">
-                                            <img src="../assets/images/project/torch/color-grading-slider/before-1.webp" alt="RAW Video Frame" style="position: absolute; top: 0; left: 0; width: 100cqw; height: 100%; object-fit: cover; max-width: none;">
-                                            <div style="position: absolute; bottom: 0; left: 0; width: 100cqw; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%); pointer-events: none;"></div>
-                                            <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.4);   color: white; padding: 6px 12px; border-radius: 0; font-weight: 600; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);">BEFORE</div>
+                                        <div class="raw-image-wrapper" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden; border-right: 2px solid rgba(255,255,255,0.8); z-index: 2; will-change: width; contain: strict;">
+                                            <img src="../assets/images/project/torch/color-grading-slider/before-1.webp" alt="RAW Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100cqw; height: 100%; object-fit: cover; max-width: none;">
                                         </div>
+
+                                        <input type="range" min="0" max="100" value="50" class="grade-slider-input" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: col-resize; z-index: 10; pointer-events: none;">
+                                        <div class="grade-slider-hitarea" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: col-resize; z-index: 11; touch-action: none;"></div>
                                         
-                                        <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.95);   color: #111; padding: 6px 12px; border-radius: 0; font-weight: 600; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.05); z-index: 3;">AFTER</div>
-                                        <input type="range" min="0" max="100" value="50" class="grade-slider-input" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: col-resize; z-index: 10;">
-                                        
-                                        <div class="slider-handle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: rgba(255,255,255,0.9);   border-radius: 0; display: flex; align-items: center; justify-content: center; box-shadow: none; border: 1px solid rgba(0,0,0,0.05); pointer-events: none; z-index: 5;">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline><polyline points="9 18 15 12 9 6" style="transform: rotate(180deg); transform-origin: center;"></polyline></svg>
-                                            <div class="drag-hint" style="position: absolute; top: -30px; background: #111; color: white; font-family: var(--font-primary); font-size: 9px; font-weight: 700; padding: 4px 10px; border-radius: 0; letter-spacing: 1px; opacity: 0; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);">DRAG</div>
+                                        <div class="slider-handle" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 1px; height: 1px; pointer-events: none; z-index: 5;">
+                                            <div class="drag-hint" style="position: absolute; top: -34px; left: 50%; background: rgba(17,17,17,0.9); backdrop-filter: blur(4px); color: white; font-family: var(--font-primary); font-size: 9px; font-weight: 600; padding: 5px 11px; border-radius: 0; letter-spacing: 1.5px; opacity: 0; white-space: nowrap;">DRAG</div>
                                         </div>
                                         
                                         <!-- [NEW] Frame Navigation Arrows -->
                                         <button class="grade-nav-btn prev-btn" aria-label="Previous Frame">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                                         </button>
                                         <button class="grade-nav-btn next-btn" aria-label="Next Frame">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                         </button>
                                         
                                         <!-- [NEW] Pagination Container -->
@@ -582,9 +585,8 @@
                             <!-- Item 2: Teaser-Based Rollout Built Anticipation -->
                             <div class="solution-video-item has-reel">
                                 <div class="solution-video-content">
-                                    <span class="sol-number">[02]</span>
-                                    <h3 class="sol-title">Teaser-Driven Narrative Structure</h3>
-                                    <p class="sol-desc">Edited and structured teaser assets around silhouettes, fragmented visuals, and slower pacing to support the campaign rollout and build anticipation before launch.</p>
+                                    <p class="sol-desc">Consistent grading solved the look, but the shoot itself stayed unpredictable, with tight setups, shifting conditions, and no room to reshoot.</p>
+                                    <p class="sol-desc">Rather than forcing a fixed shot list onto that, the edit leaned into silhouettes, fragmented visuals, and slower pacing, turning what the set actually gave into a deliberate teaser structure that still built anticipation before launch.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -599,11 +601,9 @@
                             </div>
 
                             <!-- Item 3: Community-Oriented Storytelling -->
-                            <div class="solution-video-item has-reel">
+                            <div class="solution-video-item has-reel has-reel--flip">
                                 <div class="solution-video-content">
-                                    <span class="sol-number">[03]</span>
-                                    <h3 class="sol-title">Community-Oriented Storytelling</h3>
-                                    <p class="sol-desc">Visual storytelling and pacing were designed to emphasize nostalgia, atmosphere, and emotional familiarity associated with the Gundam universe rather than relying solely on product-focused messaging.</p>
+                                    <p class="sol-desc">A polished grade and a well-paced teaser could still ring hollow if the story felt like an ad. So the final layer was trust: storytelling and pacing built on nostalgia, atmosphere, and emotional familiarity from the Gundam universe, rather than product-focused messaging.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -949,19 +949,18 @@
             </section>
 
 
-            <!-- [NEW] Soft CTA (Conversion Optimization) -->
-            <section class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="premium-soft-cta">
-                            <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of Torch × Gundam?</h2>
-                            <p class="premium-soft-cta-desc">Let’s create cinematic storytelling that turns collaborations into experiences.</p>
-                            <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
-                                Start a Project
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                        </div>
-                    </div>
+            <!-- [NEW] Soft CTA (Conversion Optimization) — full-bleed, edge-to-edge like a hero
+                 banner. .cta-media-placeholder is reserved space for a motion carousel to be
+                 dropped in later; until then it's just the section's own dark background. -->
+            <section class="section-margin fade-in-section premium-soft-cta-fullbleed">
+                <div class="cta-media-placeholder"></div>
+                <div class="premium-soft-cta">
+                    <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of Torch × Gundam?</h2>
+                    <p class="premium-soft-cta-desc">Let’s create cinematic storytelling that turns collaborations into experiences.</p>
+                    <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
+                        Start a Project
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             </section>
 
@@ -970,7 +969,7 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <a href="/portfolio/torch-prestachill" class="next-project-link">
                         <span class="next-label">Next Project</span>
-                        <h2 class="next-title">Torch Prestachill</h2>
+                        <h2 class="next-title">Torch: Prestachill</h2>
                     </a>
                 </div>
             </section>
@@ -1048,13 +1047,55 @@
                     const input = container.querySelector('.grade-slider-input');
                     const rawWrapper = container.querySelector('.raw-image-wrapper');
                     const handle = container.querySelector('.slider-handle');
-                    
-                    // Base Slider Logic
+                    const dragHint = container.querySelector('.drag-hint');
+
+                    // Base Slider Logic — rAF-batched so rapid drag events don't each force a synchronous layout/paint
+                    let pendingVal = null, rafScheduled = false;
                     input.addEventListener('input', (e) => {
-                        const val = e.target.value;
-                        rawWrapper.style.width = `${val}%`;
-                        handle.style.left = `${val}%`;
+                        pendingVal = e.target.value;
+                        if (rafScheduled) return;
+                        rafScheduled = true;
+                        requestAnimationFrame(() => {
+                            rawWrapper.style.width = `${pendingVal}%`;
+                            handle.style.left = `${pendingVal}%`;
+                            rafScheduled = false;
+                        });
                     });
+
+                    // Native <input type="range"> only drags from the thumb — it won't jump when you
+                    // click elsewhere on the track. The input is now pointer-events:none and this
+                    // transparent hit-area drives it instead, so click-anywhere and drag both snap.
+                    const hitArea = container.querySelector('.grade-slider-hitarea');
+                    const setFromClientX = (clientX) => {
+                        const rect = hitArea.getBoundingClientRect();
+                        const pct = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
+                        input.value = pct;
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    };
+                    hitArea.addEventListener('pointerdown', (e) => {
+                        hitArea.setPointerCapture(e.pointerId);
+                        setFromClientX(e.clientX);
+                    });
+                    hitArea.addEventListener('pointermove', (e) => {
+                        if (e.buttons !== 1) return;
+                        setFromClientX(e.clientX);
+                    });
+
+                    // "DRAG" hint follows the handle with a lagging spring, like it's tethered rather than glued
+                    if (dragHint) {
+                        let hintX = 0, hintVel = 0, lastInputVal = Number(input.value);
+                        const stiffness = 0.18, damping = 0.72;
+                        const springLoop = () => {
+                            const targetX = (Number(input.value) - lastInputVal) * -2.2; // nudge opposite the drag direction, then spring back to 0
+                            const force = (targetX - hintX) * stiffness;
+                            hintVel = (hintVel + force) * damping;
+                            hintX += hintVel;
+                            dragHint.style.transform = `translateX(calc(-50% + ${hintX.toFixed(2)}px))`;
+                            lastInputVal = Number(input.value);
+                            requestAnimationFrame(springLoop);
+                        };
+                        requestAnimationFrame(springLoop);
+                    }
 
                     // [NEW] Multiple Frames Logic
                     const afterAttr = container.getAttribute('data-after');

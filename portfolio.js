@@ -21,21 +21,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
-            // Hidden for now — Pink Roulette (id 12) and Dunkin Donuts (id 11) cards, per request.
-            // {
-            //     id: 12,
-            //     title: "Pink Roulette",
-            //     year: "2026",
-            //     category: "Video Production · Editing & Motion",
-            //     industry: "F&B",
-            //     roles: ["Video Production", "Editing & Motion"],
-            //     link: "",
-            //     clientName: "Pink Roulette",
-            //     description: "Video production and editing for Pink Roulette's social media presence.",
-            //     brandInfo: "Pink Roulette.",
-            //     image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
-            //     srcset: ""
-            // },
+            {
+                id: 13,
+                title: "Torch: Main Cantik",
+                year: "2026",
+                category: "Video Editing · Color Grading",
+                industry: "Fashion",
+                roles: ["Video Editing", "Color Grading"],
+                link: "",
+                clientName: "Torch",
+                description: "Post-production for the campaign rollout of Torch's women's product line.",
+                brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
+                image: "../assets/images/project/torch-main-cantik/model-card-cover.webp",
+                srcset: "",
+                ongoing: true
+            },
+            {
+                id: 12,
+                title: "Pink Roulette",
+                year: "2026",
+                category: "Photography · Video Editing · Motion Graphic",
+                industry: "Beauty & Lifestyle",
+                roles: ["Photography", "Video Editing", "Motion Graphic"],
+                link: "",
+                clientName: "Pink Roulette",
+                description: "Visual production for Pink Roulette's digital presence.",
+                brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
+                image: "../assets/images/project/pink-roulette/creative-banner-model.png",
+                srcset: "",
+                ongoing: true
+            },
+            // Hidden for now — Dunkin Donuts (id 11) card, per request.
             // {
             //     id: 11,
             //     title: "Dunkin Donuts",
@@ -50,21 +66,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     image: "../assets/images/project/pink-roulette/logo-pink-roulette.webp",
             //     srcset: ""
             // },
-            {
-                id: 10,
-                title: "Ngaliwet Raos",
-                year: "2026",
-                category: "Video Production · Photo Production · Editing · Motion Graphic",
-                industry: "F&B",
-                roles: ["Video Production", "Photo Production", "Editing", "Motion Graphic"],
-                link: "",
-                clientName: "Ngaliwet Raos",
-                description: "Organic social content for Ngaliwet Raos, creating photography and video for its Instagram presence.",
-                brandInfo: "A Sundanese dining and catering brand bringing culture and togetherness to a new generation.",
-                image: "../assets/images/project/ngaliwet-raos/ngaliwet-main-hero.webp",
-                srcset: "",
-                ongoing: true
-            },
+            // Hidden for now — Ngaliwet Raos (id 10) card, per request.
+            // {
+            //     id: 10,
+            //     title: "Ngaliwet Raos",
+            //     year: "2026",
+            //     category: "Video Production · Photo Production · Editing · Motion Graphic",
+            //     industry: "F&B",
+            //     roles: ["Video Production", "Photo Production", "Editing", "Motion Graphic"],
+            //     link: "",
+            //     clientName: "Ngaliwet Raos",
+            //     description: "Organic social content for Ngaliwet Raos, creating photography and video for its Instagram presence.",
+            //     brandInfo: "A Sundanese dining and catering brand bringing culture and togetherness to a new generation.",
+            //     image: "../assets/images/project/ngaliwet-raos/ngaliwet-main-hero.webp",
+            //     srcset: "",
+            //     ongoing: true
+            // },
             {
                 id: 9,
                 title: "Andrea Bocelli",
@@ -82,7 +99,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             {
                 id: 8,
-                title: "Torch Prestachill",
+                title: "Torch: Prestachill",
                 year: "2026",
                 category: "Video Production · Editing · Motion Graphic",
                 industry: "Fashion",
@@ -90,7 +107,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
-                brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
+                brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
                 image: "../assets/images/project/torch-prestachill/prestachill-main-model.webp",
                 srcset: "",
                 ongoing: false
@@ -105,7 +122,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.", // Ganti dengan deskripsi proyek
-                brandInfo: "Leading Indonesian outdoor and travel gear brand, focusing on innovative and practical solutions for modern travelers.",
+                brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
                 image: "../assets/images/project/torch/torch-model-backpack.webp", // Ganti dengan URL gambar Anda
                 srcset: "" // Kosongkan jika tidak ada srcset
             },
