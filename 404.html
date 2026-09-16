@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=129">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Google tag (gtag.js) -->
@@ -65,7 +65,7 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const footerPromise = fetch('footer.html').then(response => response.text());
+            const footerPromise = fetch('/footer.html').then(response => response.text());
             const counter = document.getElementById('counter');
             const bar = document.getElementById('bar');
             const preloader = document.getElementById('preloader');

@@ -152,7 +152,7 @@ class MdkgWidget {
                 </div>
                 <div class="mdkg-widget-status-row">
                     <span class="mdkg-status-dot"></span>
-                    <span class="mdkg-status-text">Open for 1 Selected Project</span>
+                    <span class="mdkg-status-text">Currently Fully Booked</span>
                 </div>
                 <div class="mdkg-book-btn">
                     <!-- Calendar Icon -->
@@ -254,7 +254,7 @@ class MdkgWidget {
         const statusText = document.querySelector('.mdkg-status-text');
         if (!statusText) return;
         
-        const textToType = "Open for 1 Selected Project";
+        const textToType = "Currently Fully Booked";
         let i = 0;
         let isDeleting = false;
 

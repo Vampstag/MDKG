@@ -511,7 +511,7 @@
 .mdkg-status-dot {
     width: 6px;
     height: 6px;
-    background-color: #28cd41; /* Apple Green — static, no pulse; the color alone reads as "live" */
+    background-color: #999; /* Neutral gray — signals "fully booked," not the green "available" state */
     border-radius: 50%;
 }
 
