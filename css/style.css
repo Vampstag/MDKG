@@ -7233,7 +7233,6 @@ a.social-icon:hover img {
     border-radius: 0;
     padding: 0;
     margin-top: 8px;
-    cursor: pointer;
     background: #111;
     overflow: hidden;
 }
@@ -7247,11 +7246,6 @@ a.social-icon:hover img {
     display: block;
     pointer-events: none;
     filter: grayscale(1) contrast(1.05);
-    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), filter 0.4s ease;
-}
-.cta-showreel-player:hover .cta-showreel-video {
-    transform: scale(1.03);
-    filter: grayscale(1) contrast(1.05) brightness(0.85);
 }
 
 .cta-showreel-scrim {
@@ -7259,54 +7253,6 @@ a.social-icon:hover img {
     inset: 0;
     background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.35) 100%);
     pointer-events: none;
-}
-
-.cta-showreel-watch-label {
-    position: absolute;
-    left: 24px;
-    bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #fff;
-    font-family: var(--font-primary);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.cta-showreel-player:hover .cta-showreel-watch-label {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.cta-showreel-watch-label__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border-radius: 0;
-    background: #fff;
-    color: #000;
-}
-.cta-showreel-watch-label__icon svg {
-    width: 10px;
-    height: 10px;
-    margin-left: 1px; /* optical centering — a play triangle's own visual weight sits left of its bounding box */
-}
-
-@media (max-width: 767px) {
-    .cta-showreel-watch-label {
-        opacity: 1;
-        transform: none;
-        left: 16px;
-        bottom: 16px;
-    }
 }
 
 .premium-soft-cta-btn {
