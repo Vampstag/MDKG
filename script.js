@@ -414,9 +414,9 @@ function loadNavbar() {
     const container = document.getElementById('navbar-container');
     if (!container) return Promise.resolve();
     // choose path relative to current location; case study pages are one level deep
-    let url = 'navbar.html';
+    let url = 'navbar.html?v=2';
     if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
-        url = '../navbar.html';
+        url = '../navbar.html?v=2';
     }
     return fetch(url)
         .then(resp => resp.text())
