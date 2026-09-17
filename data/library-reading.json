@@ -2,331 +2,641 @@
   {
     "title": "Ways of Seeing",
     "author": "John Berger",
-    "url": "https://aeon.co/essays/john-bergers-ways-of-seeing-and-his-search-for-home"
+    "url": "https://www.penguinrandomhouse.com/books/324430/ways-of-seeing-by-john-berger/",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
     "title": "The Nature of Photographs: A Primer",
     "author": "Stephen Shore",
-    "url": "https://www.phaidon.com/en-us/products/the-nature-of-photographs/"
+    "url": "https://www.phaidon.com/en-us/products/the-nature-of-photographs/",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
     "title": "In Praise of Shadows",
     "author": "Jun’ichirō Tanizaki",
-    "url": "https://penguin.co.uk/books/103/1033310/in-praise-of-shadows/9781784875572.html"
+    "url": "https://penguin.co.uk/books/103/1033310/in-praise-of-shadows/9781784875572.html",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
     "title": "The Eyes of the Skin: Architecture and the Senses",
     "author": "Juhani Pallasmaa",
-    "url": "https://onlinelibrary.wiley.com/doi/book/10.1002/9781394200702"
+    "url": "https://onlinelibrary.wiley.com/doi/book/10.1002/9781394200702",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
-    "title": "Of the Standard of Taste",
-    "author": "David Hume",
-    "url": "https://davidhume.org/texts/empl1/st"
+    "title": "Seeing Through Photographs",
+    "author": "The Museum of Modern Art · Coursera (Sarah Meister, Lucy Gallun)",
+    "url": "https://www.coursera.org/learn/photography",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "FREE PREVIEW · VERIFY ACCESS"
   },
   {
-    "title": "Our Aesthetic Categories: An Interview with Sianne Ngai",
-    "author": "Adam Jasper · Cabinet Magazine",
-    "url": "https://www.cabinetmagazine.org/issues/43/jasper_ngai.php"
-  },
-  {
-    "title": "Aesthetic Judgment",
-    "author": "Nick Zangwill · Stanford Encyclopedia of Philosophy",
-    "url": "https://plato.stanford.edu/entries/aesthetic-judgment/"
-  },
-  {
-    "title": "Bourdieu’s Distinction (Think 53: Food Talks lecture slides)",
-    "author": "Dan Jurafsky & Yoshiko Matsumoto, Stanford University",
-    "url": "https://web.stanford.edu/class/think53/bourdieu17.pdf"
-  },
-  {
-    "title": "Semiotics for Beginners",
-    "author": "Daniel Chandler",
-    "url": "http://visual-memory.co.uk/daniel/Documents/S4B/"
-  },
-  {
-    "title": "The Work of Art in the Age of Mechanical Reproduction",
-    "author": "Walter Benjamin (trans. Harry Zohn)",
-    "url": "https://web.mit.edu/21w.784/www/BD%20Supplementals/Materials/Unit%20Three/Benjamin%20work%20of%20art.html"
-  },
-  {
-    "title": "Body Ritual among the Nacirema",
-    "author": "Horace Miner",
-    "url": "https://courses.lumenlearning.com/readinganthology/chapter/body-ritual-among-the-nacirema-by-horace-miner/"
-  },
-  {
-    "title": "Paragraphs on Conceptual Art",
-    "author": "Sol LeWitt · Artforum",
-    "url": "https://mma.pages.tufts.edu/fah188/sol_lewitt/paragraphs%20on%20conceptual%20art.htm"
-  },
-  {
-    "title": "The Society of the Spectacle",
-    "author": "Guy Debord (trans. Ken Knabb)",
-    "url": "https://www.bopsecrets.org/SI/debord/"
-  },
-  {
-    "title": "In the Blink of an Eye: A Perspective on Film Editing",
-    "author": "Walter Murch",
-    "url": "https://www.silmanjamespress.com/shop/filmmaking-directing/in-the-blink-of-an-eye2nd-edition/"
-  },
-  {
-    "title": "Notes on the Cinematograph",
-    "author": "Robert Bresson (trans. Jonathan Griffin)",
-    "url": "https://offscreen.com/view/bresson_notes"
-  },
-  {
-    "title": "The Vignelli Canon",
-    "author": "Massimo Vignelli",
-    "url": "https://www.rit.edu/vignellicenter/sites/rit.edu.vignellicenter/files/documents/The%20Vignelli%20Canon.pdf"
-  },
-  {
-    "title": "Dieter Rams: Ten principles for good design",
-    "author": "Vitsœ",
-    "url": "https://www.vitsoe.com/us/about/good-design"
-  },
-  {
-    "title": "Se7en (1995) title sequence — with Kyle Cooper interview",
-    "author": "Art of the Title",
-    "url": "https://www.artofthetitle.com/title/se7en/"
-  },
-  {
-    "title": "Six Memos for the Next Millennium",
-    "author": "Italo Calvino",
-    "url": "https://www.themarginalian.org/2014/10/15/italo-calvino-six-memos-for-the-next-millennium-lightness/"
-  },
-  {
-    "title": "Design and the Play Instinct",
-    "author": "Paul Rand",
-    "url": "https://www.paulrand.design/writing/articles/1965-design-and-the-play-instinct.html"
-  },
-  {
-    "title": "Warning: May Contain Non-Design Content",
-    "author": "Michael Bierut · Design Observer",
-    "url": "https://designobserver.com/warning-may-contain-non-design-content/"
-  },
-  {
-    "title": "Aby Warburg: Bilderatlas Mnemosyne — Virtual Exhibition",
-    "author": "The Warburg Institute",
-    "url": "https://warburg.sas.ac.uk/aby-warburg-bilderatlas-mnemosyne-virtual-exhibition"
-  },
-  {
-    "title": "Designing Design",
-    "author": "Kenya Hara",
-    "url": "https://www.lars-mueller-publishers.com/designing-design"
-  },
-  {
-    "title": "Reputations: Peter Saville",
-    "author": "Rick Poynor · Eye no. 17",
-    "url": "https://eyemagazine.com/feature/article/reputations-peter-saville"
-  },
-  {
-    "title": "Reputations: Tibor Kalman",
-    "author": "Moira Cullen · Eye no. 20",
-    "url": "https://eyemagazine.com/feature/article/reputations-tibor-kalman"
-  },
-  {
-    "title": "Game Changer: Alexey Brodovitch",
-    "author": "Gerry Badger · Gagosian Quarterly",
-    "url": "https://gagosian.com/quarterly/2024/02/28/essay-game-changer-alexey-brodovitch/"
-  },
-  {
-    "title": "The Rebellious and Revolutionary Work of Designer Eiko Ishioka",
-    "author": "Ritupriya Basu · AIGA Eye on Design",
-    "url": "https://eyeondesign.aiga.org/the-rebellious-and-revolutionary-work-of-designer-eiko-ishioka/"
-  },
-  {
-    "title": "Wong Kar Wai on In the Mood for Love at 25 – a new interview",
-    "author": "Sam Wigley · Sight and Sound (BFI)",
-    "url": "https://www.bfi.org.uk/sight-and-sound/interviews/wong-kar-wai-mood-love-25"
-  },
-  {
-    "title": "Case Study: Cadbury Gorilla",
-    "author": "D&AD",
-    "url": "https://www.dandad.org/insights/awards/cadbury-gorilla-case-study-insights"
-  },
-  {
-    "title": "“Here’s to you, Ahab”: 25 years since the creation of the best ad ever made",
-    "author": "Creative Salon",
-    "url": "https://creative.salon/articles/features/guinness-surfer-learnings-qotw"
-  },
-  {
-    "title": "Critical Response Process",
-    "author": "Liz Lerman",
-    "url": "https://lizlerman.com/critical-response-process/"
-  },
-  {
-    "title": "How Pixar Fosters Collective Creativity",
-    "author": "Ed Catmull · Harvard Business Review",
-    "url": "https://hbr.org/2008/09/how-pixar-fosters-collective-creativity"
-  },
-  {
-    "title": "Guide: Understand team effectiveness (Project Aristotle)",
-    "author": "Google re:Work",
-    "url": "https://rework.withgoogle.com/intl/en/guides/understand-team-effectiveness"
-  },
-  {
-    "title": "lumbung — documenta fifteen",
-    "author": "ruangrupa (artistic direction), documenta fifteen",
-    "url": "https://documenta-fifteen.de/en/lumbung/"
-  },
-  {
-    "title": "The Evolving Legacy of Ken Garland’s First Things First Manifesto",
-    "author": "Rick Poynor · AIGA Eye on Design",
-    "url": "https://www.aiga.org/eye-on-design/why-ken-garlands-first-things-first-manifesto-keeps-getting-updated"
-  },
-  {
-    "title": "In Defense of the Poor Image",
-    "author": "Hito Steyerl · e-flux journal #10",
-    "url": "https://www.e-flux.com/journal/10/61362/in-defense-of-the-poor-image"
-  },
-  {
-    "title": "Welcome to AirSpace",
-    "author": "Kyle Chayka · The Verge",
-    "url": "https://www.theverge.com/2016/8/3/12325104/airbnb-aesthetic-global-minimalism-startup-gentrification"
-  },
-  {
-    "title": "A History of Raf Simons’ Collaborations with Peter Saville",
-    "author": "Calum Gordon · AnOther Man",
-    "url": "https://www.anothermanmag.com/style-grooming/9956/a-history-of-raf-simons-collaborations-with-peter-saville"
-  },
-  {
-    "title": "‘Emotions Are More Important Than Monsters’: An Interview with Apichatpong Weerasethakul",
-    "author": "Calum Marsh · Hazlitt",
-    "url": "https://hazlitt.net/feature/emotions-are-more-important-monsters-interview-apichatpong-weerasethakul"
-  },
-  {
-    "title": "The Incompatibilities Between Generative AI and Art: Q&A with Ted Chiang",
-    "author": "Center for Digital Humanities, Princeton University",
-    "url": "https://cdh.princeton.edu/blog/ted-chiang/"
-  },
-  {
-    "title": "Items: Is Fashion Modern?",
-    "author": "The Museum of Modern Art",
-    "url": "https://www.moma.org/calendar/exhibitions/1638"
-  },
-  {
-    "title": "Real Life (2016–2022 archive)",
-    "author": "Real Life magazine",
-    "url": "https://reallifemag.com/"
-  },
-  {
-    "title": "Saul Bass — Art of the Title",
-    "author": "Art of the Title",
-    "url": "https://www.artofthetitle.com/designer/saul-bass/"
-  },
-  {
-    "title": "Red Bull Music Academy — Lectures archive",
-    "author": "Red Bull Music Academy",
-    "url": "https://www.redbullmusicacademy.com/lectures/"
-  },
-  {
-    "title": "The Public Domain Review — Essays",
-    "author": "The Public Domain Review",
-    "url": "https://publicdomainreview.org/essays/"
-  },
-  {
-    "title": "Are.na Editorial (Are.na Annual essays)",
-    "author": "Are.na",
-    "url": "https://www.are.na/editorial/category/are-na-annual"
-  },
-  {
-    "title": "George Lois: The Esquire Covers",
-    "author": "The Museum of Modern Art",
-    "url": "https://www.moma.org/calendar/exhibitions/72"
-  },
-  {
-    "title": "The 2022 Sight and Sound Greatest Films of All Time poll",
-    "author": "BFI · Sight and Sound",
-    "url": "https://www.bfi.org.uk/news/revealed-results-2022-sight-sound-greatest-films-all-time-poll"
-  },
-  {
-    "title": "Letterform Archive — Online Archive",
-    "author": "Letterform Archive",
-    "url": "https://oa.letterformarchive.org/"
-  },
-  {
-    "title": "What is Account Planning?",
-    "author": "Account Planning Group (APG), UK",
-    "url": "https://www.apg.org.uk/single-post/2001/04/02/what-is-account-planning-and-what-do-account-planners-do-exactly"
-  },
-  {
-    "title": "Building Distinctive Brand Assets — Q&A with Jenni Romaniuk",
-    "author": "Research World (ESOMAR) · Ehrenberg-Bass Institute",
-    "url": "https://archive.researchworld.com/qa-with-jenni-romaniuk-of-the-ehrenberg-bass-institute/"
-  },
-  {
-    "title": "Strategy, Rediscovered?",
-    "author": "Martin Weigel",
-    "url": "https://www.martinweigel.org/mrweigelgmailcom/practical-progress-from-a-theory-of-advertising"
-  },
-  {
-    "title": "Why Does the Pedlar Sing? What Creativity Really Means in Advertising",
-    "author": "Paul Feldwick",
-    "url": "http://paulfeldwick.com/why-does-the-pedlar-sing/"
-  },
-  {
-    "title": "A Century of Gestalt Psychology in Visual Perception",
-    "author": "Johan Wagemans et al. · Psychological Bulletin",
-    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3482144/"
+    "title": "You are fluent in this language (and don’t even know it)",
+    "author": "Christoph Niemann · TED2018",
+    "url": "https://www.ted.com/talks/christoph_niemann_you_are_fluent_in_this_language_and_don_t_even_know_it",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "FREE"
   },
   {
     "title": "Atmospheres: Architectural Environments – Surrounding Objects",
     "author": "Peter Zumthor",
-    "url": "https://www.degruyterbrill.com/document/isbn/9783764374952/html"
+    "url": "https://www.degruyterbrill.com/document/isbn/9783764374952/html",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Of the Standard of Taste",
+    "author": "David Hume",
+    "url": "https://davidhume.org/texts/empl1/st",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Our Aesthetic Categories: An Interview with Sianne Ngai",
+    "author": "Adam Jasper · Cabinet Magazine, Issue 43",
+    "url": "https://www.cabinetmagazine.org/issues/43/jasper_ngai.php",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Aesthetic Judgment",
+    "author": "Nick Zangwill · Stanford Encyclopedia of Philosophy",
+    "url": "https://plato.stanford.edu/entries/aesthetic-judgment/",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Bourdieu’s Distinction (Think 53: Food Talks lecture slides)",
+    "author": "Dan Jurafsky & Yoshiko Matsumoto, Stanford University",
+    "url": "https://web.stanford.edu/class/think53/bourdieu17.pdf",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Semiotics for Beginners",
+    "author": "Daniel Chandler",
+    "url": "http://visual-memory.co.uk/daniel/Documents/S4B/",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Introduction to Theory of Literature (ENGL 300)",
+    "author": "Paul H. Fry · Open Yale Courses",
+    "url": "https://oyc.yale.edu/english/engl-300",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "The Work of Art in the Age of Mechanical Reproduction",
+    "author": "Walter Benjamin (trans. Harry Zohn)",
+    "url": "https://web.mit.edu/21w.784/www/BD%20Supplementals/Materials/Unit%20Three/Benjamin%20work%20of%20art.html",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "UNIVERSITY READING · RIGHTS NOT STATED"
+  },
+  {
+    "title": "Body Ritual among the Nacirema",
+    "author": "Horace Miner",
+    "url": "https://courses.lumenlearning.com/readinganthology/chapter/body-ritual-among-the-nacirema-by-horace-miner/",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "The human insights missing from big data",
+    "author": "Tricia Wang · TEDxCambridge",
+    "url": "https://www.ted.com/talks/tricia_wang_the_human_insights_missing_from_big_data",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Perspective is everything",
+    "author": "Rory Sutherland (Ogilvy) · TEDxAthens",
+    "url": "https://www.ted.com/talks/rory_sutherland_perspective_is_everything",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Paragraphs on Conceptual Art",
+    "author": "Sol LeWitt (Artforum)",
+    "url": "https://mma.pages.tufts.edu/fah188/sol_lewitt/paragraphs%20on%20conceptual%20art.htm",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "UNIVERSITY READING · RIGHTS NOT STATED"
+  },
+  {
+    "title": "The Society of the Spectacle",
+    "author": "Guy Debord (trans. Ken Knabb)",
+    "url": "https://www.bopsecrets.org/SI/debord/",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "A Century of Gestalt Psychology in Visual Perception: I. Perceptual Grouping and Figure-Ground Organization",
+    "author": "Johan Wagemans et al. · Psychological Bulletin",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3482144/",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Introduction to Psychology (PSYC 110)",
+    "author": "Paul Bloom · Open Yale Courses",
+    "url": "https://oyc.yale.edu/introduction-psychology/psyc-110",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "In Conversation: Margaret Livingstone on Vision, Art and the Biology of Seeing",
+    "author": "Hirshhorn Museum (Smithsonian)",
+    "url": "https://hirshhorn.si.edu/explore/in-conversation-margaret-livingstone-professor-of-neurobiology-at-harvard-medical-school-on-vision-art-and-the-biology-of-seeing",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "In the Blink of an Eye: A Perspective on Film Editing (2nd ed.)",
+    "author": "Walter Murch",
+    "url": "https://www.silmanjamespress.com/shop/filmmaking-directing/in-the-blink-of-an-eye2nd-edition/",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "Notes on the Cinematograph",
+    "author": "Robert Bresson (trans. Jonathan Griffin)",
+    "url": "https://www.nyrb.com/products/notes-on-the-cinematograph",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "The Vignelli Canon",
+    "author": "Massimo Vignelli",
+    "url": "https://www.rit.edu/vignellicenter/sites/rit.edu.vignellicenter/files/documents/The%20Vignelli%20Canon.pdf",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Dieter Rams: Ten principles for good design",
+    "author": "Vitsœ",
+    "url": "https://www.vitsoe.com/us/about/good-design",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Se7en (1995) title sequence — with Kyle Cooper interview",
+    "author": "Art of the Title",
+    "url": "https://www.artofthetitle.com/title/se7en/",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Interaction of Color — animated lectures",
+    "author": "Josef & Anni Albers Foundation (audio: Josef Albers)",
+    "url": "https://albersfoundation.org/teaching/josef-albers/interaction-of-color/illustrated-lecture/",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Pixar in a Box: The Art of Storytelling",
+    "author": "Khan Academy × Pixar Animation Studios",
+    "url": "https://www.khanacademy.org/humanities/hass-storytelling/storytelling-pixar-in-a-box",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Team Deakins (podcast)",
+    "author": "Roger Deakins & James Deakins",
+    "url": "https://teamdeakins.libsyn.com/",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Six Memos for the Next Millennium",
+    "author": "Italo Calvino",
+    "url": "https://www.penguin.co.uk/books/297031/six-memos-for-the-next-millennium-by-calvino-italo/9780241275955",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "Fundamentals of Graphic Design",
+    "author": "CalArts · Coursera (Michael Worthington)",
+    "url": "https://www.coursera.org/learn/fundamentals-of-graphic-design",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE AUDIT · VERIFY ACCESS"
+  },
+  {
+    "title": "Design and the Play Instinct",
+    "author": "Paul Rand",
+    "url": "https://www.paulrand.design/writing/articles/1965-design-and-the-play-instinct.html",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "VERIFY ACCESS"
   },
   {
     "title": "Behind the Design: The Harmony of Without Thought — Naoto Fukasawa",
     "author": "Gessato",
-    "url": "https://www.gessato.com/naoto-fukasawa/"
+    "url": "https://www.gessato.com/naoto-fukasawa/",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Warning: May Contain Non-Design Content",
+    "author": "Michael Bierut · Design Observer",
+    "url": "https://designobserver.com/warning-may-contain-non-design-content/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Aby Warburg: Bilderatlas Mnemosyne — Virtual Exhibition",
+    "author": "The Warburg Institute (University of London)",
+    "url": "https://warburg.sas.ac.uk/aby-warburg-bilderatlas-mnemosyne-virtual-exhibition",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Designing Design",
+    "author": "Kenya Hara",
+    "url": "https://www.lars-mueller-publishers.com/designing-design",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "Reputations: Peter Saville",
+    "author": "Rick Poynor · Eye no. 17",
+    "url": "https://eyemagazine.com/feature/article/reputations-peter-saville",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Reputations: Tibor Kalman",
+    "author": "Moira Cullen · Eye no. 20",
+    "url": "https://eyemagazine.com/feature/article/reputations-tibor-kalman",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Game Changer: Alexey Brodovitch",
+    "author": "Gerry Badger · Gagosian Quarterly",
+    "url": "https://gagosian.com/quarterly/2024/02/28/essay-game-changer-alexey-brodovitch/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "The Rebellious and Revolutionary Work of Designer Eiko Ishioka",
+    "author": "Ritupriya Basu · AIGA Eye on Design",
+    "url": "https://eyeondesign.aiga.org/the-rebellious-and-revolutionary-work-of-designer-eiko-ishioka/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Wong Kar Wai on In the Mood for Love at 25 – a new interview",
+    "author": "Sam Wigley · Sight and Sound (BFI)",
+    "url": "https://www.bfi.org.uk/sight-and-sound/interviews/wong-kar-wai-mood-love-25",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Case Study: Cadbury Gorilla",
+    "author": "D&AD",
+    "url": "https://www.dandad.org/insights/awards/cadbury-gorilla-case-study-insights",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "“Here’s to you, Ahab”: 25 years since the creation of the best ad ever made",
+    "author": "Creative Salon",
+    "url": "https://creative.salon/articles/features/guinness-surfer-learnings-qotw",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Honda — Cog",
+    "author": "Wieden+Kennedy London",
+    "url": "https://wklondon.com/work/cog/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "What is Account Planning? (and what do account planners do exactly?)",
+    "author": "Account Planning Group (APG), UK",
+    "url": "https://www.apg.org.uk/single-post/2001/04/02/what-is-account-planning-and-what-do-account-planners-do-exactly",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Building Distinctive Brand Assets — Q&A with Jenni Romaniuk",
+    "author": "Research World (ESOMAR) · Ehrenberg-Bass Institute",
+    "url": "https://archive.researchworld.com/qa-with-jenni-romaniuk-of-the-ehrenberg-bass-institute/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Strategy, Rediscovered?",
+    "author": "Martin Weigel (former Head of Planning, Wieden+Kennedy Amsterdam)",
+    "url": "https://www.martinweigel.org/mrweigelgmailcom/practical-progress-from-a-theory-of-advertising",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Why Does the Pedlar Sing? What Creativity Really Means in Advertising",
+    "author": "Paul Feldwick",
+    "url": "http://paulfeldwick.com/why-does-the-pedlar-sing/",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Critical Response Process",
+    "author": "Liz Lerman",
+    "url": "https://lizlerman.com/critical-response-process/",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "How Pixar Fosters Collective Creativity",
+    "author": "Ed Catmull · Harvard Business Review",
+    "url": "https://hbr.org/2008/09/how-pixar-fosters-collective-creativity",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE — METERED"
+  },
+  {
+    "title": "Guide: Understand team effectiveness (Project Aristotle)",
+    "author": "Google re:Work",
+    "url": "https://rework.withgoogle.com/intl/en/guides/understand-team-effectiveness",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "The secret structure of great talks",
+    "author": "Nancy Duarte · TEDxEast",
+    "url": "https://www.ted.com/talks/nancy_duarte_the_secret_structure_of_great_talks",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "lumbung — documenta fifteen",
+    "author": "ruangrupa (artistic direction), documenta fifteen",
+    "url": "https://documenta-fifteen.de/en/lumbung/",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "The Evolving Legacy of Ken Garland’s First Things First Manifesto",
+    "author": "Rick Poynor · AIGA Eye on Design",
+    "url": "https://www.aiga.org/eye-on-design/why-ken-garlands-first-things-first-manifesto-keeps-getting-updated",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "In Defense of the Poor Image",
+    "author": "Hito Steyerl · e-flux journal #10",
+    "url": "https://www.e-flux.com/journal/10/61362/in-defense-of-the-poor-image",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "Welcome to AirSpace",
+    "author": "Kyle Chayka · The Verge",
+    "url": "https://www.theverge.com/2016/8/3/12325104/airbnb-aesthetic-global-minimalism-startup-gentrification",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "A History of Raf Simons’ Collaborations with Peter Saville",
+    "author": "Calum Gordon · AnOther Man",
+    "url": "https://www.anothermanmag.com/style-grooming/9956/a-history-of-raf-simons-collaborations-with-peter-saville",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "‘Emotions Are More Important Than Monsters’: An Interview with Apichatpong Weerasethakul",
+    "author": "Calum Marsh · Hazlitt",
+    "url": "https://hazlitt.net/feature/emotions-are-more-important-monsters-interview-apichatpong-weerasethakul",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "The Incompatibilities Between Generative AI and Art: Q&A with Ted Chiang",
+    "author": "Center for Digital Humanities, Princeton University",
+    "url": "https://cdh.princeton.edu/blog/ted-chiang/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "Items: Is Fashion Modern?",
+    "author": "The Museum of Modern Art (Paola Antonelli, Michelle Millar Fisher)",
+    "url": "https://www.moma.org/calendar/exhibitions/1638",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "Fashion as Design (Specialization)",
+    "author": "The Museum of Modern Art · Coursera",
+    "url": "https://www.coursera.org/specializations/fashionasdesign",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "PAID · FINANCIAL AID"
+  },
+  {
+    "title": "Real Life (2016–2022 archive)",
+    "author": "Real Life magazine (ed. Nathan Jurgenson et al.)",
+    "url": "https://reallifemag.com/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "Saving Indonesia’s Graphic Design History Before It’s Lost Forever",
     "author": "Justin Zhuang · AIGA Eye on Design",
-    "url": "https://eyeondesign.aiga.org/saving-indonesias-graphic-design-history-before-its-lost-forever/"
+    "url": "https://eyeondesign.aiga.org/saving-indonesias-graphic-design-history-before-its-lost-forever/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "Garis Waktu Desain Grafis Indonesia",
     "author": "Desain Grafis Indonesia (DGI)",
-    "url": "http://dgi.or.id/in-depth/history/garis-waktu-desain-grafis-indonesia.html"
+    "url": "http://dgi.or.id/in-depth/history/garis-waktu-desain-grafis-indonesia.html",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "OPEN MANUALLY"
   },
   {
     "title": "Graphic Design as a Tool of Resistance",
     "author": "Alessandra Langit · Grafis Masa Kini",
-    "url": "https://grafismasakini.com/article/graphic-design-as-a-tool-of-resistance/en"
+    "url": "https://grafismasakini.com/article/graphic-design-as-a-tool-of-resistance/en",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "Benedict Anderson: A Reflection",
     "author": "Rita Padawangi · Theory, Culture & Society",
-    "url": "https://www.theoryculturesociety.org/blog/a-reflection-on-benedict-anderson-by-rita-padawangi"
+    "url": "https://www.theoryculturesociety.org/blog/a-reflection-on-benedict-anderson-by-rita-padawangi",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "GARIN NUGROHO — A Daring Cineast Led by Untiring Inspiration",
     "author": "Rieko Yui · The Japan Foundation Asia Center",
-    "url": "https://asiawa.jpf.go.jp/en/culture/features/f-ah-tiff2018-garin-nugroho/"
+    "url": "https://asiawa.jpf.go.jp/en/culture/features/f-ah-tiff2018-garin-nugroho/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "Meet Ruang MES 56",
     "author": "Head On Foundation",
-    "url": "https://headon.org.au/magazine/meet-ruang-mes56"
+    "url": "https://headon.org.au/magazine/meet-ruang-mes56",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "PannaFoto Institute: Teaching Photography and Building Communities in Indonesia",
-    "author": "Zhuang Wubin · Trans Asia Photography",
-    "url": "https://quod.lib.umich.edu/t/tap/7977573.0010.213/--pannafoto-institute-teaching-photography-and-building?rgn=main;view=fulltext"
+    "author": "Zhuang Wubin · Trans Asia Photography (Michigan Publishing)",
+    "url": "https://quod.lib.umich.edu/t/tap/7977573.0010.213/--pannafoto-institute-teaching-photography-and-building?rgn=main;view=fulltext",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
   },
   {
     "title": "Jelajah Grafis dalam Sejarah",
     "author": "Whiteboard Journal",
-    "url": "https://whiteboardjournal.com/focus/ideas/jelajah-grafis-dalam-sejarah/"
+    "url": "https://whiteboardjournal.com/focus/ideas/jelajah-grafis-dalam-sejarah/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Saul Bass — Art of the Title",
+    "author": "Art of the Title",
+    "url": "https://www.artofthetitle.com/designer/saul-bass/",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "Red Bull Music Academy — Lectures archive",
+    "author": "Red Bull Music Academy",
+    "url": "https://www.redbullmusicacademy.com/lectures/",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "The Public Domain Review — Essays",
+    "author": "The Public Domain Review",
+    "url": "https://publicdomainreview.org/essays/",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "Are.na Editorial (Are.na Annual essays)",
+    "author": "Are.na",
+    "url": "https://www.are.na/editorial/category/are-na-annual",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "George Lois: The Esquire Covers",
+    "author": "The Museum of Modern Art",
+    "url": "https://www.moma.org/calendar/exhibitions/72",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "The 2022 Sight and Sound Greatest Films of All Time poll",
+    "author": "BFI · Sight and Sound",
+    "url": "https://www.bfi.org.uk/news/revealed-results-2022-sight-sound-greatest-films-all-time-poll",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "FREE"
+  },
+  {
+    "title": "Letterform Archive — Online Archive",
+    "author": "Letterform Archive (San Francisco)",
+    "url": "https://oa.letterformarchive.org/",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "VERIFY ACCESS"
   },
   {
     "title": "Indonesian Visual Art Archive (IVAA)",
     "author": "IVAA, Yogyakarta",
-    "url": "https://archive.ivaa-online.org/"
+    "url": "https://archive.ivaa-online.org/",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "OPEN MANUALLY"
   },
   {
     "title": "Asia Art Archive",
     "author": "Asia Art Archive, Hong Kong",
-    "url": "https://aaa.org.hk/en"
+    "url": "https://aaa.org.hk/en",
+    "category": "REF",
+    "categoryLabel": "References",
+    "access": "OPEN MANUALLY"
   }
 ]

@@ -239,6 +239,33 @@
                 border: 1px dashed rgba(255,255,255,0.15);
             }
 
+            /* [NEW] Category filter for Reading List / Watch List (SEE/THINK/MAKE/DIRECT/
+               LEAD/CULTURE/REFERENCES) — a plain inline pill row, distinct from
+               .library-filter-bar which is fixed-position and built for the Archive canvas. */
+            .library-category-filter {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+            .library-category-btn {
+                font-family: var(--font-primary);
+                font-size: 0.7rem;
+                font-weight: 600;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.55);
+                background: transparent;
+                border: 1px solid rgba(255,255,255,0.18);
+                border-radius: 0;
+                padding: 7px 14px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+            }
+            .library-category-btn:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+            .library-category-btn.is-active { color: #000; background: #fff; border-color: #fff; }
+
             /* --- Reading List grid + card --- */
             .library-grid {
                 display: grid;
@@ -313,6 +340,16 @@
                 line-height: 1.3;
                 color: #fff;
                 margin: 0;
+            }
+            .library-category-badge {
+                display: inline-block;
+                font-family: var(--font-primary);
+                font-size: 0.62rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: rgba(255,255,255,0.5);
+                margin: 0 0 6px;
             }
             .reading-card-download {
                 margin-top: auto;
@@ -869,14 +906,16 @@
                             <button class="library-tab-btn" type="button" data-tab="archive" role="tab" id="tab-btn-archive" aria-controls="tab-panel-archive">Archive</button>
                         </div>
 
-                        <!-- Reading List panel: empty grid, ready for PDF entries (data/library-reading.json) -->
+                        <!-- Reading List panel: PDF/article entries (data/library-reading.json) -->
                         <div class="library-panel" id="tab-panel-reading-list" data-panel="reading-list" role="tabpanel" aria-labelledby="tab-btn-reading-list">
+                            <div class="library-category-filter" id="reading-list-filter" role="group" aria-label="Filter reading list by category"></div>
                             <div class="library-grid" id="reading-list-grid"></div>
                             <p class="library-empty-note" id="reading-list-empty">Nothing added yet — check back soon.</p>
                         </div>
 
-                        <!-- Watch List panel: empty grid, ready for curated external video links (data/library-watch.json) -->
+                        <!-- Watch List panel: curated external video links (data/library-watch.json) -->
                         <div class="library-panel" id="tab-panel-watch-list" data-panel="watch-list" role="tabpanel" aria-labelledby="tab-btn-watch-list">
+                            <div class="library-category-filter" id="watch-list-filter" role="group" aria-label="Filter watch list by category"></div>
                             <div class="library-grid" id="watch-list-grid"></div>
                             <p class="library-empty-note" id="watch-list-empty">Nothing added yet — check back soon.</p>
                         </div>
@@ -1772,6 +1811,7 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const grid = document.getElementById('reading-list-grid');
                 const emptyNote = document.getElementById('reading-list-empty');
+                const filterBar = document.getElementById('reading-list-filter');
                 if (!grid) return;
 
                 const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (c) => ({
@@ -1781,6 +1821,7 @@
                 const buildCard = (item) => {
                     const card = document.createElement('div');
                     card.className = 'reading-card';
+                    if (item.category) card.dataset.category = item.category;
                     const title = item.title || 'Untitled';
                     const coverHtml = item.cover
                         ? `<img class="reading-card-cover" src="${escapeHtml(item.cover)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
@@ -1791,11 +1832,38 @@
                     card.innerHTML = `
                         ${coverHtml}
                         <div class="reading-card-body">
+                            ${item.categoryLabel ? `<p class="library-category-badge">${escapeHtml(item.categoryLabel)}</p>` : ''}
                             <p class="reading-card-title">${escapeHtml(title)}</p>
                             <a class="reading-card-download" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer">Read</a>
                         </div>
                     `;
                     return card;
+                };
+
+                const buildFilterBar = (items) => {
+                    if (!filterBar) return;
+                    const seen = new Map();
+                    items.forEach(item => {
+                        if (item.category && !seen.has(item.category)) {
+                            seen.set(item.category, item.categoryLabel || item.category);
+                        }
+                    });
+                    const allBtn = `<button class="library-category-btn is-active" type="button" data-category="all">All</button>`;
+                    const catBtns = Array.from(seen.entries())
+                        .map(([cat, label]) => `<button class="library-category-btn" type="button" data-category="${escapeHtml(cat)}">${escapeHtml(label)}</button>`)
+                        .join('');
+                    filterBar.innerHTML = allBtn + catBtns;
+
+                    filterBar.addEventListener('click', (e) => {
+                        const btn = e.target.closest('.library-category-btn');
+                        if (!btn) return;
+                        filterBar.querySelectorAll('.library-category-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+                        const category = btn.dataset.category;
+                        grid.querySelectorAll('.reading-card').forEach(card => {
+                            const show = category === 'all' || card.dataset.category === category;
+                            card.style.display = show ? '' : 'none';
+                        });
+                    });
                 };
 
                 fetch('data/library-reading.json?v=2')
@@ -1807,6 +1875,7 @@
                             return;
                         }
                         if (emptyNote) emptyNote.style.display = 'none';
+                        buildFilterBar(items);
                         const fragment = document.createDocumentFragment();
                         items.forEach(item => fragment.appendChild(buildCard(item)));
                         grid.appendChild(fragment);
@@ -1833,6 +1902,7 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const grid = document.getElementById('watch-list-grid');
                 const emptyNote = document.getElementById('watch-list-empty');
+                const filterBar = document.getElementById('watch-list-filter');
                 if (!grid) return;
 
                 const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (c) => ({
@@ -1842,6 +1912,7 @@
                 const buildCard = (item) => {
                     const card = document.createElement('a');
                     card.className = 'watch-card';
+                    if (item.category) card.dataset.category = item.category;
                     card.href = item.url || '#';
                     card.target = '_blank';
                     card.rel = 'noopener noreferrer';
@@ -1857,10 +1928,37 @@
                             <span class="watch-card-platform">${escapeHtml(item.platform || '')}</span>
                         </div>
                         <div class="watch-card-body">
+                            ${item.categoryLabel ? `<p class="library-category-badge">${escapeHtml(item.categoryLabel)}</p>` : ''}
                             <p class="watch-card-title">${escapeHtml(title)}</p>
                         </div>
                     `;
                     return card;
+                };
+
+                const buildFilterBar = (items) => {
+                    if (!filterBar) return;
+                    const seen = new Map();
+                    items.forEach(item => {
+                        if (item.category && !seen.has(item.category)) {
+                            seen.set(item.category, item.categoryLabel || item.category);
+                        }
+                    });
+                    const allBtn = `<button class="library-category-btn is-active" type="button" data-category="all">All</button>`;
+                    const catBtns = Array.from(seen.entries())
+                        .map(([cat, label]) => `<button class="library-category-btn" type="button" data-category="${escapeHtml(cat)}">${escapeHtml(label)}</button>`)
+                        .join('');
+                    filterBar.innerHTML = allBtn + catBtns;
+
+                    filterBar.addEventListener('click', (e) => {
+                        const btn = e.target.closest('.library-category-btn');
+                        if (!btn) return;
+                        filterBar.querySelectorAll('.library-category-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+                        const category = btn.dataset.category;
+                        grid.querySelectorAll('.watch-card').forEach(card => {
+                            const show = category === 'all' || card.dataset.category === category;
+                            card.style.display = show ? '' : 'none';
+                        });
+                    });
                 };
 
                 fetch('data/library-watch.json?v=2')
@@ -1872,6 +1970,7 @@
                             return;
                         }
                         if (emptyNote) emptyNote.style.display = 'none';
+                        buildFilterBar(items);
                         const fragment = document.createDocumentFragment();
                         items.forEach(item => fragment.appendChild(buildCard(item)));
                         grid.appendChild(fragment);
