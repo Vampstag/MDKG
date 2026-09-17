@@ -7142,24 +7142,16 @@ a.social-icon:hover img {
 
 /* Premium CTA Section */
 /* Full-bleed variant: the section itself spans the viewport edge-to-edge (breaking out of
-   global-wrapper's max-width) and holds a reserved media layer behind the copy, so a motion
-   carousel can be dropped into .cta-media-placeholder later without restructuring the markup. */
+   global-wrapper's max-width). Copy sits above a single showreel card (not a background
+   media layer) — see .cta-showreel-player below. */
 .premium-soft-cta-fullbleed {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    min-height: 560px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     background: #050505;
-}
-.cta-media-placeholder {
-    position: absolute;
-    inset: 0;
-    background: #050505;
-    background-image: radial-gradient(circle at top right, rgba(255,255,255,0.05) 0%, transparent 60%);
 }
 
 .premium-soft-cta {
@@ -7167,13 +7159,14 @@ a.social-icon:hover img {
     z-index: 1;
     color: #fff;
     border-radius: 0;
-    padding: 80px 40px;
+    padding: 96px 40px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 24px;
     box-shadow: none;
+    width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -7183,13 +7176,27 @@ a.social-icon:hover img {
     }
 }
 
-.cta-media-placeholder::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
+/* [NEW] Eyebrow label above the CTA title — a small monochrome dot + uppercase label,
+   matching the site's existing label language (see .library-index-label, .next-label)
+   rather than the accent-green dot of the reference this was adapted from. */
+.premium-soft-cta-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin: 0;
+}
+.premium-soft-cta-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    flex-shrink: 0;
 }
 
 .premium-soft-cta-title {
@@ -7209,6 +7216,97 @@ a.social-icon:hover img {
     margin: 0;
     line-height: 1.6;
     font-weight: 400;
+}
+
+/* [NEW] Showreel card — placeholder footage (see the HTML comment above this markup)
+   presented as a single full-width, sharp-edged, monochrome video block instead of the
+   reference's rounded multi-card carousel, matching this site's edge-to-edge editorial
+   language (same visual family as .about-showreel-player on the homepage, just scoped to
+   this CTA instead of a full-bleed viewport strip). */
+.cta-showreel-player {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin-top: 8px;
+    cursor: pointer;
+    background: #111;
+    overflow: hidden;
+}
+
+.cta-showreel-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    filter: grayscale(1) contrast(1.05);
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), filter 0.4s ease;
+}
+.cta-showreel-player:hover .cta-showreel-video {
+    transform: scale(1.03);
+    filter: grayscale(1) contrast(1.05) brightness(0.85);
+}
+
+.cta-showreel-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+}
+
+.cta-showreel-watch-label {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-family: var(--font-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.cta-showreel-player:hover .cta-showreel-watch-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-showreel-watch-label__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 0;
+    background: #fff;
+    color: #000;
+}
+.cta-showreel-watch-label__icon svg {
+    width: 10px;
+    height: 10px;
+    margin-left: 1px; /* optical centering — a play triangle's own visual weight sits left of its bounding box */
+}
+
+@media (max-width: 767px) {
+    .cta-showreel-watch-label {
+        opacity: 1;
+        transform: none;
+        left: 16px;
+        bottom: 16px;
+    }
 }
 
 .premium-soft-cta-btn {

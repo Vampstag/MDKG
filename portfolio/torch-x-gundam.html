@@ -97,7 +97,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=133" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=134" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="../widget.css?v=15">
 
@@ -944,14 +944,29 @@
             </section>
 
 
-            <!-- [NEW] Soft CTA (Conversion Optimization) — full-bleed, edge-to-edge like a hero
-                 banner. .cta-media-placeholder is reserved space for a motion carousel to be
-                 dropped in later; until then it's just the section's own dark background. -->
+            <!-- [NEW] Soft CTA (Conversion Optimization) — eyebrow label, headline, desc, then
+                 the showreel as a single full-width card (placeholder footage: reuses the same
+                 Torch x Gundam showreel clip the homepage About section plays), button below.
+                 Monochrome / sharp-edged throughout (no border-radius) to match the site's
+                 editorial art direction — deliberately not the rounded, multi-color curved
+                 gallery from the reference. -->
             <section class="section-margin fade-in-section premium-soft-cta-fullbleed">
-                <div class="cta-media-placeholder"></div>
                 <div class="premium-soft-cta">
+                    <p class="premium-soft-cta-eyebrow"><span class="premium-soft-cta-eyebrow-dot"></span>Get Started</p>
                     <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of Torch × Gundam?</h2>
                     <p class="premium-soft-cta-desc">Let’s create cinematic storytelling that turns collaborations into experiences.</p>
+                    <button type="button" class="cta-showreel-player" id="cta-showreel-trigger" aria-label="Watch showreel">
+                        <video class="cta-showreel-video" autoplay loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster_showreel_torchxgundam.webp">
+                            <source src="../assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                        </video>
+                        <div class="cta-showreel-scrim"></div>
+                        <div class="cta-showreel-watch-label">
+                            <span class="cta-showreel-watch-label__icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </span>
+                            Watch Showreel
+                        </div>
+                    </button>
                     <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
                         Start a Project
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1298,6 +1313,8 @@
                 const videoModal = document.getElementById('video-modal');
                 const modalVideo = document.getElementById('modal-video-player');
                 
+                const modalVideoContent = videoModal?.querySelector('.video-modal-content');
+
                 // Fungsi tutup modal
                 const closeVideoModal = () => {
                     if (videoModal) {
@@ -1306,6 +1323,7 @@
                             modalVideo.pause();
                             modalVideo.src = '';
                         }
+                        modalVideoContent?.classList.remove('video-modal-content--landscape');
                         document.body.style.overflow = '';
                     }
                 };
@@ -1314,9 +1332,25 @@
                     videoModal.addEventListener('click', (e) => { if (e.target === videoModal) closeVideoModal(); });
                     const closeBtn = videoModal.querySelector('.video-modal-close');
                     if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
-                    
+
                     // Menutup video modal dengan tombol Escape
                     document.addEventListener('keydown', (e) => { if (e.key === "Escape" && videoModal.classList.contains('active')) closeVideoModal(); });
+                }
+
+                // [NEW] Soft CTA showreel card: click opens the same shared modal, but tagged
+                // --landscape (16:9) since the bento grid's own videos are portrait reels and
+                // reuse the modal without that class.
+                const ctaShowreelTrigger = document.getElementById('cta-showreel-trigger');
+                if (ctaShowreelTrigger && videoModal && modalVideo) {
+                    ctaShowreelTrigger.addEventListener('click', () => {
+                        const source = ctaShowreelTrigger.querySelector('source');
+                        if (!source) return;
+                        modalVideo.src = source.src;
+                        modalVideoContent?.classList.add('video-modal-content--landscape');
+                        videoModal.classList.add('active');
+                        modalVideo.play();
+                        document.body.style.overflow = 'hidden';
+                    });
                 }
 
                 if (bentoGrid) {
