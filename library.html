@@ -996,7 +996,7 @@
         <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script defer src="script.js?v=52"></script>
+        <script defer src="script.js?v=53"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
 
@@ -1029,6 +1029,21 @@
                 const videoModal = document.getElementById('library-video-modal');
                 const modalVideo = document.getElementById('library-modal-video-player');
                 const videoModalClose = document.getElementById('library-video-modal-close');
+
+                // [NEW] The modal frame otherwise hard-codes aspect-ratio: 9/16 (see
+                // .video-modal-content in css/style.css), which is right for portrait reels
+                // but letterboxes/misframes anything shot landscape or square. Once the video's
+                // real dimensions are known, set the frame's aspect-ratio to match so
+                // object-fit: contain has a correctly-shaped box to fit into instead of forcing
+                // every clip into a 9:16 window.
+                const videoModalContent = videoModal?.querySelector('.video-modal-content');
+                if (modalVideo && videoModalContent) {
+                    modalVideo.addEventListener('loadedmetadata', () => {
+                        if (modalVideo.videoWidth && modalVideo.videoHeight) {
+                            videoModalContent.style.aspectRatio = `${modalVideo.videoWidth} / ${modalVideo.videoHeight}`;
+                        }
+                    });
+                }
 
                 const lightboxModal = document.getElementById('library-lightbox-modal');
                 const lightboxImg = document.getElementById('library-lightbox-img');
@@ -1168,6 +1183,7 @@
                 const closeVideoModal = () => {
                     videoModal?.classList.remove('active');
                     if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; }
+                    if (videoModalContent) videoModalContent.style.aspectRatio = '';
                     document.body.style.overflow = '';
                 };
                 videoModalClose?.addEventListener('click', closeVideoModal);
