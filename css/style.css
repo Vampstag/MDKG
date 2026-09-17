@@ -2267,7 +2267,13 @@ html.lenis, html.lenis body { height: auto; }
     position: relative;
     width: 100%;
     max-width: 420px; /* Batas wajar untuk Desktop */
-    height: 85vh; /* Proporsional tinggi */
+    /* height:85vh alongside aspect-ratio:9/16 fought each other: height won the box's size,
+       so on a viewport short enough that 85vh's implied width (height * 9/16) exceeded the
+       420px max-width cap, width got clamped to 420px while height stayed at 85vh — leaving
+       a box wider than 9:16 actually allows, i.e. squashed instead of proportional. max-height
+       instead lets aspect-ratio + max-width jointly settle on a proportional 9:16 box, capped
+       (not forced) to 85% of the viewport's height. */
+    max-height: 85vh;
     aspect-ratio: 9/16;
     background-color: #000;
     border-radius: 0;
