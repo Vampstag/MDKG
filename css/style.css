@@ -7207,6 +7207,17 @@ a.social-icon:hover img {
     letter-spacing: -0.03em;
     color: #fff;
 }
+/* [NEW] Manual 2-line break for the CTA title — desktop only, so the split lands at a
+   deliberate, readable point instead of wherever the text happens to wrap at a given
+   viewport width. Hidden on mobile so narrow screens fall back to natural auto-wrap. */
+.premium-soft-cta-title-break {
+    display: none;
+}
+@media (min-width: 768px) {
+    .premium-soft-cta-title-break {
+        display: block;
+    }
+}
 
 .premium-soft-cta-desc {
     font-family: var(--font-primary);
