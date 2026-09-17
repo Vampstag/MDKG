@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mdkg-portfolio-v2';
+const CACHE_NAME = 'mdkg-portfolio-v3';
 
 // Install SW & Langsung Aktif
 self.addEventListener('install', (event) => {
@@ -28,7 +28,7 @@ self.addEventListener('fetch', (event) => {
     // to always reflect what's actually on disk; images/video/fonts are unaffected and
     // keep the fast cache-first behavior below.
     const url = new URL(event.request.url);
-    if (event.request.mode === 'navigate' || /\.(html|css|js)$/.test(url.pathname)) {
+    if (event.request.mode === 'navigate' || /\.(html|css|js|json)$/.test(url.pathname)) {
         event.respondWith(
             fetch(event.request)
                 .then((networkResponse) => {
