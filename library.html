@@ -267,6 +267,38 @@
                 display: block;
                 background-color: #111;
             }
+            /* [NEW] Placeholder cover for reading-list entries that link to external
+               articles/essays rather than a hosted PDF — no real cover art exists,
+               so the card shows the title (and author, if given) instead of an <img>. */
+            .reading-card-cover-placeholder {
+                width: 100%;
+                aspect-ratio: 3/4;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 8px;
+                padding: 18px;
+                box-sizing: border-box;
+                background-color: #111;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+            }
+            .reading-card-cover-placeholder .placeholder-title {
+                font-family: var(--font-primary);
+                font-weight: 700;
+                font-size: 0.85rem;
+                line-height: 1.3;
+                color: rgba(255,255,255,0.85);
+            }
+            .reading-card-cover-placeholder .placeholder-author {
+                font-family: var(--font-primary);
+                font-size: 0.68rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: rgba(255,255,255,0.4);
+            }
             .reading-card-body {
                 padding: 14px 16px 16px;
                 display: flex;
@@ -1724,15 +1756,17 @@
             });
         </script>
         <script>
-            // [NEW] Reading List: renders PDF entries from data/library-reading.json, matching
-            // this page's existing fetch-and-render convention (see the library-archive.json scripts above).
-            // The file currently stubs out to [] — this just wires up the render path ahead of
-            // real entries being added. Each entry becomes:
+            // [NEW] Reading List: renders curated external reading entries (articles, essays,
+            // books) from data/library-reading.json, matching this page's existing
+            // fetch-and-render convention. Entries link out to the source rather than a
+            // hosted PDF, so the cover is a text placeholder (title + author) unless a real
+            // `cover` image is given. Each entry becomes:
             //   <div class="reading-card">
-            //     <img class="reading-card-cover" src="..." alt="">
+            //     <img class="reading-card-cover" src="..." alt="">   (only if item.cover set)
+            //     <div class="reading-card-cover-placeholder">...</div> (fallback otherwise)
             //     <div class="reading-card-body">
             //       <p class="reading-card-title">...</p>
-            //       <a class="reading-card-download" href="....pdf" download>Download PDF</a>
+            //       <a class="reading-card-download" href="..." target="_blank">Read</a>
             //     </div>
             //   </div>
             document.addEventListener('DOMContentLoaded', () => {
@@ -1740,14 +1774,25 @@
                 const emptyNote = document.getElementById('reading-list-empty');
                 if (!grid) return;
 
+                const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (c) => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+
                 const buildCard = (item) => {
                     const card = document.createElement('div');
                     card.className = 'reading-card';
+                    const title = item.title || 'Untitled';
+                    const coverHtml = item.cover
+                        ? `<img class="reading-card-cover" src="${escapeHtml(item.cover)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
+                        : `<div class="reading-card-cover-placeholder">
+                               <span class="placeholder-title">${escapeHtml(title)}</span>
+                               ${item.author ? `<span class="placeholder-author">${escapeHtml(item.author)}</span>` : ''}
+                           </div>`;
                     card.innerHTML = `
-                        <img class="reading-card-cover" src="${item.cover || ''}" alt="${item.title || ''}" loading="lazy" decoding="async">
+                        ${coverHtml}
                         <div class="reading-card-body">
-                            <p class="reading-card-title">${item.title || 'Untitled'}</p>
-                            <a class="reading-card-download" href="${item.pdf || '#'}" download rel="noopener">Download PDF</a>
+                            <p class="reading-card-title">${escapeHtml(title)}</p>
+                            <a class="reading-card-download" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer">Read</a>
                         </div>
                     `;
                     return card;
@@ -1790,19 +1835,29 @@
                 const emptyNote = document.getElementById('watch-list-empty');
                 if (!grid) return;
 
+                const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (c) => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+
                 const buildCard = (item) => {
                     const card = document.createElement('a');
                     card.className = 'watch-card';
                     card.href = item.url || '#';
                     card.target = '_blank';
                     card.rel = 'noopener noreferrer';
+                    const title = item.title || 'Untitled';
+                    // No thumbnail for non-YouTube sources — omit the <img> entirely rather than
+                    // render one with an empty src (which would show as a broken-image icon).
+                    const thumbHtml = item.thumbnail
+                        ? `<img class="watch-card-thumb" src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
+                        : '';
                     card.innerHTML = `
                         <div class="watch-card-thumb-wrap">
-                            <img class="watch-card-thumb" src="${item.thumbnail || ''}" alt="${item.title || ''}" loading="lazy" decoding="async">
-                            <span class="watch-card-platform">${item.platform || ''}</span>
+                            ${thumbHtml}
+                            <span class="watch-card-platform">${escapeHtml(item.platform || '')}</span>
                         </div>
                         <div class="watch-card-body">
-                            <p class="watch-card-title">${item.title || 'Untitled'}</p>
+                            <p class="watch-card-title">${escapeHtml(title)}</p>
                         </div>
                     `;
                     return card;
