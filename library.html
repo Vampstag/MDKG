@@ -1798,7 +1798,7 @@
                     return card;
                 };
 
-                fetch('data/library-reading.json')
+                fetch('data/library-reading.json?v=2')
                     .then(r => r.json())
                     .then(data => {
                         const items = Array.isArray(data) ? data : [];
@@ -1863,7 +1863,7 @@
                     return card;
                 };
 
-                fetch('data/library-watch.json')
+                fetch('data/library-watch.json?v=2')
                     .then(r => r.json())
                     .then(data => {
                         const items = Array.isArray(data) ? data : [];
