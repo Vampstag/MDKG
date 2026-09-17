@@ -28,8 +28,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="/css/style.css?v=129">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=131">
+    <!-- Full weight range, matching every other page — this page only requested 400/700
+         before, so .nav-text's font-weight:500 had no matching font file to render with and
+         the browser fell back to a thinner synthesized weight instead of true medium. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-57RMNL3S4P"></script>
@@ -49,91 +52,21 @@
         }(window, document);
     </script>
     <style>
-        /* Anti-Flicker Inline CSS */
-        body.preloader-active { overflow: hidden; }
-        #preloader { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 1.6s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
-        #preloader.finished { transform: translateY(-100%); }
-        .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
-        .counter-wrapper.fade-out { opacity: 0; }
-        #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
-        .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
-        .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
-        .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
-        .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
-        .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
-        @media (max-width: 767px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        /* This page is exactly one viewport tall by design (see .error-section) — locking
+           scroll on html/body themselves too, not just the section, in case body's own
+           height ever exceeds 100vh (e.g. from the fixed navbar's own box or a font-loading
+           reflow) and would otherwise let the page scroll despite .error-section's intent.
+           `html.lenis, html.lenis body { height: auto }` in css/style.css (needed globally
+           for Lenis smooth-scroll on every other page) overrides a plain `html, body` rule
+           once script.js initializes Lenis and adds that class here too — this selector
+           matches that specificity/class combo directly so it wins regardless of order. */
+        html.lenis, html.lenis body, html, body { height: 100%; overflow: hidden; }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const footerPromise = fetch('/footer.html').then(response => response.text());
-            const counter = document.getElementById('counter');
-            const bar = document.getElementById('bar');
-            const preloader = document.getElementById('preloader');
-            const phraseEl = preloader ? preloader.querySelectorAll('.corner-text')[3] : null;
-            const phrases = ["SYSTEM CHECK...", "PREPARING ASSETS...", "ALIGNING PIXELS...", "OPTIMIZING UI..."];
-            let currentProgress = 0;
-            function updateCounter() {
-                const jump = Math.floor(Math.random() * 45) + 25;
-                currentProgress += jump;
-                if (currentProgress > 100) currentProgress = 100;
-                if(counter) counter.innerText = currentProgress.toString().padStart(2, '0') + "%";
-                if(bar) bar.style.width = currentProgress + "%";
-                if(phraseEl) {
-                    let pIndex = Math.floor((currentProgress / 100) * phrases.length);
-                    if (pIndex >= phrases.length) pIndex = phrases.length - 1;
-                    phraseEl.innerText = phrases[pIndex];
-                }
-                let delay = Math.floor(Math.random() * 150) + 20;
-                if (currentProgress < 100) { setTimeout(updateCounter, delay); } 
-                else {
-                    const counterWrapper = document.querySelector('.counter-wrapper');
-                    if (counterWrapper) counterWrapper.classList.add('fade-out');
-                    footerPromise.then((footerData) => {
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = footerData;
-                        tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));
-                        const footerContainer = document.getElementById('footer-container');
-                        if (footerContainer) footerContainer.innerHTML = tempDiv.innerHTML;
-                        requestAnimationFrame(() => {
-                            if (window.Webflow) { Webflow.destroy(); Webflow.ready(); if (Webflow.require('ix2')) { Webflow.require('ix2').init(); } }
-                            if (typeof window.initFooterGSAP === 'function') { window.initFooterGSAP(); }
-                            if (window.ScrollTrigger) { ScrollTrigger.refresh(); }
-                            setTimeout(finishLoading, 200);
-                        });
-                    }).catch(error => { finishLoading(); });
-                }
-            }
-            function finishLoading() {
-                if(preloader) preloader.classList.add('finished');
-                document.body.style.overflow = "auto";
-                if (window.lenis) window.lenis.start();
-                window.dispatchEvent(new CustomEvent('preloaderDone'));
-            }
-            document.body.classList.add('preloader-active');
-            setTimeout(updateCounter, 500);
-        });
-    </script>
     <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
     <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
     <link rel="manifest" href="/manifest.json">
 </head>
 <body class="body-2">
-    <div id="preloader">
-        <div class="top-corners">
-            <div class="corner-text">LOADING</div>
-            <div class="corner-text">PLEASE WAIT</div>
-        </div>
-        <div class="counter-wrapper">
-            <span id="counter">0%</span>
-        </div>
-        <div class="bottom-corners">
-            <div class="corner-text">SYSTEM CHECK</div>
-            <div class="corner-text">DOWNLOADING ASSETS</div>
-        </div>
-        <div class="progress-track">
-            <div class="progress-fill" id="bar"></div>
-        </div>
-    </div>
     <div class="body-wrapper">
             <div class="navbar-progress-container">
                 <div class="navbar-progress-bar" id="scroll-progress"></div>
@@ -149,23 +82,23 @@
                             <nav role="navigation" class="desktop w-nav-menu" aria-label="Main">
 
                                 <a href="/" class="navigation-link w-inline-block">
-                                    <div class="button-text-wrapper">
-                                        <div class="button-text">Home</div>
-                                        <div class="button-text">Home</div>
+                                    <div class="nav-text-wrapper">
+                                        <div class="nav-text">Home</div>
+                                        <div class="nav-text">Home</div>
                                     </div>
                                     <div class="line-below"></div>
                                 </a>
                                 <a href="/portfolio" class="navigation-link w-inline-block">
-                                    <div class="button-text-wrapper">
-                                        <div class="button-text">Portfolio</div>
-                                        <div class="button-text">Portfolio</div>
+                                    <div class="nav-text-wrapper">
+                                        <div class="nav-text">Portfolio</div>
+                                        <div class="nav-text">Portfolio</div>
                                     </div>
                                     <div class="line-below"></div>
                                 </a>
                                 <a href="/journal" class="navigation-link w-inline-block">
-                                    <div class="button-text-wrapper">
-                                        <div class="button-text">Journal</div>
-                                        <div class="button-text">Journal</div>
+                                    <div class="nav-text-wrapper">
+                                        <div class="nav-text">Journal</div>
+                                        <div class="nav-text">Journal</div>
                                     </div>
                                     <div class="line-below"></div>
                                 </a>
@@ -208,59 +141,62 @@
                 </div>
             </div>
     </div>
-    <!-- 404 Content -->
     <section class="error-section">
-        <div class="global-wrapper w-container">
-            <div class="error-content-wrapper">
-                <h1 class="error-code fade-in-section">404</h1>
+        <!-- Everything here sits outside .global-wrapper deliberately so both the "404"
+             numeral and the "Page not found" row can span the full viewport width edge-to-
+             edge (a true full-bleed layout) instead of being capped by the wrapper's
+             max-width like the rest of the page's content. Side padding is handled directly
+             by .error-code/.error-content-wrapper instead. -->
+        <h1 class="error-code fade-in-section"><span>404</span></h1>
+
+        <!-- Slim second row underneath -- message on the left, a compact "Play Snake"
+             trigger on the right. The full game UI (canvas/score/D-pad) stays collapsed
+             until that button is pressed, then expands below this row -- the numeral
+             above is the dominant visual, not a game widget competing with it for
+             attention. -->
+        <div class="error-content-wrapper">
+            <div class="error-text-col">
                 <h2 class="error-heading fade-in-section">Page not found.</h2>
                 <p class="error-message fade-in-section">The page you're looking for has vanished into the digital void. Why not play a quick game while you reorient yourself?</p>
-                
-                <!-- Snake Game Container -->
-                <div id="snake-game-container">
-                    <div class="game-header" id="game-header">
-                        <div class="score-pill">
-                            <span class="score-label">Score</span>
-                            <span id="game-score" class="score-value">0</span>
-                        </div>
-                        <div class="score-pill">
-                            <span class="score-label">High Score</span>
-                            <span id="high-score" class="score-value">0</span>
-                        </div>
-                    </div>
-                    <canvas id="game-canvas" width="300" height="300"></canvas>
-                    <button id="start-game-btn">Play Snake</button>
+            </div>
 
+            <button id="start-game-btn">Play Snake</button>
+        </div>
 
+        <!-- Dim backdrop behind the game overlay -- collapsed until #start-game-btn is pressed -->
+        <div id="snake-game-backdrop" style="display:none;"></div>
 
-
-
-
-
-
-
-
-
-                    <!-- On-screen controls for Snake Game -->
-                    <div id="game-controls" style="display:none; margin-top: 15px;">
-                        <div style="text-align: center;">
-                            <button class="game-control-btn" data-direction="up">▲</button>
-                        </div>
-                        <div style="display: flex; justify-content: center; margin-top: 5px;">
-                            <button class="game-control-btn" data-direction="left">◀</button>
-                            <button class="game-control-btn" data-direction="down">▼</button>
-                            <button class="game-control-btn" data-direction="right">▶</button>
-                        </div>
-                    </div>
+        <!-- Snake Game Container -- collapsed until #start-game-btn is pressed, then opens
+             as a fixed centered overlay (see #snake-game-container in css/style.css) since
+             this page doesn't scroll and there'd be no way to reach it sitting inline. -->
+        <div id="snake-game-container" style="display:none;">
+            <button id="close-game-btn" aria-label="Close game">✕</button>
+            <div class="game-header" id="game-header">
+                <div class="score-pill">
+                    <span class="score-label">Score</span>
+                    <span id="game-score" class="score-value">0</span>
                 </div>
+                <div class="score-pill">
+                    <span class="score-label">High Score</span>
+                    <span id="high-score" class="score-value">0</span>
+                </div>
+            </div>
+            <canvas id="game-canvas" width="300" height="300"></canvas>
 
-                <a href="/" class="button-normal-black-wrapper-2 w-inline-block">
-                    <div class="button-normal-black-text-2 text-sm text-weight-medium-2 text-color-white-2">Return Home</div>
-                    <div class="button-normal-white-arrow-block-2">
-                        <img src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="" class="button-normal-black-arrow-image-black-2">
-                        <img src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d5530_arrow-white.svg" alt="" class="button-normal-black-arrow-image-white-2">
-                    </div>
-                </a>
+            <!-- Restart trigger shown inside the overlay itself on game over, so replaying
+                 doesn't require reaching for #start-game-btn behind the dim backdrop. -->
+            <button id="restart-game-btn" style="display:none;">Play Again</button>
+
+            <!-- On-screen controls for Snake Game -->
+            <div id="game-controls" style="display:none; margin-top: 15px;">
+                <div style="text-align: center;">
+                    <button class="game-control-btn" data-direction="up">▲</button>
+                </div>
+                <div style="display: flex; justify-content: center; margin-top: 5px;">
+                    <button class="game-control-btn" data-direction="left">◀</button>
+                    <button class="game-control-btn" data-direction="down">▼</button>
+                    <button class="game-control-btn" data-direction="right">▶</button>
+                </div>
             </div>
         </div>
     </section>
@@ -381,10 +317,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('game-canvas');
             const startBtn = document.getElementById('start-game-btn');
+            const restartBtn = document.getElementById('restart-game-btn');
+            const closeBtn = document.getElementById('close-game-btn');
             const scoreEl = document.getElementById('game-score');
             const highScoreEl = document.getElementById('high-score');
             const headerEl = document.getElementById('game-header');
             const gameControls = document.getElementById('game-controls');
+            const gameContainer = document.getElementById('snake-game-container');
+            const gameBackdrop = document.getElementById('snake-game-backdrop');
 
             if (!canvas || !startBtn || !scoreEl) return;
 
@@ -437,6 +377,13 @@
                 startGame();
             });
 
+            if (restartBtn) {
+                restartBtn.addEventListener('click', () => {
+                    getAudio();
+                    startGame();
+                });
+            }
+
 
             // On-screen control listeners
             if(gameControls) {
@@ -454,8 +401,11 @@
                 score = 0;
                 isPaused = false;
                 scoreEl.innerText = score;
+                if(gameContainer) gameContainer.style.display = "flex"; // Reveal the collapsed game card now that Play was pressed
+                if(gameBackdrop) gameBackdrop.style.display = "block";
                 if(headerEl) headerEl.style.display = "flex";
                 if(gameControls) gameControls.style.display = "block"; // Show controls on game start
+                if(restartBtn) restartBtn.style.display = "none";
 
                 // Reset Animasi dan Warna Layar
                 canvas.classList.remove('shake-animation');
@@ -723,41 +673,59 @@
 
                 // Tunda tombol muncul sampai animasi bergetar selesai (600ms)
                 setTimeout(() => {
-                    startBtn.innerText = "Game Over! Play Again?";
-                    startBtn.style.display = "block";
+                    if(restartBtn) restartBtn.style.display = "block"; // Restart lives inside the overlay itself, not behind the backdrop
                     if(gameControls) gameControls.style.display = "none"; // Hide controls on game over
                     if(headerEl) headerEl.style.display = "none"; // Hide score on game over
                 }, 600);
             }
 
+            // Closes the overlay and returns to the plain 404 page — via the ✕ button or by
+            // clicking the blurred backdrop itself.
+            function closeGame() {
+                isGameRunning = false;
+                isPaused = false;
+                if (gameInterval) clearInterval(gameInterval);
+                if (gameContainer) gameContainer.style.display = "none";
+                if (gameBackdrop) gameBackdrop.style.display = "none";
+                startBtn.style.display = "block"; // startGame() hides this when the overlay opens — restore it so there's a way back into the game after closing
+            }
+            if (closeBtn) closeBtn.addEventListener('click', closeGame);
+            if (gameBackdrop) gameBackdrop.addEventListener('click', closeGame);
+
         });
     </script>
     <style>
-        /* Styling for on-screen game controls */
+        /* Retro handheld D-pad buttons — dark "keycap" squares with a chunky drop-shadow
+           edge, matching the console-shell styling on #snake-game-container/#start-game-btn
+           in css/style.css. Sharp corners (no border-radius) to match the site's editorial
+           art direction, and grayscale rather than a colored LCD-style accent. */
         .game-control-btn {
-            background-color: #333; /* Dark background */
-            color: #fff; /* White text */
+            background-color: #000; /* Same bezel/black tone as the screen border, like buttons molded into the shell */
+            color: #fff;
             border: none;
-            border-radius: 0; /* Slightly rounded corners */
-            padding: 12px 18px; /* Comfortable padding */
-            margin: 4px; /* Space between buttons */
-            font-size: 1.2em; /* Readable icon size */
+            border-radius: 0;
+            padding: 0;
+            margin: 4px;
+            font-size: 1.1em;
             cursor: pointer;
             outline: none;
-            transition: background-color 0.2s ease;
-            min-width: 50px; /* Ensure buttons are not too small */
-            min-height: 50px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            min-height: 48px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 3px 0 #444; /* Physical "keycap" edge, matching #start-game-btn */
         }
 
         .game-control-btn:hover {
-            background-color: #555;
+            background-color: #333;
         }
         .game-control-btn:active {
-            background-color: #000;
-            transform: translateY(1px);
+            transform: translateY(3px);
+            box-shadow: 0 0 0 #444;
         }
     </style>
 </body>

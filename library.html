@@ -8,23 +8,21 @@
              chance of a visible reflow/jump as the fallback font swaps to Inter. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        <title>Fun | M. Dimas K. G.</title>
-        <meta content="A running scroll of art, photography, video, posters, and sketches: the work made for no client but myself." name="description"/>
-        <meta content="Fun | M. Dimas K. G." property="og:title"/>
-        <meta content="A running scroll of art, photography, video, posters, and sketches: the work made for no client but myself." property="og:description"/>
+        <title>Library | M. Dimas K. G.</title>
+        <meta content="A reading list, a watch list, and a running archive of art, photography, video, posters, and sketches: the work and references made for no client but myself." name="description"/>
+        <meta content="Library | M. Dimas K. G." property="og:title"/>
+        <meta content="A reading list, a watch list, and a running archive of art, photography, video, posters, and sketches: the work and references made for no client but myself." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
-        <meta content="Fun | M. Dimas K. G." property="twitter:title"/>
-        <meta content="A running scroll of art, photography, video, posters, and sketches: the work made for no client but myself." property="twitter:description"/>
+        <meta content="Library | M. Dimas K. G." property="twitter:title"/>
+        <meta content="A reading list, a watch list, and a running archive of art, photography, video, posters, and sketches: the work and references made for no client but myself." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
         <meta property="og:type" content="website"/>
         <meta content="summary_large_image" name="twitter:card"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
-        <!-- Not linked from navigation yet — kept out of search results until it's ready to be surfaced. -->
-        <meta name="robots" content="noindex, nofollow">
 
         <!-- Canonical URL -->
-        <link rel="canonical" href="https://hellodimas.my.id/fun" />
+        <link rel="canonical" href="https://hellodimas.my.id/library" />
 
         <!-- Font Preconnect for Instant Loading -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,9 +41,9 @@
         {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          "name": "Fun",
-          "description": "A running scroll of art, photography, video, posters, and sketches by M. Dimas K.G.",
-          "url": "https://hellodimas.my.id/fun",
+          "name": "Library",
+          "description": "A reading list, a watch list, and a running archive of art, photography, video, posters, and sketches by M. Dimas K.G.",
+          "url": "https://hellodimas.my.id/library",
           "author": {
             "@type": "Person",
             "name": "M. Dimas K. G.",
@@ -65,14 +63,14 @@
           },{
             "@type": "ListItem",
             "position": 2,
-            "name": "Fun",
-            "item": "https://hellodimas.my.id/fun"
+            "name": "Library",
+            "item": "https://hellodimas.my.id/library"
           }]
         }
         </script>
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="css/style.css?v=129">
+        <link rel="stylesheet" href="css/style.css?v=130">
         <link rel="stylesheet" href="widget.css?v=15">
 
         <style>
@@ -90,53 +88,315 @@
             .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
             @media (max-width: 767px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
 
-            /* [NEW] Fun page: infinite masonry scroll, no visible hero/title by design */
-            .visually-hidden {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border: 0;
+            /* ============================================================
+               [NEW] Library page: 3-tab shell (Reading List / Watch List / Archive)
+               Whole tabbed area is dark-themed per explicit request (black bg,
+               white text) — this wraps the original gallery (now the
+               Archive tab) plus two new empty tabs. Tab switching is pure JS
+               show/hide (see the library-tabs script near the closing body tag);
+               no page reload, hash-synced (#reading-list/#watch-list/#archive).
+               ============================================================ */
+
+            /* The whole page (not just .library-section) is black/white-on-black, so the
+               shared .navbar (css/style.css) needs a permanent light-on-dark treatment here
+               instead of its default "white text only while unscrolled, flips to dark navbar
+               once .scrolled is added" behavior — that flip assumes a white page background
+               below the fold, which this page never has. Reuses the same selectors
+               .navbar-invert-top already defines (see css/style.css) but drops the
+               :not(.scrolled) guard so it stays white regardless of scroll state, and
+               overrides .scrolled's own forced white background back to black. */
+            .navbar.library-invert {
+                background-color: transparent !important;
+            }
+            .navbar.library-invert.scrolled {
+                background-color: rgba(0,0,0,0.92) !important;
+                border-bottom-color: rgba(255,255,255,0.08);
+            }
+            .navbar.library-invert .logo,
+            .navbar.library-invert .w-nav-brand,
+            .navbar.library-invert .nav-text,
+            .navbar.library-invert .logo * {
+                color: #ffffff !important;
+            }
+            .navbar.library-invert .logo img,
+            .navbar.library-invert .logo svg,
+            .navbar.library-invert .w-nav-brand img,
+            .navbar.library-invert .w-nav-brand svg {
+                filter: brightness(0) invert(1) !important;
+            }
+            .navbar.library-invert .navigation-link .line-below {
+                background-color: #ffffff;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2 {
+                background-color: transparent !important;
+                border-color: rgba(255, 255, 255, 0.4) !important;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2:hover {
+                background-color: #ffffff !important;
+                border-color: #ffffff !important;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2 .button-normal-black-text-2 {
+                color: #ffffff !important;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2:hover .button-normal-black-text-2 {
+                color: #000000 !important;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2 img,
+            .navbar.library-invert .button-normal-black-wrapper-2 svg {
+                filter: brightness(0) invert(1) !important;
+            }
+            .navbar.library-invert .button-normal-black-wrapper-2:hover img,
+            .navbar.library-invert .button-normal-black-wrapper-2:hover svg {
+                filter: brightness(0) !important;
+            }
+            .navbar.library-invert .hamburger-line {
+                background-color: #ffffff;
+            }
+            .library-section {
+                background-color: #000;
+                color: #fff;
+                min-height: 100vh;
+                padding-top: 140px;
+                padding-bottom: 80px;
+            }
+            /* [NEW] Archive-index label — a small uppercase kicker above the heading,
+               the kind of catalog/index marking you'd see on a physical archive box. */
+            .library-index-label {
+                font-family: var(--font-primary);
+                font-size: 0.72rem;
+                font-weight: 600;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.4);
+                margin: 0 0 14px;
+            }
+            .library-heading {
+                font-family: var(--font-primary);
+                font-weight: 800;
+                letter-spacing: -0.02em;
+                font-size: clamp(1.8rem, 4vw, 2.6rem);
+                margin: 0 0 8px;
+                color: #fff;
+            }
+            .library-subheading {
+                font-family: var(--font-primary);
+                font-weight: 400;
+                font-size: 0.95rem;
+                color: rgba(255,255,255,0.55);
+                margin: 0 0 32px;
+                max-width: 46ch;
+                padding-bottom: 32px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
             }
 
-            .fun-masonry-grid {
+            /* --- Tab switcher --- */
+            .library-tabs {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                border-bottom: 1px solid rgba(255,255,255,0.15);
+                margin-bottom: 40px;
+            }
+            .library-tab-btn {
+                font-family: var(--font-primary);
+                font-size: 0.78rem;
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.5);
+                background: transparent;
+                border: none;
+                border-bottom: 2px solid transparent;
+                padding: 12px 18px;
+                margin-bottom: -1px;
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                cursor: pointer;
+                transition: color 0.2s ease, border-color 0.2s ease;
+                white-space: nowrap;
+            }
+            .library-tab-btn:hover {
+                color: #fff;
+            }
+            .library-tab-btn.is-active {
+                color: #fff;
+                border-bottom-color: #fff;
+            }
+
+            .library-panel {
+                display: none;
+            }
+            .library-panel.is-active {
+                display: block;
+            }
+
+            /* --- Empty-state note for not-yet-populated tabs --- */
+            .library-empty-note {
+                font-family: var(--font-primary);
+                font-size: 0.85rem;
+                color: rgba(255,255,255,0.4);
+                padding: 60px 0;
+                text-align: center;
+                border: 1px dashed rgba(255,255,255,0.15);
+            }
+
+            /* --- Reading List grid + card --- */
+            .library-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            @media (min-width: 640px) {
+                .library-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+            }
+            @media (min-width: 992px) {
+                .library-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
+            }
+
+            .reading-card {
+                display: flex;
+                flex-direction: column;
+                background-color: #0a0a0a;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                overflow: hidden;
+            }
+            .reading-card-cover {
+                width: 100%;
+                aspect-ratio: 3/4;
+                object-fit: cover;
+                display: block;
+                background-color: #111;
+            }
+            .reading-card-body {
+                padding: 14px 16px 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                flex: 1;
+            }
+            .reading-card-title {
+                font-family: var(--font-primary);
+                font-weight: 600;
+                font-size: 0.9rem;
+                line-height: 1.3;
+                color: #fff;
+                margin: 0;
+            }
+            .reading-card-download {
+                margin-top: auto;
+                font-family: var(--font-primary);
+                font-size: 0.72rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                color: #000;
+                background: #fff;
+                border: none;
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                padding: 9px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                transition: opacity 0.2s ease;
+            }
+            .reading-card-download:hover { opacity: 0.75; }
+
+            /* --- Watch List grid + card --- */
+            .watch-card {
+                display: block;
+                background-color: #0a0a0a;
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                overflow: hidden;
+                text-decoration: none;
+                color: inherit;
+            }
+            .watch-card-thumb-wrap {
+                position: relative;
+                width: 100%;
+                aspect-ratio: 16/9;
+                background-color: #111;
+                overflow: hidden;
+            }
+            .watch-card-thumb {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.8s var(--ease-smooth);
+            }
+            .watch-card:hover .watch-card-thumb {
+                transform: scale(1.1);
+            }
+            .watch-card-platform {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(0,0,0,0.75);
+                color: #fff;
+                font-family: var(--font-primary);
+                font-size: 0.62rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                padding: 4px 8px;
+                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+            }
+            .watch-card-body {
+                padding: 12px 14px 14px;
+            }
+            .watch-card-title {
+                font-family: var(--font-primary);
+                font-weight: 600;
+                font-size: 0.88rem;
+                line-height: 1.3;
+                color: #fff;
+                margin: 0;
+            }
+
+
+            /* [NEW] Archive tab: infinite masonry scroll, no visible hero/title by design */
+            .library-masonry-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 28px;
                 width: 100%;
             }
             @media (min-width: 640px) {
-                .fun-masonry-grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+                .library-masonry-grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
             }
 
             /* [NEW] Desktop-only: free-pan 2D canvas (Figma/Miro style) replacing the vertical grid */
-            .fun-canvas-viewport {
+            .library-canvas-viewport {
                 display: none;
             }
             @media (min-width: 992px) {
-                .fun-masonry-grid { display: none; }
-                .fun-loader { display: none !important; }
-                #fun-sentinel { display: none; }
+                .library-masonry-grid { display: none; }
+                .library-loader { display: none !important; }
+                #library-sentinel { display: none; }
 
-                .fun-canvas-viewport {
+                .library-canvas-viewport {
+                    /* Was position:fixed spanning 100vw/100vh — that made the drag canvas cover
+                       the entire screen including the tab bar above it, so once a visitor
+                       opened the Archive tab there was no way left to click back to Reading
+                       List / Watch List. Contained within the panel instead: still a large,
+                       genuinely free-pan drag area (the JS already measures via
+                       viewport.clientWidth/clientHeight, not window.innerWidth/innerHeight, so
+                       no script changes were needed for this to keep working), just not a
+                       full-screen takeover. */
                     display: block;
-                    position: fixed;
-                    top: 0; left: 0;
-                    width: 100vw;
-                    height: 100vh;
+                    position: relative;
+                    width: 100%;
+                    height: 70vh;
+                    min-height: 480px;
                     overflow: hidden;
                     cursor: grab;
-                    background: #fff;
+                    background: #000;
                     z-index: 1;
                 }
-                .fun-canvas-viewport.is-dragging {
+                .library-canvas-viewport.is-dragging {
                     cursor: grabbing;
                 }
-                .fun-canvas {
+                .library-canvas {
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -144,16 +404,16 @@
                     height: 0;
                     will-change: transform;
                 }
-                .fun-canvas.is-blurred .fun-item {
+                .library-canvas.is-blurred .library-item {
                     filter: blur(6px);
                 }
-                .fun-canvas-viewport .fun-item {
+                .library-canvas-viewport .library-item {
                     position: absolute;
                     transition: filter 0.15s ease;
                 }
             }
 
-            .fun-item {
+            .library-item {
                 position: relative;
                 width: 100%;
                 border-radius: 0;
@@ -163,34 +423,34 @@
                 user-select: none;
                 -webkit-user-select: none;
             }
-            /* Entrance reveal for batch-appended items (see fun-grid's IntersectionObserver
+            /* Entrance reveal for batch-appended items (see library-archive-grid's IntersectionObserver
                below) — opacity/scale only, not translateY, since the desktop canvas-pan
-               mode positions .fun-item absolutely and already owns its own transform for
+               mode positions .library-item absolutely and already owns its own transform for
                dragging; stacking a translate here would fight that. */
-            .fun-item--reveal {
+            .library-item--reveal {
                 opacity: 0;
                 transform: scale(0.96);
                 transition: opacity var(--reveal-duration, 0.7s) var(--ease-smooth, cubic-bezier(0.19, 1, 0.22, 1)),
                             transform var(--reveal-duration, 0.7s) var(--ease-smooth, cubic-bezier(0.19, 1, 0.22, 1));
             }
-            .fun-item--reveal.is-visible {
+            .library-item--reveal.is-visible {
                 opacity: 1;
                 transform: scale(1);
             }
             @media (prefers-reduced-motion: reduce) {
-                .fun-item--reveal { opacity: 1; transform: none; transition: none; }
+                .library-item--reveal { opacity: 1; transform: none; transition: none; }
             }
-            .fun-item-media {
+            .library-item-media {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 display: block;
                 transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
             }
-            .fun-item:hover .fun-item-media {
+            .library-item:hover .library-item-media {
                 transform: scale(1.04);
             }
-            .fun-item-poster {
+            .library-item-poster {
                 width: 100%;
                 height: 100%;
                 display: flex;
@@ -200,7 +460,7 @@
                 padding: 24px;
                 box-sizing: border-box;
             }
-            .fun-item-poster-text {
+            .library-item-poster-text {
                 font-family: var(--font-primary);
                 font-weight: 800;
                 font-size: clamp(1.1rem, 2.4vw, 1.6rem);
@@ -210,7 +470,7 @@
             }
 
             /* [NEW] Caption shown after ~1s of the cursor sitting still on a piece */
-            .fun-item-caption {
+            .library-item-caption {
                 position: absolute;
                 bottom: 10px;
                 left: 10px;
@@ -229,24 +489,24 @@
                 pointer-events: none;
                 z-index: 3;
             }
-            .fun-item-caption.is-visible {
+            .library-item-caption.is-visible {
                 opacity: 1;
                 transform: translateY(0);
             }
 
             /* [NEW] Easter egg: 5 rapid clicks on a tile spins and pops it */
-            .fun-item-egg {
-                animation: fun-egg-spin 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            .library-item-egg {
+                animation: library-egg-spin 0.6s cubic-bezier(0.19, 1, 0.22, 1);
                 z-index: 50;
             }
-            @keyframes fun-egg-spin {
+            @keyframes library-egg-spin {
                 0% { transform: scale(1) rotate(0deg); }
                 40% { transform: scale(1.15) rotate(180deg); }
                 70% { transform: scale(0.95) rotate(350deg); }
                 100% { transform: scale(1) rotate(360deg); }
             }
 
-            .fun-loader {
+            .library-loader {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -261,14 +521,14 @@
 
             /* [NEW] Category filter bar — lets viewers narrow the random mix (photos, sketches,
                client work, personal) without touching the shuffle/canvas mechanics underneath. */
-            .fun-filter-bar {
+            .library-filter-bar {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
                 margin-bottom: 28px;
             }
             @media (min-width: 992px) {
-                .fun-filter-bar {
+                .library-filter-bar {
                     position: fixed;
                     top: 50%;
                     right: 32px;
@@ -278,20 +538,20 @@
                     align-items: stretch;
                     gap: 4px;
                     margin-bottom: 0;
-                    background: rgba(255,255,255,0.85);
-                    
-                    
+                    background: rgba(255,255,255,0.08);
+
+
                     padding: 8px;
                     border-radius: 0;
                     box-shadow: none;
                 }
             }
-            .fun-filter-btn {
+            .library-filter-btn {
                 font-family: var(--font-primary);
                 font-size: 0.75rem;
                 font-weight: 600;
                 letter-spacing: 0.02em;
-                color: #666;
+                color: rgba(255,255,255,0.55);
                 background: transparent;
                 border: none;
                 padding: 8px 16px;
@@ -300,14 +560,14 @@
                 transition: all 0.25s ease;
                 white-space: nowrap;
             }
-            .fun-filter-btn:hover { color: #111; background: rgba(0,0,0,0.05); }
-            .fun-filter-btn.is-active { color: #fff; background: #111; }
-            .fun-filter-btn svg { display: none; }
+            .library-filter-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+            .library-filter-btn.is-active { color: #000; background: #fff; }
+            .library-filter-btn svg { display: none; }
 
             /* [NEW] Desktop: icon-only by default, label revealed on hover — keeps the
                vertical dock compact/premium instead of a tall stack of text buttons. */
             @media (min-width: 992px) {
-                .fun-filter-btn {
+                .library-filter-btn {
                     position: relative;
                     display: flex;
                     align-items: center;
@@ -316,11 +576,11 @@
                     height: 40px;
                     padding: 0;
                 }
-                .fun-filter-btn svg {
+                .library-filter-btn svg {
                     display: block;
                     flex-shrink: 0;
                 }
-                .fun-filter-label {
+                .library-filter-label {
                     position: absolute;
                     right: calc(100% + 12px);
                     top: 50%;
@@ -337,17 +597,17 @@
                     pointer-events: none;
                     transition: opacity 0.2s ease, transform 0.2s ease;
                 }
-                .fun-filter-btn:hover .fun-filter-label {
+                .library-filter-btn:hover .library-filter-label {
                     opacity: 1;
                     transform: translateY(-50%) translateX(0);
                 }
             }
 
             /* [NEW] Pan/zoom frame for the image lightbox. The frame clips overflow and carries
-               the modal's own open/close scale animation, while #fun-lightbox-img carries only
+               the modal's own open/close scale animation, while #library-lightbox-img carries only
                the zoom/pan transform driven by JS — kept separate so the two never fight over
                the same transform property. */
-            .fun-lightbox-frame {
+            .library-lightbox-frame {
                 width: 100%;
                 height: 100%;
                 display: flex;
@@ -358,27 +618,27 @@
                 transform: scale(0.95);
                 transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
             }
-            #fun-lightbox-modal.active .fun-lightbox-frame {
+            #library-lightbox-modal.active .library-lightbox-frame {
                 transform: scale(1);
             }
-            .fun-lightbox-frame.is-zoomed {
+            .library-lightbox-frame.is-zoomed {
                 cursor: grab;
             }
-            .fun-lightbox-frame.is-zoomed.is-dragging {
+            .library-lightbox-frame.is-zoomed.is-dragging {
                 cursor: grabbing;
             }
-            #fun-lightbox-img.lightbox-content {
+            #library-lightbox-img.lightbox-content {
                 max-width: 90%;
                 max-height: 90vh;
                 transform: none; /* overrides the shared .lightbox-content scale-in; the frame handles that instead */
                 transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1);
                 will-change: transform;
             }
-            .fun-lightbox-frame.is-dragging #fun-lightbox-img {
+            .library-lightbox-frame.is-dragging #library-lightbox-img {
                 transition: none;
             }
 
-            .fun-zoom-controls {
+            .library-zoom-controls {
                 position: absolute;
                 bottom: 32px;
                 left: 50%;
@@ -393,7 +653,7 @@
                 border-radius: 0; /* Squircle, not circle — matches the site's art direction */
                 z-index: 2;
             }
-            .fun-zoom-btn {
+            .library-zoom-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -409,23 +669,25 @@
                 font-weight: 600;
                 transition: background 0.2s ease;
             }
-            .fun-zoom-btn:hover { background: rgba(255,255,255,0.15); }
-            #fun-zoom-reset { width: auto; padding: 0 12px; }
+            .library-zoom-btn:hover { background: rgba(255,255,255,0.15); }
+            #library-zoom-reset { width: auto; padding: 0 12px; }
             @media (max-width: 767px) {
-                .fun-zoom-controls { bottom: 20px; }
+                .library-zoom-controls { bottom: 20px; }
             }
 
             /* [NEW] Keep the navbar permanently visible on this page. Elsewhere script.js
-               hides it on scroll-down (toggling .navbar-hidden), but Fun's desktop mode is a
-               free-pan canvas rather than a normal scroll, so hide-on-scroll feels broken here. */
+               hides it on scroll-down (toggling .navbar-hidden), but the Archive tab's desktop
+               mode is a free-pan canvas rather than a normal scroll, so hide-on-scroll feels
+               broken here. */
             .navbar.navbar-hidden {
                 transform: translateY(0) !important;
             }
 
             /* [NEW] Elsewhere the navbar only gets its blurred background once .scrolled is
-               added by script.js's scroll listener. Fun's desktop mode is drag/pan, not scroll,
-               so that class rarely triggers — leaving the navbar transparent and blending into
-               the canvas/grid behind it. Give it the same background permanently on this page. */
+               added by script.js's scroll listener. The Archive tab's desktop mode is
+               drag/pan, not scroll, so that class rarely triggers — leaving the navbar
+               transparent and blending into the canvas/grid behind it. Give it the same
+               background permanently on this page. */
             .navbar {
                 background-color: rgba(255, 255, 255, 0.75) !important;
                 
@@ -539,7 +801,7 @@
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
         <link rel="manifest" href="/manifest.json">
     </head>
-    <body class="body-2">
+    <body class="body-2 library-page">
         <div id="preloader">
             <div class="top-corners">
                 <div class="corner-text">LOADING</div>
@@ -559,79 +821,100 @@
         <main class="body-wrapper">
             <div id="navbar-container"></div>
 
-            <!-- No visible title/hero by design. H1 kept visually hidden for SEO/accessibility only -->
-            <h1 id="top" class="visually-hidden">Fun</h1>
-
-            <!-- [NEW] Category filter, shared by both the mobile grid and the desktop canvas below -->
-            <div class="fun-filter-bar" id="fun-filter-bar" role="group" aria-label="Filter by category">
-                <button class="fun-filter-btn is-active" data-category="all" aria-label="All">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    <span class="fun-filter-label">All</span>
-                </button>
-                <button class="fun-filter-btn" data-category="photo" aria-label="Photos">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
-                    <span class="fun-filter-label">Photos</span>
-                </button>
-                <button class="fun-filter-btn" data-category="sketch" aria-label="Sketches">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                    <span class="fun-filter-label">Sketches</span>
-                </button>
-                <button class="fun-filter-btn" data-category="client-video" aria-label="Client Work">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="15" height="10" rx="2"></rect><path d="M17 10l5-3v10l-5-3"></path></svg>
-                    <span class="fun-filter-label">Client Work</span>
-                </button>
-                <button class="fun-filter-btn" data-category="personal-video" aria-label="Personal">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                    <span class="fun-filter-label">Personal</span>
-                </button>
-            </div>
-
-            <!-- Mobile/tablet: normal vertical infinite scroll -->
-            <section class="section-margin" style="padding-top: 140px;">
+            <!-- [NEW] Library: 3-tab shell (Reading List / Watch List / Archive). Whole area
+                 is dark-themed (black bg, white text) per explicit request; see .library-*
+                 rules in <style> above and the tab-switcher script near the closing body tag. -->
+            <section class="library-section" id="library-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="fun-masonry-grid" id="fun-grid"></div>
-                        <div class="fun-loader" id="fun-loader">Loading more</div>
-                        <div id="fun-sentinel" style="height: 1px;"></div>
+                        <p class="library-index-label">Index / 001</p>
+                        <h1 id="top" class="library-heading">Library</h1>
+                        <p class="library-subheading">A growing collection of work, ideas, and references.</p>
+
+                        <div class="library-tabs" id="library-tabs" role="tablist" aria-label="Library sections">
+                            <button class="library-tab-btn" type="button" data-tab="reading-list" role="tab" id="tab-btn-reading-list" aria-controls="tab-panel-reading-list">Reading List</button>
+                            <button class="library-tab-btn" type="button" data-tab="watch-list" role="tab" id="tab-btn-watch-list" aria-controls="tab-panel-watch-list">Watch List</button>
+                            <button class="library-tab-btn" type="button" data-tab="archive" role="tab" id="tab-btn-archive" aria-controls="tab-panel-archive">Archive</button>
+                        </div>
+
+                        <!-- Reading List panel: empty grid, ready for PDF entries (data/library-reading.json) -->
+                        <div class="library-panel" id="tab-panel-reading-list" data-panel="reading-list" role="tabpanel" aria-labelledby="tab-btn-reading-list">
+                            <div class="library-grid" id="reading-list-grid"></div>
+                            <p class="library-empty-note" id="reading-list-empty">Nothing added yet — check back soon.</p>
+                        </div>
+
+                        <!-- Watch List panel: empty grid, ready for curated external video links (data/library-watch.json) -->
+                        <div class="library-panel" id="tab-panel-watch-list" data-panel="watch-list" role="tabpanel" aria-labelledby="tab-btn-watch-list">
+                            <div class="library-grid" id="watch-list-grid"></div>
+                            <p class="library-empty-note" id="watch-list-empty">Nothing added yet — check back soon.</p>
+                        </div>
+
+                        <!-- Archive panel: original gallery, moved here unchanged
+                             (masonry grid + free-pan canvas + category filter bar). -->
+                        <div class="library-panel" id="tab-panel-archive" data-panel="archive" role="tabpanel" aria-labelledby="tab-btn-archive">
+                            <!-- [NEW] Category filter, shared by both the mobile grid and the desktop canvas below -->
+                            <div class="library-filter-bar" id="library-filter-bar" role="group" aria-label="Filter by category">
+                                <button class="library-filter-btn is-active" data-category="all" aria-label="All">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                    <span class="library-filter-label">All</span>
+                                </button>
+                                <button class="library-filter-btn" data-category="photo" aria-label="Photos">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+                                    <span class="library-filter-label">Photos</span>
+                                </button>
+                                <button class="library-filter-btn" data-category="sketch" aria-label="Sketches">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+                                    <span class="library-filter-label">Sketches</span>
+                                </button>
+                                <button class="library-filter-btn" data-category="client-video" aria-label="Client Work">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="15" height="10" rx="2"></rect><path d="M17 10l5-3v10l-5-3"></path></svg>
+                                    <span class="library-filter-label">Client Work</span>
+                                </button>
+                                <button class="library-filter-btn" data-category="personal-video" aria-label="Personal">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    <span class="library-filter-label">Personal</span>
+                                </button>
+                            </div>
+
+                            <!-- Mobile/tablet: normal vertical infinite scroll -->
+                            <div class="library-masonry-grid" id="library-archive-grid"></div>
+                            <div class="library-loader" id="library-loader">Loading more</div>
+                            <div id="library-sentinel" style="height: 1px;"></div>
+
+                            <!-- Desktop: free-pan 2D canvas -->
+                            <div class="library-canvas-viewport" id="library-canvas-viewport">
+                                <div class="library-canvas" id="library-canvas"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Desktop: free-pan 2D canvas -->
-            <div class="fun-canvas-viewport" id="fun-canvas-viewport">
-                <div class="fun-canvas" id="fun-canvas"></div>
-            </div>
-
-            <div id="footer-container"></div>
         </main>
 
-        <!-- MDKG Widget Container -->
-        <div id="mdkg-widget-container"></div>
-
         <!-- Video Modal -->
-        <div id="fun-video-modal" class="lightbox-modal">
-            <span class="lightbox-close" id="fun-video-modal-close">
+        <div id="library-video-modal" class="lightbox-modal">
+            <span class="lightbox-close" id="library-video-modal-close">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </span>
             <div class="video-modal-content">
-                <video id="fun-modal-video-player" controls autoplay playsinline loop></video>
+                <video id="library-modal-video-player" controls autoplay playsinline loop></video>
             </div>
         </div>
 
         <!-- Lightbox Modal (Images) -->
-        <div id="fun-lightbox-modal" class="lightbox-modal">
-            <span class="lightbox-close" id="fun-lightbox-close">
+        <div id="library-lightbox-modal" class="lightbox-modal">
+            <span class="lightbox-close" id="library-lightbox-close">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </span>
-            <div class="fun-lightbox-frame" id="fun-lightbox-frame">
-                <img class="lightbox-content" id="fun-lightbox-img" alt="Full Screen View">
+            <div class="library-lightbox-frame" id="library-lightbox-frame">
+                <img class="lightbox-content" id="library-lightbox-img" alt="Full Screen View">
             </div>
-            <div class="fun-zoom-controls">
-                <button class="fun-zoom-btn" id="fun-zoom-out" aria-label="Zoom out">
+            <div class="library-zoom-controls">
+                <button class="library-zoom-btn" id="library-zoom-out" aria-label="Zoom out">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
                 </button>
-                <button class="fun-zoom-btn" id="fun-zoom-reset" aria-label="Reset zoom">100%</button>
-                <button class="fun-zoom-btn" id="fun-zoom-in" aria-label="Zoom in">
+                <button class="library-zoom-btn" id="library-zoom-reset" aria-label="Reset zoom">100%</button>
+                <button class="library-zoom-btn" id="library-zoom-in" aria-label="Zoom in">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
                 </button>
             </div>
@@ -642,7 +925,7 @@
         <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script defer src="script.js?v=50"></script>
+        <script defer src="script.js?v=51"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
 
@@ -650,42 +933,42 @@
             // [NEW] Shared category filter state for both the mobile masonry grid and the
             // desktop canvas below. Only narrows which items are eligible for the existing
             // shuffle/placement logic in each mode — it doesn't change how either renders.
-            window.funFilter = { category: 'all' };
+            window.libraryFilter = { category: 'all' };
             document.addEventListener('DOMContentLoaded', () => {
-                const filterBar = document.getElementById('fun-filter-bar');
+                const filterBar = document.getElementById('library-filter-bar');
                 if (!filterBar) return;
                 filterBar.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.fun-filter-btn');
+                    const btn = e.target.closest('.library-filter-btn');
                     if (!btn) return;
-                    filterBar.querySelectorAll('.fun-filter-btn').forEach(b => b.classList.toggle('is-active', b === btn));
-                    window.funFilter.category = btn.dataset.category;
-                    window.dispatchEvent(new CustomEvent('funFilterChange', { detail: { category: btn.dataset.category } }));
+                    filterBar.querySelectorAll('.library-filter-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+                    window.libraryFilter.category = btn.dataset.category;
+                    window.dispatchEvent(new CustomEvent('libraryFilterChange', { detail: { category: btn.dataset.category } }));
                 });
             });
         </script>
         <script>
-            // Infinite-scroll masonry: fetches data/fun.json once, then keeps appending
+            // Infinite-scroll masonry: fetches data/library-archive.json once, then keeps appending
             // (re-shuffled) copies of the same set as the user scrolls, for an endless feed.
             document.addEventListener('DOMContentLoaded', () => {
-                const grid = document.getElementById('fun-grid');
-                const loader = document.getElementById('fun-loader');
-                const sentinel = document.getElementById('fun-sentinel');
+                const grid = document.getElementById('library-archive-grid');
+                const loader = document.getElementById('library-loader');
+                const sentinel = document.getElementById('library-sentinel');
                 if (!grid || !sentinel) return;
 
-                const videoModal = document.getElementById('fun-video-modal');
-                const modalVideo = document.getElementById('fun-modal-video-player');
-                const videoModalClose = document.getElementById('fun-video-modal-close');
+                const videoModal = document.getElementById('library-video-modal');
+                const modalVideo = document.getElementById('library-modal-video-player');
+                const videoModalClose = document.getElementById('library-video-modal-close');
 
-                const lightboxModal = document.getElementById('fun-lightbox-modal');
-                const lightboxImg = document.getElementById('fun-lightbox-img');
-                const lightboxClose = document.getElementById('fun-lightbox-close');
+                const lightboxModal = document.getElementById('library-lightbox-modal');
+                const lightboxImg = document.getElementById('library-lightbox-img');
+                const lightboxClose = document.getElementById('library-lightbox-close');
 
                 let allItems = [];
                 let sourceItems = [];
                 let loading = false;
 
                 const applyFilter = () => {
-                    const category = window.funFilter?.category || 'all';
+                    const category = window.libraryFilter?.category || 'all';
                     sourceItems = category === 'all'
                         ? allItems
                         : allItems.filter(item => item.category === category);
@@ -704,7 +987,7 @@
                 const attachCaptionHover = (el, item) => {
                     if (!item.caption) return;
                     const caption = document.createElement('div');
-                    caption.className = 'fun-item-caption';
+                    caption.className = 'library-item-caption';
                     caption.textContent = item.caption;
                     el.appendChild(caption);
 
@@ -733,12 +1016,12 @@
 
                 const buildItem = (item) => {
                     const el = document.createElement('div');
-                    el.className = 'fun-item fun-item--reveal';
+                    el.className = 'library-item library-item--reveal';
                     el.style.aspectRatio = '3/4';
                     itemObserver.observe(el);
 
                     if (item.type === 'image') {
-                        el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="fun-item-media">`;
+                        el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="library-item-media">`;
                         el.addEventListener('click', () => {
                             if (lightboxImg && lightboxModal) {
                                 lightboxImg.src = item.src;
@@ -746,7 +1029,7 @@
                             }
                         });
                     } else if (item.type === 'video') {
-                        el.innerHTML = `<video class="fun-item-media" loop muted playsinline preload="metadata" poster="${item.poster || ''}"><source src="${item.src}" type="video/mp4"></video>`;
+                        el.innerHTML = `<video class="library-item-media" loop muted playsinline preload="metadata" poster="${item.poster || ''}"><source src="${item.src}" type="video/mp4"></video>`;
                         const videoEl = el.querySelector('video');
                         el.addEventListener('mouseenter', () => videoEl?.play().catch(() => {}));
                         el.addEventListener('mouseleave', () => { videoEl?.pause(); if (videoEl) videoEl.currentTime = 0; });
@@ -759,7 +1042,7 @@
                             }
                         });
                     } else if (item.type === 'poster') {
-                        el.innerHTML = `<div class="fun-item-poster" style="background:${item.bg || '#111'};"><span class="fun-item-poster-text" style="color:${item.color || '#fff'};">${item.text || ''}</span></div>`;
+                        el.innerHTML = `<div class="library-item-poster" style="background:${item.bg || '#111'};"><span class="library-item-poster-text" style="color:${item.color || '#fff'};">${item.text || ''}</span></div>`;
                     }
 
                     attachCaptionHover(el, item);
@@ -782,7 +1065,7 @@
                     }, 300);
                 };
 
-                fetch('data/fun.json')
+                fetch('data/library-archive.json?v=2')
                     .then(r => r.json())
                     .then(data => {
                         allItems = Array.isArray(data) ? data : [];
@@ -791,7 +1074,7 @@
                         appendBatch(); // pre-fill a second batch so there's room to scroll before the observer fires
                     })
                     .catch(err => {
-                        console.error('Failed to load fun.json', err);
+                        console.error('Failed to load library-archive.json', err);
                         if (loader) loader.textContent = 'Could not load work.';
                     });
 
@@ -803,7 +1086,7 @@
                 observer.observe(sentinel);
 
                 // Re-filter and restart the feed from scratch when the category filter changes
-                window.addEventListener('funFilterChange', () => {
+                window.addEventListener('libraryFilterChange', () => {
                     applyFilter();
                     grid.innerHTML = '';
                     appendBatch();
@@ -833,15 +1116,15 @@
             // by integer (col,row) coordinates. Each cell is assigned a stable item the first
             // time it's revealed, so panning back to a spot always shows the same tile.
             document.addEventListener('DOMContentLoaded', () => {
-                const viewport = document.getElementById('fun-canvas-viewport');
-                const canvas = document.getElementById('fun-canvas');
+                const viewport = document.getElementById('library-canvas-viewport');
+                const canvas = document.getElementById('library-canvas');
                 if (!viewport || !canvas) return;
                 if (!window.matchMedia('(min-width: 992px)').matches) return; // desktop only
 
-                const videoModal = document.getElementById('fun-video-modal');
-                const modalVideo = document.getElementById('fun-modal-video-player');
-                const lightboxModal = document.getElementById('fun-lightbox-modal');
-                const lightboxImg = document.getElementById('fun-lightbox-img');
+                const videoModal = document.getElementById('library-video-modal');
+                const modalVideo = document.getElementById('library-modal-video-player');
+                const lightboxModal = document.getElementById('library-lightbox-modal');
+                const lightboxImg = document.getElementById('library-lightbox-img');
 
                 const CELL_W = 300;
                 const CELL_H = 400;
@@ -856,7 +1139,7 @@
                 const cellEls = new Map();    // "col,row" -> DOM element currently mounted
 
                 const applyFilter = () => {
-                    const category = window.funFilter?.category || 'all';
+                    const category = window.libraryFilter?.category || 'all';
                     sourceItems = category === 'all'
                         ? allItems
                         : allItems.filter(item => item.category === category);
@@ -875,7 +1158,7 @@
 
                 const buildTile = (item, col, row) => {
                     const el = document.createElement('div');
-                    el.className = 'fun-item';
+                    el.className = 'library-item';
                     el.style.width = `${CELL_W}px`;
                     el.style.height = `${CELL_H}px`;
                     el.style.left = `${col * STEP_W}px`;
@@ -887,23 +1170,23 @@
                     // viewport calls setPointerCapture() on drag, which in some browsers redirects
                     // the synthetic click away from the tile that was actually pressed. Clicks are
                     // handled once, by delegation, on the viewport itself — see below.
-                    el._funItem = item;
+                    el._libraryItem = item;
 
                     if (item.type === 'image') {
-                        el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="fun-item-media" draggable="false">`;
+                        el.innerHTML = `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy" decoding="async" class="library-item-media" draggable="false">`;
                     } else if (item.type === 'video') {
-                        el.innerHTML = `<video class="fun-item-media" loop muted playsinline preload="metadata" poster="${item.poster || ''}"><source src="${item.src}" type="video/mp4"></video>`;
+                        el.innerHTML = `<video class="library-item-media" loop muted playsinline preload="metadata" poster="${item.poster || ''}"><source src="${item.src}" type="video/mp4"></video>`;
                         const videoEl = el.querySelector('video');
                         el.addEventListener('mouseenter', () => videoEl?.play().catch(() => {}));
                         el.addEventListener('mouseleave', () => { videoEl?.pause(); if (videoEl) videoEl.currentTime = 0; });
                     } else if (item.type === 'poster') {
-                        el.innerHTML = `<div class="fun-item-poster" style="background:${item.bg || '#111'};"><span class="fun-item-poster-text" style="color:${item.color || '#fff'};">${item.text || ''}</span></div>`;
+                        el.innerHTML = `<div class="library-item-poster" style="background:${item.bg || '#111'};"><span class="library-item-poster-text" style="color:${item.color || '#fff'};">${item.text || ''}</span></div>`;
                     }
 
                     // Caption shown after ~1s of the cursor sitting still on a piece
                     if (item.caption) {
                         const caption = document.createElement('div');
-                        caption.className = 'fun-item-caption';
+                        caption.className = 'library-item-caption';
                         caption.textContent = item.caption;
                         el.appendChild(caption);
 
@@ -920,7 +1203,7 @@
                     return el;
                 };
 
-                // [NEW] Delegated click handling for the canvas (see the _funItem comment above
+                // [NEW] Delegated click handling for the canvas (see the _libraryItem comment above
                 // for why per-tile click listeners were unreliable here). Handles opening the
                 // lightbox/video modal and the 5-rapid-clicks easter egg for whichever tile the
                 // click actually landed on.
@@ -930,11 +1213,11 @@
                     // Use elementFromPoint instead of e.target: once viewport.setPointerCapture()
                     // is active during pointerdown, some browsers report e.target on the
                     // resulting click as the capturing element itself rather than the tile that
-                    // was actually under the cursor, so closest('.fun-item') never matches.
+                    // was actually under the cursor, so closest('.library-item') never matches.
                     const hit = document.elementFromPoint(e.clientX, e.clientY);
-                    const tile = hit?.closest('.fun-item');
-                    if (!tile || !tile._funItem) return;
-                    const item = tile._funItem;
+                    const tile = hit?.closest('.library-item');
+                    if (!tile || !tile._libraryItem) return;
+                    const item = tile._libraryItem;
 
                     if (item.type === 'image') {
                         if (lightboxImg && lightboxModal) {
@@ -958,8 +1241,8 @@
 
                     if (state.count >= 5) {
                         state.count = 0;
-                        tile.classList.add('fun-item-egg');
-                        tile.addEventListener('animationend', () => tile.classList.remove('fun-item-egg'), { once: true });
+                        tile.classList.add('library-item-egg');
+                        tile.addEventListener('animationend', () => tile.classList.remove('library-item-egg'), { once: true });
                     }
                 });
 
@@ -1230,17 +1513,30 @@
                     if (window.matchMedia('(min-width: 992px)').matches) renderVisibleTiles();
                 });
 
-                fetch('data/fun.json')
+                // [NEW] The canvas now lives inside the "Archive" tab panel, which is
+                // display:none while another tab is active. viewport.clientWidth/clientHeight
+                // (used by renderVisibleTiles to decide which cells are on-screen) read as 0
+                // while a fixed-position ancestor chain is hidden this way, so the very first
+                // renderVisibleTiles() call — fired above by the library-archive.json fetch, which can
+                // resolve before the visitor ever switches to Archive — may compute an empty
+                // viewport and mount no tiles. Re-run it once the tab-switcher (see the
+                // library-tabs script near the closing body tag) actually shows this panel.
+                window.addEventListener('libraryTabActivated', (e) => {
+                    if (e.detail?.tab !== 'archive') return;
+                    if (window.matchMedia('(min-width: 992px)').matches) renderVisibleTiles();
+                });
+
+                fetch('data/library-archive.json?v=2')
                     .then(r => r.json())
                     .then(data => {
                         allItems = Array.isArray(data) ? data : [];
                         applyFilter();
                         renderVisibleTiles();
                     })
-                    .catch(err => console.error('Failed to load fun.json for canvas', err));
+                    .catch(err => console.error('Failed to load library-archive.json for canvas', err));
 
                 // Re-filter and rebuild every currently-mounted tile when the category filter changes
-                window.addEventListener('funFilterChange', () => {
+                window.addEventListener('libraryFilterChange', () => {
                     applyFilter();
                     cellData.clear();
                     cellEls.forEach(el => el.remove());
@@ -1250,17 +1546,17 @@
             });
         </script>
         <script>
-            // [NEW] Pinch/scroll/button zoom + drag-to-pan for the Fun page's image lightbox.
+            // [NEW] Pinch/scroll/button zoom + drag-to-pan for the Archive tab's image lightbox.
             // Independent of the two scripts that can open this same modal (mobile grid, desktop
             // canvas) — it just watches the modal's own state, so it works no matter which one
             // opened it, and resets automatically whenever the modal closes.
             document.addEventListener('DOMContentLoaded', () => {
-                const modal = document.getElementById('fun-lightbox-modal');
-                const frame = document.getElementById('fun-lightbox-frame');
-                const img = document.getElementById('fun-lightbox-img');
-                const zoomInBtn = document.getElementById('fun-zoom-in');
-                const zoomOutBtn = document.getElementById('fun-zoom-out');
-                const zoomResetBtn = document.getElementById('fun-zoom-reset');
+                const modal = document.getElementById('library-lightbox-modal');
+                const frame = document.getElementById('library-lightbox-frame');
+                const img = document.getElementById('library-lightbox-img');
+                const zoomInBtn = document.getElementById('library-zoom-in');
+                const zoomOutBtn = document.getElementById('library-zoom-out');
+                const zoomResetBtn = document.getElementById('library-zoom-reset');
                 if (!modal || !frame || !img) return;
 
                 const MIN_SCALE = 1;
@@ -1344,6 +1640,191 @@
                 new MutationObserver(() => {
                     if (!modal.classList.contains('active')) resetZoom();
                 }).observe(modal, { attributes: true, attributeFilter: ['class'] });
+            });
+        </script>
+        <script>
+            // [NEW] This whole page is permanently dark (black bg, white text), unlike the
+            // rest of the site where the navbar only goes white-on-transparent over a hero
+            // and flips to a solid white bar once scrolled (see .navbar-invert-top / .scrolled
+            // in css/style.css). script.js's loadNavbar() fetches navbar.html asynchronously
+            // and doesn't fire an event on completion, so a MutationObserver on the container
+            // is used here to add .library-invert (defined in the <style> block above) the
+            // moment the real .navbar element actually lands in the DOM — a fixed setTimeout
+            // guess would be timing-dependent on the fetch, this isn't.
+            document.addEventListener('DOMContentLoaded', () => {
+                const navContainer = document.getElementById('navbar-container');
+                if (!navContainer) return;
+
+                const applyInvert = () => {
+                    const navbarEl = navContainer.querySelector('.navbar');
+                    if (navbarEl) navbarEl.classList.add('library-invert');
+                    return !!navbarEl;
+                };
+
+                if (applyInvert()) return;
+
+                const observer = new MutationObserver(() => {
+                    if (applyInvert()) observer.disconnect();
+                });
+                observer.observe(navContainer, { childList: true, subtree: true });
+            });
+        </script>
+        <script>
+            // [NEW] Library tab switcher: Reading List / Watch List / Archive. Plain show/hide,
+            // no page reload. Active tab is synced to the URL hash (#reading-list / #watch-list
+            // / #archive) so it's linkable/shareable and survives a refresh, but the hash is
+            // optional — defaults to Reading List when absent or unrecognized.
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabBar = document.getElementById('library-tabs');
+                if (!tabBar) return;
+
+                const tabButtons = Array.from(tabBar.querySelectorAll('.library-tab-btn'));
+                const panels = Array.from(document.querySelectorAll('.library-panel'));
+                const validTabs = tabButtons.map(btn => btn.dataset.tab);
+                const DEFAULT_TAB = 'reading-list';
+
+                const activateTab = (tab, { updateHash = true } = {}) => {
+                    if (!validTabs.includes(tab)) tab = DEFAULT_TAB;
+
+                    tabButtons.forEach(btn => {
+                        const isActive = btn.dataset.tab === tab;
+                        btn.classList.toggle('is-active', isActive);
+                        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+                    panels.forEach(panel => {
+                        panel.classList.toggle('is-active', panel.dataset.panel === tab);
+                    });
+
+                    if (updateHash) {
+                        const newHash = `#${tab}`;
+                        if (window.location.hash !== newHash) {
+                            history.replaceState(null, '', newHash);
+                        }
+                    }
+
+                    // Lets tab-scoped scripts (e.g. the Archive canvas) re-measure once their
+                    // panel actually becomes visible instead of assuming they're visible at init.
+                    window.dispatchEvent(new CustomEvent('libraryTabActivated', { detail: { tab } }));
+                };
+
+                tabBar.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.library-tab-btn');
+                    if (!btn) return;
+                    activateTab(btn.dataset.tab);
+                });
+
+                const initialTab = (window.location.hash || '').replace('#', '') || DEFAULT_TAB;
+                activateTab(initialTab, { updateHash: false });
+
+                // Support back/forward navigation and manually-edited hashes
+                window.addEventListener('hashchange', () => {
+                    const tab = (window.location.hash || '').replace('#', '') || DEFAULT_TAB;
+                    activateTab(tab, { updateHash: false });
+                });
+            });
+        </script>
+        <script>
+            // [NEW] Reading List: renders PDF entries from data/library-reading.json, matching
+            // this page's existing fetch-and-render convention (see the library-archive.json scripts above).
+            // The file currently stubs out to [] — this just wires up the render path ahead of
+            // real entries being added. Each entry becomes:
+            //   <div class="reading-card">
+            //     <img class="reading-card-cover" src="..." alt="">
+            //     <div class="reading-card-body">
+            //       <p class="reading-card-title">...</p>
+            //       <a class="reading-card-download" href="....pdf" download>Download PDF</a>
+            //     </div>
+            //   </div>
+            document.addEventListener('DOMContentLoaded', () => {
+                const grid = document.getElementById('reading-list-grid');
+                const emptyNote = document.getElementById('reading-list-empty');
+                if (!grid) return;
+
+                const buildCard = (item) => {
+                    const card = document.createElement('div');
+                    card.className = 'reading-card';
+                    card.innerHTML = `
+                        <img class="reading-card-cover" src="${item.cover || ''}" alt="${item.title || ''}" loading="lazy" decoding="async">
+                        <div class="reading-card-body">
+                            <p class="reading-card-title">${item.title || 'Untitled'}</p>
+                            <a class="reading-card-download" href="${item.pdf || '#'}" download rel="noopener">Download PDF</a>
+                        </div>
+                    `;
+                    return card;
+                };
+
+                fetch('data/library-reading.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const items = Array.isArray(data) ? data : [];
+                        if (!items.length) {
+                            if (emptyNote) emptyNote.style.display = 'block';
+                            return;
+                        }
+                        if (emptyNote) emptyNote.style.display = 'none';
+                        const fragment = document.createDocumentFragment();
+                        items.forEach(item => fragment.appendChild(buildCard(item)));
+                        grid.appendChild(fragment);
+                    })
+                    .catch(err => {
+                        console.error('Failed to load library-reading.json', err);
+                        if (emptyNote) emptyNote.style.display = 'block';
+                    });
+            });
+        </script>
+        <script>
+            // [NEW] Watch List: renders curated external video links from data/library-watch.json,
+            // matching this page's existing fetch-and-render convention. Stubs to [] for now.
+            // Each entry becomes:
+            //   <a class="watch-card" href="..." target="_blank" rel="noopener noreferrer">
+            //     <div class="watch-card-thumb-wrap">
+            //       <img class="watch-card-thumb" src="..." alt="">
+            //       <span class="watch-card-platform">YouTube</span>
+            //     </div>
+            //     <div class="watch-card-body">
+            //       <p class="watch-card-title">...</p>
+            //     </div>
+            //   </a>
+            document.addEventListener('DOMContentLoaded', () => {
+                const grid = document.getElementById('watch-list-grid');
+                const emptyNote = document.getElementById('watch-list-empty');
+                if (!grid) return;
+
+                const buildCard = (item) => {
+                    const card = document.createElement('a');
+                    card.className = 'watch-card';
+                    card.href = item.url || '#';
+                    card.target = '_blank';
+                    card.rel = 'noopener noreferrer';
+                    card.innerHTML = `
+                        <div class="watch-card-thumb-wrap">
+                            <img class="watch-card-thumb" src="${item.thumbnail || ''}" alt="${item.title || ''}" loading="lazy" decoding="async">
+                            <span class="watch-card-platform">${item.platform || ''}</span>
+                        </div>
+                        <div class="watch-card-body">
+                            <p class="watch-card-title">${item.title || 'Untitled'}</p>
+                        </div>
+                    `;
+                    return card;
+                };
+
+                fetch('data/library-watch.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const items = Array.isArray(data) ? data : [];
+                        if (!items.length) {
+                            if (emptyNote) emptyNote.style.display = 'block';
+                            return;
+                        }
+                        if (emptyNote) emptyNote.style.display = 'none';
+                        const fragment = document.createDocumentFragment();
+                        items.forEach(item => fragment.appendChild(buildCard(item)));
+                        grid.appendChild(fragment);
+                    })
+                    .catch(err => {
+                        console.error('Failed to load library-watch.json', err);
+                        if (emptyNote) emptyNote.style.display = 'block';
+                    });
             });
         </script>
     </body>

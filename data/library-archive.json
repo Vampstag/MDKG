@@ -1,0 +1,26 @@
+[
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/bag-theory-eps-1.mp4",
+    "caption": "Bag Theory Eps. 1"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/bag-theory-eps-2.mp4",
+    "caption": "Bag Theory Eps. 2"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/radar%20motion%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
+    "caption": "Torch x Gundam batch 2, top funnel ad"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/magazine%20flipped%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
+    "caption": "Torch x Gundam batch 2, top funnel ad"
+  }
+]
