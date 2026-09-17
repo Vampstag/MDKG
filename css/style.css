@@ -5200,6 +5200,11 @@ html.lenis, html.lenis body { height: auto; }
 .video-player-wrapper.is-reel {
     aspect-ratio: 9/16;
     max-width: 380px; /* Batasi lebar agar tidak terlalu tinggi di desktop */
+    /* Base .video-player-wrapper's max-height: 70vh (sized for 16:9 landscape clips) was
+       still capping this — a 9:16 reel at 380px wide is naturally ~675px tall, and on
+       shorter viewports 70vh clips below that, squashing the video flat instead of letting
+       it render its full vertical aspect-ratio. */
+    max-height: none;
     margin: 0 auto;
 }
 
