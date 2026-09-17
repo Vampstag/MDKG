@@ -3,17 +3,6 @@
 // 1. CORE SETUP & EVENT LISTENERS
 // =========================================
 
-// [NEW] Film grain overlay: injected once, globally, on every page that loads this script.
-// A fixed, non-interactive noise layer — cheap (inline SVG, no image request) and applied
-// site-wide so no per-page HTML edits are needed.
-(function injectGrainOverlay() {
-    if (document.querySelector('.grain-overlay')) return;
-    const grain = document.createElement('div');
-    grain.className = 'grain-overlay';
-    grain.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(grain);
-})();
-
 // [NEW] PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
