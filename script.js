@@ -3926,19 +3926,6 @@ function initVideoCards() {
              // Observe the card for play/pause functionality
              observer.observe(card);
 
-             // [FIX] .video-player-wrapper.is-reel hard-codes aspect-ratio: 9/16 in CSS for
-             // vertical reels, and .video-element uses object-fit: cover — so a reel whose
-             // actual footage isn't exactly 9:16 gets its sides cropped to force-fit that box.
-             // Once the video's real dimensions are known, set the wrapper's aspect-ratio to
-             // match so cover has a correctly-shaped box and never needs to crop.
-             if (card.classList.contains('is-reel')) {
-                 video.addEventListener('loadedmetadata', () => {
-                     if (video.videoWidth && video.videoHeight) {
-                         card.style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
-                     }
-                 });
-             }
-
              // Add mute/unmute functionality if the button exists
              if (muteBtn) {
                  muteBtn.addEventListener('click', (e) => {

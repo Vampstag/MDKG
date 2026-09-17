@@ -1030,21 +1030,6 @@
                 const modalVideo = document.getElementById('library-modal-video-player');
                 const videoModalClose = document.getElementById('library-video-modal-close');
 
-                // [NEW] The modal frame otherwise hard-codes aspect-ratio: 9/16 (see
-                // .video-modal-content in css/style.css), which is right for portrait reels
-                // but letterboxes/misframes anything shot landscape or square. Once the video's
-                // real dimensions are known, set the frame's aspect-ratio to match so
-                // object-fit: contain has a correctly-shaped box to fit into instead of forcing
-                // every clip into a 9:16 window.
-                const videoModalContent = videoModal?.querySelector('.video-modal-content');
-                if (modalVideo && videoModalContent) {
-                    modalVideo.addEventListener('loadedmetadata', () => {
-                        if (modalVideo.videoWidth && modalVideo.videoHeight) {
-                            videoModalContent.style.aspectRatio = `${modalVideo.videoWidth} / ${modalVideo.videoHeight}`;
-                        }
-                    });
-                }
-
                 const lightboxModal = document.getElementById('library-lightbox-modal');
                 const lightboxImg = document.getElementById('library-lightbox-img');
                 const lightboxClose = document.getElementById('library-lightbox-close');
@@ -1183,7 +1168,6 @@
                 const closeVideoModal = () => {
                     videoModal?.classList.remove('active');
                     if (modalVideo) { modalVideo.pause(); modalVideo.src = ''; }
-                    if (videoModalContent) videoModalContent.style.aspectRatio = '';
                     document.body.style.overflow = '';
                 };
                 videoModalClose?.addEventListener('click', closeVideoModal);
