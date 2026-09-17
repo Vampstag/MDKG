@@ -945,24 +945,20 @@
 
 
             <!-- [NEW] Soft CTA (Conversion Optimization) — eyebrow label, headline, desc as a
-                 normal centered text block, then the showreel full-bleed (100vw wide, height
-                 following its own 16:9 ratio — not boxed to a max-width) as ambient background
-                 footage (placeholder: reuses the same Torch x Gundam showreel clip the homepage
-                 About section plays), button below the video. Everything stacks top to bottom —
-                 no overlap between text/button and the video. Sharp-edged throughout (no
-                 border-radius) to match the site's editorial art direction — deliberately not
-                 the rounded, multi-color curved gallery from the reference. -->
+                 normal centered text block, then a full-bleed 16:9 slot for the eventual
+                 motion piece, button below it. .cta-showreel-player is left empty on purpose:
+                 waiting on a custom-exported 16:9 motion piece (not a placeholder clip) — drop
+                 a <video>/<source> back in here when it's ready, the container/CSS already fit
+                 it at true 100vw. Everything stacks top to bottom — no overlap between
+                 text/button and the video slot. Sharp-edged throughout (no border-radius) to
+                 match the site's editorial art direction. -->
             <section class="section-margin fade-in-section premium-soft-cta-fullbleed" data-nav-invert>
                 <div class="premium-soft-cta-text">
                     <p class="premium-soft-cta-eyebrow"><span class="premium-soft-cta-eyebrow-dot"></span>Get Started</p>
                     <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of<br class="premium-soft-cta-title-break">Torch × Gundam?</h2>
                     <p class="premium-soft-cta-desc">Let’s create cinematic storytelling that turns collaborations into experiences.</p>
                 </div>
-                <div class="cta-showreel-player">
-                    <video class="cta-showreel-video" autoplay loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster_showreel_torchxgundam.webp">
-                        <source src="../assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
-                    </video>
-                </div>
+                <div class="cta-showreel-player"></div>
                 <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
                     Start a Project
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
