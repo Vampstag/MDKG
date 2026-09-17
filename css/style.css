@@ -7158,24 +7158,39 @@ a.social-icon:hover img {
 
 /* Premium CTA Section */
 /* Full-bleed variant: the section itself spans the viewport edge-to-edge (breaking out of
-   global-wrapper's max-width). Copy sits above a single showreel card (not a background
-   media layer) — see .cta-showreel-player below. */
+   global-wrapper's max-width). Stacks top to bottom — text block, then the showreel at true
+   100vw (not boxed to a max-width so it reads as genuinely full-bleed), then the button —
+   nothing overlaps, each piece gets its own vertical space instead of being flex-centered
+   into a shared box that only fit short content. */
 .premium-soft-cta-fullbleed {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 48px;
+    padding: 96px 0;
     background: #050505;
 }
 
+@media (max-width: 767px) {
+    .premium-soft-cta-fullbleed {
+        gap: 32px;
+        padding: 56px 0;
+    }
+}
+
+/* .premium-soft-cta: the plain (non-fullbleed) CTA used on about.html, services.html and
+   most case studies — just title/desc/button, no showreel. Kept as its own class rather than
+   folded into .premium-soft-cta-text below, since those pages render it inside their normal
+   .global-wrapper column, not as a direct child of the full-bleed section. */
 .premium-soft-cta {
     position: relative;
     z-index: 1;
     color: #fff;
     border-radius: 0;
-    padding: 96px 40px;
+    padding: 80px 40px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -7187,7 +7202,30 @@ a.social-icon:hover img {
 
 @media (max-width: 767px) {
     .premium-soft-cta {
-        padding: 56px 24px; /* Proporsi CTA lebih rapi dan tidak kebesaran di mobile */
+        padding: 56px 24px;
+        gap: 20px;
+    }
+}
+
+/* .premium-soft-cta-text: text block variant for the showreel CTA layout (see
+   torch-x-gundam.html) — sits inside .premium-soft-cta-fullbleed alongside the showreel
+   and button as siblings, rather than wrapping them, so the video can be true full-bleed. */
+.premium-soft-cta-text {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 0 40px;
+    max-width: 900px;
+}
+
+@media (max-width: 767px) {
+    .premium-soft-cta-text {
+        padding: 0 24px;
         gap: 20px;
     }
 }
@@ -7253,13 +7291,11 @@ a.social-icon:hover img {
 .cta-showreel-player {
     position: relative;
     display: block;
-    width: 100%;
-    max-width: 900px;
+    width: 100vw;
     aspect-ratio: 16/9;
     border: none;
     border-radius: 0;
     padding: 0;
-    margin-top: 8px;
     background: #111;
     overflow: hidden;
 }
@@ -7275,6 +7311,8 @@ a.social-icon:hover img {
 }
 
 .premium-soft-cta-btn {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -7287,7 +7325,6 @@ a.social-icon:hover img {
     font-size: 1rem;
     text-decoration: none;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s ease;
-    margin-top: 12px;
     will-change: transform, box-shadow;
     transform: translateZ(0); /* Anti-blur fix */
 }
