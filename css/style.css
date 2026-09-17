@@ -3561,6 +3561,22 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: none;
     color: var(--text-secondary-color);
 }
+
+/* [NEW] Light-on-dark variant — toggled via IntersectionObserver (see the
+   data-nav-invert script) while a dark section like the CTA showreel is in view, so the
+   nav stays visible instead of dark dots/labels disappearing against a dark background. */
+.cs-sticky-nav.is-inverted .cs-nav-dot { background-color: rgba(255,255,255,0.35); }
+.cs-sticky-nav.is-inverted .cs-nav-item:hover .cs-nav-dot,
+.cs-sticky-nav.is-inverted .cs-nav-item.active .cs-nav-dot {
+    background-color: #fff;
+}
+.cs-sticky-nav.is-inverted .cs-nav-label {
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+}
+.cs-sticky-nav.is-inverted .cs-nav-item.active .cs-nav-label {
+    color: rgba(255,255,255,0.7);
+}
 /* #endregion */
 
 /* Mobile adjustments for premium spacing */

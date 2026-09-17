@@ -97,7 +97,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=137" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=138" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="../widget.css?v=15">
 
@@ -951,7 +951,7 @@
                  footage shown in its natural color (no filter/overlay). Sharp-edged throughout
                  (no border-radius) to match the site's editorial art direction — deliberately
                  not the rounded, multi-color curved gallery from the reference. -->
-            <section class="section-margin fade-in-section premium-soft-cta-fullbleed">
+            <section class="section-margin fade-in-section premium-soft-cta-fullbleed" data-nav-invert>
                 <div class="premium-soft-cta">
                     <p class="premium-soft-cta-eyebrow"><span class="premium-soft-cta-eyebrow-dot"></span>Get Started</p>
                     <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of<br class="premium-soft-cta-title-break">Torch × Gundam?</h2>
@@ -1453,6 +1453,25 @@
                 }, { rootMargin: "-40% 0px -60% 0px" }); // Active threshold di tengah atas layar
 
                 sections.forEach(sec => observer.observe(sec));
+            });
+        </script>
+        <script>
+            // [NEW] Sticky dot nav sits fixed above every section, but its dots/labels are
+            // dark-on-light by default (see .cs-nav-dot in css/style.css) — invisible against
+            // a dark section like the CTA showreel. Any section marked [data-nav-invert] toggles
+            // .is-inverted on .cs-sticky-nav while it's in view, flipping the nav to light-on-dark.
+            document.addEventListener('DOMContentLoaded', () => {
+                const stickyNav = document.querySelector('.cs-sticky-nav');
+                const invertSections = document.querySelectorAll('[data-nav-invert]');
+                if (!stickyNav || !invertSections.length) return;
+
+                const invertObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        stickyNav.classList.toggle('is-inverted', entry.isIntersecting);
+                    });
+                }, { rootMargin: "-40% 0px -60% 0px" }); // Same active band as the scrollspy above
+
+                invertSections.forEach(sec => invertObserver.observe(sec));
             });
         </script>
         <script>
