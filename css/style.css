@@ -7256,14 +7256,6 @@ a.social-icon:hover img {
     object-fit: cover;
     display: block;
     pointer-events: none;
-    filter: grayscale(1) contrast(1.05);
-}
-
-.cta-showreel-scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.35) 100%);
-    pointer-events: none;
 }
 
 .premium-soft-cta-btn {
