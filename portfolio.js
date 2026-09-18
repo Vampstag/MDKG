@@ -371,7 +371,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                 // Re-init parallax for new items
                 ScrollTrigger.refresh();
-                initCardHover(); // Initialize hover effect for new items
                 initMagneticButtons(); // Initialize magnetic effect for buttons
             };
 
