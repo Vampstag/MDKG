@@ -1335,7 +1335,18 @@
                         if (mq.matches && !instance) {
                             instance = new Swiper(el, {
                                 slidesPerView: 1,
-                                pagination: { el: '.teaser-story-pagination', clickable: true }
+                                pagination: { el: '.teaser-story-pagination', clickable: true },
+                                // These reels are tall (9:16) and stacked in a normal scrolling
+                                // page — Swiper's touch tracking otherwise intercepts a mostly-
+                                // vertical drag while it's still deciding if it's a horizontal
+                                // swipe, which froze page scroll for as long as the finger
+                                // stayed over the slider. touchAngle narrows the horizontal-
+                                // swipe detection cone (default 45°) so a mostly-vertical drag
+                                // is recognized as page scroll immediately instead of being
+                                // held for evaluation, and threshold adds a small dead zone
+                                // before Swiper claims the gesture at all.
+                                touchAngle: 25,
+                                threshold: 5
                             });
                         } else if (!mq.matches && instance) {
                             instance.destroy(true, true);

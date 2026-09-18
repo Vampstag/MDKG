@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 clientName: "Pink Roulette",
                 description: "Shaping the visual identity behind Pink Roulette's digital presence, from photography through motion.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
-                image: "../assets/images/project/pink-roulette/creative-banner-model.png",
+                image: "../assets/images/project/pink-roulette/card-model.webp",
                 srcset: "",
                 ongoing: true
             },

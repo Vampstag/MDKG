@@ -5582,6 +5582,11 @@ html.lenis, html.lenis body { height: auto; }
 .teaser-story-slider {
     width: 100%;
     overflow: hidden;
+    /* Backs up the touchAngle/threshold tuning in initTeaserStorySlider (script tag further
+       down this page): tells the browser directly that vertical drags on this element are
+       page scroll, not something the slider should capture, so a finger landing here never
+       freezes scroll while Swiper's own JS is still deciding the gesture direction. */
+    touch-action: pan-y;
 }
 .teaser-story-pagination {
     display: none;
