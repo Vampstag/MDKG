@@ -1706,11 +1706,16 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     width: 100%;
     background-color: #f5f5f7;
-    /* This element also carries Webflow's own .w-inline-block/.auto/.full-ratio classes
-       (see portfolio.js's card markup — class="image-wrap auto full-ratio w-inline-block").
-       A static check of none of those found a border-radius rule at all in the current
-       Webflow stylesheet, so the !important this historically needed doesn't appear to be
-       load-bearing against the CSS as it exists today. */
+    border-radius: 0;
+}
+/* Webflow's own shared stylesheet (mdkg.webflow.shared*.css) defines
+   .image-wrap.auto.full-ratio { border-radius: 12px; } (and the same 12px again under
+   .image-wrap.auto.full-ratio:hover) — that 3-class compound selector outranks the
+   single-class .image-wrap rule above regardless of which stylesheet loads last, which is
+   what was still rounding the portfolio card corners, including on hover. Match the same
+   compound selector (and its :hover variant) here to win on specificity. */
+.image-wrap.auto.full-ratio,
+.image-wrap.auto.full-ratio:hover {
     border-radius: 0;
 }
 
@@ -3641,27 +3646,31 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     z-index: 100;
     mix-blend-mode: difference;
 }
 @media (max-width: 991px) {
     .cs-sticky-nav { display: none; } /* Hide on mobile/tablet */
 }
-.cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 4px; }
-.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255,255,255,0.4); transition: all 0.3s var(--ease-smooth); }
+.cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 3px; }
+.cs-nav-dot { position: relative; width: 6px; height: 6px; border-radius: 50%; background-color: rgba(255,255,255,0.4); transition: all 0.3s var(--ease-smooth); }
 .cs-nav-item:hover .cs-nav-dot, .cs-nav-item.active .cs-nav-dot { background-color: #fff; transform: scale(1.5); }
 .cs-nav-dot-ring {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 .cs-nav-dot-ring circle {
     stroke: #fff;
-    stroke-dasharray: 50.27; /* 2 * PI * r(8) */
+    stroke-dasharray: 50.27; /* 2 * PI * r(8), matches the SVG's own viewBox coordinates — the
+        element is scaled down to 15px via width/height above, not by shrinking its viewBox,
+        so this stays correct at the smaller display size. */
     stroke-dashoffset: 50.27;
     transform: rotate(-90deg);
     transform-origin: center;
@@ -5579,6 +5588,19 @@ html.lenis, html.lenis body { height: auto; }
    swipe: Swiper is never initialized above 767px, see initTeaserStorySlider), matching the
    has-reel column's video-left/text-right layout. Below 768px the same markup becomes a real
    swipeable Swiper carousel, one reel at a time with pagination dots underneath. */
+@media (max-width: 991px) {
+    /* Below 992px .solution-video-item collapses to a single column (see
+       .solution-video-item's base grid-template-columns:1fr), so it stacks in DOM order —
+       video markup comes before .solution-video-content in the HTML, which put the reels
+       above the paragraph. Flip that on this item only so the text reads first, matching the
+       teaser-first narrative the copy describes, with the reels below it. */
+    .solution-video-item.has-reel--pair .solution-video-player {
+        order: 2;
+    }
+    .solution-video-item.has-reel--pair .solution-video-content {
+        order: 1;
+    }
+}
 .teaser-story-slider {
     width: 100%;
     overflow: hidden;
@@ -5636,8 +5658,19 @@ html.lenis, html.lenis body { height: auto; }
     .teaser-story-slider {
         padding-bottom: 36px; /* Room for pagination dots below the reel */
     }
+    /* Swiper measures its own container width on init to size .swiper-slide (it sets that
+       width via inline style, e.g. "width: 2.68435e7px" — Swiper's fallback constant for
+       "container had no measurable width yet"). .swiper-slide has no width of its own in CSS
+       otherwise, so if init ever races layout, the slide (and the reel video inside it)
+       inflates to that huge fallback instead of the viewport width. Giving the slide an
+       explicit width here means it always has a sane size even before/without Swiper's JS
+       measurement succeeding. */
+    .teaser-story-slider .swiper-slide {
+        width: 100% !important;
+    }
     .teaser-story-slider .video-player-wrapper.is-reel {
         margin: 0 auto;
+        width: 100%;
         max-width: 100%;
     }
     .teaser-story-pagination {

@@ -222,7 +222,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (targetId && targetId.startsWith('#') && document.querySelector(targetId)) {
                 e.preventDefault();
                 e.stopPropagation();
-                lenis.scrollTo(targetId, { duration: 1.2 });
+                // Negative offset so the target section's top lands below the fixed .navbar
+                // instead of flush against the viewport top, where the navbar was covering
+                // the section's heading (e.g. clicking a .cs-nav-item dot on a case study).
+                lenis.scrollTo(targetId, { duration: 1.2, offset: -100 });
             }
         }
     }, true);
