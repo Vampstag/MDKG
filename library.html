@@ -311,79 +311,51 @@
                source pages mostly expose either no og:image or a generic site banner, which
                would read as noise rather than information.
 
-               So the slot is composed instead of scraped: the category set as oversized
-               type, a rule, and the author. The entry's title is NOT repeated here — the
-               card body directly below already carries it, and printing it twice left the
-               cover looking like a caption for itself. */
+               The tile carries the AUTHOR, and nothing else. The card body directly below
+               already prints the category badge and the title, so setting either one here
+               just said the same word twice on one card. The author is the only thing about
+               the entry not otherwise visible at this size, which makes it the one honest
+               subject for the slot — a title page, not a decorated box. */
             .reading-card-cover-placeholder {
                 position: relative;
                 width: 100%;
+                /* Matches .reading-card-cover's 3/4 exactly. These tiles sit in the same rows
+                   as real book covers, so a shorter slot pushed this card's badge and title
+                   up while its neighbours' stayed at the bottom, leaving the row's baselines
+                   ragged. The height is the price of that alignment. */
                 aspect-ratio: 3/4;
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
                 justify-content: flex-end;
-                gap: 10px;
-                padding: 20px;
+                gap: 14px;
+                padding: 22px;
                 box-sizing: border-box;
                 background-color: #0a0a0a; /* Same as .reading-card, so the tile and the body
                     below it read as one surface with no seam between them. */
                 overflow: hidden;
             }
-            /* Abstract field behind the type: a soft off-centre wash plus a fine grid, so the
-               tile reads as a designed surface rather than an empty box. Rotated well past
-               the tile's bounds so no seam or corner of the grid is ever visible. */
-            .reading-card-cover-placeholder::before {
-                content: "";
-                position: absolute;
-                top: -50%; left: -50%;
-                width: 200%; height: 200%;
-                background-image:
-                    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-                background-size: 22px 22px;
-                transform: rotate(-18deg);
-                pointer-events: none;
-            }
-            .reading-card-cover-placeholder::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(120% 90% at 78% 8%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 38%, transparent 70%);
-                pointer-events: none;
-            }
-            /* The category, set large — the one piece of information the card body doesn't
-               already show at this size, and what actually distinguishes one tile from
-               the next when scanning the grid. */
-            .reading-card-cover-placeholder .placeholder-category {
-                position: relative;
-                font-family: var(--font-primary);
-                font-weight: 800;
-                font-size: 2.1rem;
-                line-height: 0.95;
-                letter-spacing: -0.04em;
-                text-transform: uppercase;
-                color: rgba(255,255,255,0.92);
-            }
+            /* One hairline, aligned to the text's baseline grid. No pattern or gradient
+               behind it: this sits in a grid of real book covers, and anything more
+               decorative competed with them instead of sitting quietly between them. */
             .reading-card-cover-placeholder .placeholder-rule {
-                position: relative;
-                width: 34px;
-                height: 2px;
-                background-color: rgba(255,255,255,0.75);
+                width: 28px;
+                height: 1px;
+                background-color: rgba(255,255,255,0.28);
+                flex: none;
             }
             .reading-card-cover-placeholder .placeholder-author {
-                position: relative;
                 font-family: var(--font-primary);
-                font-size: 0.68rem;
+                font-size: 1.05rem;
                 font-weight: 500;
-                line-height: 1.35;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                color: rgba(255,255,255,0.45);
-                /* Long author/institution strings would otherwise push the category type out
-                   of the tile; cap at two lines and ellipsize. */
+                line-height: 1.28;
+                letter-spacing: -0.01em;
+                color: rgba(255,255,255,0.82);
+                text-wrap: balance;
+                /* Long institutional credits would otherwise fill the whole tile; cap them
+                   so the composition stays bottom-weighted and consistent card to card. */
                 display: -webkit-box;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 4;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
@@ -1860,7 +1832,7 @@
             // books) from data/library-reading.json, matching this page's existing
             // fetch-and-render convention. Book entries carry a real `cover` image; the rest
             // link out to articles and essays with no cover art, and fall back to a composed
-            // tile (category + author over an abstract field) instead. Each entry becomes:
+            // tile setting the author instead. Each entry becomes:
             //   <div class="reading-card">
             //     <img class="reading-card-cover" src="..." alt="">   (only if item.cover set)
             //     <div class="reading-card-cover-placeholder">...</div> (fallback otherwise)
@@ -1887,7 +1859,6 @@
                     const coverHtml = item.cover
                         ? `<img class="reading-card-cover" src="${escapeHtml(item.cover)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
                         : `<div class="reading-card-cover-placeholder" aria-hidden="true">
-                               <span class="placeholder-category">${escapeHtml(item.categoryLabel || item.category || 'Read')}</span>
                                <span class="placeholder-rule"></span>
                                ${item.author ? `<span class="placeholder-author">${escapeHtml(item.author)}</span>` : ''}
                            </div>`;
