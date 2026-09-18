@@ -638,9 +638,13 @@
             <a href="#process" class="cs-nav-item"><span class="cs-nav-label">Process</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
+            <!-- Uncomment together with the #testimonial section further down, once there is a
+                 real quote to publish. Left in place so the pair stays visible as one task. -->
+            <!--
             <a href="#testimonial" class="cs-nav-item"><span class="cs-nav-label">Testimonial</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
+            -->
             <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Takeaways</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -751,6 +755,16 @@
                 </div>
             </section>
 
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            "People weren't tired of the food. They were tired of being sold to."
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
             <section id="hardskills" class="hardskills-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
@@ -793,16 +807,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
-                    <div class="global-padding" style="position: relative;">
-                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
-                            "People weren't tired of the food. They were tired of being sold to."
-                        </blockquote>
                     </div>
                 </div>
             </section>
@@ -1443,10 +1447,44 @@
                 </div>
             </section>
 
+            <!-- Testimonial — scaffolded to match the canonical case study order, but kept
+                 commented out until there is a real quote to publish. Filling it in means
+                 replacing the three {{...}} values below and dropping the client's photo at
+                 ../assets/images/project/tsukamie/client-testimoni.webp (the brand badge,
+                 logo-tsukamie.webp, already exists), then uncommenting. The matching
+                 #testimonial dot in .cs-sticky-nav above is commented out alongside it, so
+                 uncomment both together. -->
+            <!--
+            <section id="testimonial" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="cs-testimonial-inner">
+                            <svg class="cs-testimonial-icon" width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 20.16C0 8.64 6.72 1.6 16.96 0L18.72 4.48C11.52 6.4 8.32 10.72 7.68 15.68C8.32 15.36 9.28 15.2 10.24 15.2C14.4 15.2 17.6 18.24 17.6 22.72C17.6 27.2 14.08 30.56 9.6 30.56C4.16 30.56 0 26.24 0 20.16ZM21.76 20.16C21.76 8.64 28.48 1.6 38.72 0L40.48 4.48C33.28 6.4 30.08 10.72 29.44 15.68C30.08 15.36 31.04 15.2 32 15.2C36.16 15.2 39.36 18.24 39.36 22.72C39.36 27.2 35.84 30.56 31.36 30.56C25.92 30.56 21.76 26.24 21.76 20.16Z" fill="currentColor"/>
+                            </svg>
+
+                            <h3 class="cs-testimonial-quote">
+                                "{{TESTIMONIAL_QUOTE}}"
+                            </h3>
+
+                            <div class="cs-testimonial-attribution">
+                                <div class="cs-testimonial-avatar-wrap">
+                                    <img class="cs-testimonial-avatar" src="../assets/images/project/tsukamie/client-testimoni.webp" loading="lazy" decoding="async" alt="{{TESTIMONIAL_NAME}}, {{TESTIMONIAL_ROLE}} at Tsukamie Noodle Bar">
+                                    <img class="cs-testimonial-brand-badge" src="../assets/images/project/tsukamie/logo-tsukamie.webp" loading="lazy" decoding="async" alt="Tsukamie Noodle Bar logo">
+                                </div>
+                                <span class="cs-testimonial-name">{{TESTIMONIAL_NAME}}</span>
+                                <span class="cs-testimonial-role">{{TESTIMONIAL_ROLE}}, Tsukamie Noodle Bar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            -->
+
             <section id="key-takeaways" class="home-about-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
-                        <div class="about-layout-grid"> 
+                        <div class="about-layout-grid">
                             <div class="about-sidebar">
                                 <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Key Takeaways</div>
                             </div>

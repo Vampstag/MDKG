@@ -284,9 +284,13 @@
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Solution</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
+            <!-- Uncomment together with the #outputs section further down, once this project's
+                 deliverables are exported. Left in place so the pair stays visible as one task. -->
+            <!--
             <a href="#outputs" class="cs-nav-item"><span class="cs-nav-label">Selected Outputs</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
+            -->
             <a href="#impact" class="cs-nav-item"><span class="cs-nav-label">The Impact</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -386,6 +390,19 @@
                 </div>
             </section>
 
+            <!-- Project Essence -->
+            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 22ch; margin: 0 auto; color: #111;">
+                            "A great website is the perfect balance between beautiful aesthetics and robust, invisible engineering."
+                        </blockquote>
+                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
+                    </div>
+                </div>
+            </section>
+
             <section id="hardskills" class="hardskills-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
@@ -428,19 +445,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Project Essence -->
-            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
-                    <div class="global-padding" style="position: relative;">
-
-                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 22ch; margin: 0 auto; color: #111;">
-                            "A great website is the perfect balance between beautiful aesthetics and robust, invisible engineering."
-                        </blockquote>
-                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
                     </div>
                 </div>
             </section>
@@ -507,6 +511,58 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Selected Outputs — scaffolded to match the canonical case study order, kept
+                 commented out until this project's deliverables are exported. Unlike the video
+                 case studies, the outputs here are screens and interaction captures, so each
+                 bento item takes a <video> walkthrough or a still of the built page rather
+                 than a social cut. Filling it in means dropping the assets into
+                 ../assets/videos/project/berka/ and ../assets/images/project/berka/, replacing
+                 the {{...}} values, and uncommenting both this and the #outputs dot in
+                 .cs-sticky-nav above. Note the existing markup on this page points at a
+                 studi-berka/ folder that does not exist; use berka/ for anything new. -->
+            <!--
+            <section id="outputs" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Selected Outputs</h2>
+                            </div>
+                        </div>
+                        <div class="bento-grid">
+                            <div class="bento-item is-wide">
+                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/berka/{{OUTPUT_1_POSTER}}"><source src="../assets/videos/project/berka/{{OUTPUT_1_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">{{OUTPUT_1_TITLE}}</h3>
+                                    <p class="bento-desc">{{OUTPUT_1_DESCRIPTION}}</p>
+                                    <div class="bento-actions">
+                                        <button class="bento-btn bento-play-btn" aria-label="Play video">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
+                                        </button>
+                                        <a href="{{LIVE_SITE_URL}}" target="_blank" rel="noopener noreferrer" class="bento-btn" aria-label="Visit live site"><span class="bento-btn-label">Visit Live Site</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bento-item">
+                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/berka/{{OUTPUT_2_POSTER}}"><source src="../assets/videos/project/berka/{{OUTPUT_2_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">{{OUTPUT_2_TITLE}}</h3>
+                                    <p class="bento-desc">{{OUTPUT_2_DESCRIPTION}}</p>
+                                </div>
+                            </div>
+                            <div class="bento-item">
+                                <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/berka/{{OUTPUT_3_POSTER}}"><source src="../assets/videos/project/berka/{{OUTPUT_3_VIDEO_FILENAME}}" type="video/mp4"></video>
+                                <div class="bento-overlay">
+                                    <h3 class="bento-title">{{OUTPUT_3_TITLE}}</h3>
+                                    <p class="bento-desc">{{OUTPUT_3_DESCRIPTION}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            -->
 
             <section id="impact" class="data-validation-section section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
