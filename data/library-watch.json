@@ -14,7 +14,7 @@
     "author": "William Kentridge · Mahindra Humanities Center, Harvard",
     "url": "https://www.youtube.com/playlist?list=PLtxVM47qfVNCiZGjrzGk68GpwXVCtUVHo",
     "platform": "YouTube",
-    "thumbnail": "",
+    "thumbnail": "https://img.youtube.com/vi/cdKkmSqYTE8/maxresdefault.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -24,7 +24,7 @@
     "author": "NewSchool of Architecture & Design",
     "url": "https://www.youtube.com/watch?v=5HlUgoGIhgs",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/5HlUgoGIhgs/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/5HlUgoGIhgs/hqdefault.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -54,7 +54,7 @@
     "author": "Louisiana Channel",
     "url": "https://www.youtube.com/watch?v=XrCUFfM7wEQ",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/XrCUFfM7wEQ/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/XrCUFfM7wEQ/hqdefault.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -64,7 +64,7 @@
     "author": "CrashCourse (PBS Digital Studios)",
     "url": "https://www.youtube.com/playlist?list=PL8dPuuaLjXtN-Bd-H_TGq72CN50Fpv_JX",
     "platform": "YouTube",
-    "thumbnail": "",
+    "thumbnail": "https://img.youtube.com/vi/avAALYc7jw8/maxresdefault.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -94,7 +94,7 @@
     "author": "Kirby Ferguson",
     "url": "https://www.youtube.com/playlist?list=PLDQ6BYd73QHxgeNJPX8yZRcp8wF_B_tph",
     "platform": "YouTube",
-    "thumbnail": "",
+    "thumbnail": "https://img.youtube.com/vi/9pLCIoBZzd4/maxresdefault.jpg",
     "category": "THINK",
     "categoryLabel": "Think",
     "access": "FREE"
@@ -154,7 +154,7 @@
     "author": "Roger Deakins & James Deakins",
     "url": "https://teamdeakins.libsyn.com/",
     "platform": "Podcast",
-    "thumbnail": "",
+    "thumbnail": "https://graphics.libsyn.com/p/assets/f/f/a/9/ffa908ea24d3c672/TeamDeakins_PodcastCover_Art_FA_1400x1400.jpg",
     "category": "MAKE",
     "categoryLabel": "Make",
     "access": "FREE"
@@ -174,7 +174,7 @@
     "author": "UCLA Design Media Arts",
     "url": "https://www.youtube.com/watch?v=QHK_ncf7gzw",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/QHK_ncf7gzw/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/QHK_ncf7gzw/hqdefault.jpg",
     "category": "DIRECT",
     "categoryLabel": "Direct",
     "access": "FREE"
@@ -204,7 +204,7 @@
     "author": "Design Indaba",
     "url": "https://www.designindaba.com/videos/conference-talks/paula-scher-creativity-small-defiant-act-misbehaving",
     "platform": "Video",
-    "thumbnail": "",
+    "thumbnail": "https://www.designindaba.com/sites/default/files/node/video/17685/IMG_2609.jpg",
     "category": "DIRECT",
     "categoryLabel": "Direct",
     "access": "FREE"
@@ -234,7 +234,7 @@
     "author": "Stanford eCorner",
     "url": "https://www.youtube.com/watch?v=ffixfwt654I",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/ffixfwt654I/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/ffixfwt654I/hqdefault.jpg",
     "category": "LEAD",
     "categoryLabel": "Lead",
     "access": "FREE"
@@ -264,7 +264,7 @@
     "author": "CreativeMornings/San Francisco",
     "url": "https://vimeo.com/22053820",
     "platform": "Vimeo",
-    "thumbnail": "",
+    "thumbnail": "https://img.youtube.com/vi/jVkLVRt6c1U/maxresdefault.jpg",
     "category": "LEAD",
     "categoryLabel": "Lead",
     "access": "FREE"
@@ -274,7 +274,7 @@
     "author": "Charles & Ray Eames · Eames Office",
     "url": "https://www.youtube.com/watch?v=0fKBhvDjuy0",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/0fKBhvDjuy0/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/0fKBhvDjuy0/hqdefault.jpg",
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "FREE"

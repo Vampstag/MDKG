@@ -2,6 +2,7 @@
   {
     "title": "Ways of Seeing",
     "author": "John Berger",
+    "cover": "https://covers.openlibrary.org/b/id/95272-L.jpg",
     "url": "https://www.penguinrandomhouse.com/books/324430/ways-of-seeing-by-john-berger/",
     "category": "SEE",
     "categoryLabel": "See",
@@ -10,6 +11,7 @@
   {
     "title": "The Nature of Photographs: A Primer",
     "author": "Stephen Shore",
+    "cover": "https://covers.openlibrary.org/b/id/566516-L.jpg",
     "url": "https://www.phaidon.com/en-us/products/the-nature-of-photographs/",
     "category": "SEE",
     "categoryLabel": "See",
@@ -18,6 +20,7 @@
   {
     "title": "In Praise of Shadows",
     "author": "Jun’ichirō Tanizaki",
+    "cover": "https://covers.openlibrary.org/b/id/707129-L.jpg",
     "url": "https://penguin.co.uk/books/103/1033310/in-praise-of-shadows/9781784875572.html",
     "category": "SEE",
     "categoryLabel": "See",
@@ -26,6 +29,7 @@
   {
     "title": "The Eyes of the Skin: Architecture and the Senses",
     "author": "Juhani Pallasmaa",
+    "cover": "https://covers.openlibrary.org/b/id/2052727-L.jpg",
     "url": "https://onlinelibrary.wiley.com/doi/book/10.1002/9781394200702",
     "category": "SEE",
     "categoryLabel": "See",
@@ -178,6 +182,7 @@
   {
     "title": "In the Blink of an Eye: A Perspective on Film Editing (2nd ed.)",
     "author": "Walter Murch",
+    "cover": "https://covers.openlibrary.org/b/id/925774-L.jpg",
     "url": "https://www.silmanjamespress.com/shop/filmmaking-directing/in-the-blink-of-an-eye2nd-edition/",
     "category": "MAKE",
     "categoryLabel": "Make",
@@ -186,6 +191,7 @@
   {
     "title": "Notes on the Cinematograph",
     "author": "Robert Bresson (trans. Jonathan Griffin)",
+    "cover": "https://www.nyrb.com/cdn/shop/products/Notes_on_the_Cinematograph.jpg?v=1528394269",
     "url": "https://www.nyrb.com/products/notes-on-the-cinematograph",
     "category": "MAKE",
     "categoryLabel": "Make",
@@ -242,6 +248,7 @@
   {
     "title": "Six Memos for the Next Millennium",
     "author": "Italo Calvino",
+    "cover": "https://covers.openlibrary.org/b/id/7568716-L.jpg",
     "url": "https://www.penguin.co.uk/books/297031/six-memos-for-the-next-millennium-by-calvino-italo/9780241275955",
     "category": "MAKE",
     "categoryLabel": "Make",
@@ -290,6 +297,7 @@
   {
     "title": "Designing Design",
     "author": "Kenya Hara",
+    "cover": "https://www.lars-mueller-publishers.com/sites/default/files/styles/large_uncropped/public/2022-12/DesigningDesign.png",
     "url": "https://www.lars-mueller-publishers.com/designing-design",
     "category": "DIRECT",
     "categoryLabel": "Direct",

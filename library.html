@@ -290,12 +290,18 @@
                 border-radius: 0; /* Squircle, not circle — matches the site's art direction */
                 overflow: hidden;
             }
+            /* object-fit is `contain`, not `cover`: these are real book covers from
+               publishers and Open Library, whose proportions vary (roughly 2:3 to 3:4) and
+               rarely match this card's 3/4 slot. Cropping them cut the title off the top or
+               spine off the side — a book cover is a designed object, so it's shown whole,
+               letterboxed against the card's own dark background. */
             .reading-card-cover {
                 width: 100%;
                 aspect-ratio: 3/4;
-                object-fit: cover;
+                object-fit: contain;
                 display: block;
                 background-color: #111;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
             }
             /* [NEW] Placeholder cover for reading-list entries that link to external
                articles/essays rather than a hosted PDF — no real cover art exists,
