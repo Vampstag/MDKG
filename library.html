@@ -303,37 +303,86 @@
                 background-color: #111;
                 border-bottom: 1px solid rgba(255,255,255,0.08);
             }
-            /* [NEW] Placeholder cover for reading-list entries that link to external
-               articles/essays rather than a hosted PDF — no real cover art exists,
-               so the card shows the title (and author, if given) instead of an <img>. */
+            /* [NEW] Generated cover for reading-list entries that link to an external
+               article or essay rather than a book — there is no cover art to fetch, and the
+               source pages mostly expose either no og:image or a generic site banner, which
+               would read as noise rather than information.
+
+               So the slot is composed instead of scraped: the category set as oversized
+               type, a rule, and the author. The entry's title is NOT repeated here — the
+               card body directly below already carries it, and printing it twice left the
+               cover looking like a caption for itself. */
             .reading-card-cover-placeholder {
+                position: relative;
                 width: 100%;
                 aspect-ratio: 3/4;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                gap: 8px;
-                padding: 18px;
+                align-items: flex-start;
+                justify-content: flex-end;
+                gap: 10px;
+                padding: 20px;
                 box-sizing: border-box;
-                background-color: #111;
+                background-color: #0d0d0d;
                 border-bottom: 1px solid rgba(255,255,255,0.08);
+                overflow: hidden;
             }
-            .reading-card-cover-placeholder .placeholder-title {
+            /* Abstract field behind the type: a soft off-centre wash plus a fine grid, so the
+               tile reads as a designed surface rather than an empty box. Rotated well past
+               the tile's bounds so no seam or corner of the grid is ever visible. */
+            .reading-card-cover-placeholder::before {
+                content: "";
+                position: absolute;
+                top: -50%; left: -50%;
+                width: 200%; height: 200%;
+                background-image:
+                    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+                background-size: 22px 22px;
+                transform: rotate(-18deg);
+                pointer-events: none;
+            }
+            .reading-card-cover-placeholder::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(120% 90% at 78% 8%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 38%, transparent 70%);
+                pointer-events: none;
+            }
+            /* The category, set large — the one piece of information the card body doesn't
+               already show at this size, and what actually distinguishes one tile from
+               the next when scanning the grid. */
+            .reading-card-cover-placeholder .placeholder-category {
+                position: relative;
                 font-family: var(--font-primary);
-                font-weight: 700;
-                font-size: 0.85rem;
-                line-height: 1.3;
-                color: rgba(255,255,255,0.85);
+                font-weight: 800;
+                font-size: 2.1rem;
+                line-height: 0.95;
+                letter-spacing: -0.04em;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.92);
+            }
+            .reading-card-cover-placeholder .placeholder-rule {
+                position: relative;
+                width: 34px;
+                height: 2px;
+                background-color: rgba(255,255,255,0.75);
             }
             .reading-card-cover-placeholder .placeholder-author {
+                position: relative;
                 font-family: var(--font-primary);
                 font-size: 0.68rem;
                 font-weight: 500;
+                line-height: 1.35;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
-                color: rgba(255,255,255,0.4);
+                color: rgba(255,255,255,0.45);
+                /* Long author/institution strings would otherwise push the category type out
+                   of the tile; cap at two lines and ellipsize. */
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
             }
             .reading-card-body {
                 padding: 14px 16px 16px;
@@ -1806,9 +1855,9 @@
         <script>
             // [NEW] Reading List: renders curated external reading entries (articles, essays,
             // books) from data/library-reading.json, matching this page's existing
-            // fetch-and-render convention. Entries link out to the source rather than a
-            // hosted PDF, so the cover is a text placeholder (title + author) unless a real
-            // `cover` image is given. Each entry becomes:
+            // fetch-and-render convention. Book entries carry a real `cover` image; the rest
+            // link out to articles and essays with no cover art, and fall back to a composed
+            // tile (category + author over an abstract field) instead. Each entry becomes:
             //   <div class="reading-card">
             //     <img class="reading-card-cover" src="..." alt="">   (only if item.cover set)
             //     <div class="reading-card-cover-placeholder">...</div> (fallback otherwise)
@@ -1834,8 +1883,9 @@
                     const title = item.title || 'Untitled';
                     const coverHtml = item.cover
                         ? `<img class="reading-card-cover" src="${escapeHtml(item.cover)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async">`
-                        : `<div class="reading-card-cover-placeholder">
-                               <span class="placeholder-title">${escapeHtml(title)}</span>
+                        : `<div class="reading-card-cover-placeholder" aria-hidden="true">
+                               <span class="placeholder-category">${escapeHtml(item.categoryLabel || item.category || 'Read')}</span>
+                               <span class="placeholder-rule"></span>
                                ${item.author ? `<span class="placeholder-author">${escapeHtml(item.author)}</span>` : ''}
                            </div>`;
                     card.innerHTML = `
