@@ -100,6 +100,46 @@
     "access": "FREE"
   },
   {
+    "title": "John Berger / Ways of Seeing — Episode 1 (BBC, 1972)",
+    "author": "John Berger · BBC",
+    "url": "https://www.youtube.com/watch?v=0pDE4VX_9Kk",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/0pDE4VX_9Kk/maxresdefault.jpg",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "The Century of the Self",
+    "author": "Adam Curtis · BBC",
+    "url": "https://www.youtube.com/watch?v=eJ3RzGoQC4s",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/eJ3RzGoQC4s/maxresdefault.jpg",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Chimamanda Ngozi Adichie: The danger of a single story",
+    "author": "Chimamanda Ngozi Adichie · TEDGlobal",
+    "url": "https://www.youtube.com/watch?v=D9Ihs241zeg",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/D9Ihs241zeg/maxresdefault.jpg",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "FREE"
+  },
+  {
+    "title": "Susan Sontag on Photography and Interpretation",
+    "author": "Susan Sontag · Interview archive",
+    "url": "https://www.youtube.com/watch?v=Pt9y7sLXzqw",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/Pt9y7sLXzqw/maxresdefault.jpg",
+    "category": "THINK",
+    "categoryLabel": "Think",
+    "access": "VERIFY ACCESS"
+  },
+  {
     "title": "How Does an Editor Think and Feel?",
     "author": "Every Frame a Painting (Tony Zhou & Taylor Ramos)",
     "url": "https://www.youtube.com/watch?v=3Q3eITC01Fg",
@@ -270,6 +310,26 @@
     "access": "FREE"
   },
   {
+    "title": "The Art of Giving and Receiving Critique",
+    "author": "Aaron Irizarry & Adam Connor · Talk",
+    "url": "https://www.youtube.com/watch?v=xba9F2Q8IZo",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/xba9F2Q8IZo/maxresdefault.jpg",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "VERIFY ACCESS"
+  },
+  {
+    "title": "Stefan Sagmeister: The power of time off",
+    "author": "Stefan Sagmeister · TEDGlobal",
+    "url": "https://www.youtube.com/watch?v=v2JvcpmyX48",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/v2JvcpmyX48/maxresdefault.jpg",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
     "title": "Powers of Ten",
     "author": "Charles & Ray Eames · Eames Office",
     "url": "https://www.youtube.com/watch?v=0fKBhvDjuy0",
@@ -318,5 +378,25 @@
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "FREE"
+  },
+  {
+    "title": "Apichatpong Weerasethakul in Conversation",
+    "author": "Apichatpong Weerasethakul · Louisiana Channel",
+    "url": "https://www.youtube.com/watch?v=Cw5x5U0TbFY",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/Cw5x5U0TbFY/maxresdefault.jpg",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "VERIFY ACCESS"
+  },
+  {
+    "title": "Kara Walker: The Melodrama of Making",
+    "author": "Art21",
+    "url": "https://www.youtube.com/watch?v=ceOhFfOqMtE",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/ceOhFfOqMtE/maxresdefault.jpg",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "VERIFY ACCESS"
   }
 ]

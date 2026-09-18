@@ -100,7 +100,11 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=143" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=149" rel="stylesheet" type="text/css"/>
+        <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
+             style.css). Inline and before first paint so revealed content never flashes; if
+             this or script.js fails, the page renders fully visible instead of blank. -->
+        <script>document.documentElement.classList.add("js-reveal");</script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="../widget.css?v=15">
 
@@ -408,7 +412,7 @@
             </section>
 
             <!-- 3. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
@@ -419,7 +423,7 @@
             </section>
 
             <!-- 3. The Challenge -->
-            <section id="hardskills" class="hardskills-section section-margin fade-in-section">
+            <section id="hardskills" class="hardskills-section section-margin fade-in-section reveal-no-clip">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <div class="why-choose-me-section-wrapper">
@@ -428,7 +432,7 @@
                                     <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
                                 </div>
                             </div>                          
-                            <div class="skills-grid fade-in-section">
+                            <div class="skills-grid fade-in-section reveal-stagger">
                                 <div class="skill-card">
                                     <div class="skill-card__wrapper w-inline-block">
                                         <div class="skill-card__header"><div class="skill-card__number">[01]</div></div>
@@ -906,7 +910,7 @@
                  it at true 100vw. Everything stacks top to bottom — no overlap between
                  text/button and the video slot. Sharp-edged throughout (no border-radius) to
                  match the site's editorial art direction. -->
-            <section class="section-margin fade-in-section premium-soft-cta-fullbleed">
+            <section class="section-margin fade-in-section reveal-no-clip premium-soft-cta-fullbleed">
                 <div class="premium-soft-cta-text">
                     <p class="premium-soft-cta-eyebrow"><span class="premium-soft-cta-eyebrow-dot"></span>Get Started</p>
                     <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of<br class="premium-soft-cta-title-break">Torch × Gundam?</h2>
@@ -924,7 +928,7 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <a href="/portfolio/torch-prestachill" class="next-project-link">
                         <span class="next-label">Next Project</span>
-                        <h2 class="next-title">Torch: Prestachill</h2>
+                        <h2 class="next-title">Torch Prestachill</h2>
                     </a>
                 </div>
             </section>
@@ -964,10 +968,10 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=55"></script>
+        <script defer src="../script.js?v=58"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
-        <script defer src="../assets/js/case-study.js?v=1"></script>
+        <script defer src="../assets/js/case-study.js?v=2"></script>
         <script>
             // Script for Before/After Color Grading Slider
             document.addEventListener('DOMContentLoaded', () => {

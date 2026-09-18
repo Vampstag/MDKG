@@ -45,27 +45,36 @@
        once here so the whole site reads as one consistent typographic system instead of each
        component picking its own size/weight/leading/color; a future tone change (e.g.
        heavier weight, different gray) happens by editing these four values, not by hunting
-       down every class that uses them. Sizing is up from the old ~1rem baseline and leading
-       is tightened well below the ~1.6-1.8 "airy" range — that combination (bigger type, but
-       condensed) is what reads as confident/editorial rather than a small stretched
-       paragraph. Weight stays at regular (400): at this size, 500+ started reading heavy/bold
-       rather than just "confident". Color is a mid-gray at rest (deliberately not too dark —
-       full-strength near-black on a first pass read as harsh for straight body copy) that
-       darkens toward near-black on :hover as an interaction cue (see the shared hover rule
-       further below, e.g. `.sol-desc:hover`). */
+       down every class that uses them. Sizing is up from the old ~1rem baseline. Weight stays
+       at regular (400): at this size, 500+ started reading heavy/bold rather than just
+       "confident".
+
+       Leading and color were both revised for the editorial contrast pass. Leading was 1.35,
+       chosen as "bigger type but condensed"; at these sizes that read as cramped rather than
+       confident, so it now sits at 1.6, the airier end that gives paragraphs room to breathe.
+       Color was #666, a mid-gray picked because full-strength near-black read as harsh on a
+       first pass. That harshness came from pairing near-black with the old #FAFAFA tinted
+       background; against pure white (see `body`), near-black is exactly the ink-on-paper
+       contrast that reads editorial. #222 on #FFF is a 15.91:1 ratio, comfortably past
+       WCAG AA. The hover target moved to pure #000 so the darken-on-hover cue (see the
+       shared hover rule further below, e.g. `.sol-desc:hover`) stays perceptible now that
+       the resting color is already dark. */
     --body-copy-size: clamp(0.9rem, 1.1vw, 1rem); /* was clamp(1.05rem, 1.3vw, 1.15rem), ~15% down for the same editorial-scale pass as the headings above */
-    --body-copy-leading: 1.35;
+    --body-copy-leading: 1.6; /* was 1.35 */
     --body-copy-weight: 400;
     --body-copy-tracking: -0.005em;
-    --body-copy-color: #666;
-    --body-copy-color-hover: #111;
+    --body-copy-color: #222; /* was #666 (5.50:1 on the old #FAFAFA); now 15.91:1 on #FFF */
+    --body-copy-color-hover: #000; /* was #111, too close to the new resting color to register */
 
     /* Secondary/meta text — eyebrow labels, captions, accordion triggers, badges, etc. Before
        this token existed, four different grays (#555, #666, #888, #999) were all doing this
        exact same "muted secondary text" job with no shared reference point, which read as
        accidental rather than a deliberate lighter tier below --body-copy-color. One token
-       here so future secondary text has an obvious default instead of picking a new gray. */
-    --text-secondary-color: #888;
+       here so future secondary text has an obvious default instead of picking a new gray.
+       Was #888, which is only a 3.40:1 ratio and therefore failed WCAG AA (4.5:1 minimum)
+       for normal-size text; #555 keeps a clearly lighter tier below the body color while
+       passing at 7.46:1 on white. */
+    --text-secondary-color: #555; /* was #888 */
 
     /* Spacing System (Base 4px/8px) */
     --space-1: 0.25rem;  /* 4px */
@@ -87,13 +96,24 @@
     --shadow-soft: none; /* Editorial: flat, no soft lift shadows */
     --shadow-hover: none; /* Editorial: flat, no soft lift shadows */
 
-    /* Entrance Motion Standard — the single duration/distance every .fade-in-section
-       reveal uses, so unrelated sections across every page read as one visual
-       language rather than each animating on its own improvised timing. GSAP tweens
-       (text-reveal chars, card staggers) can't consume this var directly, but should
-       be hand-tuned to the same ~0.6-0.7s/power2.out "weight" as this CSS transition. */
+    /* Entrance Motion Standard: the single duration/distance/shape every reveal on
+       the site uses, so unrelated sections across every page read as one visual
+       language rather than each animating on its own improvised timing.
+
+       The shape is a clip-path wipe: content is uncovered from the bottom edge
+       upward while rising a short distance. This was originally only the portfolio
+       grid's filter animation (see renderProjects in portfolio.js); it is now the
+       house signature, and .fade-in-section, .text-reveal and the case-study hero
+       all share it. GSAP tweens can't consume these vars directly, but are
+       hand-tuned to the same weight, so keep them in sync if you change these.
+
+       --reveal-stagger is the gap between siblings in a group (cards, chars are
+       finer, see animateTextReveal). */
     --reveal-duration: 0.7s;
     --reveal-distance: 28px;
+    --reveal-stagger: 0.05s;
+    --reveal-clip-hidden: inset(100% 0 0 0);
+    --reveal-clip-shown: inset(0% 0 0 0);
 }
 
 /* Reusable "system voice" label — the monospace half of the two-font hierarchy.
@@ -106,7 +126,7 @@
     font-weight: 500;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: #666;
+    color: var(--text-secondary-color);
 }
 
 /* Filter-tab list — square marker + monospace label, flat list (no pills/backgrounds).
@@ -181,13 +201,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility; /* Improves text crispness */
-    /* Matches #content-reveal's background (#FAFAFA). #content-reveal's rounded top
-       corners cut away a small triangle of space at each corner — with the hero pinned
+    /* Must match .hero-playground-section's background exactly. #content-reveal's rounded
+       top corners cut away a small triangle of space at each corner: with the hero pinned
        (position:fixed under the hood via ScrollTrigger) beneath it, that cut-away area
-       exposes the page/body background, not the hero. Body defaulting to browser white
-       here is exactly what showed through as a thin pale line along the squircle edge
-       on mobile. */
-    background-color: #FAFAFA;
+       exposes the page/body background, not the hero. A mismatch here is exactly what
+       showed through as a thin pale line along the squircle edge on mobile, so these two
+       values move together. Was #FAFAFA; pure white gives body copy the ink-on-paper
+       contrast the editorial pass is after (see --body-copy-color). */
+    background-color: #FFFFFF;
 }
 
 /* [NEW] Custom Scrollbar (Ultra Premium & Minimalist) */
@@ -769,37 +790,127 @@ body.preloader-active { overflow: hidden; }
    The single source of truth for the "simple fade-in" path of
    initObserverAnimations() in script.js: that function only ever toggles the
    `.is-visible` class on intersect, so the actual pre-state/motion has to live
-   here — without it, plain .fade-in-section elements had no visible animation
+   here. Without it, plain .fade-in-section elements had no visible animation
    at all (this was a real, silently-broken gap). .text-reveal is deliberately
    excluded: it builds its own hidden-then-revealed <span> chars entirely in JS
    (animateTextReveal) and would double-animate if it also inherited this
    opacity transition. Elements with a bespoke JS-driven reveal (#latest-journal,
    .experience-item) opt out via JS removing/never needing this class's effect,
    so this stays the shared default for everything else.
+
+   The motion is the house clip-path wipe (see Entrance Motion Standard in the
+   token block): content is uncovered bottom-edge upward while rising. Note
+   clip-path clips to the element's border box, so a child that deliberately
+   overflows its parent (a hover lift, an absolutely-positioned badge) is clipped
+   while the wipe runs. Elements that need to overflow during reveal should use
+   .reveal-no-clip below rather than dropping the class entirely.
+
+   IMPORTANT: every hidden-state rule below is scoped to `.js-reveal` on <html>, set
+   by a tiny inline script in each page's <head>. The reveal is JS-driven (the
+   IntersectionObserver only toggles `.is-visible`), so CSS must never hide content
+   that JS might not come back to un-hide: if script.js fails to load, errors before
+   the observer runs, or simply never observes an element, unscoped `opacity: 0` here
+   leaves that content permanently invisible. Gating on a class that only JS can set
+   means the no-JS outcome is "everything visible, no animation" instead of a blank
+   page. Keep new hidden states inside this scope; `.is-visible` rules are scoped too,
+   purely so they keep the same specificity and still win.
    ========================================= */
-.fade-in-section {
+.js-reveal .fade-in-section {
     opacity: 0;
     transform: translateY(var(--reveal-distance));
+    clip-path: var(--reveal-clip-hidden);
     /* `transition` is a shorthand: without listing color here too, this rule fully
        replaces (not merges with) the `.about-paragraph` etc. hover-transition rule
-       above whenever an element carries both classes — making its color hover snap
+       above whenever an element carries both classes, making its color hover snap
        instantly instead of easing like the case-study text that lacks this class. */
     transition: opacity var(--reveal-duration) var(--ease-smooth),
                 transform var(--reveal-duration) var(--ease-smooth),
+                clip-path var(--reveal-duration) var(--ease-smooth),
                 color 0.4s ease;
-    will-change: opacity, transform;
+    will-change: opacity, transform, clip-path;
 }
 
-.fade-in-section.is-visible {
+.js-reveal .fade-in-section.is-visible {
     opacity: 1;
     transform: translateY(0);
+    clip-path: var(--reveal-clip-shown);
 }
 
+/* Released after the reveal finishes, not when it starts. will-change is a standing
+   promise to the browser, not a hint it retires on its own: left on, every revealed
+   section (14 on the longest case study) keeps its own compositor layer and the memory
+   behind it for the rest of the visit, for an animation that already finished. The
+   .reveal-done class is set on transitionend by initObserverAnimations() in script.js,
+   so the layer survives exactly as long as the animation needs it. */
+.js-reveal .fade-in-section.reveal-done,
+.js-reveal .fade-in-section.reveal-done > * {
+    will-change: auto;
+}
+
+/* Opt out of the wipe only, keeping the fade+rise. For elements whose children
+   must escape the border box while revealing (hover lifts, overflowing badges). */
+.js-reveal .fade-in-section.reveal-no-clip,
+.js-reveal .fade-in-section.reveal-no-clip.is-visible {
+    clip-path: none;
+}
+/* Staggered variant: direct children wipe in sequence rather than the container
+   moving as one block. Depth of 1 on purpose, so nested grids don't compound.
+   will-change sits on the children, not the container: they are what animates here
+   (the container is held static below), so promoting it instead would cost a layer
+   and buy nothing. Released together via .reveal-done above. */
+.js-reveal .fade-in-section.reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    clip-path: var(--reveal-clip-hidden);
+    transition: opacity var(--reveal-duration) var(--ease-smooth),
+                transform var(--reveal-duration) var(--ease-smooth),
+                clip-path var(--reveal-duration) var(--ease-smooth);
+    will-change: opacity, transform, clip-path;
+}
+
+.js-reveal .fade-in-section.reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: var(--reveal-clip-shown);
+}
+
+/* The container itself must not also wipe, or children would be clipped twice. */
+.js-reveal .fade-in-section.reveal-stagger {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+}
+
+/* reveal-no-clip + reveal-stagger: the opt-out has to reach the children too, since
+   in the stagger variant they are what carries the wipe. Without this, a staggered
+   grid of hover-tilt cards would still clip each card to its own border box. */
+.js-reveal .fade-in-section.reveal-stagger.reveal-no-clip > *,
+.js-reveal .fade-in-section.reveal-stagger.reveal-no-clip.is-visible > * {
+    clip-path: none;
+}
+
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(1) { transition-delay: calc(var(--reveal-stagger) * 0); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: calc(var(--reveal-stagger) * 1); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: calc(var(--reveal-stagger) * 2); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: calc(var(--reveal-stagger) * 3); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(5) { transition-delay: calc(var(--reveal-stagger) * 4); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(6) { transition-delay: calc(var(--reveal-stagger) * 5); }
+.js-reveal .fade-in-section.reveal-stagger.is-visible > *:nth-child(n+7) { transition-delay: calc(var(--reveal-stagger) * 6); }
+
 @media (prefers-reduced-motion: reduce) {
-    .fade-in-section {
+    /* Scoped with .js-reveal to match the hidden-state rules above: without the same
+       ancestor these would be one class less specific and lose, leaving content stuck
+       invisible for exactly the users who opted out of motion. */
+    .js-reveal .fade-in-section,
+    .js-reveal .fade-in-section.reveal-stagger > * {
         opacity: 1;
         transform: none;
+        clip-path: none;
         transition: none;
+    }
+
+    .js-reveal .fade-in-section.reveal-stagger.is-visible > * {
+        transition-delay: 0s;
     }
 }
 /* #endregion */
@@ -836,7 +947,10 @@ body.preloader-active { overflow: hidden; }
     .section-margin {
         margin-bottom: 6rem; /* 96px on mobile — was --space-16 (64px), scaled up to match the larger desktop gap */
     }
-    .section-headline-margin { margin-bottom: 32px; } /* [FIX] Diperketat dari 40px ke 32px agar judul lebih menyatu secara hierarki dengan grid di bawahnya */
+    /* Was 32px, itself tightened from 40px so the heading would group with the grid
+       below it rather than float free. That grouping still holds at 56px, which buys
+       back the breathing room the tighter value cost; desktop stays at --space-20 (80px). */
+    .section-headline-margin { margin-bottom: 56px; }
 }
 
 /* Scroll Progress Bar */
@@ -1449,7 +1563,7 @@ html.lenis, html.lenis body { height: auto; }
     grid-column: 1 / -1;
     text-align: center;
     padding: 80px 20px;
-    color: #666;
+    color: var(--text-secondary-color);
     font-size: 1.1rem;
     width: 100%;
     border: 1px dashed #ddd;
@@ -1595,7 +1709,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 0.9rem;
     font-weight: 600;
-    color: #666;
+    color: var(--text-secondary-color);
     cursor: pointer;
     outline: none;
     transition: all 0.3s var(--ease-smooth);
@@ -1642,7 +1756,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .subtitle {
     font-size: clamp(1.125rem, 2vw, 1.5rem);
-    color: #666;
+    color: var(--text-secondary-color);
     font-weight: 400;
     max-width: 600px;
     text-align: center;
@@ -2285,7 +2399,9 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .photo-caption-block {
-    margin-top: 16px;
+    /* Was 16px. An editorial page wants the photograph to read as its own block, so the
+       caption sits clearly below it rather than tucked against its edge. */
+    margin-top: 28px;
     text-align: left;
 }
 .photo-caption-title {
@@ -2301,7 +2417,7 @@ html.lenis, html.lenis body { height: auto; }
     font-family: var(--font-primary);
     font-size: 0.9rem;
     font-weight: 400;
-    color: #666;
+    color: var(--text-secondary-color);
     margin: 0;
     line-height: 1.5;
 }
@@ -3790,9 +3906,10 @@ html.lenis, html.lenis body { height: auto; }
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #FAFAFA; /* Matches #content-reveal's background exactly — a mismatched
-        off-white here (was #fcfcfc) is what made any few-pixel gap between the pinned hero
-        and the rounded card above it read as a visible seam/line on mobile. */
+    background-color: #FFFFFF; /* Must match the page/body background exactly (see `body`):
+        a mismatched off-white here (was #fcfcfc, then #FAFAFA) is what made any few-pixel
+        gap between the pinned hero and the rounded card above it read as a visible seam
+        on mobile. Moved to pure white with body as part of the editorial contrast pass. */
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
@@ -3905,7 +4022,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .hero-subtitle {
     font-size: clamp(1rem, 1.5vw, 1.25rem);
-    color: #666;
+    color: var(--text-secondary-color);
     font-weight: 400; /* Softer for premium feel */
     max-width: 600px;
     margin: 0 auto;
@@ -4547,11 +4664,13 @@ html.lenis, html.lenis body { height: auto; }
 .marquee-wrapper {
     width: 100%;
     overflow: hidden;
-    /* Sized to the tallest logo in the strip (Pink Roulette, 168px mobile / 252px
-       desktop — see .logo-pink-roulette below) plus breathing room on both sides, so
-       every logo's full height renders without the wrapper silently cropping the top
-       or bottom of the tallest mark. */
-    min-height: 220px;
+    /* Sized to the tallest logo in the strip plus breathing room on both sides, so every
+       logo's full height renders without the wrapper silently cropping the top or bottom
+       of the tallest mark. That is now Ngaliwet Raos (60px mobile / 90px desktop); it was
+       Pink Roulette at 168/252px, which is why this was 220/320px. Once Pink Roulette was
+       re-sized for its actual wide aspect ratio, that height reserved a tall empty band
+       above and below a strip of much shorter logos. */
+    min-height: 120px;
     display: flex;
     align-items: center;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -4560,7 +4679,7 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (min-width: 992px) {
     .marquee-wrapper {
-        min-height: 320px;
+        min-height: 160px; /* was 320px, sized for the old tall Pink Roulette logo */
     }
 }
 
@@ -4631,29 +4750,26 @@ html.lenis, html.lenis body { height: auto; }
 .marquee-logo.logo-berka {
     height: 24px;
 }
-
-/* Pink Roulette and Ngaliwet Raos are compact/near-square marks (unlike the wide
-   wordmarks above), so the shared height alone renders them much narrower than the
-   others — bumped up so their visual footprint reads proportionally, not undersized.
+/* Ngaliwet Raos is a compact/near-square mark (unlike the wide wordmarks above), so the
+   shared height alone renders it much narrower than the others: bumped up so its visual
+   footprint reads proportionally, not undersized.
    No margin overrides here anymore: each logo now sits in its own .marquee-item
    wrapper (see above), which owns one uniform gap for every logo regardless of its
-   individual width — the old per-logo margin nudges were tuned back when logos were
+   individual width. The old per-logo margin nudges were tuned back when logos were
    flat siblings with no wrapper, and left stacked on top of the new uniform spacing
    they produced the visibly uneven gaps (tight here, wide there) the user flagged. */
-.marquee-logo.logo-pink-roulette {
-    height: 168px;
-}
 .marquee-logo.logo-ngaliwet {
     height: 60px;
 }
-
-/* This mark is a wide script wordmark with a long trailing flourish line, so at
-   its tall fixed height it renders much wider than the other logos — the shared
-   uniform .marquee-item margin then reads as an oversized gap around it since the
-   flourish itself already eats extra horizontal space. Pull this item's own
-   margin in to compensate, without touching its (correctly tall) height. */
-.marquee-item:has(.logo-pink-roulette) {
-    margin-right: 2rem;
+/* Pink Roulette is a wide horizontal wordmark (871x159, ~5.5:1), so it is sized like
+   .logo-berka rather than the compact marks: at the shared 60px it would render ~329px
+   wide. Bumped 40% from the first pass (20px/30px), which matched the other logos on
+   rendered width but read as too small next to them: on a long, thin mark, equal width
+   means noticeably less visual mass than a chunky square one. 28px renders ~153px.
+   The 168px/252px this replaced belonged to an earlier, near-square version of this
+   logo and would render the current file ~1380px wide. */
+.marquee-logo.logo-pink-roulette {
+    height: 28px;
 }
 
 @media (min-width: 992px) {
@@ -4664,7 +4780,7 @@ html.lenis, html.lenis body { height: auto; }
         height: 36px;
     }
     .marquee-logo.logo-pink-roulette {
-        height: 252px;
+        height: 42px; /* ~230px wide at 871x159; +40% over the first pass (30px/164px) */
     }
     .marquee-logo.logo-ngaliwet {
         height: 90px;
@@ -5326,7 +5442,7 @@ html.lenis, html.lenis body { height: auto; }
     display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 1px solid #eee;
 }
 .works-filter-tabs .tab-btn {
-    padding: 12px 20px; font-size: 0.9rem; font-weight: 600; color: #666;
+    padding: 12px 20px; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary-color);
     border: none; background: none; cursor: pointer;
     border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s;
 }
@@ -6484,7 +6600,7 @@ a.social-icon:hover img {
     border-top: 1px solid rgba(0,0,0,0.06);
     font-family: var(--font-primary);
     font-size: 0.95rem;
-    color: #666;
+    color: var(--text-secondary-color);
     line-height: 1.6;
 }
 
@@ -6518,7 +6634,7 @@ a.social-icon:hover img {
     color: #aaa; /* .addon-subitem-name doesn't exist in Webflow's stylesheet — nothing to outrank */
     stroke-width: 2;
 }
-.addon-subitem-price { font-weight: 400; color: #666; font-feature-settings: "tnum" on; }
+.addon-subitem-price { font-weight: 400; color: var(--text-secondary-color); font-feature-settings: "tnum" on; }
 
 .addon-note { font-size: 0.8rem; color: var(--text-secondary-color); margin-top: 6px; line-height: 1.5; font-weight: 400; }
 
@@ -7138,13 +7254,14 @@ a.social-icon:hover img {
 }
 
 .article-content p {
-    font-size: 1.1875rem; /* ~19px untuk kenyamanan baca ekstra — long-form reading needs a
+    font-size: 1.1875rem; /* ~19px untuk kenyamanan baca ekstra: long-form reading needs a
         bigger measure than the shared --body-copy-size, which is tuned for shorter card copy. */
-    line-height: 1.5; /* Tightened from 1.8 to match the site's editorial leading — still
-        looser than --body-copy-leading (1.35) since this is long-form reading, not a card. */
+    line-height: 1.7; /* Was 1.5, set when --body-copy-leading was 1.35 and described as
+        "still looser than the shared value". That leading is now 1.6, which would have left
+        long-form article text tighter than short card copy; 1.7 restores the intended order. */
     letter-spacing: var(--body-copy-tracking);
-    color: #333333; /* Darker than --body-copy-color: long-form reading needs more contrast
-        than a short card paragraph does over a full article's worth of text. */
+    color: #222222; /* Matches --body-copy-color. Was #333, set to be darker than the old
+        #666 body color; now that body copy is #222 on white, the same value applies here. */
     margin-bottom: 32px; /* Spasi antar paragraf lebih lega (breathing room) */
     max-width: 65ch; /* Constrain width for optimal reading */
     margin-left: auto;
@@ -7246,7 +7363,7 @@ a.social-icon:hover img {
     color: var(--text-secondary-color);
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    margin-top: 16px;
+    margin-top: 28px; /* was 16px, matching .photo-caption-block: the image reads as its own block */
 }
 
 .article-image-caption a {

@@ -9,28 +9,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
         gsap.registerPlugin(ScrollTrigger);
 
         // 1. Hero & UI Entry Animations
-        // Fade in the headline
-        gsap.to('.home-hero-headline-wrapper.page-portfolio', {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: 0.2
-        });
+        // House clip-path wipe (see Entrance Motion Standard in css/style.css). The
+        // wrapper is opacity:0 inline in the markup, so this is what reveals it at all,
+        // which is why reduced motion sets the end state instead of skipping the tween.
+        const heroRevealed = { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)' };
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            gsap.set('.home-hero-headline-wrapper.page-portfolio', heroRevealed);
+        } else {
+            gsap.fromTo('.home-hero-headline-wrapper.page-portfolio',
+                { opacity: 0, y: 28, clipPath: 'inset(100% 0 0 0)' },
+                { ...heroRevealed, duration: 0.7, ease: "power2.out", delay: 0.2, clearProps: 'clipPath' }
+            );
+        }
 
 
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
             {
                 id: 13,
-                title: "Torch: Main Cantik",
+                title: "Torch Main Cantik",
                 year: "2026",
-                category: "Video Editing · Color Grading",
+                category: "Editing · Color Grading",
                 industry: "Fashion",
-                roles: ["Video Editing", "Color Grading"],
+                roles: ["Editing", "Color Grading"],
                 link: "",
                 clientName: "Torch",
-                description: "Leading post-production for the campaign rollout of Torch's women's collection, from color grading to final edit.",
+                description: "The edit and final color treatment behind “Main Cantik,” Torch’s latest women’s collection campaign.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
                 image: "../assets/images/project/torch-main-cantik/model-card-cover.webp",
                 srcset: "",
@@ -40,12 +45,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 12,
                 title: "Pink Roulette",
                 year: "2026",
-                category: "Photography · Video Editing · Motion Design",
-                industry: "Beauty & Lifestyle",
-                roles: ["Photography", "Video Editing", "Motion Design"],
+                category: "Photography · Editing · Motion Design",
+                industry: "Beauty",
+                roles: ["Photography", "Editing", "Motion Design"],
                 link: "",
                 clientName: "Pink Roulette",
-                description: "Shaping the visual identity behind Pink Roulette's digital presence, from photography through motion.",
+                description: "Introducing Pink Roulette’s new face and latest products through photography and motion.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
                 image: "../assets/images/project/pink-roulette/card-model.webp",
                 srcset: "",
@@ -86,12 +91,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 9,
                 title: "Andrea Bocelli",
                 year: "2026",
-                category: "Video Production · Editing · Motion Design",
+                category: "Editing · Motion Design",
                 industry: "Live Event",
-                roles: ["Video Production", "Editing", "Motion Design"],
+                roles: ["Editing", "Motion Design"],
                 link: "/portfolio/andrea-bocelli-romanza-indonesia",
                 clientName: "Andrea Bocelli",
-                description: "Delivering video and motion production for Andrea Bocelli's Romanza 30th Anniversary World Tour in Indonesia.",
+                description: "Post-production across video editing and motion design for Andrea Bocelli’s Romanza 30th Anniversary World Tour in Indonesia.",
                 brandInfo: "Andrea Bocelli is set to return to Indonesia for two special concerts in Borobudur and JIExpo, Jakarta, as part of his worldwide tour celebrating 30 years of Romanza, the landmark album that helped establish his global career.",
                 image: "../assets/images/project/andrea-bocelli/romanza-main-hero.webp",
                 srcset: "",
@@ -99,11 +104,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             {
                 id: 8,
-                title: "Torch: Prestachill",
+                title: "Torch Prestachill",
                 year: "2026",
-                category: "Video Production · Editing · Motion Design",
+                category: "Video Production · Editing",
                 industry: "Fashion",
-                roles: ["Video Production", "Editing", "Motion Design"],
+                roles: ["Video Production", "Editing"],
                 link: "/portfolio/torch-prestachill", 
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
@@ -374,6 +379,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 initMagneticButtons(); // Initialize magnetic effect for buttons
             };
 
+            // Reduced motion: swap content with no exit/entrance tween at all. Checked
+            // here rather than per-branch so the 'fast' search path is covered too.
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                updateContent();
+                return;
+            }
+
             if (animationType === 'normal') {
                 // Premium Exit Animation
                 gsap.to(gridContainer.children, { 
@@ -388,7 +400,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         // Premium Entrance Animation (Clip-Path Reveal)
                         gsap.fromTo(gridContainer.children, 
                             { opacity: 0, y: 30, clipPath: "inset(100% 0 0 0)" },
-                            { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.6, stagger: 0.05, ease: "power2.out", clearProps: "transform,clipPath" }
+                            { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 0.7, stagger: 0.05, ease: "power2.out", clearProps: "transform,clipPath" }
                         );
                     }
                 });

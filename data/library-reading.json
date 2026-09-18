@@ -448,6 +448,46 @@
     "access": "FREE"
   },
   {
+    "title": "Design Is a Job",
+    "author": "Mike Monteiro · A Book Apart",
+    "url": "https://abookapart.com/products/design-is-a-job",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "The Art of Critique: How to Give and Receive Design Feedback",
+    "author": "Adam Connor & Aaron Irizarry · A List Apart",
+    "url": "https://alistapart.com/article/discussing-design-the-art-of-critique/",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "How to Write a Creative Brief",
+    "author": "Julian Cole · Planning Dirty",
+    "url": "https://www.planningdirty.com/blog/how-to-write-a-creative-brief",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
+    "title": "Pricing Creative Work: Value-Based Pricing",
+    "author": "Blair Enns · Win Without Pitching",
+    "url": "https://www.winwithoutpitching.com/the-win-without-pitching-manifesto/",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "Radical Candor: The Surprising Secret to Being a Good Boss",
+    "author": "Kim Scott · First Round Review",
+    "url": "https://review.firstround.com/radical-candor-the-surprising-secret-to-being-a-good-boss/",
+    "category": "LEAD",
+    "categoryLabel": "Lead",
+    "access": "FREE"
+  },
+  {
     "title": "In Defense of the Poor Image",
     "author": "Hito Steyerl · e-flux journal #10",
     "url": "https://www.e-flux.com/journal/10/61362/in-defense-of-the-poor-image",
@@ -576,11 +616,59 @@
     "access": "OPEN MANUALLY"
   },
   {
+    "title": "Filterworld: How Algorithms Flattened Culture",
+    "author": "Kyle Chayka · Doubleday",
+    "url": "https://www.penguinrandomhouse.com/books/708941/filterworld-by-kyle-chayka/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "BOOK (PAID) + FREE COMPANION"
+  },
+  {
+    "title": "Seeing Like an Algorithm",
+    "author": "Eugene Wei",
+    "url": "https://www.eugenewei.com/blog/2020/9/18/seeing-like-an-algorithm",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "The Camera Is Not a Neutral Instrument",
+    "author": "Ariella Aïsha Azoulay · Aperture",
+    "url": "https://aperture.org/editorial/ariella-azoulay-unlearning-decisive-moments-of-photography/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "On the Question of Generative Images: A Practitioner's View",
+    "author": "Mario Klingemann · Interview, Artnome",
+    "url": "https://www.artnome.com/news/2018/10/13/ai-art-champions-mario-klingemann",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
+    "title": "Kongres Kebudayaan & the Question of Indonesian Visual Identity",
+    "author": "Alia Swastika · IVAA / Indonesian Visual Art Archive",
+    "url": "https://archive.ivaa-online.org/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "Chimurenga & the Practice of the Self-Published Archive",
+    "author": "Ntone Edjabe · Chimurenga (Cape Town)",
+    "url": "https://chimurengachronic.co.za/about-2/",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE"
+  },
+  {
     "title": "Saul Bass — Art of the Title",
     "author": "Art of the Title",
     "url": "https://www.artofthetitle.com/designer/saul-bass/",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -588,7 +676,7 @@
     "author": "Red Bull Music Academy",
     "url": "https://www.redbullmusicacademy.com/lectures/",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -596,7 +684,7 @@
     "author": "The Public Domain Review",
     "url": "https://publicdomainreview.org/essays/",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -604,7 +692,7 @@
     "author": "Are.na",
     "url": "https://www.are.na/editorial/category/are-na-annual",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -612,7 +700,7 @@
     "author": "The Museum of Modern Art",
     "url": "https://www.moma.org/calendar/exhibitions/72",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -620,7 +708,7 @@
     "author": "BFI · Sight and Sound",
     "url": "https://www.bfi.org.uk/news/revealed-results-2022-sight-sound-greatest-films-all-time-poll",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "FREE"
   },
   {
@@ -628,7 +716,7 @@
     "author": "Letterform Archive (San Francisco)",
     "url": "https://oa.letterformarchive.org/",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "VERIFY ACCESS"
   },
   {
@@ -636,7 +724,7 @@
     "author": "IVAA, Yogyakarta",
     "url": "https://archive.ivaa-online.org/",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "OPEN MANUALLY"
   },
   {
@@ -644,7 +732,7 @@
     "author": "Asia Art Archive, Hong Kong",
     "url": "https://aaa.org.hk/en",
     "category": "REF",
-    "categoryLabel": "References",
+    "categoryLabel": "Archives",
     "access": "OPEN MANUALLY"
   }
 ]

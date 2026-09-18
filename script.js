@@ -604,6 +604,13 @@ window.initFooterGSAP = function() {
             }
         }
     );
+
+    // footer.html's root element carries .fade-in-section, but it is injected long after
+    // initObserverAnimations() has already collected the page's elements, so nothing ever
+    // observes it and it would sit at the hidden state forever. Reveal it directly: the
+    // inner stagger above is what actually animates, so this only needs to clear the
+    // wrapper's own pre-state.
+    footerContainer.querySelectorAll('.fade-in-section').forEach(el => el.classList.add('is-visible'));
 };
 //#endregion
 
@@ -971,6 +978,53 @@ function renderProjects() {
 // =========================================
 
 /**
+ * Drops the compositor layer a reveal needed, once that reveal has actually finished.
+ *
+ * .fade-in-section sets `will-change: opacity, transform, clip-path` so the browser
+ * promotes the element before it animates. That promise is standing: nothing retires
+ * it automatically, so without this every revealed section on the page would hold a
+ * layer (and its memory) for the rest of the visit, long after a 0.7s one-shot
+ * animation. Adding .reveal-done flips will-change back to auto (see SCROLL REVEAL
+ * CONTRACT in style.css).
+ *
+ * Listens for the transform leg specifically: the rule transitions four properties, so
+ * transitionend fires up to four times, and keying off one of them avoids re-running.
+ * The timeout is the real safety net, because transitionend does NOT fire when a
+ * transition never runs, which is the common case here: reduced-motion sets
+ * `transition: none`, and an element already at its final value has nothing to animate.
+ * Without the fallback those elements would keep their layer forever, the exact leak
+ * this function exists to prevent.
+ */
+function markRevealDone(el) {
+    let settled = false;
+    let timer = null;
+
+    const finish = () => {
+        if (settled) return;
+        settled = true;
+        el.removeEventListener('transitionend', onEnd);
+        if (timer) clearTimeout(timer);
+        el.classList.add('reveal-done');
+    };
+
+    // On a .reveal-stagger container it is the children that transition, not the element
+    // itself, and they finish at different times (up to 6 * --reveal-stagger apart). The
+    // first child's transitionend would arrive while later ones are still animating, so
+    // for those containers the timeout below is the authority and events are ignored.
+    const staggered = el.classList.contains('reveal-stagger');
+
+    const onEnd = (e) => {
+        if (!staggered && e.target === el && e.propertyName === 'transform') finish();
+    };
+
+    if (!staggered) el.addEventListener('transitionend', onEnd);
+    // --reveal-duration (0.7s) plus the longest stagger delay (6 * 0.05s), with margin.
+    // Assigned after the listener is attached, and guarded in finish(), so an immediate
+    // transitionend can never reach clearTimeout before this exists.
+    timer = setTimeout(finish, staggered ? 1300 : 1200);
+}
+
+/**
  * Uses a single IntersectionObserver to handle all scroll-triggered animations
  * for better performance than multiple ScrollTriggers.
  */
@@ -998,13 +1052,18 @@ function initObserverAnimations(context = document) {
                 // Handle simple fade-in animations
                 else {
                     entry.target.classList.add('is-visible');
+                    markRevealDone(entry.target);
                 }
                 // Stop observing the element after it has animated once
                 observer.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.05, // Mulai lebih cepat (hanya 5% masuk)
+        // Two thresholds, not just 0.05: an element taller than the viewport can never
+        // reach 5% visibility on a small screen, so a single 0.05 threshold could leave
+        // tall sections unrevealed (and, since the CSS pre-state hides them, blank).
+        // 0 fires as soon as any part intersects, which covers that case.
+        threshold: [0, 0.05],
         rootMargin: "0px 0px 50px 0px" // Trigger 50px SEBELUM elemen masuk layar
     });
 
@@ -1083,16 +1142,22 @@ function animateJournalSection(section) {
 function animateTextReveal(element) {
     element.style.opacity = '1'; // Make container visible
 
+    // The CSS reduced-motion guard (see SCROLL REVEAL CONTRACT) can't reach this
+    // path: the motion here is GSAP-driven, not a CSS transition, so honouring the
+    // preference means leaving the text at its final state and doing nothing.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     // Mobile: skip the per-character split (dozens of individually staggered/animated
-    // <span> elements per headline) in favor of one simple fade+rise on the whole block.
+    // <span> elements per headline) in favor of one clip-path wipe on the whole block,
+    // which keeps the same reveal signature at a fraction of the cost.
     // This element's reveal often lands in the same frame window as the hero-reveal pin
-    // (see initHeroRevealPin) — on mobile that pin's own scroll-driven work is already
+    // (see initHeroRevealPin): on mobile that pin's own scroll-driven work is already
     // heavy, and stacking a per-character stagger on top of it was what made the text
     // visibly stutter/freeze mid-reveal instead of completing smoothly.
     if (!window.matchMedia('(min-width: 992px)').matches) {
         gsap.fromTo(element,
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+            { opacity: 0, y: 16, clipPath: 'inset(100% 0 0 0)' },
+            { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.5, ease: "power2.out", clearProps: "clipPath" }
         );
         return;
     }
@@ -1101,7 +1166,13 @@ function animateTextReveal(element) {
     // being silently dropped — otherwise a multi-line headline like "Hi, I'm Dimas<br>..."
     // would get rebuilt as one continuous line with the break lost.
     const lines = element.innerText.split('\n');
-    element.innerHTML = '';
+    element.innerHTML = "";
+
+    // Build into a fragment, not the live element: a long headline is dozens of spans,
+    // and appending each one to an element already in the document makes the browser
+    // redo layout per word. The fragment is off-document, so all of that work lands in
+    // a single insertion at the end.
+    const frag = document.createDocumentFragment();
 
     const chars = [];
     lines.forEach((line, lineIndex) => {
@@ -1130,27 +1201,40 @@ function animateTextReveal(element) {
                 span.style.display = 'inline-block';
                 span.style.opacity = '0';
                 span.style.transform = 'translateY(20px)';
+                // Same clip-path wipe as .fade-in-section, applied per character so
+                // headings share the house reveal signature instead of only sliding.
+                span.style.clipPath = 'inset(100% 0 0 0)';
                 wordSpan.appendChild(span);
                 chars.push(span);
             });
-            element.appendChild(wordSpan);
+            frag.appendChild(wordSpan);
 
             if (wordIndex < words.length - 1) {
-                element.appendChild(document.createTextNode(' '));
+                frag.appendChild(document.createTextNode(" "));
             }
         });
 
         if (lineIndex < lines.length - 1) {
-            element.appendChild(document.createElement('br'));
+            frag.appendChild(document.createElement("br"));
         }
     });
+
+    // Single DOM write for the whole rebuilt headline.
+    element.appendChild(frag);
 
     gsap.to(chars, {
         y: 0,
         opacity: 1,
+        clipPath: 'inset(0% 0 0 0)',
         duration: 0.6,
         stagger: 0.015,
-        ease: "power2.out" // matches the site's standard reveal ease (see .fade-in-section)
+        ease: "power2.out", // matches the site's standard reveal ease (see .fade-in-section)
+        // clip-path on every character is expensive to keep composited once the reveal is
+        // done, and clearing it also lets any later hover/transform on the heading escape
+        // the character's own box. Only clip-path is cleared: the spans are created with
+        // inline opacity:0 and transform:translateY(20px), so clearing either of those
+        // would restore the hidden starting state and leave the text invisible or shifted.
+        clearProps: "clipPath"
     });
 }
 

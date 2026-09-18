@@ -28,7 +28,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="/css/style.css?v=131">
+    <link rel="stylesheet" href="/css/style.css?v=149">
+    <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
+         style.css). Inline and before first paint so revealed content never flashes; if
+         this or script.js fails, the page renders fully visible instead of blank. -->
+    <script>document.documentElement.classList.add("js-reveal");</script>
     <!-- Full weight range, matching every other page — this page only requested 400/700
          before, so .nav-text's font-weight:500 had no matching font file to render with and
          the browser fell back to a thinner synthesized weight instead of true medium. -->

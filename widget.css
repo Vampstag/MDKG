@@ -521,7 +521,9 @@ body:has(.navbar.menu-open) #mdkg-widget-container {
 .mdkg-status-dot {
     width: 6px;
     height: 6px;
-    background-color: #999; /* Neutral gray — signals "fully booked," not the green "available" state */
+    /* Available state. When fully booked again, swap this for #999 (neutral gray)
+       and update the status text in widget.js. */
+    background-color: #28cd41; /* Apple Green */
     border-radius: 50%;
 }
 

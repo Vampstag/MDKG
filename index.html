@@ -131,7 +131,11 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css?v=143">
+        <link rel="stylesheet" href="css/style.css?v=149">
+        <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
+             style.css). Inline and before first paint so revealed content never flashes; if
+             this or script.js fails, the page renders fully visible instead of blank. -->
+        <script>document.documentElement.classList.add("js-reveal");</script>
         <style>
             /* Anti-Flicker Inline CSS */
             body.preloader-active { overflow: hidden; }
@@ -436,9 +440,9 @@
                  for the sticky/z-index mechanics; the radius+shadow here is what sells the
                  "rising card" read. Closes just before the footer, which stays outside this
                  wrapper and scrolls normally underneath it. -->
-            <div id="content-reveal" style="position: relative; z-index: 2; background-color: #FAFAFA; border-radius: 0; overflow: hidden; box-shadow: none;">
+            <div id="content-reveal" style="position: relative; z-index: 2; background-color: #FFFFFF; border-radius: 0; overflow: hidden; box-shadow: none;">
             <!-- Site Essence -->
-            <section id="essence" class="section-margin fade-in-section" style="position: relative; overflow: visible; border-top: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px; margin-bottom: 0 !important;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; border-top: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px; margin-bottom: 0 !important;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
 
@@ -475,7 +479,7 @@
                     </div>
                 </div>
             </section>
-            <section class="home-about-section home-about-section--intro section-margin fade-in-section">
+            <section class="home-about-section home-about-section--intro section-margin fade-in-section reveal-no-clip">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
                         <section id="about-section" class="about-section-wrapper">
@@ -517,7 +521,7 @@
                  (clip-path opening + slight parallax scale via GSAP ScrollTrigger, see
                  initAboutShowreelReveal in script.js) gives it a premium "unveiling" motion
                  as it enters the viewport, instead of just fading in like a normal section. -->
-            <section class="about-showreel-section fade-in-section">
+            <section class="about-showreel-section fade-in-section reveal-no-clip">
                 <div class="about-showreel-wrapper" id="about-intro-magnetic">
                     <button type="button" class="about-showreel-player" id="about-intro-watch-trigger" aria-label="Watch full showreel">
                         <video class="about-showreel-video" autoplay loop muted playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
@@ -561,7 +565,9 @@
                                  (Andrea Bocelli, on-going) wider/taller, second (Torch x Gundam) narrower.
                                  Hover-dim between the two is handled purely in CSS via
                                  .work-cards-grid--featured:has(.work-card:hover). -->
-                            <div class="work-cards-grid work-cards-grid--featured">
+                            <!-- reveal-stagger sequences the two cards; reveal-no-clip because the cursor-driven
+                                 3D tilt (initWorkCardTilt) renders outside the border box a clip-path would cut. -->
+                            <div class="work-cards-grid work-cards-grid--featured fade-in-section reveal-stagger reveal-no-clip">
                             <div class="work-card is-ongoing">
                                 <!-- [FIX] card-featured-bocelli.webp is cropped specifically for the
                                      featured layout's wide ~2.5:1 desktop aspect ratio (see
@@ -623,7 +629,7 @@
                                     </div>
                                 </div>
                                 <div class="work-card__info">
-                                    <h3 class="work-card__title">Torch: Prestachill</h3>
+                                    <h3 class="work-card__title">Torch Prestachill</h3>
                                     <div class="work-card__cta">
                                         <span>View Project</span>
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -649,13 +655,13 @@
                                     <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                 </div>
@@ -664,13 +670,13 @@
                                     <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.webp" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
                                 </div>
@@ -818,7 +824,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=55"></script>
+        <script defer src="script.js?v=58"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
         <script>

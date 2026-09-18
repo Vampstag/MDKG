@@ -222,19 +222,29 @@
             return;
         }
 
-        // Apple-like blur reveal: the elements start at opacity:0 inline in the
-        // markup, so this is what makes them appear at all.
+        // The elements start at opacity:0 inline in the markup, so this is what makes
+        // them appear at all. That also means the reduced-motion path can't just skip
+        // the tween: it has to set the end state directly, or the hero stays invisible.
+        const revealed = { y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)' };
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            gsap.set('.cs-anim-el', revealed);
+            return;
+        }
+
+        // House clip-path wipe (see Entrance Motion Standard in css/style.css). This
+        // used to be a 1.5s blur+scale reveal, which read as a different animation
+        // language from every other reveal on the site; duration/ease/stagger now
+        // match the shared standard.
         gsap.fromTo('.cs-anim-el',
-            { y: 30, opacity: 0, filter: 'blur(10px)', scale: 0.98 },
+            { y: 30, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
             {
-                y: 0,
-                opacity: 1,
-                filter: 'blur(0px)',
-                scale: 1,
-                duration: 1.5,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 0.1
+                ...revealed,
+                duration: 0.7,
+                stagger: 0.05,
+                ease: 'power2.out',
+                delay: 0.1,
+                clearProps: 'clipPath'
             }
         );
     }
