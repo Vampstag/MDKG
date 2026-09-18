@@ -73,9 +73,37 @@ salah satu dari 3 nilai di atas, bukan angka opacity baru).
 terjadi beberapa kali sesi ini. Checklist tiap edit script.js: naikkan v, sebutkan ke
 user kalau perlu hard refresh.
 
+Berlaku juga untuk `style.css?v=N`, `portfolio.js?v=N`, `widget.js?v=N`, dan
+`assets/js/case-study.js?v=N`. Semua halaman harus pakai versi yang SAMA untuk file
+yang sama — pernah kejadian `widget.js` ter-pin di 7 halaman tapi polos di 6 halaman
+lain, jadi perubahannya cuma sampai ke separuh situs.
+
+## 9. Case study — JS bersama, bukan copy-paste inline
+`assets/js/case-study.js` memegang preloader, hero entrance, essence reveal, dan
+sticky-nav scrollspy untuk SEMUA halaman di `portfolio/`. Dulu keempatnya di-copy
+inline ke tiap halaman (~1.300 baris duplikat); dua halaman diam-diam ketinggalan
+versi lama dan baru ketahuan waktu di-diff.
+
+Bikin case study baru: copy `_template-case-study.html`, lalu
+- set `<body data-hero-image="../assets/images/project/<slug>/<hero>.webp">` —
+  ini yang dipakai preloader buat nge-gate LCP-nya; jangan hardcode di JS lagi.
+- muat `<script defer src="../assets/js/case-study.js?v=N"></script>` setelah
+  `widget.js`.
+Tiap init-nya feature-detect sendiri, jadi halaman yang nggak punya section tertentu
+tinggal skip — nggak perlu diapa-apain.
+
+Urutan section kanonik (ikuti ini, jangan diacak):
+`top → overview → showreel → essence → hardskills → solution → outputs → impact →
+process → testimonial → key-takeaways → credits`
+
+Kalau satu section belum ada isinya (belum ada quote testimoni, output belum di-
+export), **comment out** section-nya BARENG dot `.cs-sticky-nav`-nya — jangan
+biarkan dot-nya hidup nunjuk ke section yang nggak ada, dan jangan diisi konten
+karangan.
+
 ---
 
 **Cara pakai**: sebelum menjawab "gap-nya berapa / shadow-nya gimana / animasinya
-seberapa", cek dulu ke 8 poin ini. Kalau permintaan user mau sesuatu di luar sistem
+seberapa", cek dulu ke 9 poin ini. Kalau permintaan user mau sesuatu di luar sistem
 ini (misal shadow baru, radius baru), tanya dulu apakah itu pengecualian yang
 disengaja atau cuma belum kepikiran pakai yang sudah ada.
