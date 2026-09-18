@@ -282,12 +282,29 @@
                 .library-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
             }
 
+            /* An <a>, like .watch-card: the whole card is the link, so there is no separate
+               button to click. */
             .reading-card {
                 display: flex;
                 flex-direction: column;
                 background-color: #0a0a0a;
                 border-radius: 0; /* Squircle, not circle — matches the site's art direction */
                 overflow: hidden;
+                text-decoration: none;
+                color: inherit;
+            }
+            /* Positioning context for the hover label and its scrim, and the clipping box for
+               the cover's own hover scale. */
+            .reading-card-media {
+                position: relative;
+                overflow: hidden;
+            }
+            .reading-card-media .reading-card-cover,
+            .reading-card-media .reading-card-cover-placeholder {
+                transition: transform 0.8s var(--ease-smooth);
+            }
+            .reading-card:hover .reading-card-cover {
+                transform: scale(1.04);
             }
             /* object-fit is `contain`, not `cover`: these are real book covers from
                publishers and Open Library, whose proportions vary (roughly 2:3 to 3:4) and
@@ -363,12 +380,11 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
+            /* No flex:1 or gap any more: those existed to push the READ button to the bottom
+               of a stretched card. With the button gone the body is just the badge and the
+               title, sized to its own content like .watch-card-body. */
             .reading-card-body {
                 padding: 14px 16px 16px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                flex: 1;
             }
             .reading-card-title {
                 font-family: var(--font-primary);
@@ -377,6 +393,14 @@
                 line-height: 1.3;
                 color: #fff;
                 margin: 0;
+            }
+            /* The badge shares a row with the hover "Read" label, which sits at its right. */
+            .reading-card-meta {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: 10px;
+                margin: 0 0 6px;
             }
             .library-category-badge {
                 display: inline-block;
@@ -388,24 +412,55 @@
                 color: rgba(255,255,255,0.5);
                 margin: 0 0 6px;
             }
-            .reading-card-download {
-                margin-top: auto;
+            /* Inside .reading-card-meta the badge's own bottom margin would break the row's
+               baseline alignment. */
+            .reading-card-meta .library-category-badge { margin: 0; }
+
+            /* READ is not a persistent button. It was the heaviest element on every card — a
+               solid white block repeated 80 times down the grid, competing with the covers it
+               was meant to serve. The whole card is the link now (.reading-card is an <a>),
+               and this label only surfaces on hover, when it becomes useful.
+
+               It sits in the badge row rather than over the cover: both corners of the cover
+               are already occupied — the generated tile bottom-aligns its author, and several
+               jackets run their own title to the top trim edge (In Praise of Shadows, The Eyes
+               of the Skin) — so the label landed on the cover's own typography whichever corner
+               it took, and no scrim fixed that without dimming the cover itself. */
+            .reading-card-read {
                 font-family: var(--font-primary);
-                font-size: 0.72rem;
-                font-weight: 600;
+                font-size: 0.62rem;
+                font-weight: 700;
                 text-transform: uppercase;
-                letter-spacing: 0.04em;
-                color: #000;
-                background: #fff;
-                border: none;
-                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
-                padding: 9px 12px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                transition: opacity 0.2s ease;
+                letter-spacing: 0.06em;
+                color: #fff;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                flex: none;
+                opacity: 0;
+                transform: translateX(-4px);
+                transition: opacity 0.3s var(--ease-smooth), transform 0.3s var(--ease-smooth);
             }
-            .reading-card-download:hover { opacity: 0.75; }
+            .reading-card-read::after {
+                content: "";
+                width: 12px;
+                height: 1px;
+                background: currentColor;
+                transition: width 0.3s var(--ease-smooth);
+            }
+            .reading-card:hover .reading-card-read,
+            .reading-card:focus-visible .reading-card-read {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .reading-card:hover .reading-card-read::after { width: 18px; }
+            /* The card is the link now, so it carries the focus ring the old button used to.
+               Without this, keyboard users get the hover label but no indication of which
+               card is focused. */
+            .reading-card:focus-visible {
+                outline: 2px solid #fff;
+                outline-offset: 2px;
+            }
 
             /* --- Watch List grid + card --- */
             .watch-card {
@@ -1840,15 +1895,22 @@
             // books) from data/library-reading.json, matching this page's existing
             // fetch-and-render convention. Book entries carry a real `cover` image; the rest
             // link out to articles and essays with no cover art, and fall back to a composed
-            // tile setting the author instead. Each entry becomes:
-            //   <div class="reading-card">
-            //     <img class="reading-card-cover" src="..." alt="">   (only if item.cover set)
-            //     <div class="reading-card-cover-placeholder">...</div> (fallback otherwise)
-            //     <div class="reading-card-body">
-            //       <p class="reading-card-title">...</p>
-            //       <a class="reading-card-download" href="..." target="_blank">Read</a>
+            // tile setting the author instead. The card itself is the link, like .watch-card;
+            // "Read" surfaces over the cover on hover rather than sitting on every card as a
+            // permanent button. Each entry becomes:
+            //   <a class="reading-card" href="..." target="_blank">
+            //     <div class="reading-card-media">
+            //       <img class="reading-card-cover" src="..." alt="">   (only if item.cover set)
+            //       <div class="reading-card-cover-placeholder">...</div> (fallback otherwise)
             //     </div>
-            //   </div>
+            //     <div class="reading-card-body">
+            //       <div class="reading-card-meta">
+            //         <span class="library-category-badge">...</span>
+            //         <span class="reading-card-read">Read</span>   (hover only)
+            //       </div>
+            //       <p class="reading-card-title">...</p>
+            //     </div>
+            //   </a>
             document.addEventListener('DOMContentLoaded', () => {
                 const grid = document.getElementById('reading-list-grid');
                 const emptyNote = document.getElementById('reading-list-empty');
@@ -1860,8 +1922,11 @@
                 }[c]));
 
                 const buildCard = (item) => {
-                    const card = document.createElement('div');
+                    const card = document.createElement('a');
                     card.className = 'reading-card';
+                    card.href = item.url || '#';
+                    card.target = '_blank';
+                    card.rel = 'noopener noreferrer';
                     if (item.category) card.dataset.category = item.category;
                     const title = item.title || 'Untitled';
                     const coverHtml = item.cover
@@ -1871,11 +1936,13 @@
                                ${item.author ? `<span class="placeholder-author">${escapeHtml(item.author)}</span>` : ''}
                            </div>`;
                     card.innerHTML = `
-                        ${coverHtml}
+                        <div class="reading-card-media">${coverHtml}</div>
                         <div class="reading-card-body">
-                            ${item.categoryLabel ? `<p class="library-category-badge">${escapeHtml(item.categoryLabel)}</p>` : ''}
+                            <div class="reading-card-meta">
+                                ${item.categoryLabel ? `<span class="library-category-badge">${escapeHtml(item.categoryLabel)}</span>` : '<span></span>'}
+                                <span class="reading-card-read" aria-hidden="true">Read</span>
+                            </div>
                             <p class="reading-card-title">${escapeHtml(title)}</p>
-                            <a class="reading-card-download" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener noreferrer">Read</a>
                         </div>
                     `;
                     return card;
