@@ -294,12 +294,17 @@
                rarely match this card's 3/4 slot. Cropping them cut the title off the top or
                spine off the side — a book cover is a designed object, so it's shown whole,
                letterboxed against the card's own dark background. */
+            /* Background matches .reading-card's own #0a0a0a rather than the #111 the watch
+               card uses behind its thumbnails. A watch thumbnail is a photo that fills its
+               frame, so the difference never shows; a book cover is letterboxed by
+               object-fit:contain above, leaving that lighter field visible as a band across
+               the top and bottom of the tile, which read as a border around the cover. */
             .reading-card-cover {
                 width: 100%;
                 aspect-ratio: 3/4;
                 object-fit: contain;
                 display: block;
-                background-color: #111;
+                background-color: #0a0a0a;
             }
             /* [NEW] Generated cover for reading-list entries that link to an external
                article or essay rather than a book — there is no cover art to fetch, and the
@@ -321,7 +326,8 @@
                 gap: 10px;
                 padding: 20px;
                 box-sizing: border-box;
-                background-color: #0d0d0d;
+                background-color: #0a0a0a; /* Same as .reading-card, so the tile and the body
+                    below it read as one surface with no seam between them. */
                 overflow: hidden;
             }
             /* Abstract field behind the type: a soft off-centre wash plus a fine grid, so the
@@ -1922,7 +1928,7 @@
                     });
                 };
 
-                fetch('data/library-reading.json?v=2')
+                fetch('data/library-reading.json?v=3')
                     .then(r => r.json())
                     .then(data => {
                         const items = Array.isArray(data) ? data : [];
@@ -2017,7 +2023,7 @@
                     });
                 };
 
-                fetch('data/library-watch.json?v=2')
+                fetch('data/library-watch.json?v=3')
                     .then(r => r.json())
                     .then(data => {
                         const items = Array.isArray(data) ? data : [];
