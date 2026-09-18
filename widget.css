@@ -34,6 +34,16 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
 }
 
+/* The mobile nav overlay (.mobile-menu-overlay, z-index:998) sits well below this widget's
+   z-index:9999, so the floating player kept showing on top of the full-screen menu instead
+   of being covered by it. .navbar.menu-open is the class script.js already toggles when the
+   mobile menu opens/closes — :has() lets this widget react to that without needing its own
+   JS wiring. */
+body:has(.navbar.menu-open) .mdkg-widget-player,
+body:has(.navbar.menu-open) #mdkg-widget-container {
+    display: none;
+}
+
 .mdkg-widget-player:active, .mdkg-widget-player.playing:active {
     transform: scale(0.98);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);

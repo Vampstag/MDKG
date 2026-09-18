@@ -30,13 +30,15 @@
        its own tracking. */
     --tracking-eyebrow: 0.1em;
 
-    /* Fluid Typography: clamp(min, preferred, max) */
-    --text-display: clamp(2.5rem, 10vw + 1rem, 8.5rem); /* Hero Text - Optimized min for mobile */
-    --text-h1: clamp(2rem, 5vw + 1rem, 4.5rem);
-    --text-h2: clamp(1.75rem, 3.5vw + 1rem, 3.5rem);
-    --text-h3: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
-    --text-h4: clamp(1.25rem, 2vw + 1rem, 2rem);
-    --text-body: clamp(1rem, 0.5vw + 0.875rem, 1.125rem); /* 16px -> 18px */
+    /* Fluid Typography: clamp(min, preferred, max) — scaled down ~15% site-wide from the
+       original values (comments alongside each) for a tighter, more editorial type scale;
+       the old sizes had started reading oversized rather than deliberate. */
+    --text-display: clamp(2.1rem, 8.5vw + 0.85rem, 7.2rem); /* was clamp(2.5rem, 10vw + 1rem, 8.5rem) */
+    --text-h1: clamp(1.7rem, 4.25vw + 0.85rem, 3.85rem); /* was clamp(2rem, 5vw + 1rem, 4.5rem) */
+    --text-h2: clamp(1.5rem, 3vw + 0.85rem, 3rem); /* was clamp(1.75rem, 3.5vw + 1rem, 3.5rem) */
+    --text-h3: clamp(1.3rem, 2.1vw + 0.85rem, 2.15rem); /* was clamp(1.5rem, 2.5vw + 1rem, 2.5rem) */
+    --text-h4: clamp(1.05rem, 1.7vw + 0.85rem, 1.7rem); /* was clamp(1.25rem, 2vw + 1rem, 2rem) */
+    --text-body: clamp(0.85rem, 0.425vw + 0.75rem, 0.95rem); /* was clamp(1rem, 0.5vw + 0.875rem, 1.125rem) */
 
     /* Editorial Body Copy — the single shared voice for every descriptive/prose paragraph
        on a light background (case-study copy, about/skill text, article body, etc). Defined
@@ -51,7 +53,7 @@
        full-strength near-black on a first pass read as harsh for straight body copy) that
        darkens toward near-black on :hover as an interaction cue (see the shared hover rule
        further below, e.g. `.sol-desc:hover`). */
-    --body-copy-size: clamp(1.05rem, 1.3vw, 1.15rem);
+    --body-copy-size: clamp(0.9rem, 1.1vw, 1rem); /* was clamp(1.05rem, 1.3vw, 1.15rem), ~15% down for the same editorial-scale pass as the headings above */
     --body-copy-leading: 1.35;
     --body-copy-weight: 400;
     --body-copy-tracking: -0.005em;
@@ -226,25 +228,36 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .home-hero-headline-text-2 { font-size: var(--text-display); }
-.section-headline-text {
-    font-size: var(--text-h2) !important;
-    font-weight: 300 !important; /* Light editorial weight — !important so Webflow's utility classes (e.g. .text-weight-semibold) can't override it and cause a bold-then-light flash */
+/* Webflow's own CSS (loaded before this file) sets font-size/font-weight/margin on this
+   element at up to .section-headline-text.text-3xl.text-weight-semibold.text-color-black-900
+   (specificity 0,4,0) — every page in the codebase that uses this class always pairs it with
+   those exact three Webflow utility classes (confirmed via grep across all HTML files), so
+   chaining them here matches Webflow's own specificity. Since this stylesheet loads AFTER
+   Webflow's, equal specificity already wins by source order — no !important needed. The bare
+   `.section-headline-text` rule below stays for the one page (services.html) that uses this
+   class without the three Webflow utility classes alongside it. */
+.section-headline-text,
+.section-headline-text.text-3xl.text-weight-semibold.text-color-black-900 {
+    font-size: var(--text-h2);
+    font-weight: 300; /* Light editorial weight, overriding Webflow's own font-weight for this element */
     letter-spacing: -0.03em; /* Konsisten dengan headline lain */
     line-height: 1.2;
     color: #000000; /* Pure Black untuk kontras maksimal */
-    margin-top: 0 !important;
-    margin-bottom: 0 !important; /* [FIX] Mencegah margin default mendorong teks ke atas (merusak alignment vertikal dengan CTA) */
+    margin-top: 0;
+    margin-bottom: 0; /* [FIX] Mencegah margin default mendorong teks ke atas (merusak alignment vertikal dengan CTA) */
 }
 
-/* [NEW] Editorial size rhythm for case-study section headlines. Every section used to render
-   at the same --text-h2 size regardless of narrative weight, so "Credits" read as visually
-   important as "The Approach". These modifiers let each section signal its own weight in
-   the story instead of everything sitting at one flat volume. */
-.section-headline-text.headline-lg {
-    font-size: var(--text-h1) !important;
-}
+/* Swiss/editorial-minimalist typographic system: every section headline is the same
+   structural level (a section title, nothing more), so they all share one size — the old
+   headline-lg/headline-sm modifiers gave "Creative Approach" and "Campaign Outputs" more
+   visual weight than "The Impact" or "Overview" for no structural reason, breaking the
+   single-scale discipline that makes this kind of grid read as considered rather than
+   decorative. .headline-lg/.headline-sm are kept as no-op selectors (rather than deleted
+   outright) purely so existing markup across every case study page doesn't need touching;
+   they intentionally do nothing now. */
+.section-headline-text.headline-lg,
 .section-headline-text.headline-sm {
-    font-size: var(--text-h3) !important;
+    font-size: var(--text-h2);
 }
 
 .home-hero-headline-wrapper {
@@ -296,35 +309,44 @@ p, li, span, .paragraph, .about-text {
    1. GLOBAL & UTILITIES
    ========================================= */
 /* Hide Webflow Badge */
+/* !important required on both: Webflow's own CSS sets `visibility: visible !important` and
+   `display: inline-block !important` on this exact selector — matching specificity alone
+   can't win against a competing !important, so this is the one legitimate case where it's
+   unavoidable. */
 .w-webflow-badge {
     display: none !important;
     visibility: hidden !important;
 }
 
 /* Navbar Sticky & Hide Animation */
+/* Webflow's own .navbar rule (position:absolute, padding:30px 3%, no !important, same 0,1,0
+   specificity) is defined earlier in the cascade (external stylesheet loads first) — equal
+   specificity means source order decides, and this file loads after Webflow's, so this rule
+   already wins on top/padding/margin without needing !important. */
 .navbar {
     position: fixed;
-    top: 0 !important; /* Ensure it sticks to the very top */
+    top: 0; /* Ensure it sticks to the very top */
     left: 0;
     width: 100%;
     z-index: 1100; /* Increased to avoid conflict with .hover-image (1000) */
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), padding 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.4s ease;
     transform: translateY(0%);
     overflow: visible;
-    padding: 0.65rem 5% !important; /* Edge-to-Edge Spacing */
+    padding: 0.65rem 5%; /* Edge-to-Edge Spacing */
     box-sizing: border-box;
     height: auto;
     display: flex;
     justify-content: space-between; /* Align content to far left/right */
     align-items: center;
-    margin: 0 !important; /* Remove any default margins */
+    margin: 0; /* Remove any default margins */
         background-color: transparent; /* Seamless blend with hero */
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
 }
 .navbar.scrolled {
     padding: 1rem 5%; /* Keep padding generous even when scrolled */
-    background-color: #ffffff !important; /* Solid masthead, not glass — editorial print doesn't blur */
+    /* .navbar.scrolled (0,2,0) already outranks Webflow's plain .navbar (0,1,0) */
+    background-color: #ffffff; /* Solid masthead, not glass — editorial print doesn't blur */
     box-shadow: none;
     border-bottom: 1px solid rgba(0,0,0,0.08);
 }
@@ -333,16 +355,18 @@ p, li, span, .paragraph, .about-text {
 }
 
 /* Force Full Width for Navbar Container */
+/* Both descendant selectors below (0,2,0) already outrank Webflow's own single-class
+   .w-container / .global-wrapper rules (0,1,0) for these properties. */
 .navbar .global-wrapper,
 .navbar .w-container {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar .global-padding {
-    padding: 0 !important;
+    padding: 0; /* (0,2,0) outranks Webflow's own .global-padding (0,1,0) */
     width: 100%;
 }
 
@@ -371,6 +395,9 @@ p, li, span, .paragraph, .about-text {
 }
 
 /* [NEW] White Logo when at the top (unscrolled) */
+/* This combo selector (0,7,0+: three :not() pseudo-classes plus the target class) already
+   far outranks any competing Webflow rule for .logo/.w-nav-brand/color (all 0,1,0, no
+   !important on Webflow's side) — no !important needed. */
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .logo,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo,
@@ -379,7 +406,7 @@ p, li, span, .paragraph, .about-text {
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .w-nav-brand *,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo *,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand * {
-    color: #ffffff !important;
+    color: #ffffff;
     transition: color 0.4s ease;
 }
 
@@ -394,7 +421,7 @@ p, li, span, .paragraph, .about-text {
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .navbar__logo svg,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand img,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .brand svg {
-    filter: brightness(0) invert(1) !important;
+    filter: brightness(0) invert(1); /* High-specificity combo selector already outranks any Webflow rule for this property */
 }
 
 /* Navbar Rolling Text Animation */
@@ -406,7 +433,9 @@ p, li, span, .paragraph, .about-text {
 
 .nav-text {
     display: block;
-    transition: transform 0.4s var(--ease-smooth), color 0.4s ease !important; /* Overrides Webflow's own .nav-text transition timing from the CDN stylesheet */
+    /* No !important: Webflow's shared stylesheet has no .nav-text rule at all — nothing to
+       outrank, so the !important here was never load-bearing. */
+    transition: transform 0.4s var(--ease-smooth), color 0.4s ease;
     transform: translateY(0%);
     color: #111;
     font-weight: 500;
@@ -454,35 +483,40 @@ p, li, span, .paragraph, .about-text {
 }
 
 /* [NEW] White Let's Talk CTA button when at the top */
+/* All selectors below (0,5,0+, three :not() pseudo-classes chained onto the target class)
+   already far outrank Webflow's own .button-normal-black-wrapper-2 / :hover rules (0,1,0 /
+   0,2,0, no !important) — none of the !important flags here were load-bearing. */
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 {
-    background-color: transparent !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.4);
 }
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover {
-    background-color: #ffffff !important;
-    border-color: #ffffff !important;
+    background-color: #ffffff;
+    border-color: #ffffff;
 }
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 .button-normal-black-text-2 {
-    color: #ffffff !important;
+    color: #ffffff;
 }
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover .button-normal-black-text-2 {
-    color: #000000 !important;
+    color: #000000;
 }
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 img,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2 svg {
-    filter: brightness(0) invert(1) !important;
+    filter: brightness(0) invert(1);
     transition: filter 0.4s ease;
 }
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover img,
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .button-normal-black-wrapper-2:hover svg {
-    filter: brightness(0) !important;
+    filter: brightness(0);
 }
 
 /* Premium Global Button Overrides (Smooth & Pill-shaped) */
+/* transition here (0,2,0 for the compound selector) has no competing Webflow rule for this
+   property on either class — confirmed via grep, no !important needed. */
 .button-normal-black-wrapper-2,
 .button-normal-white-wrapper-2 {
     border-radius: 0;
-    transition: all 0.4s var(--ease-smooth) !important;
+    transition: all 0.4s var(--ease-smooth);
 }
 .button-normal-black-wrapper-2:hover {
     transform: translateY(-2px);
@@ -500,8 +534,11 @@ html, body { /* [REFINEMENT] Hindari !important. Jika terjadi overflow, cari ele
 }
 
 /* [FIX] Strict horizontal containment for mobile */
+/* Webflow's own .body-wrapper sets the `overflow` shorthand (expands to overflow-x/-y), same
+   0,1,0 specificity, no !important — this file loading after Webflow's means our explicit
+   overflow-x already wins by source order. */
 .body-wrapper {
-    overflow-x: clip !important; /* Prevents side scrolling without breaking position: sticky */
+    overflow-x: clip; /* Prevents side scrolling without breaking position: sticky */
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -509,22 +546,33 @@ html, body { /* [REFINEMENT] Hindari !important. Jika terjadi overflow, cari ele
 }
 
 /* Fix: Footer Spacing */
+/* Webflow's own rules for these three classes (all 0,1,0, no !important) set no
+   `padding-bottom`/`overflow`/`max-width` at all, and only .footer-main-block sets
+   `margin-bottom` (also 0,1,0) — equal specificity means source order decides, and this file
+   loads after Webflow's, so this already wins without !important. */
 .footer-main-block, .footer-name-block, .cta-wrapper {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    overflow: hidden !important;
-    max-width: 100% !important; /* [FIX] Avoid 100vw to prevent horizontal scrollbars */
+    margin-bottom: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    max-width: 100%; /* [FIX] Avoid 100vw to prevent horizontal scrollbars */
 }
 #footer-container {
-    display: block !important;
+    display: block; /* An id selector (1,0,0) already outranks any class-based Webflow rule */
     width: 100%;
 }
 
 /* Fix Overflow Issues */
+/* Webflow sets no `overflow` on any of these 5 classes, so nothing to outrank there. Its
+   `z-index` sits on the compound .home-about-section.section-margin (0,2,0) — every page
+   using .home-about-section always pairs it with .section-margin (confirmed via grep), so
+   the compound selector below matches specificity and wins by source order. */
 .home-about-section, .global-wrapper, .global-padding, .about-section-wrapper, .about-text-block {
-    overflow: visible !important; position: relative;
+    overflow: visible; position: relative;
 }
-.home-about-section { z-index: 50 !important; }
+.home-about-section,
+.home-about-section.section-margin {
+    z-index: 50;
+}
 
 /* =========================================
    PERFORMANCE OPTIMIZATIONS
@@ -761,28 +809,34 @@ body.preloader-active { overflow: hidden; }
    5. LAYOUT & SPACING
    ========================================= */
 /* Section Spacing */
+/* Webflow's own .section-margin (0,1,0, margin-bottom:150px, no !important) — same
+   specificity, this file loads after Webflow's, so source order alone wins. (Webflow also
+   has a more specific .numbers-section.section-margin.home compound rule, but that class
+   combination isn't used anywhere in this codebase, so it's not a real competitor here.)
+   .section-headline-margin and .headline-with-cta don't exist in Webflow's stylesheet at
+   all, so nothing to outrank for either. */
 .section-margin {
-    margin-bottom: 11rem !important; /* 176px — was 128px (--space-32); more room between
+    margin-bottom: 11rem; /* 176px — was 128px (--space-32); more room between
         sections reads as editorial pacing rather than sections crowding into each other. */
     /* contain: paint; DIHAPUS karena sifatnya memotong (clipping) efek box-shadow yang memancar keluar batas section */
 }
-.section-headline-margin { margin-bottom: var(--space-20) !important; }
+.section-headline-margin { margin-bottom: var(--space-20); }
 
 /* [FIX] Wrapper khusus untuk Judul Section yang bersebelahan dengan Tombol CTA */
 /* Tambahkan class 'headline-with-cta' pada div pembungkusnya agar rata tengah (simetris) */
 .headline-with-cta {
     display: flex;
     justify-content: space-between;
-    align-items: center !important;
+    align-items: center;
     flex-wrap: wrap;
     gap: 24px;
 }
 
 @media (max-width: 767px) {
     .section-margin {
-        margin-bottom: 6rem !important; /* 96px on mobile — was --space-16 (64px), scaled up to match the larger desktop gap */
+        margin-bottom: 6rem; /* 96px on mobile — was --space-16 (64px), scaled up to match the larger desktop gap */
     }
-    .section-headline-margin { margin-bottom: 32px !important; } /* [FIX] Diperketat dari 40px ke 32px agar judul lebih menyatu secara hierarki dengan grid di bawahnya */
+    .section-headline-margin { margin-bottom: 32px; } /* [FIX] Diperketat dari 40px ke 32px agar judul lebih menyatu secara hierarki dengan grid di bawahnya */
 }
 
 /* Scroll Progress Bar */
@@ -797,8 +851,9 @@ body.preloader-active { overflow: hidden; }
 }
 
 /* Lenis Scroll */
+/* .lenis.lenis-smooth doesn't exist in Webflow's stylesheet at all — nothing to outrank. */
 html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
@@ -990,12 +1045,14 @@ html.lenis, html.lenis body { height: auto; }
     font-size: 1rem;
 }
 
+/* Both selectors below (0,2,0 descendant) already outrank Webflow's own single-class rules
+   for these images (0,1,0, only .-black-2 sets `display`, and not !important). */
 .error-section .button-normal-black-arrow-image-white-2 {
-    display: block !important; /* Button background is now dark (#111) — the white arrow reads correctly against it, the black one wouldn't */
+    display: block; /* Button background is now dark (#111) — the white arrow reads correctly against it, the black one wouldn't */
 }
 
 .error-section .button-normal-black-arrow-image-black-2 {
-    display: none !important;
+    display: none;
 }
 /* #endregion */
 
@@ -1030,12 +1087,10 @@ html.lenis, html.lenis body { height: auto; }
 /* =========================================
    13. PREMIUM MOBILE NAVIGATION
    ========================================= */
+/* The three bars are absolutely positioned (see .hamburger-line below), so this is just a
+   sizing/click-target anchor now — flex/gap here would have no effect on children that have
+   opted out of layout flow via position:absolute. */
 .mobile-menu-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
     width: 48px;
     height: 48px;
     cursor: pointer;
@@ -1044,14 +1099,30 @@ html.lenis, html.lenis body { height: auto; }
     position: relative;
 }
 
+/* Absolute-positioned bars (not flex+gap) so each bar's resting `top` is an explicit,
+   independently-verifiable pixel value instead of depending on flex column centering +
+   translateY math staying in sync with it — the flex+gap version kept producing an
+   off-center X on toggle, and this removes that whole chain of indirection. All three bars
+   share the exact same center point (container height 48px / 2 = 24px, minus half the bar's
+   own 2px height = 23px, so `top: 23px` is each bar's own vertical center), then line-1/
+   line-3 offset from that shared center by ±8px (6px gap + 2px bar height) to fan out into
+   the resting 3-bar look — and collapse back to that same shared center, unoffset, to form
+   the X on toggle. Every bar rotates around its own center (`transform-origin` inherited
+   from .mobile-menu-btn context isn't used here — each bar is its own positioning context). */
 .hamburger-line {
     display: block;
+    position: absolute;
+    left: 50%;
+    top: 23px;
     width: 24px;
     height: 2px;
     background-color: #000000;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
     transform-origin: center;
 }
+.line-1 { transform: translate(-50%, -8px); }
+.line-2 { transform: translate(-50%, 0); }
+.line-3 { transform: translate(-50%, 8px); }
 
 /* [NEW] White hamburger lines when at the top */
 .navbar.navbar-invert-top:not(.scrolled):not(.menu-open) .hamburger-line {
@@ -1084,15 +1155,20 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateY(0);
 }
 
-/* Hamburger Animation States */
+/* Hamburger Animation States — every bar shares one absolute-positioned center (see
+   .hamburger-line above), so forming the X is just: cancel each bar's own resting offset
+   (translate back to (-50%, 0), i.e. the shared center) and rotate it there. Because both
+   bars converge on the exact same point before rotating, they're guaranteed to cross
+   perfectly centered — there's no separate distance/gap value that could drift out of sync
+   with the resting layout, unlike the old flex+translateY version. */
 .mobile-menu-btn.is-active .line-1 {
-    transform: translateY(8px) rotate(45deg);
+    transform: translate(-50%, 0) rotate(45deg);
 }
 .mobile-menu-btn.is-active .line-2 {
     opacity: 0;
 }
 .mobile-menu-btn.is-active .line-3 {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translate(-50%, 0) rotate(-45deg);
 }
 
 .mobile-menu-wrapper {
@@ -1125,16 +1201,19 @@ html.lenis, html.lenis body { height: auto; }
     margin-top: 3vh; /* Memberi jarak napas dari daftar menu */
 }
 
+/* Descendant selector (0,2,0) already outranks Webflow's own .button-normal-black-wrapper-2
+   (0,1,0, no !important) for both properties. */
 .mobile-cta .button-normal-black-wrapper-2 {
-    padding: 18px 36px !important;
+    padding: 18px 36px;
     border-radius: 0; /* Squircle lebih tegas di mobile */
-    font-size: 1.1rem !important;
+    font-size: 1.1rem;
 }
 
+/* .mobile-menu-overlay/.mobile-menu-btn don't exist in Webflow's stylesheet — nothing to outrank. */
 @media (min-width: 992px) {
     .mobile-menu-overlay,
     .mobile-menu-btn {
-        display: none !important;
+        display: none;
     }
 }
 /* #endregion */
@@ -1144,16 +1223,26 @@ html.lenis, html.lenis body { height: auto; }
    14. CTA VISIBILITY MANAGEMENT
    ========================================= */
 /* Desktop (Landscape & up) - Show CTA, Hide Burger */
+/* At 992px+, Webflow's [data-collapse="medium"] .w-nav-menu rule (which the mobile block
+   below has to fight) only applies at max-width:991px, so nothing competes with these two
+   at this breakpoint. */
 @media (min-width: 992px) {
-    .desktop-cta { display: block !important; }
-    .mobile-menu-btn { display: none !important; }
+    .desktop-cta { display: block; }
+    .mobile-menu-btn { display: none; }
 }
 
 /* Tablet & Mobile (Portrait & Landscape) - Hide CTA, Show Burger */
 @media (max-width: 991px) {
+    /* The navbar element carries data-collapse="medium" (see navbar.html), which makes
+       Webflow's own `.w-nav[data-collapse="medium"] .w-nav-menu { display: none }` rule
+       (specificity 0,2,0, in the same max-width:991px breakpoint) a real competitor for
+       .desktop-cta since it also carries .w-nav-menu in the markup. Matching that attribute
+       selector here brings this rule to equal specificity, which then wins by source order
+       (this stylesheet loads after Webflow's) — no !important needed. */
     .desktop-cta,
-    .desktop.w-nav-menu { display: none !important; }
-    .mobile-menu-btn { display: flex !important; }
+    .desktop.w-nav-menu,
+    .w-nav[data-collapse="medium"] .desktop-cta { display: none; }
+    .mobile-menu-btn { display: flex; }
 }
 /* #endregion */
 
@@ -1187,9 +1276,10 @@ html.lenis, html.lenis body { height: auto; }
         font-size: clamp(3.5rem, 9vw, 7.5rem);
     }
 
-    /* Remove any manual line breaks on desktop */
+    /* Remove any manual line breaks on desktop. No !important: Webflow has no `br`
+       descendant rule for this class at all — nothing to outrank. */
     .home-hero-headline-text-2 br {
-        display: none !important;
+        display: none;
     }
 }
 
@@ -1199,10 +1289,16 @@ html.lenis, html.lenis body { height: auto; }
     contain-intrinsic-size: 1px 1000px; /* Estimate height to prevent scrollbar jumping */
 }
 
-/* Content Visibility for Heavy Sections */
-.footer-2 {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 1000px; /* Estimate height to prevent scrollbar jumping */
+/* Sharp-edge form controls — Webflow's own .input/.btn-submit/.form-block-default/
+   .button-button-icon.relative rules default to rounded corners (10px/13px/7px), which reads
+   as soft against the site's sharp-edge editorial direction everywhere else. Selectors here
+   match or exceed Webflow's own specificity for these same classes, and this file loads
+   after Webflow's, so source order wins without needing !important. */
+.input,
+.btn-submit,
+.form-block-default,
+.button-button-icon.relative {
+    border-radius: 0;
 }
 
 /* [OPTIMIZATION] Dimatikan sementara karena bentrok dengan kalkulasi
@@ -1559,11 +1655,16 @@ html.lenis, html.lenis body { height: auto; }
 /* =========================================
    18. PORTFOLIO HOVER EFFECTS
    ========================================= */
+/* border-radius: a static check of the current Webflow stylesheet found no border-radius
+   rule at all on .w-inline-block or any class .blog-main-wrapper is actually paired with
+   (confirmed via portfolio.js's markup, which never combines the two) — the !important this
+   historically needed to fight Webflow's rounded corners doesn't appear to be load-bearing
+   against the CSS as it exists today. */
 .blog-main-wrapper {
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    border-radius: 0 !important; /* Webflow's shared stylesheet rules for this element's other classes (w-inline-block etc) were winning the rounded-corner property — see .image-wrap below for the same fix */
+    border-radius: 0;
     overflow: hidden;
     text-decoration: none;
     /* height was 100% here, which — even with #portfolio-grid's align-items:start —
@@ -1579,16 +1680,20 @@ html.lenis, html.lenis body { height: auto; }
     will-change: transform;
 }
 
+/* Descendant selector (0,2,0) already outranks Webflow's generic `img` (0,0,1) and its own
+   .paralax-image (0,1,0, which already sets border-radius:0 there too — same value, no
+   actual conflict). */
 .blog-main-wrapper img,
 .blog-main-wrapper .paralax-image {
-    border-radius: 0 !important;
+    border-radius: 0;
 }
 
 /* Corner "view project" arrow button — had no local rule at all before, so it was
    rendering with whatever radius Webflow's shared stylesheet gives .w-inline-block/
-   button elements by default instead of the site's sharp-edge language. */
+   button elements by default instead of the site's sharp-edge language. Descendant selector
+   (0,2,0) already outranks Webflow's own .button-icon-main (0,1,0, border-radius:11px). */
 .blog-main-wrapper .button-icon-main {
-    border-radius: 0 !important;
+    border-radius: 0;
 }
 
 .blog-main-wrapper:hover {
@@ -1601,13 +1706,12 @@ html.lenis, html.lenis body { height: auto; }
     overflow: hidden;
     width: 100%;
     background-color: #f5f5f7;
-    /* !important: this element also carries Webflow's own .w-inline-block class (see
-       portfolio.js's card markup — class="image-wrap auto full-ratio w-inline-block"),
-       and the Webflow shared stylesheet's own rules for that class were still winning
-       the rounded-corner property over this same-specificity single-class selector,
-       leaving these cards visibly rounded despite the site's sharp-edge editorial
-       direction everywhere else. */
-    border-radius: 0 !important;
+    /* This element also carries Webflow's own .w-inline-block/.auto/.full-ratio classes
+       (see portfolio.js's card markup — class="image-wrap auto full-ratio w-inline-block").
+       A static check of none of those found a border-radius rule at all in the current
+       Webflow stylesheet, so the !important this historically needed doesn't appear to be
+       load-bearing against the CSS as it exists today. */
+    border-radius: 0;
 }
 
 /* Portfolio specific text padding */
@@ -1724,11 +1828,12 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* [NEW] CTA On-going State */
+/* .portfolio-cta doesn't exist in Webflow's stylesheet at all — nothing to outrank. */
 .portfolio-cta.is-ongoing-cta {
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: not-allowed !important;
+    cursor: not-allowed;
     box-shadow: none;
 }
 
@@ -1743,15 +1848,20 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* Custom Link & Accordion for Portfolio Cards */
+/* This element also carries Webflow's .text-block-3 class (portfolio.js's markup:
+   class="text-block-3 portfolio-title-link"). Webflow's own color rules — the generic `a`
+   tag selector (0,0,1) and .text-block-3 itself (0,1,0) — are both same-or-lower specificity
+   than .portfolio-title-link (0,1,0) / .portfolio-title-link:hover (0,2,0), and this
+   stylesheet loads after Webflow's, so source order already decides in our favor. */
 .portfolio-title-link {
     text-decoration: none;
-    color: #111 !important;
+    color: #111;
     font-weight: 700;
     letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 .portfolio-title-link:hover {
-    color: var(--text-secondary-color) !important;
+    color: var(--text-secondary-color);
 }
 
 .client-accordion-trigger {
@@ -2026,11 +2136,14 @@ html.lenis, html.lenis body { height: auto; }
    20. BITS & PIECES SLIDER
    ========================================= */
 /* [FIX] Prevent slides from expanding page width */
-.bits-and-pieces-wrapper, 
+/* .bits-and-pieces-wrapper/.slider-wrapper/.bits-slider are project-specific classes that
+   don't exist in Swiper's own bundled CSS (checked the actual stylesheet, no matches) —
+   nothing to outrank for `overflow` here. */
+.bits-and-pieces-wrapper,
 .slider-wrapper {
     position: relative;
     width: 100%;
-    overflow: visible !important; 
+    overflow: visible;
 }
 .bits-slider {
     /* [FIX] Full Bleed Edge-to-Edge pada Desktop & Mobile tanpa clipping */
@@ -2038,7 +2151,7 @@ html.lenis, html.lenis body { height: auto; }
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
     padding: 60px 0 100px; /* Disesuaikan agar proporsional */
-    overflow: visible !important; /* Mencegah clipping shadow dan scale-up arrow bawaan swiper */
+    overflow: visible; /* Mencegah clipping shadow dan scale-up arrow bawaan swiper */
 }
 
 .bits-slider .swiper-wrapper {
@@ -2066,9 +2179,12 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 10;
 }
 
+/* Descendant selectors below (0,2,0) already outrank Swiper's own bundled .swiper-pagination
+   / .swiper-pagination-bullet rules (both 0,1,0) regardless of the two stylesheets' load
+   order, since specificity beats source order whenever they differ. */
 .bits-slider .swiper-pagination {
-    position: relative !important;
-    bottom: auto !important; /* Mereset posisi agar tidak naik */
+    position: relative;
+    bottom: auto; /* Mereset posisi agar tidak naik */
     margin-top: 10px; /* Memberi jarak karena sudah dibantu padding-bottom swiper-wrapper */
     width: 100%;
     display: flex;
@@ -2085,7 +2201,7 @@ html.lenis, html.lenis body { height: auto; }
     height: 8px;
     transition: all 0.5s var(--ease-smooth);
     border-radius: 50%;
-    margin: 0 !important;
+    margin: 0;
 }
 
 .bits-slider .swiper-pagination-bullet-active {
@@ -3511,6 +3627,13 @@ html.lenis, html.lenis body { height: auto; }
 .tldr-text { font-family: var(--font-primary); font-size: 1rem; color: #111; font-weight: 500; line-height: 1.5; }
 
 /* Sticky Dot Navigation */
+/* mix-blend-mode:difference on the whole nav auto-inverts it against WHATEVER is behind it
+   (solid dark sections, images, video, patterned backgrounds like #hardskills) with no need
+   to tag individual sections as dark/light — white content blended with difference against a
+   light background renders as black, and against a dark background renders as white,
+   automatically, at every scroll position. This replaces the old data-nav-invert
+   IntersectionObserver approach, which only caught sections explicitly marked by hand and
+   missed others (e.g. #hardskills), leaving black-on-black text. */
 .cs-sticky-nav {
     position: fixed;
     right: 32px;
@@ -3520,16 +3643,14 @@ html.lenis, html.lenis body { height: auto; }
     flex-direction: column;
     gap: 16px;
     z-index: 100;
+    mix-blend-mode: difference;
 }
 @media (max-width: 991px) {
     .cs-sticky-nav { display: none; } /* Hide on mobile/tablet */
 }
 .cs-nav-item { position: relative; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; padding: 4px; }
-.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(0,0,0,0.15); transition: all 0.3s var(--ease-smooth); }
-/* --page-accent falls back to #111 when a page doesn't set it (only case studies with
-   a brand color on <body> override it), so the active nav dot picks up that project's
-   own brand color instead of being flat black on every case study alike. */
-.cs-nav-item:hover .cs-nav-dot, .cs-nav-item.active .cs-nav-dot { background-color: var(--page-accent, #111); transform: scale(1.5); }
+.cs-nav-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background-color: rgba(255,255,255,0.4); transition: all 0.3s var(--ease-smooth); }
+.cs-nav-item:hover .cs-nav-dot, .cs-nav-item.active .cs-nav-dot { background-color: #fff; transform: scale(1.5); }
 .cs-nav-dot-ring {
     position: absolute;
     top: 50%; left: 50%;
@@ -3539,7 +3660,7 @@ html.lenis, html.lenis body { height: auto; }
     transition: opacity 0.3s ease;
 }
 .cs-nav-dot-ring circle {
-    stroke: var(--page-accent, #111);
+    stroke: #fff;
     stroke-dasharray: 50.27; /* 2 * PI * r(8) */
     stroke-dashoffset: 50.27;
     transform: rotate(-90deg);
@@ -3547,36 +3668,16 @@ html.lenis, html.lenis body { height: auto; }
     transition: stroke-dashoffset 0.1s linear;
 }
 .cs-nav-item.active .cs-nav-dot-ring { opacity: 1; }
+/* Label only ever shows on hover (including the active item) — it used to stay visible at
+   rest for the active section, which sat directly over page content and blocked it. White,
+   no background box: the parent's mix-blend-mode:difference is what keeps it readable
+   against any background, not its own color. */
 .cs-nav-label {
-    position: absolute; right: 24px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 600; color: #111;
+    position: absolute; right: 24px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 600; color: #fff;
     opacity: 0; transform: translateX(10px); transition: all 0.3s var(--ease-smooth);
-    pointer-events: none; white-space: nowrap; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 0; box-shadow: none;
+    pointer-events: none; white-space: nowrap; background: transparent; padding: 0; border-radius: 0; box-shadow: none;
 }
 .cs-nav-item:hover .cs-nav-label { opacity: 1; transform: translateX(0); }
-.cs-nav-item.active .cs-nav-label {
-    /* Optional: Show label slightly when active, or keep it hidden unless hovered */
-    opacity: 1;
-    transform: translateX(0);
-    background: transparent;
-    box-shadow: none;
-    color: var(--text-secondary-color);
-}
-
-/* [NEW] Light-on-dark variant — toggled via IntersectionObserver (see the
-   data-nav-invert script) while a dark section like the CTA showreel is in view, so the
-   nav stays visible instead of dark dots/labels disappearing against a dark background. */
-.cs-sticky-nav.is-inverted .cs-nav-dot { background-color: rgba(255,255,255,0.35); }
-.cs-sticky-nav.is-inverted .cs-nav-item:hover .cs-nav-dot,
-.cs-sticky-nav.is-inverted .cs-nav-item.active .cs-nav-dot {
-    background-color: #fff;
-}
-.cs-sticky-nav.is-inverted .cs-nav-label {
-    color: #fff;
-    background: rgba(0,0,0,0.6);
-}
-.cs-sticky-nav.is-inverted .cs-nav-item.active .cs-nav-label {
-    color: rgba(255,255,255,0.7);
-}
 /* #endregion */
 
 /* Mobile adjustments for premium spacing */
@@ -4037,7 +4138,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .drag-item:active {
     cursor: grabbing;
-    z-index: 100 !important; /* Bring to front when dragging */
+    z-index: 100; /* Bring to front when dragging — .drag-item doesn't exist in Webflow's stylesheet, nothing to outrank */
 }
 
 .card-item {
@@ -4241,7 +4342,7 @@ html.lenis, html.lenis body { height: auto; }
     .card-item {
         width: 180px; /* Slightly smaller cards */
     }
-    .drag-item { cursor: default !important; } /* Disable grab cursor on touch devices */
+    .drag-item { cursor: default; } /* Disable grab cursor on touch devices — same-specificity override of the base .drag-item rule above, wins by source order (this @media block comes later) */
 
     /* --- Balanced pair for Tablet ---
        2 positions for 2 items: 1 sparkle left, 2 sparkle right — matches the current
@@ -4302,10 +4403,11 @@ html.lenis, html.lenis body { height: auto; }
     }
 
     /* Hide the remaining decorative stickers not used in the current hero (kept for
-       backward compatibility with older markup) for a cleaner look on mobile. */
+       backward compatibility with older markup) for a cleaner look on mobile.
+       .sticker-pill/.sticker-circle don't exist in Webflow's stylesheet — nothing to outrank. */
     .sticker-pill,
     .sticker-circle {
-        display: none !important;
+        display: none;
     }
 }
 
@@ -4569,8 +4671,12 @@ html.lenis, html.lenis body { height: auto; }
    ========================================= */
 .data-validation-section {
     width: 100%;
-    padding: 140px 0; /* Generous vertical padding */
-    background-color: #FAFAFA; /* Subtle off-white for contrast against white body */
+    /* Was padding:140px 0 with an off-white background — stacked on top of .section-margin's
+       own 176px gap, that pushed this section's content much further from its neighbors than
+       every other section, and the #FAFAFA tint broke the page's otherwise all-white
+       background. No internal padding/background here now; spacing comes from
+       .section-margin alone, matching the rest of the page. */
+    background-color: #fff;
     border-top: 1px solid rgba(0,0,0,0.03);
     border-bottom: 1px solid rgba(0,0,0,0.03);
 }
@@ -4618,7 +4724,6 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 @media (max-width: 767px) {
-    .data-validation-section { padding: 80px 0; }
     .data-grid { grid-template-columns: 1fr; gap: 48px; }
 }
 /* #endregion */
@@ -4752,10 +4857,11 @@ html.lenis, html.lenis body { height: auto; }
    ========================================= */
 
 /* --- Selected Works Slider --- */
+/* .works-slider doesn't exist in Swiper's own bundled CSS — nothing to outrank for `overflow`. */
 .works-slider {
     width: 100%;
     padding: 40px 0 80px;
-    overflow: visible !important; /* Memastikan overflow kiri-kanan tembus meluber batas layar */
+    overflow: visible; /* Memastikan overflow kiri-kanan tembus meluber batas layar */
 }
 .works-slider .swiper-slide {
     width: 80%;
@@ -4770,7 +4876,7 @@ html.lenis, html.lenis body { height: auto; }
     transform: scale(1.05); /* Pop-up (keluar) untuk slide tengah */
     z-index: 10;
 }
-.works-slider .swiper-pagination { bottom: 20px !important; }
+.works-slider .swiper-pagination { bottom: 20px; } /* Descendant selector (0,2,0) already outranks Swiper's own .swiper-pagination (0,1,0), which doesn't set `bottom` anyway */
 .works-slider .swiper-pagination-bullet { background: #ccc; opacity: 1; }
 .works-slider .swiper-pagination-bullet-active { background: #000; }
 .works-slider .swiper-button-next, .works-slider .swiper-button-prev {
@@ -4787,14 +4893,15 @@ html.lenis, html.lenis body { height: auto; }
 .solution-showcase {
     display: flex;
     flex-direction: column;
-    gap: 140px; /* Was 100px — with a full-height landscape video in item 1, 100px read as
-        the next item crowding in right after it; more room reads as a clean section break. */
+    gap: 56px; /* Was 140px, then 96px — with two adjacent .is-timeline items (full-width
+        video, then full-width title) even 96px still read as an oversized dead zone between
+        them; this keeps items feeling like one continuous flow rather than separate pages. */
 }
 @media (max-width: 991px) {
-    .solution-showcase { gap: 96px; }
+    .solution-showcase { gap: 48px; }
 }
 @media (max-width: 767px) {
-    .solution-showcase { gap: 64px; }
+    .solution-showcase { gap: 40px; }
 }
 
 .solution-video-item {
@@ -4839,11 +4946,32 @@ html.lenis, html.lenis body { height: auto; }
    the video below. text-align stays left on the paragraph itself: text-align:right there
    made every line ragged-left/jagged instead of a clean block, which read as messy rather
    than "flipped right". */
-.solution-video-content--right .sol-desc {
+/* Pins the whole column (title + paragraph(s)) to the right as one block, then aligns the
+   title and paragraph to each other's LEFT edge within that block (not each other's right
+   edge — flex-end pinned the title to the far right of the 60ch column while the shorter
+   paragraph sat well short of it, throwing them out of alignment). margin-left:auto pushes
+   the whole fixed-width column right; align-items:flex-start keeps children flush to that
+   column's own left edge, so title and paragraph share one starting point. */
+.solution-video-content--right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.solution-video-content--right .sol-desc,
+.solution-video-content--right .sol-title {
     text-align: left;
-    max-width: 60ch;
-    margin-left: auto;
-    margin-right: 0;
+    max-width: 100%;
+}
+/* The right-pinned column is a desktop-only effect (matches .is-timeline's own
+   min-width:992px breakpoint above) — below that, .solution-video-item is single-column
+   already, so the extra 60ch cap + margin-left:auto here was shrinking the block and
+   nudging it off the shared left edge instead of running full-width like every other item. */
+@media (min-width: 992px) {
+    .solution-video-content--right {
+        width: 60ch;
+        max-width: 100%;
+        margin-left: auto;
+    }
 }
 
 .solution-video-player {
@@ -4891,6 +5019,28 @@ html.lenis, html.lenis body { height: auto; }
 }
 .sol-desc + .sol-desc {
     margin-top: 32px;
+}
+
+/* [NEW] "Adapting to the Shoot" split layout — title full-width on top, first paragraph
+   flush left in its own narrow column, second paragraph offset to the right and sitting
+   lower (not a symmetric two-column grid: the two blocks don't share a top edge or line up
+   into columns, they read as two separate notes placed at different points on the line). */
+.solution-split-cols {
+    display: flex;
+    flex-direction: column;
+}
+.solution-split-cols .sol-desc {
+    max-width: 52ch;
+}
+.solution-split-cols .sol-desc + .sol-desc {
+    align-self: flex-end;
+    margin-top: 40px;
+}
+@media (max-width: 767px) {
+    .solution-split-cols .sol-desc + .sol-desc {
+        align-self: flex-start;
+        margin-top: 24px;
+    }
 }
 
 /* --- Key Takeaways Grid --- */
@@ -5238,7 +5388,9 @@ html.lenis, html.lenis body { height: auto; }
        the column to the video's actual width instead. */
     .solution-video-item.has-reel {
         grid-template-columns: auto 1fr;
-        gap: 80px;
+        gap: 88px; /* Matches .is-timeline's own text-to-visual gap (was 80px) so the internal
+            spacing reads the same across every Creative Approach item, not just the gap
+            between items. */
     }
     .solution-video-item.has-reel:nth-child(even) {
         grid-template-columns: auto 1fr; /* Teks di kiri, Video di kanan */
@@ -5270,6 +5422,40 @@ html.lenis, html.lenis body { height: auto; }
        against its neighbor. */
     .solution-video-item.has-reel.has-reel--flip {
         grid-template-columns: 1fr auto;
+    }
+    /* "From Teaser to Story" carries a pair of reels (not one), so its video column is wider
+       than the single-reel case above — 1fr auto let the wide video column push the text
+       column all the way to the section's right edge instead of sitting close beside the
+       video like the reference. Fixed proportions keep the text column snug against it. */
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair {
+        grid-template-columns: auto 1fr;
+        gap: 48px;
+    }
+    /* Text column: was capped at 34ch (too narrow, forced choppy 2-3 word lines), then
+       uncapped to the full 1fr track (too wide — lines ran the entire remaining width while
+       the text block itself stayed short, reading as a sparse, off-balance corner instead of
+       a considered editorial column). A proper reading measure lands between the two. */
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair .solution-video-content {
+        max-width: 46ch;
+        /* Pin the whole text block to the far right of the 1fr track (its own right edge
+           lines up with the video's right edge above), instead of sitting flush against the
+           track's left edge right next to the video — text inside the block stays left-
+           aligned as normal, only the block itself moves. */
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair .sol-desc {
+        max-width: none; /* Column width now comes from the parent above, not per-paragraph */
+    }
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair .sol-title {
+        margin-bottom: 32px;
+    }
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair .sol-desc:last-child {
+        margin-bottom: 0; /* No trailing space below the last paragraph, so its own text
+            block ends flush at the bottom instead of short of it */
+    }
+    .solution-video-item.has-reel.has-reel--flip.has-reel--pair .sol-desc + .sol-desc {
+        margin-top: 24px;
     }
     .solution-video-item.has-reel.has-reel--flip .solution-video-content {
         grid-column: 2;
@@ -5337,14 +5523,17 @@ html.lenis, html.lenis body { height: auto; }
 /* [NEW] Layout khusus untuk video landscape (mis. timeline editing): teks di atas, video full-width di bawah, bukan kiri-kanan */
 .solution-video-item.is-timeline {
     grid-template-columns: 1fr;
-    gap: 88px; /* Was 40px, then 56px — still read cramped between the short text block and
-        the hero film below it; this stacks 3 blocks (text, hero film, reel grid), so it
-        needs more room than a typical 2-block item to read as separate, editorial beats. */
+    gap: 32px; /* Mobile: text sits directly above its own visual now (2 stacked blocks, not
+        the old 3-block text/hero-film/reel-grid stack), so a tight editorial gap reads right
+        instead of the 88px meant for that taller stack leaving a dead gap on small screens. */
 }
 @media (min-width: 992px) {
     .solution-video-item.is-timeline,
     .solution-video-item.is-timeline:nth-child(even) {
         grid-template-columns: 1fr; /* Override layout kiri-kanan default, jadi 1 kolom */
+        gap: 88px; /* Was 40px, then 56px — still read cramped between the short text block and
+            the hero film below it; this stacks 3 blocks (text, hero film, reel grid), so it
+            needs more room than a typical 2-block item to read as separate, editorial beats. */
     }
     .solution-video-item.is-timeline:nth-child(even) .solution-video-content {
         grid-column: 1;
@@ -5356,6 +5545,101 @@ html.lenis, html.lenis body { height: auto; }
     max-width: 100%;
     width: 100%;
     margin: 0 auto;
+}
+
+/* [NEW] "Building the Look" process clips — two 16:9 slots side by side on desktop
+   (color grading + timeline editing), stacked on mobile. Empty placeholder styling
+   until the actual muted process clips are exported and dropped into the markup. */
+.process-clip-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+@media (min-width: 768px) {
+    .process-clip-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.process-clip-slot {
+    background: #111;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+}
+.process-clip-slot::after {
+    content: attr(data-process-label);
+    color: rgba(255,255,255,0.4);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* [NEW] "From Teaser to Story" — desktop shows both reels side by side as a static pair (no
+   swipe: Swiper is never initialized above 767px, see initTeaserStorySlider), matching the
+   has-reel column's video-left/text-right layout. Below 768px the same markup becomes a real
+   swipeable Swiper carousel, one reel at a time with pagination dots underneath. */
+.teaser-story-slider {
+    width: 100%;
+    overflow: hidden;
+}
+.teaser-story-pagination {
+    display: none;
+}
+/* Tablet only (768-991px): Swiper is NOT instantiated in this range (initTeaserStorySlider
+   only activates it below 768px, and the desktop static-pair layout only kicks in at
+   992px+), so .swiper-wrapper is still a plain, un-JS'd flex container here. Its default
+   flex row (no width cap) let two 380px-max reels overflow past the section's width, pushing
+   the second one out of view — flex-direction:column stacks them instead so both stay
+   visible and in-flow. */
+@media (min-width: 768px) and (max-width: 991px) {
+    .teaser-story-slider .swiper-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+    }
+    .teaser-story-slider .swiper-slide {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .teaser-story-slider .video-player-wrapper.is-reel {
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+@media (min-width: 992px) {
+    .teaser-story-slider .swiper-wrapper {
+        display: flex;
+        gap: 16px;
+    }
+    .teaser-story-slider .swiper-slide {
+        width: auto;
+    }
+    .teaser-story-slider .video-player-wrapper.is-reel {
+        margin: 0;
+    }
+}
+/* Mobile (below 768px): Swiper IS instantiated here (see initTeaserStorySlider), so its own
+   JS sets .swiper-wrapper's flex-direction/transform for the horizontal swipe carousel —
+   this file must not set flex-direction/width on .swiper-wrapper or .swiper-slide in this
+   range (that's what the tablet-only rule above being scoped to 768-991px, not max-width:991px,
+   now prevents), or it would fight Swiper's own layout and break the swipe. Only non-layout
+   cosmetic tweaks (padding, pagination visibility) belong here. */
+@media (max-width: 767px) {
+    .teaser-story-slider {
+        padding-bottom: 36px; /* Room for pagination dots below the reel */
+    }
+    .teaser-story-slider .video-player-wrapper.is-reel {
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    .teaser-story-pagination {
+        display: block;
+        position: static;
+        margin-top: 8px;
+    }
 }
 
 /* [NEW] Video Center Play/Pause Feedback Animation */
@@ -5652,14 +5936,17 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 5;
 }
 
+/* This is an <h1> in the markup — the site's global `h1,h2,h3...` rule (element selector,
+   0,0,1) sets font-weight:700/line-height:1.15, but .cs-hero-title (0,1,0) already outranks
+   it, and .cs-hero-title doesn't exist in Webflow's stylesheet at all. */
 .cs-hero-title {
     font-family: var(--font-primary);
     /* [UPDATED] Ukuran Editorial: Elegan, tidak terlalu raksasa, tetap punchy */
-    font-size: clamp(2.5rem, 8vw, 6rem); 
-    font-weight: 800 !important; /* ExtraBold (lebih bersih daripada Black/900) */
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 800; /* ExtraBold (lebih bersih daripada Black/900) */
     text-transform: uppercase;
     letter-spacing: -0.03em; /* Rapat tapi tidak berhimpitan */
-    line-height: 1.15 !important; /* Jarak baris disesuaikan agar aman untuk teks multi-baris */
+    line-height: 1.15; /* Jarak baris disesuaikan agar aman untuk teks multi-baris */
     color: rgba(255, 255, 255, 0.95); /* Sedikit transparan agar blending lebih halus */
     margin: 0 0 20px 0;
     word-spacing: 0.1em;
@@ -5706,13 +5993,15 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* [NEW] Class untuk memastikan section full screen & center vertikal */
+/* .portfolio-hero-section-center doesn't exist in Webflow's stylesheet, and there's no
+   competing local .portfolio-hero-section rule either — nothing to outrank. */
 .portfolio-hero-section-center {
     min-height: 100vh;        /* Full viewport height */
-    display: flex !important;
+    display: flex;
     align-items: center;      /* Vertically center */
     justify-content: center;  /* Horizontally center */
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* [NEW] Top Scrim Gradient to ensure White Navbar is always readable on bright images */
@@ -5731,7 +6020,7 @@ html.lenis, html.lenis body { height: auto; }
 /* Desktop Adjustments */
 @media (min-width: 992px) {
     .cs-hero-title {
-        line-height: 1.05 !important; /* Diubah agar tidak bertabrakan saat teks turun ke baris ke-2 */
+        line-height: 1.05; /* Diubah agar tidak bertabrakan saat teks turun ke baris ke-2 — same-specificity override of the base rule above, wins by source order */
     }
 }
 
@@ -5770,27 +6059,29 @@ html.lenis, html.lenis body { height: auto; }
 /* =========================================
    35. UNIVERSAL HOVER (REPLACES WEBFLOW IX2)
    ========================================= */
-/* Target common social icon setups in Webflow */
+/* Target common social icon setups in Webflow. No !important needed anywhere in this block:
+   Webflow's own stylesheet sets no transition/transform/opacity on `img` at all (generic or
+   in any of these class combos), so there's nothing to outrank. */
 #footer-container a.w-inline-block img,
 .footer-social-link img,
 a.social-icon img {
-    transition: all 0.4s var(--ease-smooth) !important;
+    transition: all 0.4s var(--ease-smooth);
     will-change: transform, opacity;
 }
 
 #footer-container a.w-inline-block:hover img,
 .footer-social-link:hover img,
 a.social-icon:hover img {
-    transform: translateY(-3px) scale(1.05) !important;
-    opacity: 0.7 !important;
+    transform: translateY(-3px) scale(1.05);
+    opacity: 0.7;
 }
 
 /* Pengecualian agar Logo Brand tidak ikut ter-invert secara tidak sengaja */
 #footer-container a.brand img,
 #footer-container a.logo img,
 #footer-container a.w-nav-brand img {
-    transform: none !important;
-    opacity: 1 !important;
+    transform: none;
+    opacity: 1;
 }
 /* #endregion */
 
@@ -6186,17 +6477,18 @@ a.social-icon:hover img {
     gap: 8px; 
 }
 .addon-subitem-name svg {
-    color: #aaa !important;
-    stroke-width: 2 !important;
+    color: #aaa; /* .addon-subitem-name doesn't exist in Webflow's stylesheet — nothing to outrank */
+    stroke-width: 2;
 }
 .addon-subitem-price { font-weight: 400; color: #666; font-feature-settings: "tnum" on; }
 
 .addon-note { font-size: 0.8rem; color: var(--text-secondary-color); margin-top: 6px; line-height: 1.5; font-weight: 400; }
 
 /* Premium Addon Dropdown */
+/* .addon-has-dropdown doesn't exist in Webflow's stylesheet — nothing to outrank. */
 .addon-has-dropdown {
-    display: block !important;
-    padding: 0 !important;
+    display: block;
+    padding: 0;
     cursor: default;
 }
 .addon-dropdown-header {
@@ -7085,8 +7377,10 @@ a.social-icon:hover img {
 }
 
 .tldr-section p { font-size: 0.95rem; line-height: 1.6; color: #555; margin: 0; font-weight: 500; }
-.toc-section ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
-.toc-section li { margin-bottom: 12px !important; }
+/* .toc-section ul (0,1,1) already outranks Webflow's generic `ul`/`ul, ol` rules (0,0,1);
+   .toc-section li has no competing Webflow rule for `li` at all. */
+.toc-section ul { list-style: none; padding: 0; margin: 0; }
+.toc-section li { margin-bottom: 12px; }
 .toc-section a {
     font-size: 0.9rem;
     color: #555;
@@ -8034,7 +8328,9 @@ a.social-icon:hover img {
     font-family: var(--font-primary);
     font-size: 0.85rem;
     font-weight: 600;
-    text-decoration: none !important;
+    /* .bento-btn (0,1,0) already outranks Webflow's generic `a` rule (0,0,1, which sets
+       text-decoration:underline) — .bento-btn itself doesn't exist in Webflow's stylesheet. */
+    text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s var(--ease-smooth);
     transform: translateZ(0);
@@ -8292,6 +8588,10 @@ a.social-icon:hover img {
    still wrap to 2 lines on very narrow phones (~360px and under), turning the intended
    3-line quote into 4. Shrinking further at that width keeps it to 3 lines everywhere. */
 @media (max-width: 380px) {
+    /* !important required: #essence-quote carries an inline style="font-size: clamp(...)"
+       in the HTML (e.g. torch-x-gundam.html), and an inline style's specificity (1,0,0,0)
+       beats any external stylesheet selector regardless of id/class count — this is one of
+       the few cases where !important is the only way to override it from here. */
     #essence-quote {
         font-size: 1.9rem !important;
     }
