@@ -85,7 +85,10 @@
         </script>
 
         <link rel="preload" as="image" href="../assets/images/project/ngaliwet-raos/ngaliwet-main-hero.webp" fetchpriority="high">
-        <link rel="preload" as="video" href="../assets/videos/project/ngaliwet-raos/{{SHOWREEL_FILENAME}}" type="video/mp4" fetchpriority="high">
+        <!-- Showreel preload intentionally absent: the video asset for this project doesn't
+             exist yet (see the {{SHOWREEL_FILENAME}} placeholders below). A preload pointing at
+             an unresolved filename fires a guaranteed 404 on every page load. Restore this hint
+             once the real file lands in ../assets/videos/project/ngaliwet-raos/. -->
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
         <link href="../css/style.css?v=143" rel="stylesheet" type="text/css"/>
