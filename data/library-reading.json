@@ -52,9 +52,9 @@
     "access": "FREE"
   },
   {
-    "title": "Interaction of Color — animated lectures",
+    "title": "The Logic and Magic of Color — animated lectures from Interaction of Color",
     "author": "Josef & Anni Albers Foundation (audio: Josef Albers)",
-    "url": "https://albersfoundation.org/teaching/josef-albers/interaction-of-color/illustrated-lecture/",
+    "url": "https://www.albersfoundation.org/alberses/teaching/josef-albers/logic-magic-of-color",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -329,20 +329,20 @@
     "access": "FREE"
   },
   {
-    "title": "How to Write a Creative Brief",
-    "author": "Julian Cole · Planning Dirty",
-    "url": "https://www.planningdirty.com/blog/how-to-write-a-creative-brief",
+    "title": "Famous Creatives on How to Write the Perfect Design Brief",
+    "author": "AIGA Eye on Design",
+    "url": "https://eyeondesign.aiga.org/famous-creatives-on-how-to-write-the-perfect-design-brief/",
     "category": "DIRECT",
     "categoryLabel": "Direct",
     "access": "FREE"
   },
   {
     "title": "Why Does the Pedlar Sing? What Creativity Really Means in Advertising",
-    "author": "Paul Feldwick",
-    "url": "http://paulfeldwick.com/why-does-the-pedlar-sing/",
+    "author": "Paul Feldwick · Thinkbox",
+    "url": "https://www.thinkbox.tv/news-and-opinion/opinion/why-does-the-pedlar-sing",
     "category": "DIRECT",
     "categoryLabel": "Direct",
-    "access": "OPEN MANUALLY"
+    "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
     "title": "Design Is a Job",
@@ -361,9 +361,9 @@
     "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
-    "title": "The Art of Critique: How to Give and Receive Design Feedback",
-    "author": "Adam Connor & Aaron Irizarry · A List Apart",
-    "url": "https://alistapart.com/article/discussing-design-the-art-of-critique/",
+    "title": "Asynchronous Design Critique: Giving Feedback",
+    "author": "Erin Casali · A List Apart",
+    "url": "https://alistapart.com/article/async-design-critique-giving-feedback/",
     "category": "LEAD",
     "categoryLabel": "Lead",
     "access": "FREE"
@@ -419,7 +419,7 @@
   {
     "title": "Filterworld: How Algorithms Flattened Culture",
     "author": "Kyle Chayka · Doubleday",
-    "url": "https://www.penguinrandomhouse.com/books/708941/filterworld-by-kyle-chayka/",
+    "url": "https://www.penguinrandomhouse.com/books/695902/filterworld-by-kyle-chayka/",
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "BOOK (PAID) + FREE COMPANION"
@@ -507,7 +507,7 @@
   {
     "title": "PannaFoto Institute: Teaching Photography and Building Communities in Indonesia",
     "author": "Zhuang Wubin · Trans Asia Photography (Michigan Publishing)",
-    "url": "https://quod.lib.umich.edu/t/tap/7977573.0010.213/--pannafoto-institute-teaching-photography-and-building?rgn=main;view=fulltext",
+    "url": "http://hdl.handle.net/2027/spo.7977573.0010.213",
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "FREE"
