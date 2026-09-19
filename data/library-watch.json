@@ -10,11 +10,11 @@
     "access": "FREE"
   },
   {
-    "title": "John Berger / Ways of Seeing — Episode 1 (BBC, 1972)",
-    "author": "John Berger · BBC",
-    "url": "https://www.youtube.com/watch?v=0pDE4VX_9Kk",
-    "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/0pDE4VX_9Kk/maxresdefault.jpg",
+    "title": "Ways of Seeing — all four BBC episodes (1972)",
+    "author": "John Berger · BBC, via Internet Archive",
+    "url": "https://archive.org/details/WaysofSeeing",
+    "platform": "Internet Archive",
+    "thumbnail": "https://archive.org/download/WaysofSeeing/WaysofSeeing.thumbs/Ways.of.Seeing.S01E01.Reproductions.1974.VHSRip.AAC2.0.x264-rattera_000121.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -35,6 +35,16 @@
     "url": "https://www.youtube.com/watch?v=SXlOEHBJIyg",
     "platform": "YouTube",
     "thumbnail": "https://img.youtube.com/vi/SXlOEHBJIyg/maxresdefault.jpg",
+    "category": "SEE",
+    "categoryLabel": "See",
+    "access": "FREE"
+  },
+  {
+    "title": "Louisiana Channel — the design and architecture archive",
+    "author": "Louisiana Museum of Modern Art",
+    "url": "https://channel.louisiana.dk/topics/design",
+    "platform": "Video",
+    "thumbnail": "https://channel.louisiana.dk/wp-content/uploads/2014/02/Ruhwald3-e1504603076867.jpg",
     "category": "SEE",
     "categoryLabel": "See",
     "access": "FREE"
@@ -84,7 +94,7 @@
     "author": "Austin Kleon · TEDxKC",
     "url": "https://www.youtube.com/watch?v=oww7oB9rjgw",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/oww7oB9rjgw/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/oww7oB9rjgw/hqdefault.jpg",
     "category": "THINK",
     "categoryLabel": "Think",
     "access": "FREE"
@@ -145,6 +155,26 @@
     "url": "https://www.youtube.com/watch?v=doaQC-S8de8",
     "platform": "YouTube",
     "thumbnail": "https://img.youtube.com/vi/doaQC-S8de8/maxresdefault.jpg",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "DaVinci Resolve Color Grading for Beginners — free full course",
+    "author": "Envato Tuts+",
+    "url": "https://www.youtube.com/watch?v=jvQhY8F30uw",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/jvQhY8F30uw/maxresdefault.jpg",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "The Book Every Editor Has to Read — Walter Murch and In the Blink of an Eye",
+    "author": "StudioBinder",
+    "url": "https://www.youtube.com/watch?v=PKYeClvvlTw",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/PKYeClvvlTw/maxresdefault.jpg",
     "category": "MAKE",
     "categoryLabel": "Make",
     "access": "FREE"
@@ -270,10 +300,10 @@
     "access": "FREE"
   },
   {
-    "title": "Mike Monteiro: F*ck You. Pay Me.",
-    "author": "CreativeMornings/San Francisco",
-    "url": "https://vimeo.com/22053820",
-    "platform": "Vimeo",
+    "title": "Mike Monteiro: F*ck You, Pay Me",
+    "author": "CreativeMornings HQ",
+    "url": "https://www.youtube.com/watch?v=jVkLVRt6c1U",
+    "platform": "YouTube",
     "thumbnail": "https://img.youtube.com/vi/jVkLVRt6c1U/maxresdefault.jpg",
     "category": "LEAD",
     "categoryLabel": "Lead",
@@ -312,9 +342,9 @@
   {
     "title": "Stefan Sagmeister: The power of time off",
     "author": "Stefan Sagmeister · TEDGlobal",
-    "url": "https://www.youtube.com/watch?v=v2JvcpmyX48",
+    "url": "https://www.youtube.com/watch?v=MNuOmTQdFjA",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/v2JvcpmyX48/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/MNuOmTQdFjA/hqdefault.jpg",
     "category": "LEAD",
     "categoryLabel": "Lead",
     "access": "FREE"
@@ -330,14 +360,14 @@
     "access": "FREE"
   },
   {
-    "title": "Apichatpong Weerasethakul in Conversation",
-    "author": "Apichatpong Weerasethakul · Louisiana Channel",
-    "url": "https://www.youtube.com/watch?v=Cw5x5U0TbFY",
+    "title": "Conversation with Apichatpong Weerasethakul",
+    "author": "Locarno Film Festival",
+    "url": "https://www.youtube.com/watch?v=D9Lsfgz-cpc",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/Cw5x5U0TbFY/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/D9Lsfgz-cpc/maxresdefault.jpg",
     "category": "CULTURE",
     "categoryLabel": "Culture",
-    "access": "VERIFY ACCESS"
+    "access": "FREE"
   },
   {
     "title": "Tromarama: The Lost Jungle — Interview",

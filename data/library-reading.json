@@ -3,10 +3,10 @@
     "title": "Ways of Seeing",
     "author": "John Berger",
     "cover": "https://covers.openlibrary.org/b/id/95272-L.jpg",
-    "url": "https://www.penguinrandomhouse.com/books/324430/ways-of-seeing-by-john-berger/",
+    "url": "https://archive.org/details/waysofseeing00berg",
     "category": "SEE",
     "categoryLabel": "See",
-    "access": "BOOK (PAID) + FREE COMPANION"
+    "access": "FREE — ARCHIVE.ORG LENDING"
   },
   {
     "title": "The Nature of Photographs: A Primer",
@@ -21,10 +21,10 @@
     "title": "In Praise of Shadows",
     "author": "Jun’ichirō Tanizaki",
     "cover": "https://covers.openlibrary.org/b/id/707129-L.jpg",
-    "url": "https://penguin.co.uk/books/103/1033310/in-praise-of-shadows/9781784875572.html",
+    "url": "https://archive.org/details/inpraiseofshadow0000tani_o5j5",
     "category": "SEE",
     "categoryLabel": "See",
-    "access": "BOOK (PAID) + FREE COMPANION"
+    "access": "FREE — ARCHIVE.ORG LENDING"
   },
   {
     "title": "The Eyes of the Skin: Architecture and the Senses",
@@ -145,10 +145,10 @@
     "title": "In the Blink of an Eye: A Perspective on Film Editing (2nd ed.)",
     "author": "Walter Murch",
     "cover": "https://covers.openlibrary.org/b/id/925774-L.jpg",
-    "url": "https://www.silmanjamespress.com/shop/filmmaking-directing/in-the-blink-of-an-eye2nd-edition/",
+    "url": "https://archive.org/details/inblinkofeyepers00murc",
     "category": "MAKE",
     "categoryLabel": "Make",
-    "access": "BOOK (PAID) + FREE COMPANION"
+    "access": "FREE — ARCHIVE.ORG LENDING"
   },
   {
     "title": "Notes on the Cinematograph",
@@ -176,12 +176,36 @@
     "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
-    "title": "DaVinci Resolve — official training guides",
+    "title": "The Colorist Guide to DaVinci Resolve — free official PDF",
     "author": "Blackmagic Design",
     "url": "https://www.blackmagicdesign.com/products/davinciresolve/training",
     "category": "MAKE",
     "categoryLabel": "Make",
+    "access": "FREE PDF"
+  },
+  {
+    "title": "Clubhouse Conversations — cinematographers break down their own work",
+    "author": "American Society of Cinematographers",
+    "url": "https://theasc.com/american-cinematographer/videos/clubhouse-conversations",
+    "category": "MAKE",
+    "categoryLabel": "Make",
     "access": "FREE"
+  },
+  {
+    "title": "Every Frame a Painting — complete archive of all 28 essays",
+    "author": "Tony Zhou & Taylor Ramos · Internet Archive",
+    "url": "https://archive.org/details/every-frame-a-painting-yt-all",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE"
+  },
+  {
+    "title": "Cinematographic continuity edits across shot scales and camera angles: an ERP analysis",
+    "author": "Sanz-Aznar, Bruni & Soto-Faraco · Frontiers in Neuroscience",
+    "url": "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2023.1173704/full",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE — OPEN ACCESS PAPER"
   },
   {
     "title": "The Vignelli Canon",
@@ -189,7 +213,23 @@
     "url": "https://www.rit.edu/vignellicenter/sites/rit.edu.vignellicenter/files/documents/The%20Vignelli%20Canon.pdf",
     "category": "MAKE",
     "categoryLabel": "Make",
-    "access": "FREE"
+    "access": "FREE PDF"
+  },
+  {
+    "title": "Beyond (Type)Face Value: A Systematic Review of What Actually Affects Legibility",
+    "author": "Visible Language (University of Cincinnati)",
+    "url": "https://journals.uc.edu/index.php/vl/article/view/8855",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE — OPEN ACCESS PAPER"
+  },
+  {
+    "title": "Readability Research: An Interdisciplinary Approach",
+    "author": "Sofie Beier et al. · arXiv",
+    "url": "https://arxiv.org/abs/2107.09615",
+    "category": "MAKE",
+    "categoryLabel": "Make",
+    "access": "FREE — OPEN ACCESS PAPER"
   },
   {
     "title": "Dieter Rams: Ten principles for good design",
@@ -345,6 +385,14 @@
     "access": "BOOK (PAID) + FREE COMPANION"
   },
   {
+    "title": "The Long and the Short of It — the full IPA presentation",
+    "author": "Les Binet & Peter Field · IPA",
+    "url": "https://ipa.co.uk/media/5811/long_and_short_of_it_presentation_final.pdf",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE PDF"
+  },
+  {
     "title": "Design Is a Job",
     "author": "Mike Monteiro · A Book Apart",
     "url": "https://abookapart.com/products/design-is-a-job",
@@ -441,9 +489,9 @@
     "access": "FREE"
   },
   {
-    "title": "‘Emotions Are More Important Than Monsters’: An Interview with Apichatpong Weerasethakul",
-    "author": "Calum Marsh · Hazlitt",
-    "url": "https://hazlitt.net/feature/emotions-are-more-important-monsters-interview-apichatpong-weerasethakul",
+    "title": "A Mood and Awareness: An Interview with Apichatpong Weerasethakul",
+    "author": "Mike Stinavage · Gagosian Quarterly",
+    "url": "https://gagosian.com/quarterly/2025/02/18/interview-a-mood-and-awareness-apichatpong-weerasethakul/",
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "FREE"
@@ -487,6 +535,14 @@
     "category": "CULTURE",
     "categoryLabel": "Culture",
     "access": "OPEN MANUALLY"
+  },
+  {
+    "title": "ANDHARUPA: Jurnal Desain Komunikasi Visual & Multimedia",
+    "author": "Universitas Dian Nuswantoro · SINTA 2, CC BY 4.0",
+    "url": "https://publikasi.dinus.ac.id/index.php/andharupa",
+    "category": "CULTURE",
+    "categoryLabel": "Culture",
+    "access": "FREE — OPEN ACCESS JOURNAL"
   },
   {
     "title": "GARIN NUGROHO — A Daring Cineast Led by Untiring Inspiration",
@@ -572,6 +628,14 @@
     "title": "The Public Domain Review — Essays",
     "author": "The Public Domain Review",
     "url": "https://publicdomainreview.org/essays/",
+    "category": "REF",
+    "categoryLabel": "Archives",
+    "access": "FREE"
+  },
+  {
+    "title": "Open Culture — free films, courses and ebooks",
+    "author": "Open Culture",
+    "url": "https://www.openculture.com/freemoviesonline",
     "category": "REF",
     "categoryLabel": "Archives",
     "access": "FREE"
