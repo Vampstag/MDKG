@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 roles: ["Photography", "Editing", "Motion Design"],
                 link: "",
                 clientName: "Pink Roulette",
-                description: "Introducing Pink Roulette’s new face and latest products through photography and motion.",
+                description: "Photography and motion introducing Pink Roulette’s new face, Ciara Brosnan, alongside its latest products.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
                 image: "../assets/images/project/pink-roulette/card-model.webp",
                 srcset: "",
