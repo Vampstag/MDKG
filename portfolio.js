@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             {
                 id: 12,
-                title: "Pink Roulette",
+                title: "Ciara Brosnan for Pink Roulette",
                 year: "2026",
                 category: "Photography · Editing · Motion Design",
                 industry: "Beauty",
