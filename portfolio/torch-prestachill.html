@@ -10,12 +10,12 @@
              chance of a visible reflow/jump as the fallback font swaps to Inter. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        <title>Torch: Prestachill Campaign | Portfolio | MDKG Portfolio</title>
+        <title>Torch Prestachill Campaign | Portfolio | MDKG Portfolio</title>
         <meta content="Case study: 38 short-form videos produced for Torch's PrestaChill Back to School campaign, generating 453,510+ organic views across TikTok and Instagram with no paid distribution." name="description"/>
-        <meta content="Torch: Prestachill Campaign | Portfolio" property="og:title"/>
+        <meta content="Torch Prestachill Campaign | Portfolio" property="og:title"/>
         <meta content="Case study: 38 short-form videos produced for Torch's PrestaChill Back to School campaign, generating 453,510+ organic views across TikTok and Instagram with no paid distribution." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/project/torch-prestachill/prestachill-main-model.webp" property="og:image"/>
-        <meta content="Torch: Prestachill Campaign | Portfolio" property="twitter:title"/>
+        <meta content="Torch Prestachill Campaign | Portfolio" property="twitter:title"/>
         <meta content="Case study: 38 short-form videos produced for Torch's PrestaChill Back to School campaign, generating 453,510+ organic views across TikTok and Instagram with no paid distribution." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/project/torch-prestachill/prestachill-main-model.webp" name="twitter:image"/>
         <meta property="og:url" content="https://hellodimas.my.id/portfolio/torch-prestachill"/>
@@ -46,7 +46,7 @@
         {
           "@context": "https://schema.org",
           "@type": "CreativeWork",
-          "name": "Torch: Prestachill Campaign",
+          "name": "Torch Prestachill Campaign",
           "author": {
             "@type": "Person",
             "name": "M. Dimas K. G.",
@@ -86,7 +86,7 @@
           },{
             "@type": "ListItem",
             "position": 3,
-            "name": "Torch: Prestachill",
+            "name": "Torch Prestachill",
             "item": "https://hellodimas.my.id/portfolio/torch-prestachill"
           }]
         }
@@ -256,6 +256,126 @@
                     font-size: 1rem;
                 }
             }
+
+            /* [NEW] Creative Approach: asymmetric editorial grid (large reel left/tall,
+               grading stack small/offset top-right, each visual's text woven in beside its
+               counterpart) instead of two stacked full-width rows — modeled after a
+               photographer-portfolio composite layout (big photo + small offset photo +
+               labeled text col, woven into one grid rather than repeated per-item rows). */
+            .approach-composite-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .approach-composite-video .video-player-wrapper.is-reel {
+                max-width: none;
+                width: 100%;
+                aspect-ratio: 4/5;
+            }
+            @media (min-width: 992px) {
+                .approach-composite-grid {
+                    grid-template-columns: repeat(12, 1fr);
+                    column-gap: 32px;
+                    row-gap: 0;
+                }
+                /* Large reel: left column, tall, spans both visual rows */
+                .approach-composite-video {
+                    grid-column: 1 / 8;
+                    grid-row: 1 / 3;
+                }
+                /* Grading stack: smaller, offset top-right — the asymmetric counterpoint
+                   to the large reel, sitting higher and narrower like the reference's
+                   small offset photo beside its big landscape shot. */
+                .approach-composite-stack {
+                    grid-column: 9 / 13;
+                    grid-row: 1;
+                    align-self: start;
+                }
+                /* Item 1's text sits beside the small stack, under it — right column */
+                .approach-composite-text--1 {
+                    grid-column: 9 / 13;
+                    grid-row: 2;
+                    align-self: end;
+                    padding-bottom: 8px;
+                }
+                /* Item 2's text sits below the large reel, left column — completing the
+                   zig-zag: big visual top-left, small visual+its text top-right,
+                   the OTHER item's text bottom-left under the big visual. */
+                .approach-composite-text--2 {
+                    grid-column: 1 / 8;
+                    grid-row: 3;
+                    margin-top: 56px;
+                }
+                .approach-composite-stack {
+                    margin-top: 0;
+                }
+                /* This block's column is wide (7/12), so lead-left/caption-right reads as a
+                   deliberate opposing pair instead of the narrow-column indent that looked
+                   unbalanced elsewhere — restores the original mirrored positioning just
+                   for this pairing. */
+                .approach-composite-text--2 .sol-desc--caption {
+                    margin-left: auto;
+                    margin-right: 0;
+                }
+            }
+            @media (max-width: 991px) {
+                .approach-composite-text--2 {
+                    margin-top: 16px;
+                }
+                .approach-composite-text--2 .sol-desc--caption {
+                    margin-left: 0;
+                }
+            }
+
+            /* Scroll-in fade, matching .solution-video-content/.solution-video-player's own
+               opacity+translateY pattern — kept working after those classes were replaced
+               here by the composite grid's own class names (see JS observer selector). */
+            .approach-composite-video,
+            .approach-composite-stack,
+            .approach-composite-text {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .approach-composite-video.is-visible,
+            .approach-composite-stack.is-visible,
+            .approach-composite-text.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* [NEW] Full-width banner image below The Challenge's statement — banner-style
+               height (wide and shallow, not a tall portrait crop) so it reads as a visual
+               beat, not a competing hero image. */
+            .challenge-banner-img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 21/9;
+                object-fit: cover;
+                object-position: center 15%; /* Source photo is a portrait crop with the
+                    model's face near the top — default center cropped it off entirely. */
+                border-radius: 0;
+                margin-top: 56px;
+            }
+            @media (max-width: 767px) {
+                .challenge-banner-img {
+                    aspect-ratio: 4/3;
+                    margin-top: 40px;
+                }
+            }
+
+            /* [FIX] "The Challenge" label sits flush left; its statement was starting right
+               next to it instead of balancing against the section's own right edge, leaving
+               dead space on the far right and reading lopsided. Pin the statement block to
+               the right edge (mirrors .solution-video-content--right's pattern) so the two
+               columns read as a symmetrical left/right pair. */
+            @media (min-width: 992px) {
+                #hardskills .about-text-block {
+                    width: 55ch;
+                    max-width: 100%;
+                    margin-left: auto;
+                }
+            }
         </style>
 
         <script type="text/javascript">
@@ -338,7 +458,7 @@
                     <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
                 </svg>
             </div></a>
-            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot">
+            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">Creative Approach</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
                     <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
                 </svg>
@@ -389,7 +509,7 @@
                     <div class="global-padding">
                         <div class="cs-hero-wrapper">
                             <!-- 1. Main Title (Tight Leading) -->
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">TORCH: PRESTACHILL</h1>
+                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">TORCH PRESTACHILL</h1>
                             
                             <!-- 2. Sub-title (Wide Tracking) -->
                             <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">Back to School 2026 CAMPAIGN</div>
@@ -497,9 +617,8 @@
                     <div class="global-padding" style="position: relative;">
 
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
-                            "Creating short-form content for PrestaChill that reminds students to celebrate their small wins."
+                            "Short-form content for PrestaChill celebrating students' small wins."
                         </blockquote>
-                        <p style="position: relative; z-index: 3; text-align: center; margin: 24px auto 0; font-family: var(--font-primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #999;">How I'd describe the assignment</p>
                     </div>
                 </div>
             </section>
@@ -519,6 +638,10 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- [NEW] Full-width editorial banner, a visual pause after the challenge
+                             statement — same full-bleed/no-radius treatment as .approach-hero-film
+                             further down the page. -->
+                        <img src="../assets/images/project/torch-prestachill/torch-prestachill-model.webp" alt="Torch PrestaChill campaign model" class="challenge-banner-img" loading="lazy" decoding="async">
                     </div>
                 </div>
             </section>
@@ -529,58 +652,55 @@
                     <div class="global-padding">
                         <div class="section-headline-content-wrapper section-headline-margin">
                             <div class="section-headline">
-                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">The Approach</h2>
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Creative Approach</h2>
                             </div>
                         </div>
-                        <!-- Premium Video Showcase -->
-                        <div class="solution-showcase">
-                            <!-- Item 1: Handheld-first -->
-                            <div class="solution-video-item has-reel">
-                                <div class="solution-video-content">
-                                    <span class="sol-number">[01]</span>
-                                    <h3 class="sol-title">Borrowing trust from the feed, not the brand.</h3>
-                                    <p class="sol-desc">Torch had no recognition with this audience, so the content borrowed it from the platform instead. I tracked what was trending on TikTok that week, brought the formats, sounds, and pacing worth adapting to the team, and shot for whichever one got the green light. The content earned attention first. The brand came second.</p>
-                                </div>
-                                <div class="solution-video-player">
-                                    <div class="video-player-wrapper is-reel">
-                                        <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/torch/torch-prestachill/approach-1.mp4" type="video/mp4"></video>
-                                        <div class="video-center-feedback">
-                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
-                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
-                                        </div>
-                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                        <!-- Premium Video Showcase — asymmetric editorial composition: large
+                             reel (left, tall), grading stack offset top-right (small), text
+                             for each woven in beside its counterpart visual, mirroring a
+                             photographer-portfolio-style asymmetric grid rather than two
+                             stacked full-width rows. -->
+                        <div class="approach-composite-grid">
+                            <div class="approach-composite-video">
+                                <div class="video-player-wrapper is-reel" style="margin: 0;">
+                                    <video class="video-element" playsinline loop muted preload="metadata"><source src="../assets/videos/project/torch/torch-prestachill/approach-1.mp4" type="video/mp4"></video>
+                                    <div class="video-center-feedback">
+                                        <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                        <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
                                     </div>
+                                    <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
                                 </div>
                             </div>
 
-                            <!-- Item 2: Color grading -->
-                            <div class="solution-video-item has-reel">
-                                <div class="solution-video-content">
-                                    <span class="sol-number">[02]</span>
-                                    <h3 class="sol-title">Matching shots, not the weather.</h3>
-                                    <p class="sol-desc">Changing light and uncontrolled locations meant every shoot looked different. I corrected footage using scopes in Resolve, built a PowerGrade as a consistent starting point, and kept the final grade aligned with the campaign's creative direction.</p>
-                                </div>
-                                <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
-                                    <!-- Fanned stack of graded frame stills pulled from the edit. No labels —
-                                         just the stack itself. Click any visible card to bring it to the front;
-                                         the rest re-fan behind it. Hover lifts and straightens whichever card
-                                         is on top. Swap the <img src> list for the real 12 selected frames. -->
-                                    <div class="grading-stack" style="position: relative; width: 100%; max-width: 380px; aspect-ratio: 4/5; margin: 0 auto 80px;">
-                                        <div class="grading-stack-cards">
-                                            <button class="grading-stack-card is-active" data-index="0" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" draggable="false"></button>
-                                            <button class="grading-stack-card" data-index="1" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="2" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="3" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="4" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="5" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="6" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="7" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="8" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                            <button class="grading-stack-card" data-index="9" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
-                                        </div>
-                                        <div class="grading-stack-counter"><span data-stack-current>1</span><span class="grading-stack-counter-sep"></span><span data-stack-total>10</span></div>
+                            <div class="approach-composite-stack">
+                                <!-- Fanned stack of graded frame stills pulled from the edit. No labels —
+                                     just the stack itself. Click any visible card to bring it to the front;
+                                     the rest re-fan behind it. Hover lifts and straightens whichever card
+                                     is on top. Swap the <img src> list for the real 12 selected frames. -->
+                                <div class="grading-stack" style="position: relative; width: 100%; aspect-ratio: 4/5;">
+                                    <div class="grading-stack-cards">
+                                        <button class="grading-stack-card is-active" data-index="0" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" draggable="false"></button>
+                                        <button class="grading-stack-card" data-index="1" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="2" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="3" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="4" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="5" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="6" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="7" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="8" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
+                                        <button class="grading-stack-card" data-index="9" type="button"><img src="../assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" draggable="false" loading="lazy" decoding="async"></button>
                                     </div>
+                                    <div class="grading-stack-counter"><span data-stack-current>1</span><span class="grading-stack-counter-sep"></span><span data-stack-total>10</span></div>
                                 </div>
+                            </div>
+
+                            <div class="approach-composite-text approach-composite-text--1">
+                                <p class="sol-desc sol-desc--lead">Torch had no recognition with this audience, so the content borrowed it from the platform instead. I tracked what was trending on TikTok that week, brought the formats, sounds, and pacing worth adapting to the team, and shot for whichever one got the green light.</p>
+                            </div>
+
+                            <div class="approach-composite-text approach-composite-text--2">
+                                <p class="sol-desc sol-desc--lead">Changing light and uncontrolled locations meant every shoot looked different.</p>
+                                <p class="sol-desc sol-desc--caption">I corrected footage using scopes in Resolve, built a PowerGrade as a consistent starting point, and kept the final grade aligned with the campaign's creative direction, so every shot read as one continuous look no matter where it was shot.</p>
                             </div>
                         </div>
                     </div>
@@ -1397,7 +1517,7 @@
                 solutionSection.querySelectorAll('.video-player-wrapper').forEach(setupVideoPlayer);
 
                 // 2. Scroll-in Animation for each item
-                const items = solutionSection.querySelectorAll('.solution-video-item');
+                const items = solutionSection.querySelectorAll('.solution-video-item, .approach-composite-video, .approach-composite-stack, .approach-composite-text');
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {

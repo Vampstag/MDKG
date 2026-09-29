@@ -927,11 +927,11 @@ body.preloader-active { overflow: hidden; }
    .section-headline-margin and .headline-with-cta don't exist in Webflow's stylesheet at
    all, so nothing to outrank for either. */
 .section-margin {
-    margin-bottom: 11rem; /* 176px — was 128px (--space-32); more room between
-        sections reads as editorial pacing rather than sections crowding into each other. */
+    margin-bottom: 13.75rem; /* 220px — was 176px (11rem); pushed further for more
+        editorial pacing between sections site-wide. */
     /* contain: paint; DIHAPUS karena sifatnya memotong (clipping) efek box-shadow yang memancar keluar batas section */
 }
-.section-headline-margin { margin-bottom: var(--space-20); }
+.section-headline-margin { margin-bottom: 6.5rem; } /* 104px — was --space-20 (80px) */
 
 /* [FIX] Wrapper khusus untuk Judul Section yang bersebelahan dengan Tombol CTA */
 /* Tambahkan class 'headline-with-cta' pada div pembungkusnya agar rata tengah (simetris) */
@@ -945,12 +945,12 @@ body.preloader-active { overflow: hidden; }
 
 @media (max-width: 767px) {
     .section-margin {
-        margin-bottom: 6rem; /* 96px on mobile — was --space-16 (64px), scaled up to match the larger desktop gap */
+        margin-bottom: 7.5rem; /* 120px on mobile — was 6rem (96px), scaled up to match the larger desktop gap */
     }
     /* Was 32px, itself tightened from 40px so the heading would group with the grid
-       below it rather than float free. That grouping still holds at 56px, which buys
-       back the breathing room the tighter value cost; desktop stays at --space-20 (80px). */
-    .section-headline-margin { margin-bottom: 56px; }
+       below it rather than float free. That grouping still holds at 64px, which buys
+       back the breathing room the tighter value cost; desktop stays at 104px. */
+    .section-headline-margin { margin-bottom: 64px; }
 }
 
 /* Scroll Progress Bar */
@@ -2729,7 +2729,7 @@ html.lenis, html.lenis body { height: auto; }
 @media (min-width: 992px) {
     .about-layout-grid {
         grid-template-columns: 1fr 2fr; /* Sidebar smaller, content wider */
-        gap: 80px;
+        gap: 104px; /* was 80px — more air between sidebar label and content */
         align-items: start; /* Vertically align grid items to the top */
     }
     /* [FIX] "The Challenge" sits at a different font size than the pull-quote beside it,
@@ -2778,7 +2778,7 @@ html.lenis, html.lenis body { height: auto; }
     line-height: var(--body-copy-leading);
     letter-spacing: var(--body-copy-tracking);
     color: var(--body-copy-color); /* :hover (line ~318) darkens to --body-copy-color-hover */
-    margin-bottom: 28px;
+    margin-bottom: 40px; /* was 28px — more air between stacked paragraphs */
     max-width: 55ch;
     font-weight: var(--body-copy-weight);
 }
@@ -5018,15 +5018,16 @@ html.lenis, html.lenis body { height: auto; }
 .solution-showcase {
     display: flex;
     flex-direction: column;
-    gap: 56px; /* Was 140px, then 96px — with two adjacent .is-timeline items (full-width
-        video, then full-width title) even 96px still read as an oversized dead zone between
-        them; this keeps items feeling like one continuous flow rather than separate pages. */
+    gap: 80px; /* Was 140px, then 96px, then 56px (with two adjacent .is-timeline items —
+        full-width video, then full-width title — even 96px read as an oversized dead zone
+        between them). Raised back up for more editorial pacing site-wide; still well short
+        of the 96px that read as too loose for those tall full-width items. */
 }
 @media (max-width: 991px) {
-    .solution-showcase { gap: 48px; }
+    .solution-showcase { gap: 64px; }
 }
 @media (max-width: 767px) {
-    .solution-showcase { gap: 40px; }
+    .solution-showcase { gap: 56px; }
 }
 
 .solution-video-item {
@@ -5039,7 +5040,7 @@ html.lenis, html.lenis body { height: auto; }
 @media (min-width: 992px) {
     .solution-video-item {
         grid-template-columns: 1fr 1.5fr; /* 40% text, 60% video */
-        gap: 64px;
+        gap: 88px; /* was 64px — more air between the text column and its visual */
     }
     /* Reverse order for second item */
     .solution-video-item:nth-child(even) {
@@ -5143,26 +5144,60 @@ html.lenis, html.lenis body { height: auto; }
     text-wrap: pretty; /* Avoids ugly line breaks (e.g. a lone word wrapping to its own line) in narrow columns like the has-reel grid */
 }
 .sol-desc + .sol-desc {
-    margin-top: 32px;
+    margin-top: 40px; /* was 32px — more air between stacked paragraphs */
+}
+
+/* [NEW] Editorial lead/caption pairing for title-less two-paragraph approach items (e.g.
+   Prestachill's Creative Approach, Gundam's "Adapting to the Shoot") — instead of two
+   paragraphs at identical size/weight, the first reads as a bold pull-statement and the
+   second drops to a small, quiet note directly beneath it. Both stay flush to the SAME
+   left edge (no partial/ambiguous indent one way or the other) so the pair reads as one
+   clean, balanced column regardless of how narrow its container is. */
+.sol-desc--lead {
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: #111;
+    max-width: 34ch;
+}
+.sol-desc--caption {
+    font-size: 0.875rem; /* Consistent across every Creative Approach instance */
+    color: var(--body-copy-color);
+    max-width: 32ch;
+    margin-top: 24px;
+}
+@media (max-width: 767px) {
+    .sol-desc--lead {
+        font-size: 1.15rem;
+        max-width: none;
+    }
+    .sol-desc--caption {
+        margin-top: 20px;
+        max-width: none;
+    }
 }
 
 /* [NEW] "Adapting to the Shoot" split layout — title full-width on top, first paragraph
    flush left in its own narrow column, second paragraph offset to the right and sitting
    lower (not a symmetric two-column grid: the two blocks don't share a top edge or line up
-   into columns, they read as two separate notes placed at different points on the line). */
+   into columns, they read as two separate notes placed at different points on the line).
+   When the pair also carries .sol-desc--lead/--caption, that pair is meant to stay flush-
+   left/stacked (not offset right — a partial right-indent in a narrow column read as
+   unbalanced), so this rule's positional offset is skipped for it (see :not() below). */
 .solution-split-cols {
     display: flex;
     flex-direction: column;
 }
-.solution-split-cols .sol-desc {
+.solution-split-cols .sol-desc:not(.sol-desc--lead):not(.sol-desc--caption) {
     max-width: 52ch;
 }
-.solution-split-cols .sol-desc + .sol-desc {
+.solution-split-cols .sol-desc + .sol-desc:not(.sol-desc--caption) {
     align-self: flex-end;
     margin-top: 40px;
 }
 @media (max-width: 767px) {
-    .solution-split-cols .sol-desc + .sol-desc {
+    .solution-split-cols .sol-desc + .sol-desc:not(.sol-desc--caption) {
         align-self: flex-start;
         margin-top: 24px;
     }
