@@ -669,24 +669,9 @@
                 </div>
             </section>
 
-            <!-- 13. Soft CTA -->
-            <section class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="premium-soft-cta">
-                            <h2 class="premium-soft-cta-title text-reveal">Need someone who can execute at this scale?</h2>
-                            <p class="premium-soft-cta-desc">Live event coverage, from pre-production to final delivery.</p>
-                            <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
-                                Start a Project
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- 14. Next Project Navigation -->
-            <section class="next-project-section section-margin fade-in-section">
+            <section class="next-project-section fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <a href="/portfolio/torch-x-gundam" class="next-project-link">
                         <span class="next-label">Next Project</span>
@@ -767,10 +752,18 @@
                         muteBtn.classList.toggle('is-muted', video.muted);
                     });
 
-                    video.addEventListener('loadedmetadata', () => {
+                    const applyDuration = () => {
+                        if (!isFinite(video.duration) || video.duration <= 0) return;
                         if (durationEl) durationEl.textContent = formatTime(video.duration);
                         if (timeline) timeline.max = video.duration;
-                    });
+                    };
+                    // readyState can already be >= HAVE_METADATA by the time this listener
+                    // attaches (e.g. a cached video resolves metadata before JS runs), in which
+                    // case 'loadedmetadata' never fires again and duration stayed stuck at
+                    // 0:00 — check the current state immediately as well as listening for the
+                    // event, so both the "already loaded" and "loads later" cases are covered.
+                    video.addEventListener('loadedmetadata', applyDuration);
+                    if (video.readyState >= 1) applyDuration();
                     video.addEventListener('timeupdate', () => {
                         if (currentTimeEl) currentTimeEl.textContent = formatTime(video.currentTime);
                         if (timeline) timeline.value = video.currentTime;

@@ -33,13 +33,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Editing · Color Grading",
                 industry: "Fashion",
                 roles: ["Editing", "Color Grading"],
-                link: "",
+                link: "/portfolio/torch-main-cantik",
                 clientName: "Torch",
                 description: "The edit and final color treatment behind “Main Cantik,” Torch’s latest women’s collection campaign.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
                 image: "../assets/images/project/torch-main-cantik/model-card-cover.webp",
-                srcset: "",
-                ongoing: true
+                srcset: ""
             },
             {
                 id: 12,

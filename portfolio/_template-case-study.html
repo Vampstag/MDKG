@@ -4,10 +4,12 @@
      Based on the torch-prestachill.html structure. Kept: Overview, Showreel,
      Essence quote, Challenge, Approach, Selected Outputs (bento grid), Impact,
      Process & Craft, Testimonial, Key Insights, Credits (with an Agency line
-     for Observisual work), Soft CTA, Next Project.
+     for Observisual work), Next Project.
      Dropped vs. torch-prestachill.html: the before/after color-grade slider,
      the fanned grading-stack deck, and the two-video "guess who" slider —
      re-add those scripts/markup from that file only if this project needs them.
+     Soft CTA is intentionally omitted sitewide — no promo banner on case studies,
+     per the premium positioning decision (see memory/feedback on this).
      ============================================================================ -->
 <html data-wf-domain="mdkg.webflow.io" data-wf-page="{{WF_PAGE_ID}}" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
     <head>
@@ -220,7 +222,7 @@
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
                     <div class="global-padding">
                         <div class="cs-hero-wrapper">
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">{{PROJECT_NAME — all caps, e.g. brand + campaign}}</h1>
+                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">{{PROJECT_NAME — title case, e.g. brand + campaign}}</h1>
                             <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">{{CAMPAIGN_TAGLINE — e.g. "Ramadan 2026 Campaign"}}</div>
                             <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
                                 <span>{{YEAR}}</span>
@@ -602,24 +604,9 @@
                 </div>
             </section>
 
-            <!-- 13. Soft CTA -->
-            <section class="section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="premium-soft-cta">
-                            <h2 class="premium-soft-cta-title text-reveal">{{CTA_HEADLINE — e.g. "Need someone to shoot, cut, and grade it?"}}</h2>
-                            <p class="premium-soft-cta-desc">{{CTA_SUBLINE}}</p>
-                            <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
-                                Start a Project
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- 14. Next Project Navigation -->
-            <section class="next-project-section section-margin fade-in-section">
+            <section class="next-project-section fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <a href="{{NEXT_PROJECT_URL}}" class="next-project-link">
                         <span class="next-label">Next Project</span>
@@ -701,10 +688,18 @@
                         muteBtn.classList.toggle('is-muted', video.muted);
                     });
 
-                    video.addEventListener('loadedmetadata', () => {
+                    const applyDuration = () => {
+                        if (!isFinite(video.duration) || video.duration <= 0) return;
                         if (durationEl) durationEl.textContent = formatTime(video.duration);
                         if (timeline) timeline.max = video.duration;
-                    });
+                    };
+                    // readyState can already be >= HAVE_METADATA by the time this listener
+                    // attaches (e.g. a cached video resolves metadata before JS runs), in which
+                    // case 'loadedmetadata' never fires again and duration stayed stuck at
+                    // 0:00 — check the current state immediately as well as listening for the
+                    // event, so both the "already loaded" and "loads later" cases are covered.
+                    video.addEventListener('loadedmetadata', applyDuration);
+                    if (video.readyState >= 1) applyDuration();
                     video.addEventListener('timeupdate', () => {
                         if (currentTimeEl) currentTimeEl.textContent = formatTime(video.currentTime);
                         if (timeline) timeline.value = video.currentTime;

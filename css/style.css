@@ -5487,7 +5487,12 @@ html.lenis, html.lenis body { height: auto; }
 
 /* --- Next Project Navigator --- */
 .next-project-section {
-    padding: 120px 0;
+    /* Credits (right before this) still carries .section-margin (220px bottom margin), so
+       this section's own padding-top only needs to be small — the full gap above is already
+       220px + this value. padding-bottom stays larger since nothing after this section (just
+       the footer) contributes any margin of its own; .section-margin was removed from this
+       element entirely since it isn't a regular content-to-content transition. */
+    padding: 24px 0 64px;
     border-top: 1px solid rgba(0,0,0,0.06);
     background: #fff;
     transition: background-color 0.4s ease;
@@ -6119,7 +6124,12 @@ html.lenis, html.lenis body { height: auto; }
     justify-content: center;
     text-align: center; /* Ensure text is centered */
     width: 100%;
-    max-width: 1000px;
+    /* Widened from 1000px — at the larger .cs-hero-title size, that cap was forcing
+       short/medium titles (e.g. "Torch Main Cantik", "Torch Prestachill") to wrap to two
+       lines across every case study. 1400px keeps nearly every current title on one line
+       while still letting a genuinely long one (e.g. "Tsukamie Noodle Bar") wrap safely
+       instead of overflowing, which a forced white-space:nowrap would risk. */
+    max-width: 1400px;
     margin: 0 auto; /* Center wrapper horizontally */
     position: relative;
     z-index: 5;
@@ -6130,10 +6140,11 @@ html.lenis, html.lenis body { height: auto; }
    it, and .cs-hero-title doesn't exist in Webflow's stylesheet at all. */
 .cs-hero-title {
     font-family: var(--font-primary);
-    /* [UPDATED] Ukuran Editorial: Elegan, tidak terlalu raksasa, tetap punchy */
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    font-weight: 800; /* ExtraBold (lebih bersih daripada Black/900) */
-    text-transform: uppercase;
+    /* [UPDATED] Ukuran Editorial: ceiling raised from 6rem — that cap was actively limiting
+       size on most desktop viewports (8vw already exceeds 6rem past ~1200px wide), so the
+       title read smaller than intended and lost its editorial contrast against the page. */
+    font-size: clamp(2.5rem, 9vw, 8.5rem);
+    font-weight: 600; /* Semibold — 800 read too heavy, 500 read too thin */
     letter-spacing: -0.03em; /* Rapat tapi tidak berhimpitan */
     line-height: 1.15; /* Jarak baris disesuaikan agar aman untuk teks multi-baris */
     color: rgba(255, 255, 255, 0.95); /* Sedikit transparan agar blending lebih halus */
@@ -6143,7 +6154,6 @@ html.lenis, html.lenis body { height: auto; }
     
     /* [UPDATED] Artistic Blending Effect */
     mix-blend-mode: normal; /* Normal untuk keterbacaan maksimal di background terang/gelap */
-    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2); /* Lighter cinematic shadow */
     position: relative;
     z-index: 10;
 }

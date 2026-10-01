@@ -197,6 +197,26 @@
             }
             .grade-dot:hover { background: rgba(255,255,255,0.8); }
             .grade-dot.active { background: rgba(255,255,255,1); transform: scale(1.3); }
+
+            /* [NEW] Before/After labels — always visible (not hover-gated like the nav
+               buttons/pagination, since they're informational, not interactive controls). */
+            .grade-label {
+                position: absolute;
+                bottom: 16px;
+                z-index: 15;
+                font-family: var(--font-primary);
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #fff;
+                background: rgba(17,17,17,0.6);
+                backdrop-filter: blur(4px);
+                padding: 5px 11px;
+                pointer-events: none;
+            }
+            .grade-label--before { left: 16px; }
+            .grade-label--after { right: 16px; }
         </style>
 
         <script type="text/javascript">
@@ -306,7 +326,7 @@
                     <div class="global-padding">
                         <div class="cs-hero-wrapper">
                             <!-- 1. Main Title (Tight Leading) -->
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">TORCH × GUNDAM</h1>
+                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">Torch × Gundam</h1>
                             
                             <!-- 2. Sub-title (Wide Tracking) -->
                             <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">IP Collaboration Campaign</div>
@@ -412,7 +432,7 @@
             </section>
 
             <!-- 3. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 120px; padding-bottom: 120px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 64px; padding-bottom: 64px;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
@@ -511,7 +531,14 @@
                                         <!-- RAW Image -->
                                         <div class="raw-image-wrapper" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden; border-right: 2px solid rgba(255,255,255,0.8); z-index: 2; will-change: width; contain: strict;">
                                             <img src="../assets/images/project/torch/color-grading-slider/before-1.webp" alt="RAW Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100cqw; height: 100%; object-fit: cover; max-width: none;">
+                                            <!-- Pinned to the viewport edge (100cqw-relative), not the shrinking
+                                                 wrapper's own left edge, so it stays put at the slider's left side
+                                                 and only disappears (clipped by overflow:hidden above) once the
+                                                 handle is dragged far enough left to cover it — never floats loose
+                                                 over the After image. -->
+                                            <div class="grade-label grade-label--before">Before</div>
                                         </div>
+                                        <div class="grade-label grade-label--after">After</div>
 
                                         <input type="range" min="0" max="100" value="50" class="grade-slider-input" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: col-resize; z-index: 10; pointer-events: none;">
                                         <div class="grade-slider-hitarea" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: col-resize; z-index: 11; touch-action: none;"></div>
@@ -567,6 +594,7 @@
                                 </div>
                                 <div class="solution-video-content">
                                     <p class="sol-desc">The campaign revealed the collaboration gradually rather than putting the product at the center from the beginning. Silhouettes, fragmented details, and slower pacing created anticipation first, allowing recognition and nostalgia to build before the full collaboration was revealed.</p>
+                                    <p class="sol-desc">Alongside the teasers, I also produced Behind the Design, a storytelling piece walking through the creative direction and design process itself. It let the audience see how the collaboration came together, not just the finished product.</p>
                                 </div>
                             </div>
                         </div>
@@ -902,33 +930,13 @@
             </section>
 
 
-            <!-- [NEW] Soft CTA (Conversion Optimization) — eyebrow label, headline, desc as a
-                 normal centered text block, then a full-bleed 16:9 slot for the eventual
-                 motion piece, button below it. .cta-showreel-player is left empty on purpose:
-                 waiting on a custom-exported 16:9 motion piece (not a placeholder clip) — drop
-                 a <video>/<source> back in here when it's ready, the container/CSS already fit
-                 it at true 100vw. Everything stacks top to bottom — no overlap between
-                 text/button and the video slot. Sharp-edged throughout (no border-radius) to
-                 match the site's editorial art direction. -->
-            <section class="section-margin fade-in-section reveal-no-clip premium-soft-cta-fullbleed">
-                <div class="premium-soft-cta-text">
-                    <p class="premium-soft-cta-eyebrow"><span class="premium-soft-cta-eyebrow-dot"></span>Get Started</p>
-                    <h2 class="premium-soft-cta-title text-reveal">Inspired by the impact of<br class="premium-soft-cta-title-break">Torch × Gundam?</h2>
-                    <p class="premium-soft-cta-desc">Let’s create cinematic storytelling that turns collaborations into experiences.</p>
-                </div>
-                <div class="cta-showreel-player"></div>
-                <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="premium-soft-cta-btn">
-                    Start a Project
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </section>
 
             <!-- 8. Next Project Navigation -->
-            <section class="next-project-section section-margin fade-in-section">
+            <section class="next-project-section fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <a href="/portfolio/torch-prestachill" class="next-project-link">
+                    <a href="/portfolio/torch-main-cantik" class="next-project-link">
                         <span class="next-label">Next Project</span>
-                        <h2 class="next-title">Torch Prestachill</h2>
+                        <h2 class="next-title">Torch Main Cantik</h2>
                     </a>
                 </div>
             </section>
@@ -1163,10 +1171,18 @@
                         muteBtn.classList.toggle('is-muted', video.muted);
                     });
 
-                    video.addEventListener('loadedmetadata', () => {
+                    const applyDuration = () => {
+                        if (!isFinite(video.duration) || video.duration <= 0) return;
                         if (durationEl) durationEl.textContent = formatTime(video.duration);
                         if (timeline) timeline.max = video.duration;
-                    });
+                    };
+                    // readyState can already be >= HAVE_METADATA by the time this listener
+                    // attaches (e.g. a cached video resolves metadata before JS runs), in which
+                    // case 'loadedmetadata' never fires again and duration stayed stuck at
+                    // 0:00 — check the current state immediately as well as listening for the
+                    // event, so both the "already loaded" and "loads later" cases are covered.
+                    video.addEventListener('loadedmetadata', applyDuration);
+                    if (video.readyState >= 1) applyDuration();
                     video.addEventListener('timeupdate', () => {
                         if (currentTimeEl) currentTimeEl.textContent = formatTime(video.currentTime);
                         if (timeline) timeline.value = video.currentTime;
