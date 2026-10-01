@@ -283,6 +283,19 @@
                     margin-bottom: 40px;
                 }
             }
+
+            /* [FIX] This block's column runs full-width (is-timeline), not the narrow
+               approach-item column elsewhere on the site where a right-pushed caption read
+               as an awkward partial indent — here there's enough width for lead-left/
+               caption-right to read as a deliberate editorial pairing. align-self (not
+               margin-left:auto) because .solution-split-cols is a flex column — that's the
+               reliable way to push one flex item to the cross-axis end. */
+            @media (min-width: 992px) {
+                #solution .solution-split-cols .sol-desc--caption {
+                    align-self: flex-end;
+                    text-align: left;
+                }
+            }
         </style>
 
         <script type="text/javascript">
@@ -387,6 +400,33 @@
                                 <div class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
                             </div>
                             <div class="about-main-content">
+                                <!-- Audio Narrator Player — VO at assets/audio/vo-maincantik.mp3.
+                                     The player/waveform JS (initAudioNarrator in script.js)
+                                     picks up any .audio-narrator-wrapper automatically, no
+                                     page-specific wiring needed beyond this markup. -->
+                                <div class="audio-narrator-wrapper">
+                                    <div class="audio-label">Listen to Project</div>
+                                    <div class="audio-player-container">
+                                        <audio id="audio-narrator" preload="metadata">
+                                            <source src="../assets/audio/vo-maincantik.mp3" type="audio/mpeg">
+                                        </audio>
+
+                                        <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
+                                            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+
+                                        <div class="audio-time-current">0:00</div>
+                                        <div class="audio-progress-container">
+                                            <div class="audio-progress-fill"></div>
+                                            <div class="audio-tooltip">0:00</div>
+                                        </div>
+                                        <div class="audio-time-total">0:00</div>
+
+                                        <button class="audio-control-btn speed-btn">1x</button>
+                                    </div>
+                                </div>
+
                                 <div class="about-text-block">
                                     <p class="about-paragraph">
                                         Torch's Women Collection introduces four bags designed for the pace of everyday working life, under the campaign line <strong>#MainCantik</strong>. The campaign unfolds through three films: <em>Woman to Woman</em>, a cinematic pre-heat film; <em>Sibuk Itu Cantik</em>, a more energetic take on the same reality; and <em>Campaign Release</em>, which brings the collection into focus.
@@ -396,7 +436,7 @@
                                     </p>
 
                                     <div class="about-divider"></div>
-                                    <div class="about-meta-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                                    <div class="about-meta-grid">
                                         <div class="meta-item">
                                             <span class="meta-label">Duration</span>
                                             <span class="meta-value">1 Week</span>
@@ -486,19 +526,19 @@
                             <div class="solution-video-item is-timeline">
                                 <div class="solution-video-content solution-split-content">
                                     <div class="solution-split-cols">
-                                        <p class="sol-desc sol-desc--lead">The grade follows her day: cool dusk light when the film admits how heavy it gets, golden hour and daylight when she takes it on with confidence, and a cleaner, lighter look for the launch that moves toward the sage and cream of the collection.</p>
-                                        <p class="sol-desc sol-desc--caption">The footage came from very different settings: pedestrian bridges, station platforms, train interiors and open streets. The grade was adapted to each setup while keeping skin natural and the bag colours recognisable.</p>
+                                        <p class="sol-desc sol-desc--lead">The grade follows the emotional rhythm of the campaign. Cooler tones shape the heavier moments of her day, while warmer daylight and golden hour bring a sense of energy and confidence. As the campaign reaches the launch, the look becomes cleaner and lighter, gradually connecting with the sage and cream palette of the collection.</p>
+                                        <p class="sol-desc sol-desc--caption">The films move through pedestrian bridges, station platforms, train interiors, and open streets, each with its own lighting and colour conditions. The grade was adapted to each setting while keeping the overall visual language consistent, with natural skin tones and product colours that remain true to the collection.</p>
                                     </div>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
                                     <!-- data-after and data-before arrays contain the 7 frames to cycle through -->
-                                    <div class="color-grade-slider" data-after='["../assets/images/project/torch-main-cantik/color-grading-slider/after-3.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-2.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-1.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-4.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-5.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-6.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/after-7.webp"]' data-before='["../assets/images/project/torch-main-cantik/color-grading-slider/before-3.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-2.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-1.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-4.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-5.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-6.webp", "../assets/images/project/torch-main-cantik/color-grading-slider/before-7.webp"]' style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 0; cursor: col-resize; box-shadow: none; container-type: inline-size; background-color: #000;">
+                                    <div class="color-grade-slider" data-after='["../assets/images/project/torch-main-cantik/color-grading-slider/after-3.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-2.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-1.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-4.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-5.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-6.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/after-7.jpg"]' data-before='["../assets/images/project/torch-main-cantik/color-grading-slider/before-3.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-2.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-1.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-4.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-5.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-6.jpg", "../assets/images/project/torch-main-cantik/color-grading-slider/before-7.jpg"]' style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 0; cursor: col-resize; box-shadow: none; container-type: inline-size; background-color: #000;">
                                         <!-- Final Graded Image -->
-                                        <img src="../assets/images/project/torch-main-cantik/color-grading-slider/after-3.webp" alt="Graded Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                                        <img src="../assets/images/project/torch-main-cantik/color-grading-slider/after-3.jpg" alt="Graded Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
 
                                         <!-- RAW Image -->
                                         <div class="raw-image-wrapper" style="position: absolute; top: 0; left: 0; height: 100%; width: 50%; overflow: hidden; border-right: 2px solid rgba(255,255,255,0.8); z-index: 2; will-change: width; contain: strict;">
-                                            <img src="../assets/images/project/torch-main-cantik/color-grading-slider/before-3.webp" alt="RAW Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100cqw; height: 100%; object-fit: cover; max-width: none;">
+                                            <img src="../assets/images/project/torch-main-cantik/color-grading-slider/before-3.jpg" alt="RAW Video Frame" decoding="async" fetchpriority="high" style="position: absolute; top: 0; left: 0; width: 100cqw; height: 100%; object-fit: cover; max-width: none;">
                                             <!-- Pinned to the viewport edge (100cqw-relative), not the shrinking
                                                  wrapper's own left edge, so it stays put at the slider's left side
                                                  and only disappears (clipped by overflow:hidden above) once the
@@ -938,7 +978,7 @@
 
                     // Native <input type="range"> only drags from the thumb — it won't jump when you
                     // click elsewhere on the track. The input is now pointer-events:none and this
-                    // transparent hit-area drives it instead, so click-anywhere and drag both snap.
+                    // transparent hit-area drives it instead.
                     const hitArea = container.querySelector('.grade-slider-hitarea');
                     const setFromClientX = (clientX) => {
                         const rect = hitArea.getBoundingClientRect();
@@ -946,27 +986,37 @@
                         input.value = pct;
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     };
-                    // A plain tap (not a drag) landing in the left/right 15% of the hit area — at
-                    // any height, not just on the small prev/next arrow icons — jumps to the
-                    // previous/next frame instead of moving the compare slider. pointerId tracking
-                    // distinguishes a tap from a drag: if the pointer moved more than a few px before
-                    // release, it's a drag and the edge click is ignored.
+                    // [FIX] A bare click/tap anywhere used to snap the compare position instantly,
+                    // which felt jumpy rather than deliberate. Now the slider only moves once the
+                    // pointer has actually moved past a small threshold (DRAG_THRESHOLD) — a tap or
+                    // click that releases without crossing it does nothing to the compare position,
+                    // so the handle only responds to an intentional hold-and-drag, on both mouse and
+                    // touch. A plain tap landing in the left/right 15% of the hit area (at any
+                    // height, not just the small prev/next arrow icons) still jumps to the
+                    // previous/next frame.
                     const EDGE_ZONE = 0.15;
+                    const DRAG_THRESHOLD = 6;
                     let pointerDownX = null;
+                    let isDragging = false;
                     hitArea.addEventListener('pointerdown', (e) => {
                         hitArea.setPointerCapture(e.pointerId);
                         pointerDownX = e.clientX;
-                        setFromClientX(e.clientX);
+                        isDragging = false;
                     });
                     hitArea.addEventListener('pointermove', (e) => {
-                        if (e.buttons !== 1) return;
+                        if (e.buttons !== 1 || pointerDownX === null) return;
+                        if (!isDragging) {
+                            if (Math.abs(e.clientX - pointerDownX) < DRAG_THRESHOLD) return;
+                            isDragging = true;
+                        }
                         setFromClientX(e.clientX);
                     });
                     hitArea.addEventListener('pointerup', (e) => {
                         if (pointerDownX === null) return;
-                        const movedPx = Math.abs(e.clientX - pointerDownX);
+                        const wasDragging = isDragging;
                         pointerDownX = null;
-                        if (movedPx > 6) return; // was a drag, not a tap
+                        isDragging = false;
+                        if (wasDragging) return; // handle already moved during the drag
 
                         const rect = hitArea.getBoundingClientRect();
                         const pct = (e.clientX - rect.left) / rect.width;

@@ -401,7 +401,7 @@
                                     </p>
 
                                     <div class="about-divider"></div>
-                                    <div class="about-meta-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                                    <div class="about-meta-grid">
                                         <div class="meta-item">
                                             <span class="meta-label">Duration</span>
                                             <span class="meta-value">2 Months</span>
@@ -1005,7 +1005,7 @@
 
                     // Native <input type="range"> only drags from the thumb — it won't jump when you
                     // click elsewhere on the track. The input is now pointer-events:none and this
-                    // transparent hit-area drives it instead, so click-anywhere and drag both snap.
+                    // transparent hit-area drives it instead.
                     const hitArea = container.querySelector('.grade-slider-hitarea');
                     const setFromClientX = (clientX) => {
                         const rect = hitArea.getBoundingClientRect();
@@ -1013,13 +1013,30 @@
                         input.value = pct;
                         input.dispatchEvent(new Event('input', { bubbles: true }));
                     };
+                    // [FIX] A bare click/tap anywhere used to snap the compare position instantly,
+                    // which felt jumpy rather than deliberate. Now the slider only moves once the
+                    // pointer has actually moved past a small threshold — a tap or click that
+                    // releases without crossing it does nothing, so the handle only responds to an
+                    // intentional hold-and-drag, on both mouse and touch.
+                    const DRAG_THRESHOLD = 6;
+                    let pointerDownX = null;
+                    let isDragging = false;
                     hitArea.addEventListener('pointerdown', (e) => {
                         hitArea.setPointerCapture(e.pointerId);
-                        setFromClientX(e.clientX);
+                        pointerDownX = e.clientX;
+                        isDragging = false;
                     });
                     hitArea.addEventListener('pointermove', (e) => {
-                        if (e.buttons !== 1) return;
+                        if (e.buttons !== 1 || pointerDownX === null) return;
+                        if (!isDragging) {
+                            if (Math.abs(e.clientX - pointerDownX) < DRAG_THRESHOLD) return;
+                            isDragging = true;
+                        }
                         setFromClientX(e.clientX);
+                    });
+                    hitArea.addEventListener('pointerup', () => {
+                        pointerDownX = null;
+                        isDragging = false;
                     });
 
                     // "DRAG" hint follows the handle with a lagging spring, like it's tethered rather than glued

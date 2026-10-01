@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 roles: ["Editing", "Color Grading"],
                 link: "/portfolio/torch-main-cantik",
                 clientName: "Torch",
-                description: "The edit and final color treatment behind “Main Cantik,” Torch’s latest women’s collection campaign.",
+                description: "Shaping the edit and visual tone of Torch's “Main Cantik” women's collection campaign.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
                 image: "../assets/images/project/torch-main-cantik/model-card-cover.webp",
                 srcset: ""
@@ -265,6 +265,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // [NEW] Urutkan hasil sesuai pilihan sort
             filteredData.sort((a, b) => {
+                // On-going projects always lead, regardless of sort mode (latest/oldest/A-Z)
+                const ongoingDiff = (b.ongoing ? 1 : 0) - (a.ongoing ? 1 : 0);
+                if (ongoingDiff !== 0) return ongoingDiff;
+
                 if (currentSort === 'az') {
                     return a.title.localeCompare(b.title);
                 }
