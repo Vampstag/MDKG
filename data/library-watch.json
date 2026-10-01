@@ -30,16 +30,6 @@
     "access": "FREE"
   },
   {
-    "title": "Cate Blanchett and Gregory Crewdson in Conversation",
-    "author": "Gagosian",
-    "url": "https://www.youtube.com/watch?v=SXlOEHBJIyg",
-    "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/SXlOEHBJIyg/maxresdefault.jpg",
-    "category": "SEE",
-    "categoryLabel": "See",
-    "access": "FREE"
-  },
-  {
     "title": "Louisiana Channel — the design and architecture archive",
     "author": "Louisiana Museum of Modern Art",
     "url": "https://channel.louisiana.dk/topics/design",
@@ -280,11 +270,21 @@
     "access": "FREE"
   },
   {
-    "title": "Fatboy Slim – Weapon of Choice (dir. Spike Jonze)",
-    "author": "Fatboy Slim (official)",
-    "url": "https://www.youtube.com/watch?v=wCDIYvFmgW8",
+    "title": "Yorushika – Abuku (あぶく)",
+    "author": "Yorushika / n-buna (official)",
+    "url": "https://www.youtube.com/watch?v=OHAjc-ayhus",
     "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/wCDIYvFmgW8/maxresdefault.jpg",
+    "thumbnail": "https://img.youtube.com/vi/OHAjc-ayhus/maxresdefault.jpg",
+    "category": "DIRECT",
+    "categoryLabel": "Direct",
+    "access": "FREE"
+  },
+  {
+    "title": "Introducing the new iPhone 18 Pro",
+    "author": "Apple",
+    "url": "https://www.youtube.com/watch?v=Q3zwkxqh1t0",
+    "platform": "YouTube",
+    "thumbnail": "https://img.youtube.com/vi/Q3zwkxqh1t0/maxresdefault.jpg",
     "category": "DIRECT",
     "categoryLabel": "Direct",
     "access": "FREE"
@@ -347,16 +347,6 @@
     "thumbnail": "https://img.youtube.com/vi/MNuOmTQdFjA/hqdefault.jpg",
     "category": "LEAD",
     "categoryLabel": "Lead",
-    "access": "FREE"
-  },
-  {
-    "title": "Agnès Varda discusses her life and work",
-    "author": "Artforum",
-    "url": "https://www.youtube.com/watch?v=Evtghh43FiM",
-    "platform": "YouTube",
-    "thumbnail": "https://img.youtube.com/vi/Evtghh43FiM/maxresdefault.jpg",
-    "category": "CULTURE",
-    "categoryLabel": "Culture",
     "access": "FREE"
   },
   {
