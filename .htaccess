@@ -2,6 +2,11 @@
 ErrorDocument 404 /404.html
 
 # ==============================================================================
+# 0. REDIRECT SLUG LAMA (301, JAGA SEO SAAT GANTI NAMA ARTIKEL)
+# ==============================================================================
+Redirect 301 /journal/making-things-people-notice /journal/the-things-people-dont-say
+
+# ==============================================================================
 # 1. ATURAN ROUTING & URL BERSIH (CLEAN URL & SEO HTTPS)
 # ==============================================================================
 <IfModule mod_rewrite.c>

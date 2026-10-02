@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/journal/making-things-people-notice",
+      "destination": "/journal/the-things-people-dont-say",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/sw.js",

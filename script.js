@@ -12,6 +12,19 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// [NEW] Generic keyboard activation for custom role="button" elements (e.g. the
+// .lightbox-close/.video-modal-close <span> controls) — they're focusable via
+// tabindex but a <span> doesn't natively respond to Enter/Space like a real
+// <button> does, so without this an aria-label="Close" button would be reachable
+// by keyboard but not actually operable by it.
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const target = e.target.closest('[role="button"]');
+    if (!target || target.tagName === 'BUTTON' || target.tagName === 'A') return;
+    e.preventDefault();
+    target.click();
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     // [NEW] Lacak status preloader agar animasi Hero tidak dimainkan saat layar masih hitam
     let isPreloaderDone = !document.body.classList.contains('preloader-active');
