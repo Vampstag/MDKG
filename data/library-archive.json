@@ -14,6 +14,12 @@
   {
     "type": "video",
     "category": "client-video",
+    "src": "assets/videos/project/torch/bag-theory-eps-3.mp4",
+    "caption": "Bag Theory Eps. 3"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
     "src": "assets/videos/project/torch/radar%20motion%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
     "caption": "Torch x Gundam batch 2, top funnel ad"
   },
@@ -22,5 +28,11 @@
     "category": "client-video",
     "src": "assets/videos/project/torch/magazine%20flipped%20top%20funnel%20ad%20torch%20x%20gundam%20batch%202.mp4",
     "caption": "Torch x Gundam batch 2, top funnel ad"
+  },
+  {
+    "type": "video",
+    "category": "client-video",
+    "src": "assets/videos/project/torch/11th-torch-anniversary/torch-11th-anniversary.mp4",
+    "caption": "Torch 11th Anniversary"
   }
 ]
