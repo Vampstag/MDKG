@@ -38,7 +38,11 @@
 
         <!-- Google Search Console Verification -->
         <meta name="google-site-verification" content="CeqjZfxmrcLwHucWsvRuvYRnZM9g2wBxTZbpMfbZh0c" />
-        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
+        <!-- Loaded non-blocking: Webflow's base framework CSS mostly targets below-fold
+             sections, so it doesn't need to hold up first paint. preload+onload swaps it
+             to an active stylesheet once fetched; noscript covers the no-JS fallback. -->
+        <link rel="preload" as="style" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"></noscript>
 
         <!-- Web App Manifest (PWA) -->
         <link rel="manifest" href="/manifest.json">
@@ -131,7 +135,11 @@
           }]
         }
         </script>
-        <link rel="stylesheet" href="css/style.css?v=149">
+        <!-- Loaded non-blocking: the preloader's own look lives in the inline <style> block
+             below, so first paint doesn't depend on this file arriving first. preload+onload
+             swaps it to an active stylesheet once fetched; noscript covers the no-JS fallback. -->
+        <link rel="preload" as="style" href="css/style.css?v=149" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="css/style.css?v=149"></noscript>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -309,8 +317,13 @@
         </script>
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="widget.css?v=15">
+        <!-- Loaded non-blocking: neither targets above-fold content (Swiper has no slider
+             on this page; widget.css styles a floating widget), so both can finish fetching
+             in the background instead of holding up first paint. -->
+        <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
+        <link rel="preload" as="style" href="widget.css?v=15" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="widget.css?v=15"></noscript>
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
                 "currencyCode": "USD",
