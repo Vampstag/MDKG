@@ -27,12 +27,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
             {
+                id: 14,
+                title: "Asritektur",
+                year: "2026",
+                category: "Art Direction · Content Strategy · Content Production",
+                industry: "Architecture",
+                roles: ["Art Direction", "Content Strategy", "Content Production"],
+                link: "",
+                clientName: "Asritektur",
+                description: "Bringing a nearly inactive design studio back to life through a new content strategy, visual direction, and hands-on execution.",
+                brandInfo: "Indonesian architecture & interior design studio, offering flexible, remote-friendly design services nationwide.",
+                image: "../assets/images/project/asritektur/home-ibu-niluh.webp",
+                // Source photo is a tall portrait crop with mostly empty sky up top and the
+                // house itself concentrated in the bottom half — the card's 4:3 center-crop
+                // was cutting the house off. Bias the crop toward the bottom instead.
+                imagePosition: "center 100%",
+                srcset: "",
+                ongoing: true
+            },
+            {
                 id: 13,
                 title: "Torch Main Cantik",
                 year: "2026",
-                category: "Editing · Color Grading",
+                category: "Post Production",
                 industry: "Fashion",
-                roles: ["Editing", "Color Grading"],
+                roles: ["Post Production"],
                 link: "/portfolio/torch-main-cantik",
                 clientName: "Torch",
                 description: "Shaping the edit and visual tone of Torch's “Main Cantik” women's collection campaign.",
@@ -44,9 +63,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 12,
                 title: "Ciara Brosnan for Pink Roulette",
                 year: "2026",
-                category: "Photography · Editing · Motion Design",
+                category: "Photo Production · Post Production",
                 industry: "Beauty",
-                roles: ["Photography", "Editing", "Motion Design"],
+                roles: ["Photo Production", "Post Production"],
                 link: "",
                 clientName: "Pink Roulette",
                 description: "Photography and motion introducing Pink Roulette’s new face, Ciara Brosnan, alongside its latest products.",
@@ -60,9 +79,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     id: 11,
             //     title: "Dunkin Donuts",
             //     year: "2026",
-            //     category: "Video Production · Editing & Motion",
+            //     category: "Video Production · Post Production",
             //     industry: "F&B",
-            //     roles: ["Video Production", "Editing & Motion"],
+            //     roles: ["Video Production", "Post Production"],
             //     link: "",
             //     clientName: "Dunkin Donuts",
             //     description: "Video production and editing for Dunkin Donuts' social media presence.",
@@ -75,9 +94,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //     id: 10,
             //     title: "Ngaliwet Raos",
             //     year: "2026",
-            //     category: "Video Production · Photo Production · Editing · Motion Design",
+            //     category: "Video Production · Photo Production · Post Production",
             //     industry: "F&B",
-            //     roles: ["Video Production", "Photo Production", "Editing", "Motion Design"],
+            //     roles: ["Video Production", "Photo Production", "Post Production"],
             //     link: "",
             //     clientName: "Ngaliwet Raos",
             //     description: "Organic social content for Ngaliwet Raos, creating photography and video for its Instagram presence.",
@@ -90,9 +109,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 9,
                 title: "Andrea Bocelli",
                 year: "2026",
-                category: "Editing · Motion Design",
+                category: "Post Production",
                 industry: "Live Event",
-                roles: ["Editing", "Motion Design"],
+                roles: ["Post Production"],
                 link: "/portfolio/andrea-bocelli-romanza-indonesia",
                 clientName: "Andrea Bocelli",
                 description: "Post-production across video editing and motion design for Andrea Bocelli’s Romanza 30th Anniversary World Tour in Indonesia.",
@@ -105,10 +124,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 8,
                 title: "Torch Prestachill",
                 year: "2026",
-                category: "Video Production · Editing",
+                category: "Video Production · Post Production",
                 industry: "Fashion",
-                roles: ["Video Production", "Editing"],
-                link: "/portfolio/torch-prestachill", 
+                roles: ["Video Production", "Post Production"],
+                link: "/portfolio/torch-prestachill",
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
@@ -120,9 +139,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 7, // Pastikan ID unik
                 title: "Torch × Gundam",
                 year: "2026",
-                category: "Video Production · Editing · Motion Design · Color Grading",
+                category: "Video Production · Post Production",
                 industry: "Fashion", // [NEW] Properti Industri
-                roles: ["Video Production", "Editing", "Motion Design", "Color Grading"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
+                roles: ["Video Production", "Post Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
                 link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.", // Ganti dengan deskripsi proyek
@@ -134,9 +153,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 5,
                 title: "Tsukamie Noodle Bar",
                 year: "2025",
-                category: "Video Production · Photo Production · Editing · Social Media",
+                category: "Video Production · Photo Production · Post Production · Content Production",
                 industry: "F&B",
-                roles: ["Video Production", "Photo Production", "Editing", "Social Media"],
+                roles: ["Video Production", "Photo Production", "Post Production", "Content Production"],
                 link: "/portfolio/tsukamie",
                 clientName: "Tsukamie",
                 description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",
@@ -336,7 +355,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                          width="800"
                                          height="600"
                                          class="paralax-image main img-loading"
-                                         style="width: 100%; height: 100%; object-fit: cover;"
+                                         style="width: 100%; height: 100%; object-fit: cover; object-position: ${project.imagePosition || 'center'};"
                                          onload="this.classList.remove('img-loading'); this.classList.add('img-loaded'); this.previousElementSibling.style.opacity='0';">
                                     ${badgeHTML}
                                     <div class="portfolio-overlay">
