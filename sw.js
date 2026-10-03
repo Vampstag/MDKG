@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mdkg-portfolio-v3';
+const CACHE_NAME = 'mdkg-portfolio-v4';
 
 // Install SW & Langsung Aktif
 self.addEventListener('install', (event) => {

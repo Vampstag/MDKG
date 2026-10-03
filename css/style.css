@@ -4769,6 +4769,9 @@ html.lenis, html.lenis body { height: auto; }
    means noticeably less visual mass than a chunky square one. 28px renders ~153px.
    The 168px/252px this replaced belonged to an earlier, near-square version of this
    logo and would render the current file ~1380px wide. */
+.marquee-logo.logo-asritektur {
+    height: 64px; /* portrait lockup (~0.83:1), so height is bumped like .logo-ngaliwet */
+}
 .marquee-logo.logo-pink-roulette {
     height: 28px;
 }
@@ -4782,6 +4785,9 @@ html.lenis, html.lenis body { height: auto; }
     }
     .marquee-logo.logo-pink-roulette {
         height: 42px; /* ~230px wide at 871x159; +40% over the first pass (30px/164px) */
+    }
+    .marquee-logo.logo-asritektur {
+        height: 96px;
     }
     .marquee-logo.logo-ngaliwet {
         height: 90px;
