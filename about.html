@@ -402,7 +402,9 @@
 
                 const HOLD_AT = 90;
                 let assetsSettled = false;
-                Promise.all([footerPromise, pageReadyPromise]).then(() => { assetsSettled = true; });
+                // Rejections swallowed so a failed fetch cannot pin the bar at 90% forever; hard cap ~2.5s.
+                Promise.all([footerPromise, pageReadyPromise].map(p => p.catch(() => {}))).then(() => { assetsSettled = true; });
+                setTimeout(() => { assetsSettled = true; }, 2500);
 
                 function updateCounter() {
                     const jump = Math.floor(Math.random() * 40) + 30;
@@ -427,7 +429,8 @@
                         const counterWrapper = document.querySelector('.counter-wrapper');
                         if (counterWrapper) counterWrapper.classList.add('fade-out');
 
-                        footerPromise.then((footerData) => {
+                        // Timeout so a still-pending footer cannot stall the preloader at 100%.
+                        Promise.race([footerPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('footer fetch timed out')), 4000))]).then((footerData) => {
                             const tempDiv = document.createElement('div');
                             tempDiv.innerHTML = footerData;
                             tempDiv.querySelectorAll('[data-w-id]').forEach(el => el.removeAttribute('data-w-id'));

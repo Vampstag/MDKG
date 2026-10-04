@@ -2909,10 +2909,44 @@ function initAboutIntroPlayer() {
     const modalVideo = document.getElementById('modal-video-player');
     const watchLabel = trigger.querySelector('.about-intro-watch-label');
 
+    // Lazy-load the inline showreel: index.html ships it with data-poster/data-src and no
+    // autoplay so its ~6.5MB never competes with first load. Swapped in once the strip is
+    // within 600px of the viewport, then played/paused by visibility from then on.
+    const loadShowreel = () => {
+        if (!sourceVideo) return;
+        const lazySource = sourceVideo.querySelector('source[data-src]');
+        if (sourceVideo.dataset.poster) {
+            sourceVideo.poster = sourceVideo.dataset.poster;
+            delete sourceVideo.dataset.poster;
+        }
+        if (lazySource) {
+            lazySource.src = lazySource.dataset.src;
+            delete lazySource.dataset.src;
+            sourceVideo.load();
+        }
+    };
+    if (sourceVideo) {
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadShowreel();
+                        sourceVideo.play().catch(() => {});
+                    } else if (!sourceVideo.paused) {
+                        sourceVideo.pause();
+                    }
+                });
+            }, { rootMargin: '600px 0px' }).observe(sourceVideo);
+        } else {
+            loadShowreel();
+            sourceVideo.play().catch(() => {});
+        }
+    }
+
     trigger.addEventListener('click', () => {
         const source = sourceVideo?.querySelector('source');
         if (source && videoModal && modalVideo) {
-            modalVideo.src = source.src;
+            modalVideo.src = source.getAttribute('src') ? source.src : new URL(source.dataset.src, location.href).href;
             videoModal.classList.add('active');
             modalVideo.play();
             document.body.style.overflow = 'hidden';
@@ -3767,6 +3801,11 @@ function initLogoMarqueeLoop() {
     };
     measure();
     window.addEventListener('load', measure);
+    // Logos are loading="lazy" (well below the fold), so they can finish after window
+    // load with width:auto still 0. Re-measure as each one arrives so the loop width is right.
+    track.querySelectorAll('img').forEach(img => {
+        if (!img.complete) img.addEventListener('load', measure, { once: true });
+    });
     let resizeTimer = null;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);

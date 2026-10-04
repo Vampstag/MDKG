@@ -38,11 +38,8 @@
 
         <!-- Google Search Console Verification -->
         <meta name="google-site-verification" content="CeqjZfxmrcLwHucWsvRuvYRnZM9g2wBxTZbpMfbZh0c" />
-        <!-- Loaded non-blocking: Webflow's base framework CSS mostly targets below-fold
-             sections, so it doesn't need to hold up first paint. preload+onload swaps it
-             to an active stylesheet once fetched; noscript covers the no-JS fallback. -->
-        <link rel="preload" as="style" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"></noscript>
+        <!-- Must stay render-blocking (see the note on style.css below). -->
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
 
         <!-- Web App Manifest (PWA) -->
         <link rel="manifest" href="/manifest.json">
@@ -135,11 +132,11 @@
           }]
         }
         </script>
-        <!-- Loaded non-blocking: the preloader's own look lives in the inline <style> block
-             below, so first paint doesn't depend on this file arriving first. preload+onload
-             swaps it to an active stylesheet once fetched; noscript covers the no-JS fallback. -->
-        <link rel="preload" as="style" href="css/style.css?v=150" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="css/style.css?v=150"></noscript>
+        <!-- Must stay render-blocking. As a preload+onload swap it could arrive after script.js
+             had already measured layout (hero carousel, ScrollTrigger pins) against unstyled
+             markup, and on a slow first visit the preloader could lift before it landed at all,
+             so the page looked broken until a refresh pulled it from cache. -->
+        <link rel="stylesheet" href="css/style.css?v=150">
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -200,9 +197,13 @@
                 // fixed-duration animation that happens to run while loading occurs.
                 const HOLD_AT = 90;
                 let assetsSettled = false;
-                Promise.all([footerPromise, heroTitleReadyPromise]).then(() => {
+                // Rejections are swallowed so one failed fetch can't leave assetsSettled false
+                // forever, and the hard cap means a slow font/footer request never pins the
+                // bar at 90% for more than ~2.5s.
+                Promise.all([footerPromise, heroTitleReadyPromise].map(p => p.catch(() => {}))).then(() => {
                     assetsSettled = true;
                 });
+                setTimeout(() => { assetsSettled = true; }, 2500);
 
                 function updateCounter() {
                     // Jump range diperbesar agar progress bar melesat sangat cepat
@@ -235,7 +236,8 @@
                         if (counterWrapper) counterWrapper.classList.add('fade-out');
 
                         // Use the promise we started at the beginning
-                        footerPromise.then((footerData) => {
+                        // Timeout so a still-pending footer can't stall the preloader at 100%.
+                        Promise.race([footerPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('footer fetch timed out')), 4000))]).then((footerData) => {
                             // [FIX] Bersihkan atribut data Webflow (data-w-id) dari footer sebelum diinjeksi
                             // Ini akan mematikan animasi lawas/berantakan dari Webflow IX2 pada footer
                             const tempDiv = document.createElement('div');
@@ -317,13 +319,10 @@
         </script>
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
-        <!-- Loaded non-blocking: neither targets above-fold content (Swiper has no slider
-             on this page; widget.css styles a floating widget), so both can finish fetching
-             in the background instead of holding up first paint. -->
+        <!-- Swiper stays non-blocking: there is no slider on this page. -->
         <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
-        <link rel="preload" as="style" href="widget.css?v=15" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="widget.css?v=15"></noscript>
+        <link rel="stylesheet" href="widget.css?v=15">
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
                 "currencyCode": "USD",
@@ -537,8 +536,11 @@
             <section class="about-showreel-section fade-in-section reveal-no-clip">
                 <div class="about-showreel-wrapper" id="about-intro-magnetic">
                     <button type="button" class="about-showreel-player" id="about-intro-watch-trigger" aria-label="Watch full showreel">
-                        <video class="about-showreel-video" autoplay loop muted playsinline preload="metadata" poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
-                            <source src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
+                        <!-- Lazy: poster (~0.5MB) and the 6MB webm are only fetched once the strip
+                             nears the viewport (initAboutIntroPlayer in script.js). Autoplay here
+                             used to start the full download during the preloader. -->
+                        <video class="about-showreel-video" loop muted playsinline preload="none" data-poster="assets/images/project/torch/poster_showreel_torchxgundam.webp">
+                            <source data-src="assets/videos/project/torch/showreel_torchxgundam.webm" type="video/webm">
                         </video>
                         <div class="about-showreel-scrim"></div>
                         <div class="about-intro-watch-label">
@@ -665,37 +667,37 @@
                             <div class="marquee-track" id="logo-marquee-track">
                                 <!-- Set 1 -->
                                 <div class="marquee-content">
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
                                 </div>
                                 <!-- Set 2 (Exact Duplicate for seamless infinite loop) -->
                                 <div class="marquee-content" aria-hidden="true">
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
                                 </div>
                             </div>
                         </div>
@@ -841,7 +843,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=58"></script>
+        <script defer src="script.js?v=59"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
         <script>
