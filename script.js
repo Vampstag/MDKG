@@ -1350,6 +1350,35 @@ function initInteractiveHero() {
  * canvas hidden and the plain text visible — this must never be able to break the rest of
  * the hero (see the try/catch wrapping the whole thing).
  */
+/**
+ * True only when WebGL is GPU-accelerated. Without a GPU the browser falls back to a CPU
+ * rasterizer (SwiftShader/llvmpipe), where the 3D title, sparkles and accents each cost
+ * hundreds of ms of main-thread time per frame batch: that is what PageSpeed's servers
+ * run, and also what low-end machines without GPU acceleration get. Those cases keep the
+ * flat fallbacks instead. Cached: probing creates (and then releases) one GL context.
+ */
+let __hardwareWebGL;
+function hasHardwareWebGL() {
+    if (__hardwareWebGL !== undefined) return __hardwareWebGL;
+    __hardwareWebGL = false;
+    try {
+        const probe = document.createElement('canvas');
+        // failIfMajorPerformanceCaveat: the browser refuses the context outright when only
+        // a software renderer is available.
+        const gl = probe.getContext('webgl', { failIfMajorPerformanceCaveat: true });
+        if (gl) {
+            const info = gl.getExtension('WEBGL_debug_renderer_info');
+            const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+            __hardwareWebGL = !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+            const lose = gl.getExtension('WEBGL_lose_context');
+            if (lose) lose.loseContext();
+        }
+    } catch (err) {
+        __hardwareWebGL = false;
+    }
+    return __hardwareWebGL;
+}
+
 function initHero3DTitle(onReady) {
     // onReady (optional): called exactly once, whether the font loads or fails, so a
     // caller can treat "3D title is settled" as a real load signal (see the preloader's
@@ -1366,6 +1395,7 @@ function initHero3DTitle(onReady) {
         // (opacity:0 once .is-active is set) with nothing rendered yet — a blank gap
         // where the title should be. Skipping 3D entirely on phones removes both problems.
         if (window.matchMedia('(max-width: 767px)').matches) { signalReady(); return; }
+        if (!hasHardwareWebGL()) { signalReady(); return; } // software GL: keep the flat h1
 
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         const container = canvas.parentElement;
@@ -1552,6 +1582,7 @@ function initHero3DSparkles() {
         // see initHero3DTitle's matching mobile skip above for why: too many concurrent
         // WebGL contexts was the main mobile jank source.
         if (window.matchMedia('(max-width: 767px)').matches) return;
+        if (!hasHardwareWebGL()) return; // software GL: keep the flat glyph fallback
 
         // Neutral white/grey studio-lighting gradient — same idea as before (an envMap gives
         // the chrome material something to reflect so its facets aren't flat), but colorless,
@@ -1761,6 +1792,7 @@ function initAboutAccent3D(selector = '.about-accent-3d', { requireDesktop = tru
     if (!canvases.length || typeof THREE === 'undefined') return;
     if (requireDesktop && !window.matchMedia('(min-width: 992px)').matches) return; // hidden via CSS below 992px anyway — skip the WebGL cost entirely
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!hasHardwareWebGL()) return; // software GL: skip the decorative accents
 
     const buildEnvMap = (renderer) => {
         const size = 64;

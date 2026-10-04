@@ -548,6 +548,21 @@ p, li, span, .paragraph, .about-text {
     box-shadow: none;
 }
 
+/* Arrow hover for pages that no longer load the Webflow IX2 runtime (homepage). The arrow
+   exits top-right and re-enters from bottom-left inside its overflow:hidden 16px block. */
+@keyframes button-arrow-nudge {
+    0%   { transform: translate(0, 0); }
+    45%  { transform: translate(14px, -14px); }
+    46%  { transform: translate(-14px, 14px); }
+    100% { transform: translate(0, 0); }
+}
+.button-arrow-nudge:hover .button-white-arrow-image-black-2 {
+    animation: button-arrow-nudge 0.45s var(--ease-smooth);
+}
+@media (prefers-reduced-motion: reduce) {
+    .button-arrow-nudge:hover .button-white-arrow-image-black-2 { animation: none; }
+}
+
 /* Fix: Prevent Horizontal Scroll */
 html, body { /* [REFINEMENT] Hindari !important. Jika terjadi overflow, cari elemen penyebabnya. */
     overflow-x: hidden;
@@ -711,6 +726,11 @@ body.preloader-active { overflow: hidden; }
     transition: opacity 0.5s ease;
 }
 .counter-wrapper.fade-out { opacity: 0; }
+/* Fixed-width boxes so the counter/phrase text changing every tick doesn't resize them
+   (Lighthouse scored each resize as layout shift). */
+.counter-wrapper, #counter { width: 100%; box-sizing: border-box; }
+.top-corners > .corner-text, .bottom-corners > .corner-text { flex: 1 1 0; }
+.top-corners > .corner-text:last-child, .bottom-corners > .corner-text:last-child { text-align: right; }
 #counter {
     font-size: 15vw; font-weight: 700; letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums; display: block;

@@ -136,7 +136,7 @@
              had already measured layout (hero carousel, ScrollTrigger pins) against unstyled
              markup, and on a slow first visit the preloader could lift before it landed at all,
              so the page looked broken until a refresh pulled it from cache. -->
-        <link rel="stylesheet" href="css/style.css?v=150">
+        <link rel="stylesheet" href="css/style.css?v=151">
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -148,6 +148,8 @@
             #preloader.finished { transform: translateY(-100%); }
             .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
             .counter-wrapper.fade-out { opacity: 0; }
+            /* Fixed-width boxes: the counter/phrase text changing every tick used to resize these boxes, which Lighthouse scored as layout shift (CLS). */
+            .counter-wrapper, #counter { width: 100%; } #counter { font-variant-numeric: tabular-nums; } .top-corners > .corner-text, .bottom-corners > .corner-text { flex: 1 1 0; } .top-corners > .corner-text:last-child, .bottom-corners > .corner-text:last-child { text-align: right; }
             #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
             .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
             .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
@@ -319,9 +321,6 @@
         </script>
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
-        <!-- Swiper stays non-blocking: there is no slider on this page. -->
-        <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
         <link rel="stylesheet" href="widget.css?v=15">
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
@@ -334,8 +333,6 @@
                 "hideDecimalForWholeNumbers": false
             };
         </script>
-    <!-- 1. Performance: Preload LCP Image -->
-    <link rel="preload" as="image" href="assets/images/home/dimas4.webp" fetchpriority="high">
 
     <!-- Showreel video/poster are intentionally NOT preloaded here — they're below-the-fold
          (About section) and the showreel <video> already declares preload="metadata", so it
@@ -566,8 +563,8 @@
                                 <div class="home-services-headline" style="margin: 0;">
                                     <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Featured Case Study</h2>
                                 </div>
-                                <div data-w-id="17981745-b76c-fdb8-d5a0-45626b3a0fbf" style="opacity:0; margin: 0; display: flex; align-items: center;" class="home-section-contact-button">
-                                    <a href="/portfolio" class="button-normal-white-wrapper-2 w-inline-block">
+                                <div style="margin: 0; display: flex; align-items: center;" class="home-section-contact-button">
+                                    <a href="/portfolio" class="button-normal-white-wrapper-2 button-arrow-nudge w-inline-block">
                                         <div class="button-normal-white-text-2 text-sm text-weight-medium text-style-no_wrap text-color-black-900">Explore More</div>
                                         <div class="button-normal-white-arrow-block-2">
                                             <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="" class="button-white-arrow-image-black-2"/>
@@ -712,8 +709,8 @@
                                 <div class="section-headline" style="margin: 0;">
                                     <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Journal</h2>
                                 </div>
-                                <div data-w-id="566b70c1-bcff-6434-151c-4be76f85e577" style="opacity:0; margin: 0; display: flex; align-items: center;" class="experience-section-contact-button">
-                                    <a href="/journal" class="button-normal-white-wrapper-2 w-inline-block">
+                                <div style="margin: 0; display: flex; align-items: center;" class="experience-section-contact-button">
+                                    <a href="/journal" class="button-normal-white-wrapper-2 button-arrow-nudge w-inline-block">
                                         <div class="button-normal-white-text-2 text-sm text-weight-medium text-style-no_wrap text-color-black-900">Explore More</div>
                                         <div class="button-normal-white-arrow-block-2">
                                             <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="" class="button-white-arrow-image-black-2"/>
@@ -736,8 +733,8 @@
                                 <div class="section-headline">
                                     <h2 class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">FAQ</h2>
                                 </div>
-                                <div data-w-id="2a0ce4e1-fca5-c56f-f8a8-c760690d6aa1" class="section-headline-contact-button-block">
-                                    <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="button-normal-white-wrapper-2 w-inline-block">
+                                <div class="section-headline-contact-button-block">
+                                    <a href="https://wa.link/ufzewj" target="_blank" rel="noopener noreferrer" class="button-normal-white-wrapper-2 button-arrow-nudge w-inline-block">
                                         <div class="button-normal-white-text-2 text-sm text-weight-medium text-style-no_wrap text-color-black-900">Ask a Question</div>
                                         <div class="button-normal-white-arrow-block-2">
                                             <img loading="lazy" src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6933c31afde10e239b6d552f_arrow-black.svg" alt="" class="button-white-arrow-image-black-2"/>
@@ -827,13 +824,9 @@
             </div>
         </div>
 
-        <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6933c25a0996b0f96f5c2bc3" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.f3a08821b4e31f89.js" type="text/javascript" integrity="sha384-jdiRdsaXtUN5LkaeQxuxSJeDi/u9yfDo8k3p7iBrSa0ZxuEsPQsdVokoQHgyJGi/" crossorigin="anonymous"></script>
-        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.a0696411b8212572.js" type="text/javascript" integrity="sha384-dwg30zM2jU7kUnZxcdPhSjuLVIUiLbiVi44KYUrE1jEzOLwj+a1sT1s4b+0HG1Kf" crossorigin="anonymous"></script>
-        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.3646b0bdbfc7a235.js" type="text/javascript" integrity="sha384-gZLOmXIblLyHGDncyBxqMlIEL8LJqhq9+vw5KOasKHD2NajOGW1wkj4KYV+Vfhm5" crossorigin="anonymous"></script>
-        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.schunk.d659be6dcd9af708.js" type="text/javascript" integrity="sha384-fkZ6Md26P2haMCtqf4f0HB23dTQgjwR09RGdpu3VVDV0Zif+FEMEoIw0sewn8NM8" crossorigin="anonymous"></script>
-        <script src="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/js/webflow.68ccafdb.96c19bd230e42fc3.js" type="text/javascript" integrity="sha384-2Gg0jo0+ykKe902FwuSM0IpzRc+bq8KTSOUw36jNNWJxclLGXolsR1N1zHWBg3Yj" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <!-- Webflow runtime (jQuery + IX2 chunks) removed: IX2 burned ~27s of CPU per load in Lighthouse
+             and nothing on this page needs it. Button arrow hover is CSS now (see .button-arrow-nudge
+             in style.css). Swiper removed too: there is no slider on this page. -->
         <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <!-- GSAP & SCROLLTRIGGER (Untuk Text Reveal) -->
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -843,7 +836,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=59"></script>
+        <script defer src="script.js?v=60"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
         <script>

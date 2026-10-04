@@ -501,6 +501,8 @@
             #preloader.finished { transform: translateY(-100%); }
             .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
             .counter-wrapper.fade-out { opacity: 0; }
+            /* Fixed-width boxes: the counter/phrase text changing every tick used to resize these boxes, which Lighthouse scored as layout shift (CLS). */
+            .counter-wrapper, #counter { width: 100%; } #counter { font-variant-numeric: tabular-nums; } .top-corners > .corner-text, .bottom-corners > .corner-text { flex: 1 1 0; } .top-corners > .corner-text:last-child, .bottom-corners > .corner-text:last-child { text-align: right; }
             #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
             .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
             .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
