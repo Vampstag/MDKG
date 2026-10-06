@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <!--
-    DRAFT: Ciara Brosnan for Pink Roulette. Not linked from the portfolio grid or sitemap yet, and
-    marked noindex below. Before publishing:
+    Ciara Brosnan for Pink Roulette. Live: linked from the portfolio grid (portfolio.js id 12),
+    indexable, listed in sitemap.xml.
       1. The photos are compressed WebP in pink-roulette/ (card-model.webp, catalog-1.webp, ...). They
          are your selected frames. To swap one, export a frame as WebP
          (long edge 1800px, 2400px for card-model.webp, quality ~80) and overwrite
          the file with the same name; no HTML change needed. Raw exports live in pink-roulette/edited/
          (git-ignored).
-      2. Remove the robots noindex meta, set `link` for id 12 in portfolio.js, add to sitemap.xml.
-      3. Record the VO from vo-scripts/pink-roulette-vo-script.md and save it as
-         assets/audio/vo-pink-roulette.mp3.
-      4. Still waiting on material: BTS stills.
+      2. Still to do: record the VO from vo-scripts/pink-roulette-vo-script.md and save it as
+         assets/audio/vo-pink-roulette.mp3 (the player in Overview is silent until it exists).
+      3. Still waiting on material: BTS stills.
 -->
 <html data-wf-domain="mdkg.webflow.io" data-wf-page="pink-roulette" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
     <head>
@@ -19,13 +18,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
         <title>Ciara Brosnan for Pink Roulette | Portfolio | MDKG Portfolio</title>
-        <meta name="robots" content="noindex, nofollow"/>
-        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." name="description"/>
+        <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." name="description"/>
         <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="og:title"/>
-        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="og:description"/>
+        <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" property="og:image"/>
         <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="twitter:title"/>
-        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="twitter:description"/>
+        <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" name="twitter:image"/>
         <meta property="og:url" content="https://hellodimas.my.id/portfolio/pink-roulette"/>
         <meta property="og:site_name" content="MDKG Portfolio"/>
@@ -66,10 +64,10 @@
             "@type": "Organization",
             "name": "Pink Roulette"
           },
-          "description": "Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face.",
+          "description": "Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face.",
           "image": "https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp",
           "url": "https://hellodimas.my.id/portfolio/pink-roulette",
-          "keywords": "Pink Roulette, Ciara Brosnan, Everyday Beauty Companion, skincare, beauty photography, photo editing, digital imaging, photo case study"
+          "keywords": "Pink Roulette, Ciara Brosnan, Everyday Beauty Companion, skincare, beauty photography, photo production, post production, photo editing, digital imaging, photo case study"
         }
         </script>
         <script type="application/ld+json">
@@ -144,6 +142,8 @@
                 text-transform: uppercase;
                 color: #B76A84;
             }
+            /* The Photo Booth sits slightly above the art's centre; 44% (not 50%) shifts the image down a touch so the gap above and below the window is even. */
+            .ed-hero .ed-hero-media img { object-position: 50% 44%; }
             /* Hero photo placeholder: same treatment as a missing .pr-frame. */
             .ed-hero-media.is-missing { background: #F6E9ED; }
             .ed-hero-media.is-missing img { opacity: 0; }
