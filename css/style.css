@@ -5739,34 +5739,6 @@ html.lenis, html.lenis body { height: auto; }
     margin: 0 auto;
 }
 
-/* [NEW] "Building the Look" process clips — two 16:9 slots side by side on desktop
-   (color grading + timeline editing), stacked on mobile. Empty placeholder styling
-   until the actual muted process clips are exported and dropped into the markup. */
-.process-clip-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-@media (min-width: 768px) {
-    .process-clip-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-.process-clip-slot {
-    background: #111;
-    display: flex;
-    align-items: flex-end;
-    padding: 16px;
-}
-.process-clip-slot::after {
-    content: attr(data-process-label);
-    color: rgba(255,255,255,0.4);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
 /* [NEW] "From Teaser to Story" — desktop shows both reels side by side as a static pair (no
    swipe: Swiper is never initialized above 767px, see initTeaserStorySlider), matching the
    has-reel column's video-left/text-right layout. Below 768px the same markup becomes a real
@@ -8926,11 +8898,12 @@ a.social-icon:hover img {
     align-self: start;
     margin: -40px 0 0; /* pulls it up to the tagline, inside the 64px row gap */
     padding: 0;
-    gap: 6px;
-    font-size: 0.72rem;
+    gap: 5px;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
     color: rgba(17, 17, 17, 0.7);
 }
-.ed-hero .cs-share-btn svg { width: 14px; height: 14px; }
+.ed-hero .cs-share-btn svg { width: 12px; height: 12px; }
 .ed-hero .cs-share-btn:hover { color: #111; }
 /* Full-bleed hero photo under the header. */
 .ed-hero-media {

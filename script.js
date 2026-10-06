@@ -758,6 +758,9 @@ function initNavbar() {
 let __pageTransitionAudioCtx = null;
 function getPageTransitionAudioCtx() {
     if (__pageTransitionAudioCtx) return __pageTransitionAudioCtx;
+    // No transition sound on phones and tablets (touch or narrow viewport): both sounds
+    // are skipped because every caller bails out when this returns null.
+    if (window.matchMedia('(max-width: 767px), (pointer: coarse)').matches) return null;
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return null;
     __pageTransitionAudioCtx = new AudioContextClass();

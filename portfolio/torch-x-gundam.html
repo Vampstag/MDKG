@@ -100,7 +100,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=160" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -383,13 +383,10 @@
 
                                 <div class="about-text-block">
                                     <p class="about-paragraph">
-                                        Torch's first collaboration with <em>Mobile Suit Gundam</em>, launched in February 2026 and developed to bring the iconic mecha franchise into Torch's visual language while connecting with its existing fan community. The collection spans backpacks, sling bags, t-shirts, caps, and pouches.
+                                        Torch's first collaboration with <em>Mobile Suit Gundam</em>, launched in February 2026, bringing the mecha franchise into Torch's visual language for its existing fan community. The collection spans backpacks, sling bags, t-shirts, caps, and pouches.
                                     </p>
                                     <p class="about-paragraph">
-                                        Working within Torch's creative direction, I handled the visual execution across the campaign's key video deliverables, from teaser films and the main launch film to social content and supporting campaign assets.
-                                    </p>
-                                    <p class="about-paragraph">
-                                        My role covered cinematography, editing, and color grading, with a focus on building a cinematic visual language that felt industrial, atmospheric, and consistent across different production setups and formats.
+                                        I handled cinematography, editing, and color grading across the key video deliverables, building an industrial, atmospheric look that stayed consistent across setups and formats.
                                     </p>
 
                                 </div>
@@ -437,14 +434,7 @@
                             <!-- Item 1: Building the Look -->
                             <div class="solution-video-item is-timeline">
                                 <div class="solution-video-content solution-video-content--right">
-                                    <p class="sol-desc">The visual treatment was developed around muted industrial tones, restrained contrast, and subtle retro-sci-fi texture, so the work could reference the franchise without letting the IP overpower Torch's own design language. The grade was built to give the campaign a distinct atmosphere while remaining flexible enough to work across footage captured in different setups.</p>
-                                </div>
-                                <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
-                                    <!-- [PLACEHOLDER] Two process clips pending export: 1) color grading workflow in DaVinci, 2) timeline editing workflow -->
-                                    <div class="process-clip-grid">
-                                        <div class="video-player-wrapper is-timeline-video process-clip-slot" data-process-label="Color Grading Process"></div>
-                                        <div class="video-player-wrapper is-timeline-video process-clip-slot" data-process-label="Timeline Editing Process"></div>
-                                    </div>
+                                    <p class="sol-desc">A muted industrial grade with restrained contrast and subtle retro-sci-fi texture referenced the franchise without letting the IP overpower Torch's own design language.</p>
                                 </div>
                             </div>
 
@@ -452,8 +442,8 @@
                             <div class="solution-video-item is-timeline">
                                 <div class="solution-video-content solution-split-content">
                                     <div class="solution-split-cols">
-                                        <p class="sol-desc sol-desc--lead">The production environment varied throughout the shoot, with changing lighting conditions, tight schedules, and limited opportunities for reshoots.</p>
-                                        <p class="sol-desc sol-desc--caption">Rather than forcing every shot into an identical treatment, the grade was adapted to preserve the character of each setup while bringing the footage into a cohesive visual language.</p>
+                                        <p class="sol-desc sol-desc--lead">Lighting changed, schedules were tight, and reshoots were limited.</p>
+                                        <p class="sol-desc sol-desc--caption">So the grade adapted to each setup, keeping its character while holding one visual language.</p>
                                     </div>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
@@ -472,7 +462,13 @@
                                                  over the After image. -->
                                             <div class="grade-label grade-label--before">Before</div>
                                         </div>
-                                        <div class="grade-label grade-label--after">After</div>
+                                        <!-- Mirrors .raw-image-wrapper's clipping, inverted: left edge tracks the
+                                             handle, width shrinks as the handle nears 100%, so the After badge
+                                             clips away at the right edge the same way Before clips away at the
+                                             left. -->
+                                        <div class="after-label-wrapper" style="position: absolute; top: 0; left: 50%; height: 100%; width: 50%; overflow: hidden; z-index: 2; will-change: left, width;">
+                                            <div class="grade-label grade-label--after" style="position: absolute; left: auto; right: 16px;">After</div>
+                                        </div>
 
                                         <input type="range" min="0" max="100" value="50" class="grade-slider-input" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: col-resize; z-index: 10; pointer-events: none;">
                                         <div class="grade-slider-hitarea" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: col-resize; z-index: 11; touch-action: none;"></div>
@@ -527,8 +523,8 @@
                                     </div>
                                 </div>
                                 <div class="solution-video-content">
-                                    <p class="sol-desc">With the Gundam robots off limits under the license, the campaign revealed the collaboration gradually rather than putting the product at the center from the beginning. Silhouettes, fragmented details, and slower pacing created anticipation first, allowing recognition and nostalgia to build before the full collaboration was revealed.</p>
-                                    <p class="sol-desc">Alongside the teasers, I also produced Behind the Design, a storytelling piece walking through the creative direction and design process itself. It let the audience see how the collaboration came together, not just the finished product.</p>
+                                    <p class="sol-desc">With the Gundam robots off limits under the license, the campaign revealed the collaboration gradually: silhouettes, fragmented details, and slower pacing built anticipation before the full reveal.</p>
+                                    <p class="sol-desc">I also produced Behind the Design, a story walking through the creative direction and design process.</p>
                                 </div>
                             </div>
                         </div>
@@ -551,7 +547,7 @@
                                 <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster_bento-1.webp"><source src="../assets/videos/project/torch/campaign-launch.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Official Launch Campaign</h3>
-                                    <p class="bento-desc">The main launch campaign presenting the Torch x Gundam collaboration and its Batch 1 collection.</p>
+                                    <p class="bento-desc">The main launch film for the collaboration and its Batch 1 collection.</p>
                                     <div class="bento-actions">
                                         <button class="bento-btn bento-play-btn" aria-label="Play video">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
@@ -577,7 +573,7 @@
                                 <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster-bento-2.webp"><source src="../assets/videos/project/torch/teaser-1.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Teaser 1: Collaboration Reveal</h3>
-                                    <p class="bento-desc">A cinematic teaser introducing the Torch x Mobile Suit Gundam collaboration through minimal and suspense-driven visuals.</p>
+                                    <p class="bento-desc">A suspense-driven teaser introducing the collaboration through minimal visuals.</p>
                                     <div class="bento-actions">
                                         <button class="bento-btn bento-play-btn" aria-label="Play video">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
@@ -603,7 +599,7 @@
                                  <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster-bento-3.webp"><source src="../assets/videos/project/torch/teaser-2.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Teaser 2: Silhouette Reveal</h3>
-                                    <p class="bento-desc">A cinematic silhouette teaser designed to build anticipation around the Torch x Gundam collaboration before the official product reveal.</p>
+                                    <p class="bento-desc">A silhouette teaser building anticipation before the product reveal.</p>
                                     <div class="bento-actions">
                                         <button class="bento-btn bento-play-btn" aria-label="Play video">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
@@ -629,7 +625,7 @@
                                  <video class="bento-video" loop muted playsinline preload="metadata" poster="../assets/images/project/torch/poster_bento-4.webp"><source src="../assets/videos/project/torch/behind-the-design.mp4" type="video/mp4"></video>
                                 <div class="bento-overlay">
                                     <h3 class="bento-title">Behind the Design Story</h3>
-                                    <p class="bento-desc">A behind-the-scenes campaign piece exploring the creative direction, design process, and collaborative vision behind the Torch x Mobile Suit Gundam collection.</p>
+                                    <p class="bento-desc">A behind-the-scenes piece on the creative direction and design process behind the collection.</p>
                                     <div class="bento-actions">
                                         <button class="bento-btn bento-play-btn" aria-label="Play video">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg><span class="bento-btn-label">Play</span>
@@ -663,23 +659,23 @@
                             <div class="section-headline">
                                 <h2 id="impact-heading" class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Impact</h2>
                             </div>
-                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">Reach here was helped by the Gundam IP's built-in audience. The number worth paying attention to is the interaction volume: how many people actually engaged once they landed, not just how many saw it.</p>
+                            <p class="about-paragraph" style="margin-top: 16px; max-width: 65ch;">Reach was helped by the Gundam IP's built-in audience. The number to watch is interaction volume: how many engaged once they landed.</p>
                         </div>
                         <div class="data-grid">
                             <div class="data-item" tabindex="0">
                                 <div class="data-number">1.82M</div>
                                 <div class="data-label">IG Organic Views</div>
-                                <div class="metric-tooltip">Total organic Instagram views across the campaign, boosted by the built-in reach of the Gundam IP collaboration.</div>
+                                <div class="metric-tooltip">Total organic Instagram views across the campaign, boosted by the Gundam IP's built-in reach.</div>
                             </div>
                             <div class="data-item" tabindex="0">
                                 <div class="data-number">4.7K+</div>
                                 <div class="data-label">Organic Interactions</div>
-                                <div class="metric-tooltip">Likes, comments, shares, and saves across the campaign: a stronger signal of genuine engagement than raw reach.</div>
+                                <div class="metric-tooltip">Likes, comments, shares, and saves across the campaign.</div>
                             </div>
                             <div class="data-item" tabindex="0">
                         <div class="data-number">317K</div>
                         <div class="data-label">Views on "Behind the Design"</div>
-                        <div class="metric-tooltip">The behind-the-scenes storytelling piece outperformed the official launch film on saves and reposts relative to its view count, a sign the craft, not just the IP, held attention.</div>
+                        <div class="metric-tooltip">The behind-the-scenes piece outperformed the launch film on saves and reposts relative to its views.</div>
                             </div>
                         </div>
                     </div>
@@ -794,15 +790,15 @@
                                 <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
                                         <h3 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">Process Can Be Part of the Story</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">The strongest-performing piece was not the main announcement, but Behind the Design, which reached 317K views. The result suggested that the audience had an interest in seeing how the collaboration came together, not only in seeing the final product.</p>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">The strongest piece was Behind the Design at 317K views, not the main announcement. The audience wanted to see how the collaboration came together.</p>
                                     </div>
                                     <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
                                         <h3 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">Authenticity Comes From the Details</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">The Gundam identity did not need to be reproduced literally. Color, pacing, atmosphere, and visual references were enough to create a connection to the franchise while keeping the work within Torch's visual world.</p>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">Color, pacing, and atmosphere were enough to connect to the franchise without reproducing it literally.</p>
                                     </div>
                                     <div>
                                         <h3 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.2;">Adaptation Is Part of the Craft</h3>
-                                        <p class="about-paragraph" style="margin-bottom: 0;">Different shooting conditions naturally produced different-looking footage. The goal was not to make every setup identical, but to use production and post-production decisions to make the final campaign feel like one cohesive body of work.</p>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">Different shoots produced different footage. Post-production made it feel like one body of work.</p>
                                     </div>
                                 </div>
                             </div>
@@ -900,7 +896,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=61"></script>
+        <script defer src="../script.js?v=62"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>
@@ -913,6 +909,7 @@
                     const rawWrapper = container.querySelector('.raw-image-wrapper');
                     const handle = container.querySelector('.slider-handle');
                     const dragHint = container.querySelector('.drag-hint');
+                    const afterLabelWrapper = container.querySelector('.after-label-wrapper');
 
                     // Base Slider Logic — rAF-batched so rapid drag events don't each force a synchronous layout/paint
                     let pendingVal = null, rafScheduled = false;
@@ -923,6 +920,13 @@
                         requestAnimationFrame(() => {
                             rawWrapper.style.width = `${pendingVal}%`;
                             handle.style.left = `${pendingVal}%`;
+                            // Mirror of rawWrapper's clip, inverted: starts at the handle position
+                            // and fills the rest, so it shrinks to nothing (clipping the After
+                            // label with it) as the handle approaches 100%.
+                            if (afterLabelWrapper) {
+                                afterLabelWrapper.style.left = `${pendingVal}%`;
+                                afterLabelWrapper.style.width = `${100 - pendingVal}%`;
+                            }
                             rafScheduled = false;
                         });
                     });
@@ -958,9 +962,24 @@
                         }
                         setFromClientX(e.clientX);
                     });
-                    hitArea.addEventListener('pointerup', () => {
+                    // A plain tap landing in the left/right 15% of the hit area (at any height,
+                    // not just on the small prev/next arrow icons) still jumps to the
+                    // previous/next frame.
+                    const EDGE_ZONE = 0.15;
+                    hitArea.addEventListener('pointerup', (e) => {
+                        if (pointerDownX === null) return;
+                        const wasDragging = isDragging;
                         pointerDownX = null;
                         isDragging = false;
+                        if (wasDragging) return; // handle already moved during the drag
+
+                        const rect = hitArea.getBoundingClientRect();
+                        const pct = (e.clientX - rect.left) / rect.width;
+                        if (pct <= EDGE_ZONE) {
+                            container.querySelector('.prev-btn')?.click();
+                        } else if (pct >= 1 - EDGE_ZONE) {
+                            container.querySelector('.next-btn')?.click();
+                        }
                     });
 
                     // "DRAG" hint follows the handle with a lagging spring, like it's tethered rather than glued
@@ -1014,15 +1033,16 @@
                                         });
                                     }
                                     
-                                    finalImg.style.opacity = 0; rawImg.style.opacity = 0; // Cross-fade effect
-                                    setTimeout(() => {
-                                        finalImg.src = afterImages[index]; rawImg.src = beforeImages[index];
-                                        finalImg.style.opacity = 1; rawImg.style.opacity = 1;
-                                    }, 200);
+                                    finalImg.src = afterImages[index]; rawImg.src = beforeImages[index];
                                 };
-                                
-                                finalImg.style.transition = 'opacity 0.2s ease';
-                                rawImg.style.transition = 'opacity 0.2s ease';
+
+                                // Preload every frame so switching is an instant already-decoded
+                                // swap instead of waiting on a fresh network/decode each time:
+                                // that wait (plus the old fade to opacity 0) showed as a white flash.
+                                [...afterImages, ...beforeImages].forEach(src => {
+                                    const preloadImg = new Image();
+                                    preloadImg.src = src;
+                                });
 
                                 prevBtn?.addEventListener('click', () => { currentIndex = (currentIndex > 0) ? currentIndex - 1 : afterImages.length - 1; updateImage(currentIndex); });
                                 nextBtn?.addEventListener('click', () => { currentIndex = (currentIndex < afterImages.length - 1) ? currentIndex + 1 : 0; updateImage(currentIndex); });
