@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 clientName: "Pink Roulette",
                 description: "Photography and motion introducing Pink Roulette’s new face, Ciara Brosnan, alongside its latest products.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
-                image: "../assets/images/project/pink-roulette/card-model.webp",
+                image: "../assets/images/project/pink-roulette/card-model.webp?v=2",
                 srcset: ""
             },
             // Hidden for now — Dunkin Donuts (id 11) card, per request.
