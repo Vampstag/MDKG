@@ -100,7 +100,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=150" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -187,7 +187,7 @@
                 z-index: 20;
             }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                width: 6px; height: 6px; border-radius: 50%;
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: none;
             }
@@ -363,19 +363,6 @@
                     margin-top: 40px;
                 }
             }
-
-            /* [FIX] "The Challenge" label sits flush left; its statement was starting right
-               next to it instead of balancing against the section's own right edge, leaving
-               dead space on the far right and reading lopsided. Pin the statement block to
-               the right edge (mirrors .solution-video-content--right's pattern) so the two
-               columns read as a symmetrical left/right pair. */
-            @media (min-width: 992px) {
-                #hardskills .about-text-block {
-                    width: 55ch;
-                    max-width: 100%;
-                    margin-left: auto;
-                }
-            }
         </style>
 
         <script type="text/javascript">
@@ -455,11 +442,6 @@
                     <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
                 </svg>
             </div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
-                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
-                    <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
-                </svg>
-            </div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">Creative Approach</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20">
                     <circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle>
@@ -501,40 +483,33 @@
             <!-- Navbar will be injected here -->
             <div id="navbar-container"></div>
 
-            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
-                <!-- [NEW] Background Image Container for Ken Burns Effect -->
-                <div class="hero-bg-image"></div>
-                
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>
-                <!-- Hapus z-index inline agar mix-blend-mode bisa tembus ke background -->
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
-                    <div class="global-padding">
-                        <div class="cs-hero-wrapper">
-                            <!-- 1. Main Title (Tight Leading) -->
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">Torch Prestachill</h1>
-                            
-                            <!-- 2. Sub-title (Wide Tracking) -->
-                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">Back to School 2026 CAMPAIGN</div>
-                            
-                            <!-- 3. Metadata (Muted & Separated) -->
-                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
-                                <span>2026</span>
-                                <span class="cs-meta-separator">•</span>
-                                <span>Videographer & Video Editor</span>
-                            </div>
-                            
-                            <!-- [NEW] Share Button -->
-                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
-                                <button class="cs-share-btn" aria-label="Share this project">
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Torch</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">A back-to-school campaign celebrating the small wins along the way.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                     </svg>
                                     Share Project
                                 </button>
                             </div>
+                            <!-- Shared .ed-hero component (css/style.css, region 49). Metadata fills row by row. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>Fashion</dd></div>
+                                <div><dt>Year</dt><dd>2026</dd></div>
+                                <div><dt>Role</dt><dd>Video Production<br>Post Production</dd></div>
+                                <div><dt>Timeframe</dt><dd>2.5 Months</dd></div>
+                            </dl>
                         </div>
                     </div>
                 </div>
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;">
+                    <img src="../assets/images/project/torch-prestachill/prestachill-main-model.webp" alt="Torch Prestachill" fetchpriority="high" decoding="async">
+                </figure>
             </section>
 
             <!-- 2. Overview -->
@@ -576,23 +551,12 @@
 
                                 <div class="about-text-block">
                                     <p class="about-paragraph">
-                                        Torch's Back to School 2026 campaign was built on a simple idea: not every win has to be big. Getting to school on time. Remembering to pray between Mobile Legends matches. Making it through the week without blowing your allowance. Those count too. That's <strong>PrestaChill</strong>.
+                                        Torch's Back to School 2026 campaign was built on a simple idea: not every win has to be big. Getting to school on time. Remembering to pray between Mobile Legends matches. Making it through the week without blowing your allowance. Those count too. That&rsquo;s <strong>PrestaChill</strong>, the idea behind Torch&rsquo;s <strong>#JalaninTerus</strong>: keep going, one small win at a time.
                                     </p>
                                     <p class="about-paragraph">
                                         I worked from Torch's creative direction and handled the execution. 38 videos over two and a half months, across organic social, e-commerce, and paid ads. I shot them, cut them, and graded them.
                                     </p>
 
-                                    <div class="about-divider"></div>
-                                    <div class="about-meta-grid">
-                                        <div class="meta-item">
-                                            <span class="meta-label">Duration</span>
-                                            <span class="meta-value">2,5 Months</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Industry</span>
-                                            <span class="meta-value">Fashion / Retail</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -614,36 +578,13 @@
             </section>
 
             <!-- 3. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 64px; padding-bottom: 64px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
 
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
                             "Short-form content for PrestaChill celebrating students' small wins."
                         </blockquote>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. The Challenge -->
-            <section id="hardskills" class="home-about-section section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="about-layout-grid">
-                            <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
-                            </div>
-                            <div class="about-main-content">
-                                <div class="about-text-block">
-                                    <h3 class="about-lead-text text-reveal">Torch's existing audience was the wrong audience.</h3>
-                                    <p class="about-paragraph">Most of the people following Torch were parents buying school bags. This campaign needed to reach their kids, who barely knew the brand existed. Dads pay, but kids pick.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- [NEW] Full-width editorial banner, a visual pause after the challenge
-                             statement — same full-bleed/no-radius treatment as .approach-hero-film
-                             further down the page. -->
-                        <img src="../assets/images/project/torch-prestachill/torch-prestachill-model.webp" alt="Torch PrestaChill campaign model" class="challenge-banner-img" loading="lazy" decoding="async">
                     </div>
                 </div>
             </section>
@@ -697,7 +638,7 @@
                             </div>
 
                             <div class="approach-composite-text approach-composite-text--1">
-                                <p class="sol-desc sol-desc--lead">Torch had no recognition with this audience, so the content borrowed it from the platform instead. I tracked what was trending on TikTok that week, brought the formats, sounds, and pacing worth adapting to the team, and shot for whichever one got the green light.</p>
+                                <p class="sol-desc sol-desc--lead">Most of Torch's followers were parents buying school bags, while the students this campaign needed barely knew the brand. Dads pay, but kids pick, so the content borrowed recognition from the platform instead. I tracked what was trending on TikTok that week, brought the formats, sounds, and pacing worth adapting to the team, and shot for whichever one got the green light.</p>
                             </div>
 
                             <div class="approach-composite-text approach-composite-text--2">
@@ -1045,32 +986,27 @@
                         </div>
                         <div class="credits-grid">
                             <div class="credits-group">
-                                <h3 class="credits-role">Strategic & Creative Direction</h3>
+                                <h3 class="credits-role">Creative Direction</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://www.linkedin.com/in/reza-lazuardi-42279732/?skipRedirect=true" target="_blank" rel="noopener noreferrer">Reza Lazuardi</a> <span>(Senior Brand & Creative Manager)</span></li>
                                     <li><a href="https://www.linkedin.com/in/aldo-bangga-permana-42737840/" target="_blank" rel="noopener noreferrer">Aldo Bangga Permana</a> <span>(Branding Creative Lead)</span></li>
-                                    <li><a href="https://www.linkedin.com/in/irfan-noormansyah-9170b6113/" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Ass. Manager BNC Operations)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/irfan-noormansyah-9170b6113/" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Assistant Manager, Operations)</span></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
-                                <h3 class="credits-role">Production Management</h3>
+                                <h3 class="credits-role">Production</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://www.linkedin.com/in/ridwan-pradana-mail/" target="_blank" rel="noopener noreferrer">Ridwan Pradana</a> <span>(Project Manager)</span></li>
-                                    <li><a href="https://linkedin.com/in/alfenda" target="_blank" rel="noopener noreferrer">Alfenda</a> <span>(Content Video Producer)</span></li>
+                                    <li><a href="https://linkedin.com/in/alfenda" target="_blank" rel="noopener noreferrer">Alfenda</a> <span>(Video Producer)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer & Editor)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/athhar-pradhitya/" target="_blank" rel="noopener noreferrer">Athhar</a> <span>(Production Support)</span></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
-                                <h3 class="credits-role">Narrative & Storytelling</h3>
+                                <h3 class="credits-role">Storytelling</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://linkedin.com/in/ikhsan" target="_blank" rel="noopener noreferrer">Ikhsan</a> <span>(Branding Storyteller)</span></li>
                                     <li><a href="https://linkedin.com/in/ranna" target="_blank" rel="noopener noreferrer">Ranna</a> <span>(Fulfillment Storyteller)</span></li>
-                                </ul>
-                            </div>
-                            <div class="credits-group">
-                                <h3 class="credits-role">Post-Production & Technical Execution</h3>
-                                <ul class="credits-list">
-                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer & Video Editor)</span></li>
-                                    <li><a href="https://www.linkedin.com/in/athhar-pradhitya/" target="_blank" rel="noopener noreferrer">Athhar</a> <span>(Production Support)</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -1125,7 +1061,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=58"></script>
+        <script defer src="../script.js?v=61"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

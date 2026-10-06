@@ -86,7 +86,7 @@
         <!-- Preload Hero Background Image for faster LCP -->
         <link rel="preload" as="image" href="../assets/images/project/tsukamie/tsukamie1.webp" fetchpriority="high">
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=150" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -173,7 +173,7 @@
                 z-index: 20;
             }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                width: 6px; height: 6px; border-radius: 50%;
                 background: rgba(255,255,255,0.4); transition: all 0.3s ease;
                 cursor: pointer; box-shadow: none;
             }
@@ -373,13 +373,13 @@
                 width: 8px;
                 height: 8px;
                 transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-                border-radius: 0; /* Squircle, not circle — matches the site's art direction */
+                border-radius: 50%;
                 margin: 0 !important;
             }
             .solution-slider .swiper-pagination-bullet-active {
                 background: #111111;
                 width: 32px;
-                border-radius: 0; /* Squircle, matches the inactive bullet's radius */
+                border-radius: 4px; /* Pill once stretched wide */
             }
             .solution-slider .swiper-button-next,
             .solution-slider .swiper-button-prev {
@@ -537,9 +537,6 @@
             <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
-                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
-            </div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Solution</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -570,31 +567,33 @@
         <div class="body-wrapper">
             <div id="navbar-container"></div>
 
-            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
-                <div class="hero-bg-image"></div>
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 1;"></div>
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
-                    <div class="global-padding">
-                        <div class="cs-hero-wrapper">
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">Tsukamie Noodle Bar</h1>
-                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">Digital Presence Overhaul</div>
-                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
-                                <span>2025</span>
-                                <span class="cs-meta-separator">•</span>
-                                <span>Video Production, Visual Design & Content Strategy</span>
-                            </div>
-                            
-                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
-                                <button class="cs-share-btn" aria-label="Share this project">
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Tsukamie</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">Reframing a noodle bar's digital presence through cinematic, community-led storytelling.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                     </svg>
                                     Share Project
                                 </button>
                             </div>
+                            <!-- Shared .ed-hero component (css/style.css, region 49). Metadata fills row by row. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>F&amp;B</dd></div>
+                                <div><dt>Year</dt><dd>2025</dd></div>
+                                <div><dt>Role</dt><dd>Video Production<br>Photo Production<br>Post Production<br>Social Content</dd></div>
+                                <div><dt>Timeframe</dt><dd>3 Months</dd></div>
+                            </dl>
                         </div>
                     </div>
                 </div>
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;">
+                    <img src="../assets/images/project/tsukamie/tsukamie1.webp" alt="Tsukamie Noodle Bar" fetchpriority="high" decoding="async">
+                </figure>
             </section>
 
             <section id="overview" class="home-about-section section-margin fade-in-section">
@@ -635,21 +634,6 @@
                                         Working closely with the brand team, my role bridged creative vision with daily visual execution. I handled the video production, visual design, and post-production needed to translate their aesthetic goals into a striking and highly-engaged digital presence.
                                     </p>
                                     
-                                    <div class="about-divider"></div>
-                                    <div class="about-meta-grid">
-                                        <div class="meta-item">
-                                            <span class="meta-label">Duration</span>
-                                            <span class="meta-value">3 Months</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Role</span>
-                                            <span class="meta-value">Video Production, Visual Design & Content Strategy</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Industry</span>
-                                            <span class="meta-value">F&B / Restaurant</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -669,58 +653,12 @@
                 </div>
             </section>
 
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
                             "People weren't tired of the food. They were tired of being sold to."
                         </blockquote>
-                    </div>
-                </div>
-            </section>
-
-            <section id="hardskills" class="hardskills-section section-margin fade-in-section reveal-no-clip">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="why-choose-me-section-wrapper">
-                            <div class="skills--headline-content-wrapper section-headline-margin">
-                                <div class="why-choose-me-headline">
-                                    <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
-                                </div>
-                            </div>                          
-                            <div class="skills-grid fade-in-section reveal-stagger">
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper">
-                                        <div class="skill-card__header"><div class="skill-card__number">[01]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">The Feed Was Selling, Not Inviting</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Most posts were built to announce a promo, not to make someone want to sit down and eat. For a restaurant that lives on repeat visits and word of mouth, that's the wrong thing to be optimizing for first.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper">
-                                        <div class="skill-card__header"><div class="skill-card__number">[02]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">No Single Reason to Follow</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Without a consistent visual identity, every post had to win attention on its own instead of building on the last one. Nothing compounded, so growth flattened no matter how often the account posted.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper">
-                                        <div class="skill-card__header"><div class="skill-card__number">[03]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">People Trust a Feeling Before a Discount</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">The account's audience wasn't short on F&B content to scroll past. What made someone stop was the mundane, relatable version of eating out: the wait, the pour, the late-night order, not the price.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -740,7 +678,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">Visual Content System Workflow</h3>
-                                    <p class="sol-desc">A structured content system designed to align planning, production, and publishing across social platforms while maintaining consistency and adaptability over time.<br><br>Rather than treating content as isolated outputs, this system frames it as a continuous cycle of decisions, behaviors, and feedback.</p>
+                                    <p class="sol-desc">The account had been announcing promos instead of inviting people in, and no post built on the last one. The answer was a structured content system designed to align planning, production, and publishing across social platforms while maintaining consistency and adaptability over time.<br><br>Rather than treating content as isolated outputs, this system frames it as a continuous cycle of decisions, behaviors, and feedback.</p>
                                 </div>
                                 <div id="workflow-pin-target">
                                 <div class="workflow-sticky-wrapper" id="workflow-wrapper">
@@ -835,7 +773,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[02]</span>
                                     <h3 class="sol-title">Visual Content Implementation</h3>
-                                    <p class="sol-desc">Implemented a structured content workflow guided by the brand's research and pillars. Managed editorial planning, production, outreach tracking, and publishing to ensure consistent social media output.</p>
+                                    <p class="sol-desc">Implemented a structured content workflow guided by the brand's research and pillars. Managed editorial planning, production, outreach tracking, and publishing to ensure consistent social media output. The content leaned on the mundane, relatable side of eating out, the wait, the pour, the late-night order, rather than the price.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0; background: transparent;">
                                     <div class="bits-and-pieces-wrapper">
@@ -1434,17 +1372,17 @@
                         </div>
                         <div class="credits-grid">
                             <div class="credits-group">
-                                <h4 class="credits-role">Strategic & Creative Direction</h4>
+                                <h3 class="credits-role">Creative Direction</h3>
                                 <ul class="credits-list">
-                                <li><a href="https://www.linkedin.com/in/aulia-anastarina-39137a6b/" target="_blank" rel="noopener noreferrer">Aulia Anastarina</a> <span>(Owner & Brand Lead)</span></li>
-                                <li><a href="https://www.linkedin.com/in/riva-virga-vidiana-1770147a/" target="_blank" rel="noopener noreferrer">Riva Virga Vidiana</a> <span>(Creative Supervisor)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/aulia-anastarina-39137a6b/" target="_blank" rel="noopener noreferrer">Aulia Anastarina</a> <span>(Owner & Brand Lead)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/riva-virga-vidiana-1770147a/" target="_blank" rel="noopener noreferrer">Riva Virga Vidiana</a> <span>(Creative Supervisor)</span></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
-                                <h4 class="credits-role">Content Strategy & Production</h4>
+                                <h3 class="credits-role">Content & Production</h3>
                                 <ul class="credits-list">
-                                    <li><a href="https://www.linkedin.com/in/aulianazhirah/" target="_blank" rel="noopener noreferrer">Aulia Nazhirah</a> <span>(Content Strategist, Social Media, KOL, Partnerships & Talent)</span></li>
-                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer, Video Editor, Visual Designer & Content Strategist)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/aulianazhirah/" target="_blank" rel="noopener noreferrer">Aulia Nazhirah</a> <span>(Content Strategy & Partnerships)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer, Editor & Content Strategist)</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -1500,7 +1438,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <script defer src="../script.js?v=58"></script>
+        <script defer src="../script.js?v=61"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

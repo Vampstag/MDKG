@@ -100,7 +100,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=150" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -288,9 +288,6 @@
             <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
-                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
-            </div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">Creative Approach</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -318,40 +315,33 @@
             <!-- Navbar will be injected here -->
             <div id="navbar-container"></div>
 
-            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
-                <!-- [NEW] Background Image Container for Ken Burns Effect -->
-                <div class="hero-bg-image"></div>
-                
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>
-                <!-- Hapus z-index inline agar mix-blend-mode bisa tembus ke background -->
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
-                    <div class="global-padding">
-                        <div class="cs-hero-wrapper">
-                            <!-- 1. Main Title (Tight Leading) -->
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">Torch × Gundam</h1>
-                            
-                            <!-- 2. Sub-title (Wide Tracking) -->
-                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">IP Collaboration Campaign</div>
-                            
-                            <!-- 3. Metadata (Muted & Separated) -->
-                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
-                                <span>2026</span>
-                                <span class="cs-meta-separator">•</span>
-                                <span>Videographer & Video Editor</span>
-                            </div>
-                            
-                            <!-- [NEW] Share Button -->
-                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
-                                <button class="cs-share-btn" aria-label="Share this project">
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Torch</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">Bringing the world of Gundam into Torch's everyday adventure.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                     </svg>
                                     Share Project
                                 </button>
                             </div>
+                            <!-- Shared .ed-hero component (css/style.css, region 49). Metadata fills row by row. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>Fashion</dd></div>
+                                <div><dt>Year</dt><dd>2026</dd></div>
+                                <div><dt>Role</dt><dd>Video Production<br>Post Production</dd></div>
+                                <div><dt>Timeframe</dt><dd>2 Months</dd></div>
+                            </dl>
                         </div>
                     </div>
                 </div>
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;">
+                    <img src="../assets/images/project/torch/torch-gundam-model.webp" alt="Torch × Gundam" fetchpriority="high" decoding="async">
+                </figure>
             </section>
 
             <!-- 2. Overview -->
@@ -393,7 +383,7 @@
 
                                 <div class="about-text-block">
                                     <p class="about-paragraph">
-                                        Torch's first collaboration with <em>Mobile Suit Gundam</em>, developed to bring the iconic mecha franchise into Torch's visual language while connecting with its existing fan community.
+                                        Torch's first collaboration with <em>Mobile Suit Gundam</em>, launched in February 2026 and developed to bring the iconic mecha franchise into Torch's visual language while connecting with its existing fan community. The collection spans backpacks, sling bags, t-shirts, caps, and pouches.
                                     </p>
                                     <p class="about-paragraph">
                                         Working within Torch's creative direction, I handled the visual execution across the campaign's key video deliverables, from teaser films and the main launch film to social content and supporting campaign assets.
@@ -402,17 +392,6 @@
                                         My role covered cinematography, editing, and color grading, with a focus on building a cinematic visual language that felt industrial, atmospheric, and consistent across different production setups and formats.
                                     </p>
 
-                                    <div class="about-divider"></div>
-                                    <div class="about-meta-grid">
-                                        <div class="meta-item">
-                                            <span class="meta-label">Duration</span>
-                                            <span class="meta-value">2 Months</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Industry</span>
-                                            <span class="meta-value">Fashion / Retail</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -434,59 +413,12 @@
             </section>
 
             <!-- 3. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 64px; padding-bottom: 64px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
                             Reimagining Gundam<br>for the fans who<br>grew up with it.
                         </blockquote>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. The Challenge -->
-            <section id="hardskills" class="hardskills-section section-margin fade-in-section reveal-no-clip">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="why-choose-me-section-wrapper">
-                            <div class="skills--headline-content-wrapper section-headline-margin">
-                                <div class="why-choose-me-headline">
-                                    <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
-                                </div>
-                            </div>                          
-                            <div class="skills-grid fade-in-section reveal-stagger">
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
-                                        <div class="skill-card__header"><div class="skill-card__number">[01]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Maintaining a Consistent Visual Language</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">The campaign needed to feel cohesive across multiple shoots, formats, and deliverables, despite differences in lighting, setups, and production conditions.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
-                                        <div class="skill-card__header"><div class="skill-card__number">[02]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Working With Production Constraints</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Limited setups, changing conditions, and tight production timelines meant the visual approach had to remain flexible throughout the shoot rather than relying on a fixed setup.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="skill-card">
-                                    <div class="skill-card__wrapper w-inline-block">
-                                        <div class="skill-card__header"><div class="skill-card__number">[03]</div></div>
-                                        <div class="skill-card__divider"></div>
-                                        <div class="skill-card__body">
-                                            <div class="skill-card__title-wrapper"><div class="skill-card__title">Making the Collaboration Feel Authentic</div></div>
-                                            <div class="skill-card__text-block"><p class="skill-card__paragraph">Gundam already carries a strong visual identity and an established fan culture. The challenge was to reference that world without letting the IP overpower Torch's own design language.</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -505,7 +437,7 @@
                             <!-- Item 1: Building the Look -->
                             <div class="solution-video-item is-timeline">
                                 <div class="solution-video-content solution-video-content--right">
-                                    <p class="sol-desc">The visual treatment was developed around muted industrial tones, restrained contrast, and subtle retro-sci-fi texture. The grade was built to give the campaign a distinct atmosphere while remaining flexible enough to work across footage captured in different setups.</p>
+                                    <p class="sol-desc">The visual treatment was developed around muted industrial tones, restrained contrast, and subtle retro-sci-fi texture, so the work could reference the franchise without letting the IP overpower Torch's own design language. The grade was built to give the campaign a distinct atmosphere while remaining flexible enough to work across footage captured in different setups.</p>
                                 </div>
                                 <div class="solution-video-player" style="box-shadow: none; border-radius: 0;">
                                     <!-- [PLACEHOLDER] Two process clips pending export: 1) color grading workflow in DaVinci, 2) timeline editing workflow -->
@@ -595,7 +527,7 @@
                                     </div>
                                 </div>
                                 <div class="solution-video-content">
-                                    <p class="sol-desc">The campaign revealed the collaboration gradually rather than putting the product at the center from the beginning. Silhouettes, fragmented details, and slower pacing created anticipation first, allowing recognition and nostalgia to build before the full collaboration was revealed.</p>
+                                    <p class="sol-desc">With the Gundam robots off limits under the license, the campaign revealed the collaboration gradually rather than putting the product at the center from the beginning. Silhouettes, fragmented details, and slower pacing created anticipation first, allowing recognition and nostalgia to build before the full collaboration was revealed.</p>
                                     <p class="sol-desc">Alongside the teasers, I also produced Behind the Design, a storytelling piece walking through the creative direction and design process itself. It let the audience see how the collaboration came together, not just the finished product.</p>
                                 </div>
                             </div>
@@ -890,40 +822,30 @@
                             </div>
                         </div>
                         <div class="credits-grid">
-                            <!-- Strategic & Creative Direction -->
                             <div class="credits-group">
-                                <h3 class="credits-role">Strategic & Creative Direction</h3>
+                                <h3 class="credits-role">Creative Direction</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://www.linkedin.com/in/reza-lazuardi-42279732/?skipRedirect=true" target="_blank" rel="noopener noreferrer">Reza Lazuardi</a> <span>(Senior Brand & Creative Manager)</span></li>
                                     <li><a href="https://www.linkedin.com/in/aldo-bangga-permana-42737840/" target="_blank" rel="noopener noreferrer">Aldo Bangga Permana</a> <span>(Branding Creative Lead)</span></li>
-                                    <li><a href="https://www.linkedin.com/in/irfan-noormansyah-9170b6113/" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Ass. Manager BNC Operations)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/irfan-noormansyah-9170b6113/" target="_blank" rel="noopener noreferrer">Irfan</a> <span>(Assistant Manager, Operations)</span></li>
                                 </ul>
                             </div>
 
-                            <!-- Production Management -->
                             <div class="credits-group">
-                                <h3 class="credits-role">Production Management</h3>
+                                <h3 class="credits-role">Production</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://www.linkedin.com/in/ridwan-pradana-mail/" target="_blank" rel="noopener noreferrer">Ridwan Pradana</a> <span>(Project Manager)</span></li>
-                                    <li><a href="https://linkedin.com/in/alfenda" target="_blank" rel="noopener noreferrer">Alfenda</a> <span>(Content Video Producer)</span></li>
+                                    <li><a href="https://linkedin.com/in/alfenda" target="_blank" rel="noopener noreferrer">Alfenda</a> <span>(Video Producer)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer & Editor)</span></li>
+                                    <li><a href="https://linkedin.com/in/saffa" target="_blank" rel="noopener noreferrer">Saffa</a> <span>(Production Support)</span></li>
                                 </ul>
                             </div>
 
-                            <!-- Narrative & Storytelling -->
                             <div class="credits-group">
-                                <h3 class="credits-role">Narrative & Storytelling</h3>
+                                <h3 class="credits-role">Storytelling</h3>
                                 <ul class="credits-list">
                                     <li><a href="https://linkedin.com/in/ikhsan" target="_blank" rel="noopener noreferrer">Ikhsan</a> <span>(Branding Storyteller)</span></li>
                                     <li><a href="https://linkedin.com/in/ranna" target="_blank" rel="noopener noreferrer">Ranna</a> <span>(Fulfillment Storyteller)</span></li>
-                                </ul>
-                            </div>
-
-                            <!-- Post-Production & Technical Execution -->
-                            <div class="credits-group">
-                                <h3 class="credits-role">Post-Production & Technical Execution</h3>
-                                <ul class="credits-list">
-                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Videographer & Video Editor)</span></li>
-                                    <li><a href="https://linkedin.com/in/saffa" target="_blank" rel="noopener noreferrer">Saffa</a> <span>(Production Support)</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -978,7 +900,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=58"></script>
+        <script defer src="../script.js?v=61"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

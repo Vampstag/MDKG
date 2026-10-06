@@ -8824,3 +8824,167 @@ a.social-icon:hover img {
     }
 }
 
+
+/* #region 49. CASE STUDY EDITORIAL HERO */
+/* =========================================
+   49. CASE STUDY EDITORIAL HERO (.ed-hero)
+   Shared header for every case study page (first built on pink-roulette.html):
+   the brand name only, huge and left-aligned on white (the tagline names the
+   campaign, e.g. Torch + "#MainCantik, ..."), a fixed band of white space,
+   then the tagline + share button, and below them the metadata as one row of four
+   columns. The hero photo follows full-bleed below, with nothing printed
+   over it.
+   Deliberately avoids .portfolio-hero-section-center / .hero-bg-image: script.js
+   only switches the navbar to white text when one of those exists, so this hero
+   keeps the default dark navbar.
+   Spacing is fixed rather than "fill the first screen and pin the band to the
+   bottom": on shorter screens the pinned version squeezed the band against the
+   title and the white space disappeared.
+   ========================================= */
+.ed-hero-inner {
+    padding-top: 160px;
+    padding-bottom: 120px;
+}
+.ed-hero-title {
+    margin: 0;
+    font-family: var(--font-primary);
+    /* Capped by height as well as width, so a short laptop screen doesn't get a
+       title that eats the whole first view. Long names (e.g. "Tsukamie Noodle Bar")
+       wrap to a second line instead of running off the screen. */
+    font-size: clamp(3.25rem, min(10.5vw, 22vh), 11rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.9;
+    color: #111;
+    text-wrap: balance;
+}
+/* One four-column grid under the title, shared by everything below it, so every text
+   edge lands on the same column lines:
+     row 1: tagline across columns 1-2
+     row 2: share button under the tagline, on column 1
+     row 3: metadata, one item per column (Industry | Year | Role | Timeframe)
+   .ed-hero-lead is display:contents so the tagline and the button are placed on
+   this grid directly. The metadata row repeats the same 4 columns and gap, so its
+   columns line up exactly with the tagline above. */
+.ed-hero-band {
+    --ed-hero-gap: 24px;
+    margin-top: clamp(96px, 16vh, 200px); /* the white space under the title */
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--ed-hero-gap);
+    row-gap: 64px;
+    align-items: end;
+}
+.ed-hero-lead { display: contents; }
+.ed-hero-tagline {
+    grid-column: 1 / span 2;
+    margin: 0;
+    max-width: 24ch;
+    font-family: var(--font-primary);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: #111;
+}
+/* Metadata: Industry | Year | Role | Timeframe. Industry and Role match the
+   portfolio card badges. Top-aligned, so a longer Role list just runs further down
+   its own column. Labels recede in light grey, values in dark grey (#333), so the
+   row reads as supporting detail under the title and tagline (#111). */
+.ed-hero-meta {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--ed-hero-gap);
+    row-gap: 28px;
+    align-items: start;
+    margin: 0;
+}
+.ed-hero-meta dt {
+    margin: 0 0 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #999;
+}
+.ed-hero-meta dd {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+}
+/* Share: smaller than the shared .cs-share-btn (0.8rem); a utility, not a CTA. */
+.ed-hero .cs-share-btn {
+    /* Directly under the tagline, on column 1: right where the reader already is.
+       (Right-aligned in column 4 it sat far from the reading line and was easy to miss.) */
+    grid-column: 1;
+    justify-self: start;
+    align-self: start;
+    margin: -40px 0 0; /* pulls it up to the tagline, inside the 64px row gap */
+    padding: 0;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: rgba(17, 17, 17, 0.7);
+}
+.ed-hero .cs-share-btn svg { width: 14px; height: 14px; }
+.ed-hero .cs-share-btn:hover { color: #111; }
+/* Full-bleed hero photo under the header. */
+.ed-hero-media {
+    position: relative;
+    width: 100%;
+    height: min(90vh, 58vw);
+    min-height: 420px;
+    margin: 0;
+    overflow: hidden;
+    background: #F2F2F2;
+}
+.ed-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+}
+@media (max-width: 767px) {
+    .ed-hero-inner { padding-top: 130px; padding-bottom: 80px; }
+    /* Two columns on phones: tagline full width, share under it, metadata 2x2. */
+    .ed-hero-band { grid-template-columns: repeat(2, minmax(0, 1fr)); --ed-hero-gap: 20px; row-gap: 40px; }
+    .ed-hero-tagline { grid-column: 1 / -1; }
+    .ed-hero .cs-share-btn { margin-top: -20px; }
+    .ed-hero-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
+    .ed-hero-media { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
+}
+/* #endregion */
+
+/* Case study Essence quote: Webflow's base blockquote rule adds a 5px grey left
+   border. The old grey band behind the quote hid it; with the band removed it showed
+   up as a stray vertical line, so drop it on case study pages (identified by the
+   shared .ed-hero header). */
+.ed-hero ~ #essence #essence-quote {
+    border-left: 0;
+    padding-left: 0;
+}
+
+/* Case study text columns on the hero's grid. Overview, Key Insights and any other
+   sidebar + content block (.about-layout-grid) used a 1fr 2fr split with a 104px gap,
+   so its text started at a line that matched nothing in the .ed-hero header above.
+   On case study pages it now uses the same 4 columns / 24px gap as the hero: the
+   section heading across columns 1-2, the text across columns 3-4, starting on the
+   same line as the hero's Role column. */
+@media (min-width: 992px) {
+    .ed-hero ~ section .about-layout-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        column-gap: 24px;
+    }
+    .ed-hero ~ section .about-layout-grid > .about-sidebar { grid-column: 1 / span 2; }
+    .ed-hero ~ section .about-layout-grid > .about-main-content { grid-column: 3 / span 2; }
+}
+/* Credits already run in 4 columns, but with a 40px gap, so each column started a few
+   pixels off the hero's column lines (24px gap). Match the hero's gap on case study pages. */
+@media (min-width: 992px) {
+    .ed-hero ~ section .credits-grid { column-gap: 24px; }
+}

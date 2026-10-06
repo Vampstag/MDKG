@@ -100,7 +100,7 @@
         <link rel="preload" as="video" href="../assets/videos/project/{{SLUG}}/{{SHOWREEL_FILENAME}}" type="video/mp4" fetchpriority="high">
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=150" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -189,9 +189,6 @@
             <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
-                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
-            </div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -218,32 +215,33 @@
         <main class="body-wrapper">
             <div id="navbar-container"></div>
 
-            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
-                <div class="hero-bg-image"></div>
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
-                    <div class="global-padding">
-                        <div class="cs-hero-wrapper">
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">{{PROJECT_NAME — title case, e.g. brand + campaign}}</h1>
-                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">{{CAMPAIGN_TAGLINE — e.g. "Ramadan 2026 Campaign"}}</div>
-                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
-                                <span>{{YEAR}}</span>
-                                <span class="cs-meta-separator">•</span>
-                                <span>Photographer & Video Editor</span>
-                                <!-- If this project spans pre-production too, consider: "Concept, Shoot & Edit"
-                                     to signal the end-to-end scope — see conversation notes on role framing. -->
-                            </div>
-                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
-                                <button class="cs-share-btn" aria-label="Share this project">
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">{{BRAND: the brand or client name only, e.g. Torch}}</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">{{TAGLINE: one sentence naming the campaign, e.g. #MainCantik, the campaign for Torch's Women Collection.}}</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                     </svg>
                                     Share Project
                                 </button>
                             </div>
+                            <!-- Shared .ed-hero component (css/style.css, region 49). Metadata fills row by row. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>{{INDUSTRY: same as the portfolio card badge}}</dd></div>
+                                <div><dt>Year</dt><dd>{{YEAR}}</dd></div>
+                                <div><dt>Role</dt><dd>{{ROLE: same as the portfolio card badges, one per line}}</dd></div>
+                                <div><dt>Timeframe</dt><dd>{{TIMEFRAME: e.g. 3 Weeks}}</dd></div>
+                            </dl>
                         </div>
                     </div>
                 </div>
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;">
+                    <img src="../assets/images/project/{{SLUG}}/{{HERO_IMAGE_FILENAME}}" alt="{{PROJECT_NAME: as on the portfolio card, e.g. Torch × Gundam}}" fetchpriority="high" decoding="async">
+                </figure>
             </section>
 
             <!-- 2. Overview -->
@@ -285,17 +283,6 @@
                                         {{OVERVIEW_PARAGRAPH_2 — your specific scope. Since this is end-to-end at Observisual, say plainly which stages you touched: concept/pre-production input, the shoot itself, edit, grading. Don't overclaim stages you didn't own.}}
                                     </p>
 
-                                    <div class="about-divider"></div>
-                                    <div class="about-meta-grid">
-                                        <div class="meta-item">
-                                            <span class="meta-label">Duration</span>
-                                            <span class="meta-value">{{DURATION — e.g. "3 Weeks"}}</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Industry</span>
-                                            <span class="meta-value">{{INDUSTRY — e.g. "Hospitality / F&B"}}</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +304,7 @@
             </section>
 
             <!-- 4. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
@@ -328,26 +315,10 @@
                 </div>
             </section>
 
-            <!-- 5. The Challenge -->
-            <section id="hardskills" class="home-about-section section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="about-layout-grid">
-                            <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
-                            </div>
-                            <div class="about-main-content">
-                                <div class="about-text-block">
-                                    <h3 class="about-lead-text text-reveal">{{CHALLENGE_HEADLINE — the one-sentence version of the problem}}</h3>
-                                    <p class="about-paragraph">{{CHALLENGE_BODY — what made this hard: audience mismatch, brand recognition, timing, budget, location constraints, etc.}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 6. The Approach — duplicate a .solution-video-item block for each approach point (2-3 is typical) -->
+            <!-- 6. The Approach — duplicate a .solution-video-item block for each approach point (2-3 is typical).
+                 There is NO separate "The Challenge" section on case studies: weave the real problem into the first
+                 approach paragraph as a short clause (the problem, then the decision it forced), and only the
+                 problem your own role could face. Never a generic craft goal like "keep it consistent". -->
             <section id="solution" class="section-margin fade-in-section">
                 <div class="w-layout-blockcontainer global-wrapper w-container">
                     <div class="global-padding">
@@ -362,7 +333,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">{{APPROACH_1_HEADLINE}}</h3>
-                                    <p class="sol-desc">{{APPROACH_1_BODY — the specific decision you made and why. If this came from pre-production/concept thinking rather than just execution, say so plainly.}}</p>
+                                    <p class="sol-desc">{{APPROACH_1_BODY: open with the real problem in one clause, then the specific decision you made and why. If this came from pre-production/concept thinking rather than just execution, say so plainly.}}</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -589,15 +560,15 @@
                         </div>
                         <div class="credits-grid">
                             <div class="credits-group">
-                                <h4 class="credits-role">Agency</h4>
+                                <h3 class="credits-role">Agency</h3>
                                 <ul class="credits-list">
                                     <li><a href="{{OBSERVISUAL_URL}}" target="_blank" rel="noopener noreferrer">Observisual</a></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
-                                <h4 class="credits-role">Post-Production & Technical Execution</h4>
+                                <h3 class="credits-role">Production</h3>
                                 <ul class="credits-list">
-                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Photographer & Video Editor)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Photographer & Editor)</span></li>
                                 </ul>
                             </div>
                             <!-- Add more credits-group blocks for any teammates involved (strategy, production management, etc.) -->
@@ -646,7 +617,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=58"></script>
+        <script defer src="../script.js?v=61"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

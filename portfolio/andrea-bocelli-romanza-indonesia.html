@@ -90,7 +90,7 @@
         <link rel="preload" as="video" href="../assets/videos/project/andrea-bocelli/hero-video-romanza.mp4" type="video/mp4" fetchpriority="high">
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=150" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -173,9 +173,6 @@
             <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
-            <a href="#hardskills" class="cs-nav-item"><span class="cs-nav-label">The Challenge</span><div class="cs-nav-dot">
-                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
-            </div></a>
             <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">The Approach</span><div class="cs-nav-dot">
                 <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
             </div></a>
@@ -199,30 +196,33 @@
         <main class="body-wrapper">
             <div id="navbar-container"></div>
 
-            <section id="top" class="portfolio-hero-section portfolio-hero-section-center section-margin" style="position: relative; overflow: hidden;">
-                <div class="hero-bg-image"></div>
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%); z-index: 1;"></div>
-                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative; z-index: 2; mix-blend-mode: normal;">
-                    <div class="global-padding">
-                        <div class="cs-hero-wrapper">
-                            <h1 class="cs-hero-title cs-anim-el" style="opacity: 0;">Andrea Bocelli</h1>
-                            <div class="cs-hero-subtitle cs-anim-el" style="opacity: 0;">Romanza 30th Anniversary World Tour Indonesia</div>
-                            <div class="cs-hero-meta cs-anim-el" style="opacity: 0;">
-                                <span>2026</span>
-                                <span class="cs-meta-separator">•</span>
-                                <span>Photography, Videography, Editing & Motion</span>
-                            </div>
-                            <div class="cs-anim-el" style="opacity: 0; margin-top: 32px;">
-                                <button class="cs-share-btn" aria-label="Share this project">
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Andrea Bocelli</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">Romanza 30th Anniversary World Tour, bringing Andrea Bocelli to Indonesia for its only Southeast Asia stop.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                     </svg>
                                     Share Project
                                 </button>
                             </div>
+                            <!-- Shared .ed-hero component (css/style.css, region 49). Metadata fills row by row. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>Live Event</dd></div>
+                                <div><dt>Year</dt><dd>2026</dd></div>
+                                <div><dt>Role</dt><dd>Post Production</dd></div>
+                                <div><dt>Timeframe</dt><dd>3 Months</dd></div>
+                            </dl>
                         </div>
                     </div>
                 </div>
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;">
+                    <img src="../assets/images/project/andrea-bocelli/cover-bocelli-concert.webp" alt="Andrea Bocelli" fetchpriority="high" decoding="async">
+                </figure>
             </section>
 
             <!-- 2. Overview -->
@@ -262,17 +262,6 @@
                                         I was part of the creative production team behind the campaign, "The Night You'll Tell For Years," producing photography, videography, editing, color, and motion for Shoemaker Live's digital, OOH, and press conference assets. Not event documentation, but visual communication built to carry that prestige across formats and platforms.
                                     </p>
 
-                                    <div class="about-divider"></div>
-                                    <div class="about-meta-grid">
-                                        <div class="meta-item">
-                                            <span class="meta-label">Duration</span>
-                                            <span class="meta-value">3 Months</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">Industry</span>
-                                            <span class="meta-value">Live Event / Music</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -294,31 +283,12 @@
             </section>
 
             <!-- 4. Campaign Essence -->
-            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible; background-color: #FAFAFA; border-top: 1px solid #F0F0F0; border-bottom: 1px solid #F0F0F0; padding-top: 80px; padding-bottom: 80px;">
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
                 <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
                     <div class="global-padding" style="position: relative;">
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
                             "Two wonders, one voice. Creating a night that becomes a story you'll tell for years."
                         </blockquote>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 5. The Challenge -->
-            <section id="hardskills" class="home-about-section section-margin fade-in-section">
-                <div class="w-layout-blockcontainer global-wrapper w-container">
-                    <div class="global-padding">
-                        <div class="about-layout-grid">
-                            <div class="about-sidebar">
-                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">The Challenge</div>
-                            </div>
-                            <div class="about-main-content">
-                                <div class="about-text-block">
-                                    <h3 class="about-lead-text text-reveal">One region, one shot, no room for anything less than international standard.</h3>
-                                    <p class="about-paragraph">Being the only Southeast Asia stop on a 30-year world tour meant the visual direction couldn't read as regional or improvised. It had to feel as considered and elegant as the tour itself, across every stakeholder, sponsor, and brand guideline on a tight timeline. First project at this scale for our team. The real challenge was holding that same premium, refined visual language across social, advertising, OOH, and press materials as the campaign moved through announcement, presale, and both event dates.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -338,7 +308,7 @@
                                 <div class="solution-video-content">
                                     <span class="sol-number">[01]</span>
                                     <h3 class="sol-title">From press conference to after the concert.</h3>
-                                    <p class="sol-desc">My scope covered assets from the press conference through the promotional period: video and motion for Shoemaker Live's Instagram, plus OOH across 8 confirmed screens and press conference collateral at JIEXPO Convention Center Jakarta.</p>
+                                    <p class="sol-desc">As the only Southeast Asia stop on a 30-year world tour, the visual direction could not read as regional or improvised, and it had to hold one premium, refined language across social, advertising, OOH, and press materials. My scope covered assets from the press conference through the promotional period: video and motion for Shoemaker Live's Instagram, plus OOH across 8 confirmed screens and press conference collateral at JIEXPO Convention Center Jakarta.</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper is-reel">
@@ -361,7 +331,7 @@
                                 <div class="solution-video-content solution-video-content--right">
                                     <span class="sol-number">[02]</span>
                                     <h3 class="sol-title">Fast production, controlled execution.</h3>
-                                    <p class="sol-desc">Andrea Bocelli's 30-year legacy called for a premium, refined tone, but the campaign also had to carry the anticipation of the night itself. The work focused on precision, consistency, and adaptability, leaning into the scale of the evening and the idea that some nights stay with people. That's the emotional core behind "The Night You'll Tell For Years."</p>
+                                    <p class="sol-desc">It was our team's first project at this scale, with every stakeholder, sponsor, and brand guideline on a tight timeline. Andrea Bocelli's 30-year legacy called for a premium, refined tone, but the campaign also had to carry the anticipation of the night itself. The work focused on precision, consistency, and adaptability, leaning into the scale of the evening and the idea that some nights stay with people. That's the emotional core behind "The Night You'll Tell For Years."</p>
                                 </div>
                                 <div class="solution-video-player">
                                     <div class="video-player-wrapper approach-hero-film">
@@ -629,34 +599,29 @@
                         </div>
                         <div class="credits-grid">
                             <div class="credits-group">
-                                <h4 class="credits-role">Client / Promoter</h4>
+                                <h3 class="credits-role">Client</h3>
                                 <ul class="credits-list">
-                                    <li><a href="{{SHOEMAKER_LIVE_URL}}" target="_blank" rel="noopener noreferrer">Shoemaker Live</a></li>
+                                    <li>Shoemaker Live <span>(Promoter)</span></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
-                                <h4 class="credits-role">Agency / Digital Marketing</h4>
+                                <h3 class="credits-role">Agency</h3>
                                 <ul class="credits-list">
-                                    <li><a href="{{PANEN_MAYA_DIGITAL_URL}}" target="_blank" rel="noopener noreferrer">Panen Maya Digital</a></li>
-                                </ul>
-                            </div>
-                            <div class="credits-group">
-                                <h4 class="credits-role">Creative / Production Agency</h4>
-                                <ul class="credits-list">
-                                    <li><a href="{{OBSERVISUAL_URL}}" target="_blank" rel="noopener noreferrer">Observisual</a></li>
+                                    <li>Panen Maya Digital <span>(Digital Marketing)</span></li>
+                                    <li>Observisual <span>(Creative & Production)</span></li>
                                 </ul>
                             </div>
                             <div class="credits-group">
                                 <!-- The team below are all Observisual, credited individually for their
-                                     roles on this project — not a separate outside team. -->
-                                <h4 class="credits-role">Creative Team at Observisual</h4>
+                                     roles on this project, not a separate outside team. -->
+                                <h3 class="credits-role">Creative Team</h3>
                                 <ul class="credits-list">
                                     <li>Widi Aditya <span>(Creative Director)</span></li>
                                     <li>Devi <span>(Project Manager)</span></li>
-                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas K. G.</a> <span>(Photographer & Videographer, Video Editor, Motion Designer)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas K. G.</a> <span>(Photo, Video & Motion)</span></li>
                                     <li>Raihan <span>(Graphic Designer)</span></li>
                                     <li>Tsamara <span>(Graphic Designer)</span></li>
-                                    <li>Raihani <span>(Copywriter & Social Media Specialist)</span></li>
+                                    <li>Raihani <span>(Copywriter & Social Media)</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -711,7 +676,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=58"></script>
+        <script defer src="../script.js?v=61"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

@@ -1083,6 +1083,13 @@ function initObserverAnimations(context = document) {
     animatedElements.forEach(el => {
         if (el.dataset.observed) return; // Prevent double observation
         el.dataset.observed = "true";
+        // Put headings into their hidden pre-state now, before their section reveals.
+        // A .text-reveal inside a .fade-in-section can't intersect until the section's
+        // clip-path wipe uncovers it, so its observer fires only after the heading has
+        // already been shown in full by that wipe; rebuilding it from hidden at that point
+        // made every heading appear twice. Pre-hidden, the wipe uncovers empty space and
+        // the heading's own reveal is the only one the visitor sees.
+        if (el.classList.contains('text-reveal')) prepareTextReveal(el);
         observer.observe(el);
     });
 }
@@ -1148,17 +1155,22 @@ function animateJournalSection(section) {
 }
 
 /**
- * Helper function to run the GSAP text animation for headlines.
- * This is called by the IntersectionObserver.
- * @param {HTMLElement} element The .text-reveal element to animate.
+ * Puts a .text-reveal heading into its hidden starting state, once, and records which
+ * reveal it will play. Called when the heading is first observed (well before it can
+ * scroll into view), so the visitor never sees the full text before its own reveal.
+ * @param {HTMLElement} element The .text-reveal element to prepare.
+ * @returns {{mode: 'none'|'block'|'chars', chars?: HTMLElement[]}}
  */
-function animateTextReveal(element) {
-    element.style.opacity = '1'; // Make container visible
+function prepareTextReveal(element) {
+    if (element.__textReveal) return element.__textReveal;
 
     // The CSS reduced-motion guard (see SCROLL REVEAL CONTRACT) can't reach this
     // path: the motion here is GSAP-driven, not a CSS transition, so honouring the
     // preference means leaving the text at its final state and doing nothing.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        element.__textReveal = { mode: 'none' };
+        return element.__textReveal;
+    }
 
     // Mobile: skip the per-character split (dozens of individually staggered/animated
     // <span> elements per headline) in favor of one clip-path wipe on the whole block,
@@ -1168,11 +1180,11 @@ function animateTextReveal(element) {
     // heavy, and stacking a per-character stagger on top of it was what made the text
     // visibly stutter/freeze mid-reveal instead of completing smoothly.
     if (!window.matchMedia('(min-width: 992px)').matches) {
-        gsap.fromTo(element,
-            { opacity: 0, y: 16, clipPath: 'inset(100% 0 0 0)' },
-            { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.5, ease: "power2.out", clearProps: "clipPath" }
-        );
-        return;
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(16px)';
+        element.style.clipPath = 'inset(100% 0 0 0)';
+        element.__textReveal = { mode: 'block' };
+        return element.__textReveal;
     }
 
     // innerText (not textContent) so hand-authored <br> tags survive as \n instead of
@@ -1234,6 +1246,34 @@ function animateTextReveal(element) {
 
     // Single DOM write for the whole rebuilt headline.
     element.appendChild(frag);
+
+    element.__textReveal = { mode: 'chars', chars };
+    return element.__textReveal;
+}
+
+/**
+ * Plays a .text-reveal heading's reveal. Called by the IntersectionObserver; prepares the
+ * heading first if initObserverAnimations() hasn't already.
+ * @param {HTMLElement} element The .text-reveal element to animate.
+ */
+function animateTextReveal(element) {
+    const prepared = prepareTextReveal(element);
+
+    if (prepared.mode === 'none') {
+        element.style.opacity = '1';
+        return;
+    }
+
+    if (prepared.mode === 'block') {
+        gsap.fromTo(element,
+            { opacity: 0, y: 16, clipPath: 'inset(100% 0 0 0)' },
+            { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.5, ease: "power2.out", clearProps: "clipPath" }
+        );
+        return;
+    }
+
+    element.style.opacity = '1'; // Make container visible; the chars carry the hidden state
+    const chars = prepared.chars;
 
     gsap.to(chars, {
         y: 0,

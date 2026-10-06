@@ -14,3 +14,7 @@ build/
 # Secrets / Environment Variables
 .env
 .env.local
+# Raw/full-size Pink Roulette exports (~1GB, 12-21MB per file). Used only as a local
+# layout preview; export compressed WebP copies into pink-roulette/ before publishing.
+assets/images/project/pink-roulette/edited/
+assets/videos/project/pink-roulette/original/

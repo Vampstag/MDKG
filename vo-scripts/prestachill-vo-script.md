@@ -5,17 +5,13 @@ Target length: ~90–100 seconds. Tone: direct, first person, matter-of-fact —
 
 **[Overview]**
 
-Torch's Back to School 2026 campaign was built on a simple idea: not every win has to be big. Getting to school on time. Remembering to pray between Mobile Legends matches. Making it through the week without blowing your allowance. Those count too. That's PrestaChill.
+Torch's Back to School 2026 campaign was built on a simple idea: not every win has to be big. Getting to school on time. Remembering to pray between Mobile Legends matches. Making it through the week without blowing your allowance. Those count too. That's PrestaChill, the idea behind Torch's Jalanin Terus line: keep going, one small win at a time.
 
 I worked from Torch's creative direction and handled the execution — thirty-eight videos over two and a half months, across organic social, e-commerce, and paid ads. I shot them, cut them, and graded them.
 
-**[The Challenge]**
+**[Creative Approach]**
 
-Here's the problem going in: Torch's existing audience was the wrong audience. Most of the people following the brand were parents buying school bags. This campaign needed to reach their kids — who barely knew Torch existed. Dads pay, but kids pick.
-
-**[The Approach]**
-
-So instead of borrowing trust from the brand, I borrowed it from the feed. I tracked what was trending on TikTok that week, brought the formats and sounds worth adapting to the team, and shot for whichever one got the green light. The content earned attention first. The brand came second.
+Torch's existing audience was the wrong audience. Most of the people following the brand were parents buying school bags, and this campaign needed to reach their kids, who barely knew Torch existed. Dads pay, but kids pick. So instead of borrowing trust from the brand, I borrowed it from the feed. I tracked what was trending on TikTok that week, brought the formats and sounds worth adapting to the team, and shot for whichever one got the green light. The content earned attention first. The brand came second.
 
 Behind that, every shoot had different light and an uncontrolled location, so I corrected footage using scopes in Resolve and built a consistent grade to hold the campaign together visually.
 

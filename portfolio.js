@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // },
             {
                 id: 9,
-                title: "Andrea Bocelli",
+                title: "Andrea Bocelli World Tour",
                 year: "2026",
                 category: "Post Production",
                 industry: "Live Event",

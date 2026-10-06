@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<!--
+    DRAFT: Ciara Brosnan for Pink Roulette. Not linked from the portfolio grid or sitemap yet, and
+    marked noindex below. Before publishing:
+      1. The photos are compressed WebP in pink-roulette/ (card-model.webp, catalog-1.webp, ...). They
+         are your selected frames. To swap one, export a frame as WebP
+         (long edge 1800px, 2400px for card-model.webp, quality ~80) and overwrite
+         the file with the same name; no HTML change needed. Raw exports live in pink-roulette/edited/
+         (git-ignored).
+      2. Remove the robots noindex meta, set `link` for id 12 in portfolio.js, add to sitemap.xml.
+      3. Record the VO from vo-scripts/pink-roulette-vo-script.md and save it as
+         assets/audio/vo-pink-roulette.mp3.
+      4. Still waiting on material: BTS stills.
+-->
+<html data-wf-domain="mdkg.webflow.io" data-wf-page="pink-roulette" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
+    <head>
+        <meta charset="utf-8"/>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <title>Ciara Brosnan for Pink Roulette | Portfolio | MDKG Portfolio</title>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." name="description"/>
+        <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="og:title"/>
+        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="og:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" property="og:image"/>
+        <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="twitter:title"/>
+        <meta content="Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="twitter:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" name="twitter:image"/>
+        <meta property="og:url" content="https://hellodimas.my.id/portfolio/pink-roulette"/>
+        <meta property="og:site_name" content="MDKG Portfolio"/>
+        <meta property="og:locale" content="en_US"/>
+        <meta property="og:type" content="website"/>
+        <meta content="summary_large_image" name="twitter:card"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="Webflow" name="generator"/>
+
+        <link rel="canonical" href="https://hellodimas.my.id/portfolio/pink-roulette" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-57RMNL3S4P"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-57RMNL3S4P');
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": "Ciara Brosnan for Pink Roulette",
+          "author": {
+            "@type": "Person",
+            "name": "M. Dimas K. G.",
+            "url": "https://hellodimas.my.id"
+          },
+          "about": {
+            "@type": "Organization",
+            "name": "Pink Roulette"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Pink Roulette"
+          },
+          "description": "Photography, photo editing and digital imaging for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face.",
+          "image": "https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp",
+          "url": "https://hellodimas.my.id/portfolio/pink-roulette",
+          "keywords": "Pink Roulette, Ciara Brosnan, Everyday Beauty Companion, skincare, beauty photography, photo editing, digital imaging, photo case study"
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hellodimas.my.id"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Portfolio",
+            "item": "https://hellodimas.my.id/portfolio"
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Ciara Brosnan for Pink Roulette",
+            "item": "https://hellodimas.my.id/portfolio/pink-roulette"
+          }]
+        }
+        </script>
+
+
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
+        <link href="../css/style.css?v=159" rel="stylesheet" type="text/css"/>
+        <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
+             style.css). Inline and before first paint so revealed content never flashes; if
+             this or script.js fails, the page renders fully visible instead of blank. -->
+        <script>document.documentElement.classList.add("js-reveal");</script>
+        <link rel="preload" as="image" href="../assets/images/project/pink-roulette/card-model.webp" fetchpriority="high">
+        <link rel="stylesheet" href="../widget.css?v=15">
+
+        <style>
+            /* ---------- Shared photo frame ----------
+               Every photo sits in a .pr-frame with a fixed aspect ratio, so layout never jumps
+               while images load. A missing file gets .is-missing (set by the inline script at
+               the bottom) and shows its filename on a soft pink block instead of a broken icon. */
+            .pr-frame {
+                position: relative;
+                overflow: hidden;
+                background: #F6E9ED;
+                margin: 0;
+            }
+            .pr-frame img {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                cursor: zoom-in;
+                transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+            @media (hover: hover) {
+                .pr-frame:hover img { transform: scale(1.03); }
+            }
+            .pr-frame.is-missing img { opacity: 0; cursor: default; }
+            .pr-frame.is-missing::after {
+                content: attr(data-file);
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-primary);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #B76A84;
+            }
+            /* Hero photo placeholder: same treatment as a missing .pr-frame. */
+            .ed-hero-media.is-missing { background: #F6E9ED; }
+            .ed-hero-media.is-missing img { opacity: 0; }
+            .ed-hero-media.is-missing::after {
+                content: attr(data-file);
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-primary);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #B76A84;
+            }
+            .pr-ratio-portrait { aspect-ratio: 4 / 5; }
+            .pr-ratio-tall { aspect-ratio: 3 / 4; }
+            .pr-ratio-wide { aspect-ratio: 16 / 9; }
+
+            /* Caption under a photo: same quiet two-tone line as Main Cantik's output captions. */
+            .pr-caption {
+                margin: 14px 0 0;
+                font-family: var(--font-primary);
+                font-size: 0.8rem;
+                font-weight: 500;
+                color: #666;
+                letter-spacing: 0.01em;
+            }
+            .pr-caption span { color: #999; }
+
+            /* Closing line under a photo block, same as Main Cantik's outputs note. */
+            .pr-note {
+                max-width: 65ch;
+                margin: 64px auto 0;
+            }
+
+            /* ---------- Gallery mosaic ----------
+               Mixed tile sizes, but built from the same parts as every other case study:
+               inside the page container with a section headline, a 16px gutter
+               between tiles, square corners, and photos filling their tiles. No captions
+               inside the grid: the photos carry it on their own. */
+            .pr-mosaic {
+                --pr-gutter: 16px; /* one gap between all mosaic tiles */
+                display: grid;
+                gap: var(--pr-gutter);
+            }
+            .pr-mosaic__row {
+                display: grid;
+                gap: var(--pr-gutter);
+                grid-template-columns: 1fr;
+            }
+            @media (min-width: 768px) {
+                .pr-mosaic__row--7-5 { grid-template-columns: 7fr 5fr; }
+                .pr-mosaic__row--5-7 { grid-template-columns: 5fr 7fr; } /* mirror of 7-5 */
+            }
+            /* Two squares stacked in the side column; they share the big portrait's height. */
+            .pr-mosaic__stack {
+                display: grid;
+                gap: var(--pr-gutter);
+                grid-template-columns: 1fr 1fr; /* squares sit side by side on phones */
+            }
+            @media (min-width: 768px) {
+                .pr-mosaic__stack { grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); }
+            }
+            .pr-tile {
+                position: relative;
+                margin: 0;
+                overflow: hidden;
+            }
+            .pr-tile--portrait { aspect-ratio: 2 / 3; } /* the photos' own ratio: nothing is cropped */
+            .pr-tile--portrait-34 { aspect-ratio: 3 / 4; } /* the tube shot is 3:4 */
+            .pr-tile--square { aspect-ratio: 1 / 1; }
+            @media (min-width: 768px) {
+                .pr-mosaic__stack .pr-tile--square { aspect-ratio: auto; height: 100%; }
+            }
+
+            /* ---------- Motion: two vertical reels ----------
+               Text column on the left, the two 9:16 reels side by side, all top-aligned.
+               Reuses the site's .video-player-wrapper.is-reel player, widened to fill its
+               grid column instead of the shared 380px cap. */
+            .pr-motion {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .pr-motion__reels {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+                align-items: start;
+            }
+            @media (min-width: 992px) {
+                .pr-motion {
+                    grid-template-columns: repeat(4, minmax(0, 1fr)); /* the hero grid */
+                    column-gap: 24px;
+                    align-items: start;
+                }
+                .pr-motion__intro { grid-column: 1 / span 2; }
+                /* Reels on columns 3 and 4: same 24px gap, so each reel edge sits on a hero column line. */
+                .pr-motion__reels { grid-column: 3 / span 2; gap: 24px; }
+            }
+            .pr-motion__intro .about-paragraph { max-width: 32ch; margin-bottom: 0; }
+            .pr-motion .video-player-wrapper.is-reel {
+                max-width: none;
+                width: 100%;
+                margin: 0;
+                background: #F6E9ED;
+            }
+            /* Missing video file: same filename placeholder as the photo frames. */
+            .pr-motion .video-player-wrapper.is-missing video,
+            .pr-motion .video-player-wrapper.is-missing .video-hover-overlay,
+            .pr-motion .video-player-wrapper.is-missing .video-center-feedback { display: none; }
+            .pr-motion .video-player-wrapper.is-missing::after {
+                content: attr(data-file);
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-primary);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #B76A84;
+            }
+
+        </style>
+
+        <script type="text/javascript">
+            !function(o, c) {
+                var n = c.documentElement
+                  , t = " w-mod-";
+                n.className += t + "js",
+                ("ontouchstart"in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+            }(window, document);
+        </script>
+        <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
+        <link rel="manifest" href="/manifest.json">
+
+        <!-- Anti-Flicker Inline CSS — must stay here in <head>, before #preloader's markup exists in <body> -->
+        <style>
+            body.preloader-active { overflow: hidden; }
+            #preloader { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader.finished { transform: translateY(-100%); }
+            .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
+            .counter-wrapper.fade-out { opacity: 0; }
+            /* Fixed-width boxes: the counter/phrase text changing every tick used to resize these boxes, which Lighthouse scored as layout shift (CLS). */
+            .counter-wrapper, #counter { width: 100%; } #counter { font-variant-numeric: tabular-nums; } .top-corners > .corner-text, .bottom-corners > .corner-text { flex: 1 1 0; } .top-corners > .corner-text:last-child, .bottom-corners > .corner-text:last-child { text-align: right; }
+            #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
+            .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
+            .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
+            .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
+            .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
+            .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
+            @media (max-width: 767px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        </style>
+    </head>
+    <body class="body-2" style="--page-accent: #E07A9B;" data-hero-image="../assets/images/project/pink-roulette/card-model.webp">
+        <div id="preloader">
+            <div class="top-corners">
+                <div class="corner-text">LOADING</div>
+                <div class="corner-text">PLEASE WAIT</div>
+            </div>
+            <div class="counter-wrapper"><span id="counter">0%</span></div>
+            <div class="bottom-corners">
+                <div class="corner-text">SYSTEM CHECK</div>
+                <div class="corner-text">FETCHING CASE STUDY</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+        </div>
+
+        <!-- Sticky Dot Navigation -->
+        <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
+            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Campaign Essence</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#gallery" class="cs-nav-item"><span class="cs-nav-label">Gallery</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#motion" class="cs-nav-item"><span class="cs-nav-label">Motion</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+        </nav>
+
+        <main class="body-wrapper">
+            <!-- PHOTO FILES this page expects in assets/images/project/pink-roulette/
+                   card-model.webp (hero)      landscape 16:9; full-bleed under the hero, shared with the portfolio card
+                 Gallery mosaic (portraits are shown whole; squares are cropped from portraits):
+                   catalog-1.webp           big portrait, row 1
+                   catalog-2.webp, catalog-3.webp   squares stacked beside catalog-1
+                   catalog-4.webp, catalog-5.webp   squares stacked, row 2
+                   catalog-6.webp            big 3:4 portrait, row 2 (Ciara embracing the oversized tube)
+                 All compressed to WebP (see the header comment). -->
+            <div id="navbar-container"></div>
+
+            <!-- 1. Hero -->
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Pink Roulette</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">Introducing Ciara Brosnan through a new perspective on everyday beauty.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                    Share Project
+                                </button>
+                            </div>
+                            <!-- One row of four: Industry | Year | Role | Timeframe (2x2 on mobile).
+                                 No Client entry: the title already names the client. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>Beauty</dd></div>
+                                <div><dt>Year</dt><dd>2026</dd></div>
+                                <div><dt>Role</dt><dd>Photo Production<br>Post Production</dd></div>
+                                <div><dt>Timeframe</dt><dd>1-Day Production<br>Multi-Day Post-Production</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <!-- Full-bleed hero photo (same image as the portfolio card). -->
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;" data-file="card-model.webp">
+                    <img src="../assets/images/project/pink-roulette/card-model.webp" alt="Ciara Brosnan for Pink Roulette" fetchpriority="high" decoding="async">
+                </figure>
+            </section>
+
+            <!-- 2. Overview -->
+            <section id="overview" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
+                            </div>
+                            <div class="about-main-content">
+                                <!-- Audio Narrator Player — VO at assets/audio/vo-pink-roulette.mp3
+                                     (script: vo-scripts/pink-roulette-vo-script.md). The player JS
+                                     (initAudioNarrator in script.js) picks up any
+                                     .audio-narrator-wrapper automatically. -->
+                                <div class="audio-narrator-wrapper">
+                                    <div class="audio-label">Listen to Project</div>
+                                    <div class="audio-player-container">
+                                        <audio id="audio-narrator" preload="metadata">
+                                            <source src="../assets/audio/vo-pink-roulette.mp3" type="audio/mpeg">
+                                        </audio>
+
+                                        <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
+                                            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+
+                                        <div class="audio-time-current">0:00</div>
+                                        <div class="audio-progress-container">
+                                            <div class="audio-progress-fill"></div>
+                                            <div class="audio-tooltip">0:00</div>
+                                        </div>
+                                        <div class="audio-time-total">0:00</div>
+
+                                        <button class="audio-control-btn speed-btn">1x</button>
+                                    </div>
+                                </div>
+
+                                <div class="about-text-block">
+                                    <p class="about-paragraph">
+                                        Pink Roulette introduced Ciara Brosnan as its new face under <strong>Everyday Beauty Companion</strong>, positioning the brand as an accessible, playful part of everyday beauty routines.
+                                    </p>
+                                    <p class="about-paragraph">
+                                        Built around <strong>&ldquo;Beauty Made Easy, Every Day,&rdquo;</strong> the campaign explores beauty across the rhythm of a day, from getting ready and quick touch-ups to simple moments of self-care, with Ciara bringing the brand&rsquo;s playful spirit to each one. The visual direction brings together campaign imagery, marketplace content, and social-first motion into one cohesive visual language.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Campaign Essence -->
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            "Beauty Made Easy, Every Day."
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Editorial gallery mosaic (replaces the separate key-visual, session-two and
+                 catalog blocks). Same photo files as before; any missing file shows its name. -->
+            <section id="gallery" class="section-margin fade-in-section reveal-no-clip">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Gallery</h2>
+                            </div>
+                        </div>
+                <div class="pr-mosaic">
+                    <!-- The photos are portraits (2:3, the tube shot 3:4), so the tiles are portrait-shaped too
+                         and the big ones are shown whole. Two zig-zag rows: a big portrait with two squares
+                         stacked beside it, then mirrored. -->
+                    <!-- Row 1: key visual (7 cols) | two stacked squares (5 cols) -->
+                    <div class="pr-mosaic__row pr-mosaic__row--7-5">
+                        <figure class="pr-tile pr-frame pr-tile--portrait" data-file="catalog-1.webp">
+                            <img src="../assets/images/project/pink-roulette/catalog-1.webp" alt="Ciara Brosnan holding a Pink Roulette cream jar under her chin" loading="lazy" decoding="async">
+                        </figure>
+                        <div class="pr-mosaic__stack">
+                            <figure class="pr-tile pr-frame pr-tile--square" data-file="catalog-2.webp">
+                                <img src="../assets/images/project/pink-roulette/catalog-2.webp" alt="Daily Tone Up Whitening Day Cream pulled from the pocket of a pair of jeans" loading="lazy" decoding="async">
+                            </figure>
+                            <figure class="pr-tile pr-frame pr-tile--square" data-file="catalog-3.webp">
+                                <img src="../assets/images/project/pink-roulette/catalog-3.webp" alt="Ciara Brosnan winking while holding the Soft Bloom Brightening Body Mask" loading="lazy" decoding="async">
+                            </figure>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: two stacked squares (5 cols) | big portrait (7 cols) -->
+                    <div class="pr-mosaic__row pr-mosaic__row--5-7">
+                        <div class="pr-mosaic__stack">
+                            <figure class="pr-tile pr-frame pr-tile--square" data-file="catalog-4.webp">
+                                <img src="../assets/images/project/pink-roulette/catalog-4.webp" alt="Ciara Brosnan fanning out Pink Roulette wash-off mask sachets" loading="lazy" decoding="async">
+                            </figure>
+                            <figure class="pr-tile pr-frame pr-tile--square" data-file="catalog-5.webp">
+                                <img src="../assets/images/project/pink-roulette/catalog-5.webp" alt="Ciara Brosnan holding the Pink Roulette PDRN face mist against her cheek" loading="lazy" decoding="async">
+                            </figure>
+                        </div>
+                        <figure class="pr-tile pr-frame pr-tile--portrait-34" data-file="catalog-6.webp">
+                            <img src="../assets/images/project/pink-roulette/catalog-6.webp" alt="Ciara Brosnan embracing an oversized Pink Roulette Daily Tone Up Whitening Day Cream" loading="lazy" decoding="async">
+                        </figure>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. Motion: teaser + launch reels (9:16), from assets/videos/project/pink-roulette/:
+                 guess-ciara.mp4 (teaser, poster guess-ciara-poster.webp) and the-new-face.mp4 (launch,
+                 poster images/pink-roulette/poster-launch.webp), re-encoded to 720x1280 H.264 (originals are in
+                 original/, git-ignored). Both pieces were made by Dimas (credited under Production). -->
+            <section id="motion" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="pr-motion">
+                            <div class="pr-motion__intro">
+                                <p class="about-paragraph">Two social-first videos developed for the Instagram launch, building anticipation before revealing Ciara as Pink Roulette&rsquo;s new face.</p>
+                            </div>
+                            <div class="pr-motion__reels">
+                                <div>
+                                    <div class="video-player-wrapper is-reel" data-file="guess-ciara.mp4">
+                                        <video class="video-element" playsinline loop muted preload="metadata" poster="../assets/videos/project/pink-roulette/guess-ciara-poster.webp"><source src="../assets/videos/project/pink-roulette/guess-ciara.mp4" type="video/mp4"></video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100" aria-label="Seek"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                    <p class="pr-caption">Guess Ciara <span>&middot; Teaser</span></p>
+                                </div>
+                                <div>
+                                    <div class="video-player-wrapper is-reel" data-file="the-new-face.mp4">
+                                        <video class="video-element" playsinline loop muted preload="metadata" poster="../assets/images/project/pink-roulette/poster-launch.webp"><source src="../assets/videos/project/pink-roulette/the-new-face.mp4" type="video/mp4"></video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100" aria-label="Seek"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                    <p class="pr-caption">The New Face <span>&middot; Launch</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- No Impact or Testimonial sections: no public post metrics or client quote yet.
+                 A BTS row can reuse the .pr-mosaic tiles once set photos exist. -->
+
+            <!-- 11. Credits -->
+            <section id="credits" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="credits-divider"></div>
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
+                            </div>
+                        </div>
+                        <div class="credits-grid">
+                            <div class="credits-group">
+                                <h3 class="credits-role">Creative Direction</h3>
+                                <ul class="credits-list">
+                                    <li>Widi Aditya <span>(Creative Director)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">Production</h3>
+                                <ul class="credits-list">
+                                    <li>Syafaat <span>(Lead Photographer)</span></li>
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Second Photographer)</span></li>
+                                    <li>Zalfa <span>(Content Creator &amp; Assistant)</span></li>
+                                    <li>Farah <span>(Wardrobe &amp; Stylist)</span></li>
+                                    <li>Alya <span>(Props)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">Post-Production</h3>
+                                <ul class="credits-list">
+                                    <li><a href="https://www.linkedin.com/in/dimasghadavi" target="_blank" rel="noopener noreferrer">M. Dimas Krisnadhita Ghadavi</a> <span>(Photo Editor, Digital Imaging &amp; Motion)</span></li>
+                                    <li>Tsamara <span>(Graphic Designer)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">On Camera</h3>
+                                <ul class="credits-list">
+                                    <li>Ciara Brosnan <span>(Talent)</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 12. Next Project Navigation -->
+            <section class="next-project-section fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <a href="/portfolio/torch-main-cantik" class="next-project-link">
+                        <span class="next-label">Next Project</span>
+                        <h2 class="next-title">Torch Main Cantik</h2>
+                    </a>
+                </div>
+            </section>
+
+            <div id="footer-container"></div>
+        </main>
+
+        <div id="mdkg-widget-container"></div>
+
+        <div id="lightbox-modal" class="lightbox-modal">
+            <span class="lightbox-close" role="button" tabindex="0" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </span>
+            <img class="lightbox-content" id="lightbox-img" alt="Full Screen View">
+        </div>
+
+        <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+
+        <script defer src="../script.js?v=61"></script>
+        <script defer src="../custom.js"></script>
+        <script defer src="../widget.js?v=1.14"></script>
+        <script defer src="../assets/js/case-study.js?v=2"></script>
+
+        <script>
+            // Page-specific: missing-photo placeholders and a
+            // lightbox for every .pr-frame photo (script.js's initLightbox only covers
+            // .bits-slider, which this page doesn't use).
+            document.addEventListener('DOMContentLoaded', () => {
+                // 1. Missing-file placeholder: a 404'd photo shows its filename instead of a
+                //    broken-image icon. Already-failed images (complete with no width) count too.
+                document.querySelectorAll('.pr-frame img, .ed-hero-media img').forEach((img) => {
+                    const markMissing = () => img.closest('.pr-frame, .ed-hero-media')?.classList.add('is-missing');
+                    img.addEventListener('error', markMissing, { once: true });
+                    // A lazy image that hasn't been fetched yet reports complete === false, so
+                    // this only catches ones that genuinely failed before this script ran.
+                    if (img.complete && img.naturalWidth === 0) markMissing();
+                });
+
+                // 2. Motion reels: same player controls as the other case studies'
+                //     .video-player-wrapper (play/pause, mute, scrub, fullscreen).
+                const formatTime = (t) => new Date(t * 1000).toISOString().slice(14, 19);
+                document.querySelectorAll('.pr-motion .video-player-wrapper').forEach((wrap) => {
+                    const video = wrap.querySelector('.video-element');
+                    if (!video) return;
+                    const source = video.querySelector('source');
+                    const markMissing = () => wrap.classList.add('is-missing');
+                    source?.addEventListener('error', markMissing, { once: true });
+                    video.addEventListener('error', markMissing, { once: true });
+                    if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) markMissing();
+
+                    const playBtn = wrap.querySelector('.video-play-pause-btn');
+                    const muteBtn = wrap.querySelector('.video-mute-btn');
+                    const timeline = wrap.querySelector('.video-timeline');
+                    const cur = wrap.querySelector('.video-time-current');
+                    const dur = wrap.querySelector('.video-time-duration');
+                    const fsBtn = wrap.querySelector('.video-fullscreen-btn');
+                    const fbPlay = wrap.querySelector('.icon-feedback-play');
+                    const fbPause = wrap.querySelector('.icon-feedback-pause');
+
+                    const feedback = (el) => {
+                        if (!el) return;
+                        [fbPlay, fbPause].forEach((f) => f?.classList.remove('animate'));
+                        void el.offsetWidth;
+                        el.classList.add('animate');
+                    };
+                    const toggle = () => {
+                        if (video.paused) { video.play().catch(() => {}); feedback(fbPlay); }
+                        else { video.pause(); feedback(fbPause); }
+                    };
+                    video.addEventListener('play', () => playBtn?.classList.add('is-playing'));
+                    video.addEventListener('pause', () => playBtn?.classList.remove('is-playing'));
+                    playBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+                    muteBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        video.muted = !video.muted;
+                        muteBtn.classList.toggle('is-muted', video.muted);
+                    });
+                    const applyDuration = () => {
+                        if (!isFinite(video.duration) || video.duration <= 0) return;
+                        if (dur) dur.textContent = formatTime(video.duration);
+                        if (timeline) timeline.max = video.duration;
+                    };
+                    video.addEventListener('loadedmetadata', applyDuration);
+                    if (video.readyState >= 1) applyDuration();
+                    video.addEventListener('timeupdate', () => {
+                        if (cur) cur.textContent = formatTime(video.currentTime);
+                        if (timeline) timeline.value = video.currentTime;
+                    });
+                    timeline?.addEventListener('input', () => { video.currentTime = timeline.value; });
+                    fsBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!document.fullscreenElement) wrap.requestFullscreen?.().catch(() => {});
+                        else document.exitFullscreen?.().catch(() => {});
+                    });
+                    video.addEventListener('click', toggle);
+                    wrap.querySelector('.video-hover-overlay')?.addEventListener('click', (e) => {
+                        if (e.target.closest('button') || e.target.closest('input')) return;
+                        toggle();
+                    });
+                });
+
+                // 3. Lightbox for every photo frame
+                const modal = document.getElementById('lightbox-modal');
+                const modalImg = document.getElementById('lightbox-img');
+                if (!modal || !modalImg) return;
+                const open = (img) => {
+                    modalImg.src = img.currentSrc || img.src;
+                    modalImg.alt = img.alt;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+                const close = () => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    setTimeout(() => { modalImg.src = ''; }, 300);
+                };
+                document.addEventListener('click', (e) => {
+                    const img = e.target.closest('.pr-frame:not(.is-missing) img');
+                    if (img) open(img);
+                });
+                modal.querySelector('.lightbox-close')?.addEventListener('click', close);
+                modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) close(); });
+            });
+        </script>
+    </body>
+</html>

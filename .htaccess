@@ -12,6 +12,11 @@ Redirect 301 /journal/making-things-people-notice /journal/the-things-people-don
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
+    # Satu domain kanonik: www dialihkan ke non-www. Sebelumnya www.hellodimas.my.id
+    # punya salinan cache CDN sendiri yang bisa jauh lebih basi dari domain utama.
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+
     # Paksa HTTPS (Meningkatkan SEO dan Keamanan di mata Google)
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -58,13 +63,38 @@ Redirect 301 /journal/making-things-people-notice /journal/the-things-people-don
     ExpiresByType video/webm "access plus 1 year"
     ExpiresByType audio/mpeg "access plus 1 year"
     
-    # Cache CSS & JavaScript selama 1 Bulan
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType application/x-javascript "access plus 1 month"
-    
+    # CSS & JavaScript 1 hari (dulu 1 bulan). Tidak semua file punya ?v= (custom.js,
+    # components.css, dll), jadi cache sebulan membuat edit tidak terlihat berminggu-minggu.
+    ExpiresByType text/css "access plus 1 day"
+    ExpiresByType application/javascript "access plus 1 day"
+    ExpiresByType application/x-javascript "access plus 1 day"
+
+    # HTML & data selalu dicek ulang ke server. Dulu ikut ExpiresDefault 2 hari, sehingga
+    # CDN Hostinger dan browser terus menyajikan halaman lama (referensi CSS/JS lama)
+    # sampai 2 hari setelah deploy.
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
+    ExpiresByType application/manifest+json "access plus 0 seconds"
+
     # Default cache
     ExpiresDefault "access plus 2 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Penegasan eksplisit untuk CDN: HTML, JSON, manifest dan service worker tidak boleh
+    # disajikan dari cache tanpa revalidasi. sw.js khususnya dulu ter-cache 30 hari.
+    <FilesMatch "\.(html|json|webmanifest)$|^sw\.js$|^manifest\.json$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header unset Expires
+    </FilesMatch>
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+    # sw.js cocok dengan pola .js di atas juga; blok ini sengaja diletakkan setelahnya
+    # agar aturan no-cache untuk sw.js yang menang.
+    <FilesMatch "^sw\.js$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
 </IfModule>
 
 # ==============================================================================
