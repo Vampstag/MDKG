@@ -247,6 +247,79 @@
                 /* Reels on columns 3 and 4: same 24px gap, so each reel edge sits on a hero column line. */
                 .pr-motion__reels { grid-column: 3 / span 2; gap: 24px; }
             }
+            /* ---------- Product-only cycle (1:1) ----------
+               Stacked slides that cross-fade on a timer. A click on the photo advances; no arrows.
+               The active pagination pill doubles as the timer (--pr-progress, 0 to 1). */
+            .pr-cycle__stage {
+                position: relative;
+                aspect-ratio: 1 / 1;
+                background: #F6E9ED;
+                overflow: hidden;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .pr-cycle__stage:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+            .pr-cycle__slide {
+                position: absolute;
+                inset: 0;
+                margin: 0;
+                opacity: 0;
+                transition: opacity 0.6s ease;
+            }
+            .pr-cycle__slide.is-active { opacity: 1; z-index: 1; }
+            .pr-cycle__slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+            .pr-cycle__slide.is-missing img { opacity: 0; }
+            .pr-cycle__slide.is-missing::after {
+                content: attr(data-file);
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-primary);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #B76A84;
+            }
+            .pr-cycle__dots {
+                display: flex;
+                gap: 12px;
+                margin-top: 20px;
+            }
+            .pr-cycle__dot {
+                position: relative;
+                overflow: hidden;
+                width: 8px;
+                height: 8px;
+                padding: 0;
+                border: 0;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+                transition: width 0.5s var(--ease-smooth), border-radius 0.5s var(--ease-smooth);
+            }
+            .pr-cycle__dot.is-active { width: 32px; border-radius: 4px; }
+            .pr-cycle__dot.is-active::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: #111;
+                transform: scaleX(var(--pr-progress, 1));
+                transform-origin: left center;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .pr-cycle__slide { transition: none; }
+            }
+
             /* Phones: the standard 120px section gap read as a hole between the last gallery photo and
                the motion intro, so tuck the intro closer to the photos it follows. */
             @media (max-width: 767px) {
@@ -353,6 +426,7 @@
                    catalog-2.webp, catalog-3.webp   squares stacked beside catalog-1
                    catalog-4.webp, catalog-5.webp   squares stacked, row 2
                    catalog-6.webp            big 3:4 portrait, row 2 (Ciara embracing the oversized tube)
+                   product-1 ... product-6.webp   1:1 crops of the product-only shots; cycle on a timer in row 3
                  All compressed to WebP (see the header comment). -->
             <div id="navbar-container"></div>
 
@@ -491,6 +565,22 @@
                         <figure class="pr-tile pr-frame pr-tile--portrait-34" data-file="catalog-6.webp">
                             <img src="../assets/images/project/pink-roulette/catalog-6.webp" alt="Ciara Brosnan embracing an oversized Pink Roulette Daily Tone Up Whitening Day Cream" loading="lazy" decoding="async">
                         </figure>
+                    </div>
+
+                    <!-- Row 3: product-only shots (1:1) that cycle on a timer; a click or tap on the
+                         photo jumps to the next one. No arrows; the pagination row shows the timer. -->
+                    <div class="pr-mosaic__row pr-mosaic__row--7-5">
+                        <div class="pr-cycle">
+                            <div class="pr-cycle__stage" role="button" tabindex="0" aria-label="Product shots, click for the next photo">
+                                <figure class="pr-cycle__slide is-active" data-file="product-1.webp"><img src="../assets/images/project/pink-roulette/product-1.webp" alt="Pink Roulette Green Tea wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                                <figure class="pr-cycle__slide" data-file="product-2.webp"><img src="../assets/images/project/pink-roulette/product-2.webp" alt="Pink Roulette Coffee wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                                <figure class="pr-cycle__slide" data-file="product-3.webp"><img src="../assets/images/project/pink-roulette/product-3.webp" alt="Pink Roulette Chocolate wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                                <figure class="pr-cycle__slide" data-file="product-4.webp"><img src="../assets/images/project/pink-roulette/product-4.webp" alt="Pink Roulette Milk wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                                <figure class="pr-cycle__slide" data-file="product-5.webp"><img src="../assets/images/project/pink-roulette/product-5.webp" alt="Pink Roulette Turmeric wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                                <figure class="pr-cycle__slide" data-file="product-6.webp"><img src="../assets/images/project/pink-roulette/product-6.webp" alt="Pink Roulette Strawberry wash-off mask sachet" loading="lazy" decoding="async"></figure>
+                            </div>
+                            <div class="pr-cycle__dots" aria-hidden="false"></div>
+                        </div>
                     </div>
                 </div>
                     </div>
@@ -631,6 +721,83 @@
                     // this only catches ones that genuinely failed before this script ran.
                     if (img.complete && img.naturalWidth === 0) markMissing();
                 });
+
+                // 1b. Product-only cycle: cross-fades on a timer (the active pagination pill fills
+                //     as the countdown), a click or tap on the photo advances. No arrows. The timer
+                //     only runs while the block is on screen and the pointer isn't resting on it.
+                const cycle = document.querySelector('.pr-cycle');
+                if (cycle) {
+                    const stage = cycle.querySelector('.pr-cycle__stage');
+                    const slides = [...cycle.querySelectorAll('.pr-cycle__slide')];
+                    const dotsWrap = cycle.querySelector('.pr-cycle__dots');
+                    const DELAY = 4000;
+                    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    let current = 0, elapsed = 0, last = 0, rafId = 0, onScreen = false, hovering = false;
+
+                    const dots = slides.map((_, i) => {
+                        const dot = document.createElement('button');
+                        dot.type = 'button';
+                        dot.className = 'pr-cycle__dot';
+                        dot.setAttribute('aria-label', 'Show product photo ' + (i + 1));
+                        dot.addEventListener('click', () => go(i));
+                        dotsWrap.appendChild(dot);
+                        return dot;
+                    });
+                    slides.forEach((s) => {
+                        const img = s.querySelector('img');
+                        const markMissing = () => s.classList.add('is-missing');
+                        img.addEventListener('error', markMissing, { once: true });
+                        if (img.complete && img.naturalWidth === 0) markMissing();
+                    });
+
+                    const setProgress = (v) => dots[current].style.setProperty('--pr-progress', v.toFixed(3));
+                    function go(index) {
+                        current = (index + slides.length) % slides.length;
+                        elapsed = 0;
+                        slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+                        dots.forEach((d, i) => {
+                            d.classList.toggle('is-active', i === current);
+                            d.removeAttribute('aria-current');
+                            d.style.removeProperty('--pr-progress');
+                        });
+                        dots[current].setAttribute('aria-current', 'true');
+                        setProgress(reduceMotion ? 1 : 0);
+                    }
+                    const tick = (now) => {
+                        rafId = requestAnimationFrame(tick);
+                        const dt = last ? Math.min(now - last, 100) : 0;
+                        last = now;
+                        elapsed += dt;
+                        setProgress(Math.min(elapsed / DELAY, 1));
+                        if (elapsed >= DELAY) go(current + 1);
+                    };
+                    const sync = () => {
+                        const shouldRun = onScreen && !hovering && !reduceMotion;
+                        if (shouldRun && !rafId) { last = 0; rafId = requestAnimationFrame(tick); }
+                        if (!shouldRun && rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+                    };
+
+                    stage.addEventListener('click', () => go(current + 1));
+                    stage.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+                    });
+                    stage.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; sync(); } });
+                    stage.addEventListener('pointerleave', () => { hovering = false; sync(); });
+
+                    go(0);
+                    if ('IntersectionObserver' in window) {
+                        new IntersectionObserver((entries) => {
+                            entries.forEach((entry) => {
+                                if (entry.isIntersecting && !onScreen) {
+                                    // Warm every frame once, so the cross-fade never lands on an unloaded image.
+                                    slides.forEach((s) => { const im = new Image(); im.src = s.querySelector('img').src; });
+                                }
+                                onScreen = entry.isIntersecting;
+                            });
+                            sync();
+                        }, { threshold: 0.35 }).observe(cycle);
+                    }
+                }
 
                 // 2. Motion reels: same player controls as the other case studies'
                 //     .video-player-wrapper (play/pause, mute, scrub, fullscreen).
