@@ -2875,6 +2875,95 @@ function initServicesFadeCycle() {
     });
 }
 
+//#region EDITORIAL AUTOPLAY
+// =========================================
+// 5b. EDITORIAL SLIDER AUTOPLAY
+// =========================================
+/**
+ * Timer-driven autoplay for a Swiper, with the active pagination pill as the countdown
+ * (the look is in style.css, "Editorial slider pagination"; this writes --pr-progress, 0 to 1,
+ * on the active bullet each frame). Same behavior as the Pink Roulette product cycle:
+ * advances every `delay` ms, runs only while the slider is on screen, and holds still while
+ * a mouse rests on it, a finger is down, a video inside it is playing, or a lightbox is open.
+ * Prefers-reduced-motion users get no autoplay (the pill just shows solid black).
+ * Own timer rather than Swiper's Autoplay module, so it works on any already-built instance
+ * without touching its init config. Returns { stop } (also called when the Swiper is destroyed).
+ */
+function initEditorialAutoplay(swiper, options = {}) {
+    if (!swiper || !swiper.el || swiper.destroyed) return null;
+    if (swiper.__edAutoplay) return swiper.__edAutoplay;
+
+    const delay = options.delay || 4000;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let elapsed = 0, last = 0, rafId = 0, onScreen = false, hovering = false, touching = false;
+
+    const bullets = () => (swiper.pagination && swiper.pagination.bullets) ? swiper.pagination.bullets : [];
+    const setProgress = (value) => {
+        const active = swiper.pagination && swiper.pagination.el && swiper.pagination.el.querySelector
+            ? swiper.pagination.el.querySelector('.swiper-pagination-bullet-active')
+            : null;
+        if (active) active.style.setProperty('--pr-progress', value.toFixed(3));
+    };
+    const reset = () => {
+        elapsed = 0;
+        bullets().forEach((b) => b.style.removeProperty('--pr-progress'));
+        setProgress(reduceMotion ? 1 : 0);
+    };
+    const blocked = () => {
+        if (hovering || touching) return true;
+        if (document.querySelector('.lightbox-modal.active, #lightbox-modal.active')) return true;
+        return [...swiper.el.querySelectorAll('video')].some((v) => !v.paused && !v.ended);
+    };
+    const advance = () => {
+        if (swiper.params.loop || !swiper.isEnd) swiper.slideNext();
+        else swiper.slideTo(0); // non-looping sliders rewind to the first slide
+        reset();
+    };
+    const tick = (now) => {
+        rafId = requestAnimationFrame(tick);
+        const dt = last ? Math.min(now - last, 100) : 0;
+        last = now;
+        if (blocked()) return;
+        elapsed += dt;
+        setProgress(Math.min(elapsed / delay, 1));
+        if (elapsed >= delay) advance();
+    };
+    const sync = () => {
+        const shouldRun = onScreen && !reduceMotion && !swiper.destroyed;
+        if (shouldRun && !rafId) { last = 0; rafId = requestAnimationFrame(tick); }
+        if (!shouldRun && rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    };
+
+    swiper.on('slideChange', reset);
+    swiper.on('touchStart', () => { touching = true; });
+    swiper.on('touchEnd', () => { touching = false; elapsed = 0; });
+    swiper.el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
+    swiper.el.addEventListener('pointerleave', () => { hovering = false; });
+
+    let observer = null;
+    if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => { onScreen = entry.isIntersecting; });
+            sync();
+        }, { threshold: 0.35 });
+        observer.observe(swiper.el);
+    }
+
+    const stop = () => {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+        if (observer) { observer.disconnect(); observer = null; }
+        onScreen = false;
+        swiper.__edAutoplay = null;
+    };
+    swiper.on('destroy', stop);
+
+    reset();
+    swiper.__edAutoplay = { stop };
+    return swiper.__edAutoplay;
+}
+window.initEditorialAutoplay = initEditorialAutoplay;
+//#endregion
+
 //#region BITS SLIDER
 // =========================================
 // 6. BITS & PIECES SLIDER
@@ -2909,6 +2998,8 @@ function initBitsSlider() {
             }
         }
     });
+
+    initEditorialAutoplay(swiper);
 
     // --- Tilt Effect Logic ---
     // Only applies to the active slide for a focused feel

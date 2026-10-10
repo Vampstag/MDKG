@@ -95,7 +95,7 @@
 
 
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=160" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=162" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -192,6 +192,7 @@
                 display: grid;
                 gap: var(--pr-gutter);
             }
+            .pr-mosaic__row[hidden] { display: none; }
             .pr-mosaic__row {
                 display: grid;
                 gap: var(--pr-gutter);
@@ -216,7 +217,7 @@
                 overflow: hidden;
             }
             .pr-tile--portrait { aspect-ratio: 2 / 3; } /* the photos' own ratio: nothing is cropped */
-            .pr-tile--portrait-34 { aspect-ratio: 3 / 4; } /* the tube shot is 3:4 */
+            .pr-tile--portrait-57 { aspect-ratio: 5 / 7; } /* the tube shot (catalog-6) is 5:7 */
             .pr-tile--square { aspect-ratio: 1 / 1; }
             @media (min-width: 768px) {
                 .pr-mosaic__stack .pr-tile--square { aspect-ratio: auto; height: 100%; }
@@ -425,7 +426,7 @@
                    catalog-1.webp           big portrait, row 1
                    catalog-2.webp, catalog-3.webp   squares stacked beside catalog-1
                    catalog-4.webp, catalog-5.webp   squares stacked, row 2
-                   catalog-6.webp            big 3:4 portrait, row 2 (Ciara embracing the oversized tube)
+                   catalog-6.webp            big 5:7 portrait, row 2 (Ciara embracing the oversized tube)
                    product-1 ... product-6.webp   1:1 crops of the product-only shots; cycle on a timer in row 3
                  All compressed to WebP (see the header comment). -->
             <div id="navbar-container"></div>
@@ -562,14 +563,15 @@
                                 <img src="../assets/images/project/pink-roulette/catalog-5.webp" alt="Ciara Brosnan holding the Pink Roulette PDRN face mist against her cheek" loading="lazy" decoding="async">
                             </figure>
                         </div>
-                        <figure class="pr-tile pr-frame pr-tile--portrait-34" data-file="catalog-6.webp">
-                            <img src="../assets/images/project/pink-roulette/catalog-6.webp" alt="Ciara Brosnan embracing an oversized Pink Roulette Daily Tone Up Whitening Day Cream" loading="lazy" decoding="async">
+                        <figure class="pr-tile pr-frame pr-tile--portrait-57" data-file="catalog-6.webp">
+                            <img src="../assets/images/project/pink-roulette/catalog-6.webp?v=2" alt="Ciara Brosnan embracing an oversized Pink Roulette Daily Tone Up Whitening Day Cream" loading="lazy" decoding="async">
                         </figure>
                     </div>
 
                     <!-- Row 3: product-only shots (1:1) that cycle on a timer; a click or tap on the
-                         photo jumps to the next one. No arrows; the pagination row shows the timer. -->
-                    <div class="pr-mosaic__row pr-mosaic__row--7-5">
+                         photo jumps to the next one. No arrows; the pagination row shows the timer.
+                         HIDDEN for now: remove the hidden attribute on the row below to bring it back. -->
+                    <div class="pr-mosaic__row pr-mosaic__row--7-5" hidden>
                         <div class="pr-cycle">
                             <div class="pr-cycle__stage" role="button" tabindex="0" aria-label="Product shots, click for the next photo">
                                 <figure class="pr-cycle__slide is-active" data-file="product-1.webp"><img src="../assets/images/project/pink-roulette/product-1.webp" alt="Pink Roulette Green Tea wash-off mask sachet" loading="lazy" decoding="async"></figure>
@@ -702,7 +704,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=62"></script>
+        <script defer src="../script.js?v=63"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>

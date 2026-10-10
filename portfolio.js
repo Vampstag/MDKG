@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             {
                 id: 7, // Pastikan ID unik
-                title: "Torch × Gundam",
+                title: "Torch x Gundam",
                 year: "2026",
                 category: "Video Production · Post Production",
                 industry: "Fashion", // [NEW] Properti Industri

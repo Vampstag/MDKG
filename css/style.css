@@ -973,6 +973,23 @@ body.preloader-active { overflow: hidden; }
     .section-headline-margin { margin-bottom: 64px; }
 }
 
+/* Webflow also ships two compound rules that outrank the plain .section-margin above (same
+   file order, higher specificity), so those sections silently kept a tighter gap:
+   .home-about-section.section-margin (150px, 100px, 80px by breakpoint: every Overview and
+   Key Insights block) and .faq-section.section-margin (margin-bottom: 0: the FAQ ran straight
+   into whatever followed it, e.g. the footer on Home). Restore the site-wide editorial gap.
+   The Home intro keeps its own tighter grouping with the showreel below it. */
+.home-about-section.section-margin:not(.home-about-section--intro),
+.faq-section.section-margin {
+    margin-bottom: 13.75rem;
+}
+@media (max-width: 767px) {
+    .home-about-section.section-margin:not(.home-about-section--intro),
+    .faq-section.section-margin {
+        margin-bottom: 7.5rem;
+    }
+}
+
 /* Scroll Progress Bar */
 .navbar-progress-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 3px;
@@ -2334,20 +2351,49 @@ html.lenis, html.lenis body { height: auto; }
     z-index: 10;
 }
 
-.bits-slider .swiper-pagination-bullet {
+/* Editorial slider pagination, shared by every swipe slider with dots below it (Bits &
+   Pieces on every page, Tsukamie's solution slider, Torch x Gundam's teaser pair on phones).
+   Same look as the Pink Roulette product cycle: quiet dots, the active one stretches into a
+   pill that doubles as the autoplay timer, filling left to right in black. --pr-progress
+   (0 to 1) is written each frame by initEditorialAutoplay in script.js; it defaults to 1,
+   so a slider without autoplay (reduced motion) just shows a solid black pill. */
+.bits-slider .swiper-pagination-bullet,
+.solution-slider .swiper-pagination-bullet,
+.teaser-story-slider .swiper-pagination-bullet {
+    position: relative;
+    overflow: hidden;
     background: rgba(0, 0, 0, 0.2);
     opacity: 1;
     width: 8px;
     height: 8px;
-    transition: all 0.5s var(--ease-smooth);
+    transition: width 0.5s var(--ease-smooth), border-radius 0.5s var(--ease-smooth);
     border-radius: 50%;
-    margin: 0;
+    margin: 0 !important;
 }
 
-.bits-slider .swiper-pagination-bullet-active {
-    background: #111111;
-    width: 32px; /* Lebih elegan ala Apple UI */
-    border-radius: 4px; /* Pill shape once stretched wide — a full 50% would just round the short ends */
+.bits-slider .swiper-pagination-bullet-active,
+.solution-slider .swiper-pagination-bullet-active,
+.teaser-story-slider .swiper-pagination-bullet-active {
+    background: rgba(0, 0, 0, 0.2);
+    width: 32px;
+    border-radius: 4px; /* Pill shape once stretched wide: a full 50% would just round the short ends */
+}
+
+.bits-slider .swiper-pagination-bullet-active::after,
+.solution-slider .swiper-pagination-bullet-active::after,
+.teaser-story-slider .swiper-pagination-bullet-active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #111;
+    transform: scaleX(var(--pr-progress, 1));
+    transform-origin: left center;
+}
+
+.teaser-story-slider .swiper-pagination {
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
 }
 
 /* Custom Navigation Arrows for Bits Slider */
@@ -5519,13 +5565,18 @@ html.lenis, html.lenis body { height: auto; }
        220px + this value. padding-bottom stays larger since nothing after this section (just
        the footer) contributes any margin of its own; .section-margin was removed from this
        element entirely since it isn't a regular content-to-content transition. */
-    padding: 24px 0 64px;
+    padding: 24px 0 96px;
     border-top: 1px solid rgba(0,0,0,0.06);
     background: #fff;
     transition: background-color 0.4s ease;
 }
 .next-project-section:hover {
     background: #fafafa;
+}
+@media (max-width: 767px) {
+    /* Phones: the footer's own heading sits right under this block, so give the closing
+       Next Project more air before it (120px, the site's mobile section gap). */
+    .next-project-section { padding-bottom: 7.5rem; }
 }
 .next-project-link {
     text-decoration: none;
@@ -5829,7 +5880,7 @@ html.lenis, html.lenis body { height: auto; }
         max-width: 100%;
     }
     .teaser-story-pagination {
-        display: block;
+        display: flex;
         position: static;
         margin-top: 8px;
     }

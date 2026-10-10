@@ -86,7 +86,7 @@
         <!-- Preload Hero Background Image for faster LCP -->
         <link rel="preload" as="image" href="../assets/images/project/tsukamie/tsukamie1.webp" fetchpriority="high">
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=160" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=162" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -367,20 +367,7 @@
                 gap: 12px;
                 z-index: 10;
             }
-            .solution-slider .swiper-pagination-bullet {
-                background: rgba(0, 0, 0, 0.2);
-                opacity: 1;
-                width: 8px;
-                height: 8px;
-                transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-                border-radius: 50%;
-                margin: 0 !important;
-            }
-            .solution-slider .swiper-pagination-bullet-active {
-                background: #111111;
-                width: 32px;
-                border-radius: 4px; /* Pill once stretched wide */
-            }
+            /* Dots and the timer pill come from the shared editorial pagination in style.css. */
             .solution-slider .swiper-button-next,
             .solution-slider .swiper-button-prev {
                 color: #fff;
@@ -1438,7 +1425,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <script defer src="../script.js?v=62"></script>
+        <script defer src="../script.js?v=63"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>
@@ -1545,7 +1532,7 @@
 
                 // [NEW] Initialize Solution Slider
                 if (typeof Swiper !== 'undefined') {
-                    new Swiper('.solution-slider', {
+                    const solutionSwiper = new Swiper('.solution-slider', {
                         loop: false,
                         slidesPerView: 'auto',
                         centeredSlides: true,
@@ -1568,6 +1555,7 @@
                             }
                         }
                     });
+                    window.initEditorialAutoplay?.(solutionSwiper);
 
                     // Tilt Effect Logic
                     const sliderEl = document.querySelector('.solution-slider');

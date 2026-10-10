@@ -23,7 +23,7 @@ const projectsData = [
         id: "torch-x-gundam",
         featured: false,
         category: "Video Production · Video Editing",
-        title: "Torch × Gundam",
+        title: "Torch x Gundam",
         role: "Brand Film",
         image: "assets/images/project/torch/torch-model-backpack.webp",
         link: "/portfolio/torch-x-gundam",
