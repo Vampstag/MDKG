@@ -2689,13 +2689,21 @@ function initHeroRevealPin() {
     // sliver of the hero's background peeking above #content-reveal's rounded top edge,
     // right where the corner radius meets the flat part of the edge. Refreshing on
     // resize/orientation change keeps the pin boundary matched to the real, current height.
+    // The hero's height is now a constant (100lvh), so a height-only resize (the URL bar
+    // sliding in or out) no longer moves anything and must NOT trigger a refresh: that refresh
+    // fires about 150ms after the last resize, i.e. right as the user stops scrolling, and
+    // re-pinning at that moment is what made the page visibly drop. Only a real width change
+    // (rotation, desktop window resize) recalculates.
     let revealRefreshTimer = null;
+    let lastRevealWidth = window.innerWidth;
     const scheduleRevealRefresh = () => {
+        if (window.innerWidth === lastRevealWidth) return;
+        lastRevealWidth = window.innerWidth;
         clearTimeout(revealRefreshTimer);
         revealRefreshTimer = setTimeout(() => ScrollTrigger.refresh(), 150);
     };
     window.addEventListener('resize', scheduleRevealRefresh);
-    window.addEventListener('orientationchange', scheduleRevealRefresh);
+    window.addEventListener('orientationchange', () => setTimeout(scheduleRevealRefresh, 100));
 }
 
 /**

@@ -100,7 +100,7 @@
         
         <!-- Styles from index.html -->
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
-        <link href="../css/style.css?v=162" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?v=163" rel="stylesheet" type="text/css"/>
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -178,25 +178,23 @@
             .grade-nav-btn.next-btn { right: 16px; }
 
             /* [NEW] Pagination Dots for Color Grade Slider */
+            /* Frame dots sit below the slider, in the shared editorial pagination look (see
+               style.css): quiet dots, the active one a black pill. No timer here: this slider is
+               for comparing, so frames change on a click, never on their own. */
             .grade-pagination {
-                position: absolute;
-                bottom: 24px;
-                left: 50%;
-                transform: translateX(-50%);
                 display: flex;
-                gap: 8px;
-                z-index: 20;
-                opacity: 0;
-                transition: opacity 0.3s ease;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+                margin-top: 20px;
             }
-            .color-grade-slider:hover .grade-pagination { opacity: 1; }
             .grade-dot {
-                width: 6px; height: 6px; border-radius: 50%;
-                background: rgba(255,255,255,0.4); transition: all 0.3s ease;
-                cursor: pointer; box-shadow: none;
+                width: 8px; height: 8px; border-radius: 50%;
+                background: rgba(0, 0, 0, 0.2);
+                transition: width 0.5s var(--ease-smooth), border-radius 0.5s var(--ease-smooth);
+                cursor: pointer;
             }
-            .grade-dot:hover { background: rgba(255,255,255,0.8); }
-            .grade-dot.active { background: rgba(255,255,255,1); transform: scale(1.3); }
+            .grade-dot.active { width: 32px; border-radius: 4px; background: #111; }
 
             /* [NEW] Before/After labels — always visible (not hover-gated like the nav
                buttons/pagination, since they're informational, not interactive controls). */
@@ -485,9 +483,9 @@
                                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                         </button>
 
-                                        <!-- [NEW] Pagination Container -->
-                                        <div class="grade-pagination"></div>
                                     </div>
+                                    <!-- Pagination: below the slider (the slider clips its own children) -->
+                                    <div class="grade-pagination"></div>
                                 </div>
                             </div>
 
@@ -896,7 +894,7 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=63"></script>
+        <script defer src="../script.js?v=64"></script>
         <script defer src="../custom.js"></script>
         <script defer src="../widget.js?v=1.14"></script>
         <script defer src="../assets/js/case-study.js?v=2"></script>
@@ -1013,7 +1011,7 @@
                                 const rawImg = rawWrapper.querySelector('img');  // Frame Mentah
                                 const prevBtn = container.querySelector('.prev-btn');
                                 const nextBtn = container.querySelector('.next-btn');
-                                const pagination = container.querySelector('.grade-pagination');
+                                const pagination = container.parentElement.querySelector('.grade-pagination');
 
                                 // Build dots
                                 if (pagination) {
@@ -1060,7 +1058,7 @@
                                 const rawImg = rawWrapper.querySelector('img');  // Frame Mentah
                                 const prevBtn = container.querySelector('.prev-btn');
                                 const nextBtn = container.querySelector('.next-btn');
-                                const pagination = container.querySelector('.grade-pagination');
+                                const pagination = container.parentElement.querySelector('.grade-pagination');
 
                                 // Build dots
                                 if (pagination) {

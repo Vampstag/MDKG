@@ -4561,7 +4561,14 @@ html.lenis, html.lenis body { height: auto; }
 @media (max-width: 767px) {
     .hero-playground-section {
         position: relative; /* ScrollTrigger (pin:true, see initHeroRevealPin) takes over positioning at runtime, same as desktop */
-        height: 100dvh; /* Full-viewport, required for the pin effect to read correctly — was auto/min-height, which only worked flat-stacked */
+        /* Full-viewport, required for the pin effect to read correctly (was auto/min-height, which only
+           worked flat-stacked). 100lvh, not 100dvh: dvh grows and shrinks as the phone browser's URL
+           bar hides and shows, which changed this section's height mid-scroll, so the pin was
+           recalculated when the scroll settled and the whole page below it dropped by the bar height.
+           lvh is the fixed, large viewport: constant, and it fully covers the screen with the bar hidden.
+           (100vh first, for browsers without lvh.) */
+        height: 100vh;
+        height: 100lvh;
         padding-top: 120px;
         padding-bottom: 60px;
         overflow: hidden; /* The full-bleed carousel can render slightly past the section's own edges on narrow screens */
