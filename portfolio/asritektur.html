@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<!--
+    Asritektur. The project is still in progress. The card on the portfolio grid is locked for now
+    (portfolio.js id 14: no `link`; set `link` plus `openable: true` to open it while keeping the ON-GOING badge), and the page
+    stays noindex and out of the sitemap until the media below exists.
+      1. Drop the media into assets/images/project/asritektur/ and assets/videos/project/asritektur/
+         (names listed in the MEDIA FILES comment below; until then each slot shows its file name).
+         Photos: WebP, long edge 1800px, quality ~80. Reel: H.264 MP4, 720x1280.
+      2. Record the VO from vo-scripts/asritektur-vo-script.md and save it as
+         assets/audio/vo-asritektur.mp3 (the player in Overview is silent until it exists).
+      3. Remove the robots noindex meta, drop `ongoing` and `openable` for id 14 in portfolio.js once
+         the work is done, and add the page to sitemap.xml.
+      4. No Impact section on purpose: no public metrics yet. Add one once there are numbers
+         (baseline: 2,554 followers, observed 12 Oct 2026).
+      5. Copy rules for this page: do not say the account was inactive without qualification (the feed
+         was posting every few days; it was the Reels that had gone quiet), and keep the studio's own
+         claims (years in business, 400+ clients or houses) out until the studio confirms which is right.
+-->
+<html data-wf-domain="mdkg.webflow.io" data-wf-page="asritektur" data-wf-site="6933c25a0996b0f96f5c2bc3" data-wf-status="1" lang="en">
+    <head>
+        <meta charset="utf-8"/>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <title>Asritektur | Portfolio | MDKG Portfolio</title>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta content="Asritektur case study: art direction, content strategy and social content for an Indonesian architecture and interior design studio. Work in progress." name="description"/>
+        <meta content="Asritektur | Portfolio" property="og:title"/>
+        <meta content="Asritektur case study: art direction, content strategy and social content for an Indonesian architecture and interior design studio. Work in progress." property="og:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/asritektur/home-ibu-niluh.webp" property="og:image"/>
+        <meta content="Asritektur | Portfolio" property="twitter:title"/>
+        <meta content="Asritektur case study: art direction, content strategy and social content for an Indonesian architecture and interior design studio. Work in progress." property="twitter:description"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/asritektur/home-ibu-niluh.webp" name="twitter:image"/>
+        <meta property="og:url" content="https://hellodimas.my.id/portfolio/asritektur"/>
+        <meta property="og:site_name" content="MDKG Portfolio"/>
+        <meta property="og:locale" content="en_US"/>
+        <meta property="og:type" content="website"/>
+        <meta content="summary_large_image" name="twitter:card"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="Webflow" name="generator"/>
+
+        <link rel="canonical" href="https://hellodimas.my.id/portfolio/asritektur" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-57RMNL3S4P"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-57RMNL3S4P');
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": "Asritektur",
+          "author": {
+            "@type": "Person",
+            "name": "M. Dimas K. G.",
+            "url": "https://hellodimas.my.id"
+          },
+          "about": {
+            "@type": "Organization",
+            "name": "Asritektur"
+          },
+          "creator": {
+            "@type": "Organization",
+            "name": "Asritektur"
+          },
+          "description": "Asritektur case study: art direction, content strategy and social content for an Indonesian architecture and interior design studio. Work in progress.",
+          "image": "https://hellodimas.my.id/assets/images/project/asritektur/home-ibu-niluh.webp",
+          "url": "https://hellodimas.my.id/portfolio/asritektur",
+          "keywords": "Asritektur, architecture studio, interior design, Instagram content, art direction, content strategy, social content, case study"
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://hellodimas.my.id"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Portfolio",
+            "item": "https://hellodimas.my.id/portfolio"
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Asritektur",
+            "item": "https://hellodimas.my.id/portfolio/asritektur"
+          }]
+        }
+        </script>
+
+
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" integrity="sha384-TT67oRMLIgdE62QKbLJVm4qWzvpdYU5Fte9HrMLErE4YLOwPeNlX0FQVkvPHI9IX" crossorigin="anonymous"/>
+        <link href="../css/style.css?v=163" rel="stylesheet" type="text/css"/>
+        <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
+             style.css). Inline and before first paint so revealed content never flashes; if
+             this or script.js fails, the page renders fully visible instead of blank. -->
+        <script>document.documentElement.classList.add("js-reveal");</script>
+        <link rel="stylesheet" href="../widget.css?v=15">
+
+        <style>
+            /* ---------- Missing-media placeholder ----------
+               Every photo/video slot reserves its aspect ratio, so layout never jumps while media
+               loads. A slot whose file is missing gets .is-missing (set by the inline script at the
+               bottom) and shows its file name on a soft block instead of a broken-image icon. */
+            .ed-hero-media.is-missing,
+            .as-cycle__stage,
+            .as-pair__frame,
+            .as-outputs .video-player-wrapper.is-reel { background: #EFEDE9; }
+            .ed-hero-media.is-missing img,
+            .as-pair__frame.is-missing img { opacity: 0; }
+            .ed-hero-media.is-missing::after,
+            .as-pair__frame.is-missing::after,
+            .as-cycle__slide.is-missing::after,
+            .as-outputs .video-player-wrapper.is-missing::after {
+                content: attr(data-file);
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-primary);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #8A857C;
+            }
+
+            /* ---------- Creative Approach ----------
+               An editorial index, deliberately unlike Key Insights (which stacks small bold
+               headings with divider lines in the sidebar layout). Each decision is one full-width
+               row on the hero's 4-column grid: a small mono number, the idea set large, and the
+               explanation in its own column on the right. Rows are separated by space only. */
+            .as-approach { display: grid; gap: 72px; }
+            .as-approach-item { display: grid; grid-template-columns: 1fr; gap: 12px; }
+            @media (min-width: 992px) {
+                .as-approach-item {
+                    grid-template-columns: repeat(4, minmax(0, 1fr));
+                    column-gap: 24px;
+                    row-gap: 12px;
+                    align-items: start;
+                }
+                .as-approach-num { grid-column: 1 / span 2; grid-row: 1; }
+                .as-approach-item h3 { grid-column: 1 / span 2; grid-row: 2; }
+                .as-approach-item p { grid-column: 3 / span 2; grid-row: 2; }
+            }
+            .as-approach-num {
+                padding-top: 0.55em;
+                font-family: var(--font-mono);
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1.4px;
+                color: #999;
+            }
+            .as-approach-item h3 {
+                margin: 0;
+                font-family: var(--font-primary);
+                font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+                font-weight: 500;
+                letter-spacing: -0.03em;
+                line-height: 1.1;
+                color: #111;
+            }
+            .as-approach-item p { margin: 0; padding-top: 0.35em; }
+
+            /* Render beside its plan: two equal frames on the hero grid (columns 1-2 and 3-4). */
+            .as-pair { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 96px; }
+            @media (min-width: 992px) { .as-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+            .as-pair__item { margin: 0; }
+            .as-pair__frame { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+            .as-pair__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+            
+            @media (max-width: 767px) { .as-pair { margin-top: 64px; } }
+
+            /* ---------- Selected Outputs ----------
+               The 4:5 carousel on columns 1 and 2, the 9:16 reel starting on column 3 and sized to
+               70.3% of columns 3-4 so both end at the same height (4/5 tall = 9/16 wide x 0.703). */
+            .as-outputs { display: grid; grid-template-columns: 1fr; gap: 56px; }
+            @media (min-width: 992px) {
+                .as-outputs {
+                    grid-template-columns: repeat(4, minmax(0, 1fr));
+                    column-gap: 24px;
+                    align-items: start;
+                }
+                .as-output--carousel { grid-column: 1 / span 2; }
+                .as-output--reel { grid-column: 3 / span 2; }
+                .as-output--reel .as-output__media { width: 70.31%; }
+            }
+            .as-output__title {
+                margin: 20px 0 0;
+                font-family: var(--font-primary);
+                font-size: 1.05rem;
+                font-weight: 700;
+                letter-spacing: -0.01em;
+                color: #111;
+            }
+            .as-output__meta {
+                margin: 4px 0 0;
+                font-family: var(--font-primary);
+                font-size: 0.8rem;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                color: #999;
+            }
+            .as-output__desc { margin: 10px 0 0; max-width: 46ch; font-size: 0.95rem; color: #555; }
+            .as-outputs .video-player-wrapper.is-reel { max-width: none; width: 100%; margin: 0; }
+            /* Missing video file: same filename placeholder as the photo slots. */
+            .as-outputs .video-player-wrapper.is-missing video,
+            .as-outputs .video-player-wrapper.is-missing .video-hover-overlay,
+            .as-outputs .video-player-wrapper.is-missing .video-center-feedback { display: none; }
+
+            /* Carousel: stacked slides that cross-fade on a timer. A click or tap on the photo
+               advances; no arrows. The active pagination pill doubles as the timer (--pr-progress,
+               0 to 1), the same pagination as every other slider on the site. */
+            .as-cycle__stage {
+                position: relative;
+                aspect-ratio: 4 / 5;
+                overflow: hidden;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .as-cycle__stage:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+            .as-cycle__slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 0.6s ease; }
+            .as-cycle__slide.is-active { opacity: 1; z-index: 1; }
+            .as-cycle__slide img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+            .as-cycle__slide.is-missing img { opacity: 0; }
+            .as-cycle__dots { display: flex; gap: 12px; margin-top: 20px; }
+            .as-cycle__dot {
+                position: relative;
+                overflow: hidden;
+                width: 8px;
+                height: 8px;
+                padding: 0;
+                border: 0;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+                transition: width 0.5s var(--ease-smooth), border-radius 0.5s var(--ease-smooth);
+            }
+            .as-cycle__dot.is-active { width: 32px; border-radius: 4px; }
+            .as-cycle__dot.is-active::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: #111;
+                transform: scaleX(var(--pr-progress, 1));
+                transform-origin: left center;
+            }
+            @media (prefers-reduced-motion: reduce) { .as-cycle__slide { transition: none; } }
+        </style>
+
+        <script type="text/javascript">
+            !function(o, c) {
+                var n = c.documentElement
+                  , t = " w-mod-";
+                n.className += t + "js",
+                ("ontouchstart"in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+            }(window, document);
+        </script>
+        <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
+        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
+        <link rel="manifest" href="/manifest.json">
+
+        <!-- Anti-Flicker Inline CSS: must stay here in <head>, before #preloader's markup exists in <body> -->
+        <style>
+            body.preloader-active { overflow: hidden; }
+            #preloader { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); transform-origin: top; }
+            #preloader.finished { transform: translateY(-100%); }
+            .counter-wrapper { position: relative; text-align: center; transition: opacity 0.5s ease; }
+            .counter-wrapper.fade-out { opacity: 0; }
+            /* Fixed-width boxes: the counter/phrase text changing every tick used to resize these boxes, which Lighthouse scored as layout shift (CLS). */
+            .counter-wrapper, #counter { width: 100%; } #counter { font-variant-numeric: tabular-nums; } .top-corners > .corner-text, .bottom-corners > .corner-text { flex: 1 1 0; } .top-corners > .corner-text:last-child, .bottom-corners > .corner-text:last-child { text-align: right; }
+            #counter { font-size: 15vw; font-weight: 700; letter-spacing: -0.04em; font-family: 'Inter', sans-serif; display: block; }
+            .corner-text { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; font-family: 'Inter', sans-serif; }
+            .top-corners, .bottom-corners { position: absolute; width: calc(100% - 60px); left: 30px; right: 30px; display: flex; justify-content: space-between; }
+            .top-corners { top: 30px; } .bottom-corners { bottom: 40px; }
+            .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #1a1a1a; }
+            .progress-fill { height: 100%; width: 0%; background: #ffffff; transition: width 0.2s ease; }
+            @media (max-width: 767px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
+        </style>
+    </head>
+    <body class="body-2" style="--page-accent: #8B7355;">
+        <div id="preloader">
+            <div class="top-corners">
+                <div class="corner-text">LOADING</div>
+                <div class="corner-text">PLEASE WAIT</div>
+            </div>
+            <div class="counter-wrapper"><span id="counter">0%</span></div>
+            <div class="bottom-corners">
+                <div class="corner-text">SYSTEM CHECK</div>
+                <div class="corner-text">FETCHING CASE STUDY</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+        </div>
+
+        <!-- Sticky Dot Navigation -->
+        <nav class="cs-sticky-nav" aria-label="Portfolio Navigation">
+            <a href="#overview" class="cs-nav-item"><span class="cs-nav-label">Overview</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#essence" class="cs-nav-item"><span class="cs-nav-label">Project Essence</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#solution" class="cs-nav-item"><span class="cs-nav-label">Creative Approach</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#outputs" class="cs-nav-item"><span class="cs-nav-label">Outputs</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#key-takeaways" class="cs-nav-item"><span class="cs-nav-label">Key Insights</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+            <a href="#credits" class="cs-nav-item"><span class="cs-nav-label">Credits</span><div class="cs-nav-dot">
+                <svg class="cs-nav-dot-ring" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke-width="1.5"></circle></svg>
+            </div></a>
+        </nav>
+
+        <main class="body-wrapper">
+            <!-- MEDIA FILES this page expects (until they exist each slot shows its file name)
+                 assets/images/project/asritektur/
+                   hero.webp                 landscape 16:9; full-bleed under the hero. One published render (the material the studio works with).
+                   carousel-1.webp ... carousel-3.webp   4:5 (1080x1350) slides of the Detail Interior carousel:
+                                             living room, kitchen, kids' room
+                   render-1.webp, plan-1.webp   4:3 pair in Creative Approach: a published render and the matching plan crop
+                                             (remove the client name from the plan before exporting)
+                   pov-villa-poster.webp     9:16 poster frame of the reel
+                 assets/videos/project/asritektur/
+                   pov-villa.mp4             9:16 H.264, 720x1280 -->
+            <div id="navbar-container"></div>
+
+            <!-- 1. Hero -->
+            <section id="top" class="ed-hero section-margin">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding ed-hero-inner">
+                        <h1 class="ed-hero-title cs-anim-el" style="opacity: 0;">Asritektur</h1>
+                        <div class="ed-hero-band">
+                            <div class="ed-hero-lead">
+                                <p class="ed-hero-tagline cs-anim-el" style="opacity: 0;">Turning a studio&rsquo;s finished design work into a more elegant way of speaking.</p>
+                                <button class="cs-share-btn cs-anim-el" style="opacity: 0;" aria-label="Share this project">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                    Share Project
+                                </button>
+                            </div>
+                            <!-- One row of four: Industry | Year | Role | Timeframe (2x2 on mobile).
+                                 No Client entry: the title already names the client. -->
+                            <dl class="ed-hero-meta cs-anim-el" style="opacity: 0;">
+                                <div><dt>Industry</dt><dd>Architecture</dd></div>
+                                <div><dt>Year</dt><dd>2026</dd></div>
+                                <div><dt>Role</dt><dd>Art Direction<br>Content Strategy<br>Social Content</dd></div>
+                                <div><dt>Timeframe</dt><dd>Ongoing since September 2026</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <!-- Full-bleed hero photo. Not delivered yet: shows its file name as a placeholder until hero.webp exists. -->
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;" data-file="hero.webp">
+                    <img src="../assets/images/project/asritektur/hero.webp" alt="A published Asritektur render" fetchpriority="high" decoding="async">
+                </figure>
+            </section>
+
+            <!-- 2. Overview -->
+            <section id="overview" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Overview</div>
+                            </div>
+                            <div class="about-main-content">
+                                <!-- Audio Narrator Player: VO at assets/audio/vo-asritektur.mp3
+                                     (script: vo-scripts/asritektur-vo-script.md). The player JS
+                                     (initAudioNarrator in script.js) picks up any
+                                     .audio-narrator-wrapper automatically. -->
+                                <div class="audio-narrator-wrapper">
+                                    <div class="audio-label">Listen to Project</div>
+                                    <div class="audio-player-container">
+                                        <audio id="audio-narrator" preload="metadata">
+                                            <source src="../assets/audio/vo-asritektur.mp3" type="audio/mpeg">
+                                        </audio>
+
+                                        <button class="audio-control-btn play-pause-btn" aria-label="Play/Pause">
+                                            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                        </button>
+
+                                        <div class="audio-time-current">0:00</div>
+                                        <div class="audio-progress-container">
+                                            <div class="audio-progress-fill"></div>
+                                            <div class="audio-tooltip">0:00</div>
+                                        </div>
+                                        <div class="audio-time-total">0:00</div>
+
+                                        <button class="audio-control-btn speed-btn">1x</button>
+                                    </div>
+                                </div>
+
+                                <div class="about-text-block">
+                                    <p class="about-paragraph">
+                                        Asritektur is an Indonesian architecture and interior design studio, founded in 2024. Its output is practical: plans, working drawings and renders that carry a house from idea to site.
+                                    </p>
+                                    <p class="about-paragraph">
+                                        The studio wanted to be read as more premium and more elegant. That direction came from its marketing lead. As Content Lead, working remotely, I turn it into daily decisions about voice, visuals and content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Project Essence -->
+            <section id="essence" class="section-margin fade-in-section reveal-no-clip" style="position: relative; overflow: visible;">
+                <div class="w-layout-blockcontainer global-wrapper w-container" style="position: relative;">
+                    <div class="global-padding" style="position: relative;">
+                        <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111;">
+                            &ldquo;Show the house as it is lived in, not only as it renders.&rdquo;
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Creative Approach (numbered editorial index; no separate Challenge section:
+                 the real problem opens item 01) -->
+            <section id="solution" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Creative Approach</h2>
+                            </div>
+                        </div>
+                        <div class="as-approach">
+                            <div class="as-approach-item">
+                                <span class="as-approach-num">01</span>
+                                <h3>Working from the archive</h3>
+                                <p class="about-paragraph">The studio could not produce new content, so nothing could be shot. What it had was an archive: renders show how a house looks, drawings show why it works. The content is built from that, one room at a time, starting with a two-storey house in Jakarta.</p>
+                            </div>
+                            <div class="as-approach-item">
+                                <span class="as-approach-num">02</span>
+                                <h3>Copy that names what a room does</h3>
+                                <p class="about-paragraph">A caption says an island is there for cooking together, or that the family room sits beside the stairs. General design talk could belong to any studio; a specific fact belongs to this house. Each claim is checked against the drawings first, because a render can place rooms side by side that the plan puts on different floors.</p>
+                            </div>
+                            <div class="as-approach-item">
+                                <span class="as-approach-num">03</span>
+                                <h3>A reel that leads with feeling</h3>
+                                <p class="about-paragraph">The render reel opens with &ldquo;POV: Pulang ke rumah yang rasanya seperti villa pribadi&rdquo;, a line about coming home, before any plan or spec.</p>
+                            </div>
+                        </div>
+                        <!-- The archive in one picture: a published render beside the matching plan.
+                             Client name removed from the plan crop before it goes in. -->
+                        <div class="as-pair">
+                            <figure class="as-pair__item">
+                                <div class="as-pair__frame" data-file="render-1.webp"><img src="../assets/images/project/asritektur/render-1.webp" alt="A published Asritektur render of a house interior" loading="lazy" decoding="async"></div>
+                            </figure>
+                            <figure class="as-pair__item">
+                                <div class="as-pair__frame" data-file="plan-1.webp"><img src="../assets/images/project/asritektur/plan-1.webp" alt="The floor plan of the same house" loading="lazy" decoding="async"></div>
+                            </figure>
+                        </div>
+                        <p class="as-output__meta" style="margin-top: 14px;">Same house, two ways of seeing it</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Selected Outputs: only what is published. -->
+            <section id="outputs" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-lg text-3xl text-weight-semibold text-color-black-900 text-reveal">Selected Outputs</h2>
+                            </div>
+                        </div>
+                        <div class="as-outputs">
+                            <div class="as-output as-output--carousel">
+                                <div class="as-cycle">
+                                    <div class="as-cycle__stage" role="button" tabindex="0" aria-label="Detail Interior carousel, click for the next slide">
+                                        <figure class="as-cycle__slide is-active" data-file="carousel-1.webp"><img src="../assets/images/project/asritektur/carousel-1.webp" alt="Detail Interior carousel, slide 1: the living room of a two-storey house in Jakarta" loading="lazy" decoding="async"></figure>
+                                        <figure class="as-cycle__slide" data-file="carousel-2.webp"><img src="../assets/images/project/asritektur/carousel-2.webp" alt="Detail Interior carousel, slide 2: the kitchen with its island" loading="lazy" decoding="async"></figure>
+                                        <figure class="as-cycle__slide" data-file="carousel-3.webp"><img src="../assets/images/project/asritektur/carousel-3.webp" alt="Detail Interior carousel, slide 3: the kids' room" loading="lazy" decoding="async"></figure>
+                                    </div>
+                                    <div class="as-cycle__dots"></div>
+                                </div>
+                                <h3 class="as-output__title">Detail Interior carousel</h3>
+                                <p class="as-output__meta">Instagram carousel &middot; Published</p>
+                                <p class="as-output__desc">Shows how the rooms of a two-storey house in Jakarta are used: one room and one fact per slide, with a plain caption. My part: copy and direction.</p>
+                            </div>
+                            <div class="as-output as-output--reel">
+                                <div class="as-output__media">
+                                    <div class="video-player-wrapper is-reel" data-file="pov-villa.mp4">
+                                        <video class="video-element" playsinline loop muted preload="metadata" poster="../assets/images/project/asritektur/pov-villa-poster.webp"><source src="../assets/videos/project/asritektur/pov-villa.mp4" type="video/mp4"></video>
+                                        <div class="video-center-feedback">
+                                            <div class="video-feedback-icon icon-feedback-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>
+                                            <div class="video-feedback-icon icon-feedback-pause"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></div>
+                                        </div>
+                                        <div class="video-hover-overlay"><button class="video-mute-btn is-muted" aria-label="Toggle sound"><svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="video-controls-bar"><button class="video-play-pause-btn" aria-label="Play/Pause"><svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg><svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg></button><div class="video-time"><span class="video-time-current">0:00</span><span>/</span><span class="video-time-duration">0:00</span></div><input type="range" class="video-timeline" value="0" step="0.1" min="0" max="100" aria-label="Seek"><button class="video-fullscreen-btn" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></button></div></div>
+                                    </div>
+                                </div>
+                                <h3 class="as-output__title">POV villa reel</h3>
+                                <p class="as-output__meta">Instagram Reel &middot; Published</p>
+                                <p class="as-output__desc">Leads with the feeling of coming home: the POV line opens it and the on-screen text stays short. My part: copy and editing.</p>
+                            </div>
+                        </div>
+                        <!-- Where it stands: stated plainly instead of an Impact section (no public metrics yet). -->
+                        <p class="about-paragraph" style="max-width: 65ch; margin: 80px 0 0;">Two pieces are published and the work is still running. Nothing has been measured yet, so there is no claim here about reach, inquiries or perception. Next: define premium more precisely with the marketing lead, and track which pieces bring qualified inquiries.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- No Impact section: no public metrics yet (see the header comment). -->
+
+            <!-- 6. Key Insights -->
+            <section id="key-takeaways" class="home-about-section section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="about-layout-grid">
+                            <div class="about-sidebar">
+                                <div class="section-headline-text text-3xl text-weight-semibold text-color-black-900 text-reveal">Key Insights</div>
+                            </div>
+                            <div class="about-main-content">
+                                <div class="about-text-block" style="display: flex; flex-direction: column; margin-top: 0;">
+                                    <div style="padding-bottom: 32px; border-bottom: 1px solid rgba(0,0,0,0.08); margin-bottom: 32px;">
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Check captions against the drawings</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">A sentence about a room is only as strong as the drawing behind it. I check each claim against the plan before it goes into a caption.</p>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-family: var(--font-primary); font-size: 1.25rem; font-weight: 700; color: #111; margin: 0 0 8px 0; line-height: 1.4;">Specifics beat design talk</h4>
+                                        <p class="about-paragraph" style="margin-bottom: 0;">An early line about details being &ldquo;thought through twice&rdquo; was cut: it could belong to any studio. A specific fact belongs to this house, and for me that is what premium means here.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Credits -->
+            <section id="credits" class="section-margin fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <div class="global-padding">
+                        <div class="credits-divider"></div>
+                        <div class="section-headline-content-wrapper section-headline-margin">
+                            <div class="section-headline">
+                                <h2 class="section-headline-text headline-sm text-3xl text-weight-semibold text-color-black-900 text-reveal">Credits</h2>
+                            </div>
+                        </div>
+                        <div class="credits-grid">
+                            <div class="credits-group">
+                                <h3 class="credits-role">Content</h3>
+                                <ul class="credits-list">
+                                    <li>grulab <span>(Content Lead, remote)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">Design</h3>
+                                <ul class="credits-list">
+                                    <li>Zulfa <span>(Graphic Designer)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">Marketing</h3>
+                                <ul class="credits-list">
+                                    <li>Imam Zarkasy <span>(Marketing Lead)</span></li>
+                                </ul>
+                            </div>
+                            <div class="credits-group">
+                                <h3 class="credits-role">Renders &amp; Drawings</h3>
+                                <ul class="credits-list">
+                                    <li>Asritektur <span>(Architect &amp; Drafter Team)</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Next Project Navigation -->
+            <section class="next-project-section fade-in-section">
+                <div class="w-layout-blockcontainer global-wrapper w-container">
+                    <a href="/portfolio/pink-roulette" class="next-project-link">
+                        <span class="next-label">Next Project</span>
+                        <h2 class="next-title">Pink Roulette</h2>
+                    </a>
+                </div>
+            </section>
+
+            <div id="footer-container"></div>
+        </main>
+
+        <div id="mdkg-widget-container"></div>
+
+        <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+
+        <script defer src="../script.js?v=65"></script>
+        <script defer src="../custom.js"></script>
+        <script defer src="../widget.js?v=1.14"></script>
+        <script defer src="../assets/js/case-study.js?v=2"></script>
+
+        <script>
+            // Page-specific: missing-media placeholders, the carousel cycle and the reel player.
+            document.addEventListener('DOMContentLoaded', () => {
+                // 1. Missing-file placeholder: a 404'd photo shows its filename instead of a
+                //    broken-image icon. Already-failed images (complete with no width) count too.
+                document.querySelectorAll('.as-cycle__slide img, .ed-hero-media img, .as-pair__frame img').forEach((img) => {
+                    const markMissing = () => img.closest('.as-cycle__slide, .ed-hero-media, .as-pair__frame')?.classList.add('is-missing');
+                    img.addEventListener('error', markMissing, { once: true });
+                    // A lazy image that hasn't been fetched yet reports complete === false, so
+                    // this only catches ones that genuinely failed before this script ran.
+                    if (img.complete && img.naturalWidth === 0) markMissing();
+                });
+
+                // 2. Carousel cycle: cross-fades on a timer (the active pagination pill fills as
+                //    the countdown), a click or tap on the photo advances. No arrows. The timer only
+                //    runs while the block is on screen and the pointer isn't resting on it.
+                const cycle = document.querySelector('.as-cycle');
+                if (cycle) {
+                    const stage = cycle.querySelector('.as-cycle__stage');
+                    const slides = [...cycle.querySelectorAll('.as-cycle__slide')];
+                    const dotsWrap = cycle.querySelector('.as-cycle__dots');
+                    const DELAY = 4000;
+                    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    let current = 0, elapsed = 0, last = 0, rafId = 0, onScreen = false, hovering = false;
+
+                    const dots = slides.map((_, i) => {
+                        const dot = document.createElement('button');
+                        dot.type = 'button';
+                        dot.className = 'as-cycle__dot';
+                        dot.setAttribute('aria-label', 'Show slide ' + (i + 1));
+                        dot.addEventListener('click', () => go(i));
+                        dotsWrap.appendChild(dot);
+                        return dot;
+                    });
+
+                    const setProgress = (v) => dots[current].style.setProperty('--pr-progress', v.toFixed(3));
+                    function go(index) {
+                        current = (index + slides.length) % slides.length;
+                        elapsed = 0;
+                        slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+                        dots.forEach((d, i) => {
+                            d.classList.toggle('is-active', i === current);
+                            d.removeAttribute('aria-current');
+                            d.style.removeProperty('--pr-progress');
+                        });
+                        dots[current].setAttribute('aria-current', 'true');
+                        setProgress(reduceMotion ? 1 : 0);
+                    }
+                    const tick = (now) => {
+                        rafId = requestAnimationFrame(tick);
+                        const dt = last ? Math.min(now - last, 100) : 0;
+                        last = now;
+                        elapsed += dt;
+                        setProgress(Math.min(elapsed / DELAY, 1));
+                        if (elapsed >= DELAY) go(current + 1);
+                    };
+                    const sync = () => {
+                        const shouldRun = onScreen && !hovering && !reduceMotion;
+                        if (shouldRun && !rafId) { last = 0; rafId = requestAnimationFrame(tick); }
+                        if (!shouldRun && rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+                    };
+
+                    stage.addEventListener('click', () => go(current + 1));
+                    stage.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+                    });
+                    stage.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; sync(); } });
+                    stage.addEventListener('pointerleave', () => { hovering = false; sync(); });
+
+                    go(0);
+                    if ('IntersectionObserver' in window) {
+                        new IntersectionObserver((entries) => {
+                            entries.forEach((entry) => {
+                                if (entry.isIntersecting && !onScreen) {
+                                    // Warm every frame once, so the cross-fade never lands on an unloaded image.
+                                    slides.forEach((s) => { const im = new Image(); im.src = s.querySelector('img').src; });
+                                }
+                                onScreen = entry.isIntersecting;
+                            });
+                            sync();
+                        }, { threshold: 0.35 }).observe(cycle);
+                    }
+                }
+
+                // 3. Reel: same player controls as the other case studies'
+                //    .video-player-wrapper (play/pause, mute, scrub, fullscreen).
+                const formatTime = (t) => new Date(t * 1000).toISOString().slice(14, 19);
+                document.querySelectorAll('.as-outputs .video-player-wrapper').forEach((wrap) => {
+                    const video = wrap.querySelector('.video-element');
+                    if (!video) return;
+                    const source = video.querySelector('source');
+                    const markMissing = () => wrap.classList.add('is-missing');
+                    source?.addEventListener('error', markMissing, { once: true });
+                    video.addEventListener('error', markMissing, { once: true });
+                    if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) markMissing();
+
+                    const playBtn = wrap.querySelector('.video-play-pause-btn');
+                    const muteBtn = wrap.querySelector('.video-mute-btn');
+                    const timeline = wrap.querySelector('.video-timeline');
+                    const cur = wrap.querySelector('.video-time-current');
+                    const dur = wrap.querySelector('.video-time-duration');
+                    const fsBtn = wrap.querySelector('.video-fullscreen-btn');
+                    const fbPlay = wrap.querySelector('.icon-feedback-play');
+                    const fbPause = wrap.querySelector('.icon-feedback-pause');
+
+                    const feedback = (el) => {
+                        if (!el) return;
+                        [fbPlay, fbPause].forEach((f) => f?.classList.remove('animate'));
+                        void el.offsetWidth;
+                        el.classList.add('animate');
+                    };
+                    const toggle = () => {
+                        if (video.paused) { video.play().catch(() => {}); feedback(fbPlay); }
+                        else { video.pause(); feedback(fbPause); }
+                    };
+                    video.addEventListener('play', () => playBtn?.classList.add('is-playing'));
+                    video.addEventListener('pause', () => playBtn?.classList.remove('is-playing'));
+                    playBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
+                    muteBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        video.muted = !video.muted;
+                        muteBtn.classList.toggle('is-muted', video.muted);
+                    });
+                    const applyDuration = () => {
+                        if (!isFinite(video.duration) || video.duration <= 0) return;
+                        if (dur) dur.textContent = formatTime(video.duration);
+                        if (timeline) timeline.max = video.duration;
+                    };
+                    video.addEventListener('loadedmetadata', applyDuration);
+                    if (video.readyState >= 1) applyDuration();
+                    video.addEventListener('timeupdate', () => {
+                        if (cur) cur.textContent = formatTime(video.currentTime);
+                        if (timeline) timeline.value = video.currentTime;
+                    });
+                    timeline?.addEventListener('input', () => { video.currentTime = timeline.value; });
+                    fsBtn?.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!document.fullscreenElement) wrap.requestFullscreen?.().catch(() => {});
+                        else document.exitFullscreen?.().catch(() => {});
+                    });
+                    video.addEventListener('click', toggle);
+                    wrap.querySelector('.video-hover-overlay')?.addEventListener('click', (e) => {
+                        if (e.target.closest('button') || e.target.closest('input')) return;
+                        toggle();
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

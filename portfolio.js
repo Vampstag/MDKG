@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 roles: ["Art Direction", "Content Strategy", "Social Content"],
                 link: "",
                 clientName: "Asritektur",
-                description: "Bringing a nearly inactive design studio back to life through a new content strategy, visual direction, and hands-on execution.",
+                description: "Building a more premium voice for an architecture studio from its own design archive. Still in progress.",
                 brandInfo: "Indonesian architecture & interior design studio, offering flexible, remote-friendly design services nationwide.",
                 image: "../assets/images/project/asritektur/home-ibu-niluh.webp",
                 // Source photo is a tall portrait crop with mostly empty sky up top and the
@@ -326,11 +326,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     gridContainer.innerHTML = '<div class="no-results">No projects found matching your criteria.</div>';
                 } else {
                     filteredData.forEach(project => {
-                        const isClickable = !project.ongoing;
+                        // An on-going project is locked unless it opts in with `openable: true` (a case study page exists
+                        // while the work continues): it then keeps the ON-GOING badge but opens like any other card.
+                        const isClickable = !project.ongoing || !!project.openable;
                         const WrapperTag = isClickable ? 'a' : 'div';
                         const hrefAttr = isClickable ? `href="${project.link}"` : '';
                         const badgeHTML = project.ongoing ? `<div class="ongoing-badge">ON-GOING</div>` : '';
-                        const ongoingClass = project.ongoing ? 'is-ongoing' : '';
+                        const ongoingClass = (project.ongoing && !project.openable) ? 'is-ongoing' : '';
                         const categoryBadgesHTML = (project.category || '').split('·').map(cat => `<div class="portfolio-card-category-badge">${cat.trim()}</div>`).join('');
 
                         const itemHTML = `
@@ -359,7 +361,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                     ${badgeHTML}
                                     <div class="portfolio-overlay">
                                         <p class="portfolio-description">${project.description}</p>
-                                        ${project.ongoing 
+                                        ${(project.ongoing && !project.openable)
                                             ? `<div class="portfolio-cta is-ongoing-cta">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                                 On-going Project

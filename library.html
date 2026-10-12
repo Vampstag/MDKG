@@ -1101,7 +1101,7 @@
         <script defer src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-        <script defer src="script.js?v=64"></script>
+        <script defer src="script.js?v=65"></script>
         <script defer src="custom.js"></script>
         <script defer src="widget.js?v=1.14"></script>
 
@@ -1487,123 +1487,6 @@
                     canvas.classList.toggle('is-blurred', on);
                 };
 
-                // --- Drag SFX (synthesized via Web Audio, no external file needed) ---
-                let audioCtx = null;
-                let whooshOsc = null;
-                let whooshGain = null;
-                let lastWhooshUpdate = 0;
-
-                const ensureAudioCtx = () => {
-                    // Silent on phones and tablets (touch or narrow viewport)
-                    if (window.matchMedia('(max-width: 767px), (pointer: coarse)').matches) return null;
-                    if (!audioCtx) {
-                        const Ctx = window.AudioContext || window.webkitAudioContext;
-                        if (Ctx) audioCtx = new Ctx();
-                    }
-                    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-                    return audioCtx;
-                };
-
-                let whooshNoiseSource = null;
-                let whooshNoiseFilter = null;
-                let whooshNoiseGain = null;
-
-                // Builds a looping buffer of white noise, once, reused for every drag
-                let noiseBuffer = null;
-                const getNoiseBuffer = (ctx) => {
-                    if (noiseBuffer) return noiseBuffer;
-                    const bufferSize = ctx.sampleRate * 2;
-                    noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                    const data = noiseBuffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-                    return noiseBuffer;
-                };
-
-                const startWhoosh = () => {
-                    const ctx = ensureAudioCtx();
-                    if (!ctx || whooshOsc) return;
-
-                    // Low sine layer: carries almost all the weight/boom
-                    whooshOsc = ctx.createOscillator();
-                    whooshGain = ctx.createGain();
-                    whooshOsc.type = 'sine';
-                    whooshOsc.frequency.setValueAtTime(55, ctx.currentTime);
-                    whooshGain.gain.setValueAtTime(0, ctx.currentTime);
-                    whooshOsc.connect(whooshGain);
-                    whooshGain.connect(ctx.destination);
-                    whooshOsc.start();
-
-                    // Filtered noise layer: barely-there texture underneath the boom, not the focus
-                    whooshNoiseSource = ctx.createBufferSource();
-                    whooshNoiseSource.buffer = getNoiseBuffer(ctx);
-                    whooshNoiseSource.loop = true;
-                    whooshNoiseFilter = ctx.createBiquadFilter();
-                    whooshNoiseFilter.type = 'lowpass';
-                    whooshNoiseFilter.frequency.setValueAtTime(120, ctx.currentTime);
-                    whooshNoiseFilter.Q.setValueAtTime(0.5, ctx.currentTime);
-                    whooshNoiseGain = ctx.createGain();
-                    whooshNoiseGain.gain.setValueAtTime(0, ctx.currentTime);
-                    whooshNoiseSource.connect(whooshNoiseFilter);
-                    whooshNoiseFilter.connect(whooshNoiseGain);
-                    whooshNoiseGain.connect(ctx.destination);
-                    whooshNoiseSource.start();
-                };
-
-                // Continuously nudges pitch/volume of the whoosh to track drag speed. Boomy sine leads, noise stays subtle
-                const updateWhoosh = (speed) => {
-                    const ctx = audioCtx;
-                    if (!ctx || !whooshOsc || !whooshGain) return;
-                    const now = performance.now();
-                    if (now - lastWhooshUpdate < 40) return; // throttle to ~25fps of audio updates
-                    lastWhooshUpdate = now;
-
-                    const clamped = Math.min(speed, 120);
-                    const ratio = clamped / 120;
-
-                    const targetFreq = 50 + clamped * 0.5;
-                    const targetGain = 0.16 + ratio * 0.9; // audible floor + scales up hard with speed
-                    whooshOsc.frequency.setTargetAtTime(targetFreq, ctx.currentTime, 0.05);
-                    whooshGain.gain.setTargetAtTime(targetGain, ctx.currentTime, 0.05);
-
-                    if (whooshNoiseFilter && whooshNoiseGain) {
-                        const targetNoiseFreq = 100 + ratio * 200;
-                        const targetNoiseGain = 0.04 + ratio * 0.15;
-                        whooshNoiseFilter.frequency.setTargetAtTime(targetNoiseFreq, ctx.currentTime, 0.05);
-                        whooshNoiseGain.gain.setTargetAtTime(targetNoiseGain, ctx.currentTime, 0.05);
-                    }
-                };
-
-                const stopWhoosh = () => {
-                    if (!whooshOsc || !audioCtx) return;
-                    const ctx = audioCtx;
-                    const fadeOutTime = 0.25;
-
-                    // Cancel any in-flight ramps first so the fade-out starts from the actual current value
-                    whooshGain.gain.cancelScheduledValues(ctx.currentTime);
-                    whooshGain.gain.setValueAtTime(whooshGain.gain.value, ctx.currentTime);
-                    whooshGain.gain.linearRampToValueAtTime(0, ctx.currentTime + fadeOutTime);
-
-                    if (whooshNoiseGain) {
-                        whooshNoiseGain.gain.cancelScheduledValues(ctx.currentTime);
-                        whooshNoiseGain.gain.setValueAtTime(whooshNoiseGain.gain.value, ctx.currentTime);
-                        whooshNoiseGain.gain.linearRampToValueAtTime(0, ctx.currentTime + fadeOutTime);
-                    }
-
-                    const oscToStop = whooshOsc;
-                    const noiseToStop = whooshNoiseSource;
-                    // Stop strictly after the ramp has fully reached 0: no truncated waveform, no click
-                    setTimeout(() => {
-                        try { oscToStop.stop(); } catch (err) {}
-                        try { noiseToStop?.stop(); } catch (err) {}
-                    }, fadeOutTime * 1000 + 30);
-
-                    whooshOsc = null;
-                    whooshGain = null;
-                    whooshNoiseSource = null;
-                    whooshNoiseFilter = null;
-                    whooshNoiseGain = null;
-                };
-
                 const stopInertia = () => {
                     if (inertiaRAF) cancelAnimationFrame(inertiaRAF);
                     inertiaRAF = null;
@@ -1638,7 +1521,6 @@
                     lastMoveTime = performance.now();
                     viewport.classList.add('is-dragging');
                     viewport.setPointerCapture(e.pointerId);
-                    startWhoosh();
                 });
 
                 viewport.addEventListener('pointermove', (e) => {
@@ -1665,7 +1547,6 @@
                     // Motion blur kicks in once the drag is moving fast enough
                     const speed = Math.abs(velocityX) + Math.abs(velocityY);
                     setBlur(speed > 18);
-                    updateWhoosh(speed);
                     clearTimeout(blurTimeout);
                     blurTimeout = setTimeout(() => setBlur(false), 120);
                 });
@@ -1677,7 +1558,6 @@
                     if (e && e.pointerId !== undefined) {
                         try { viewport.releasePointerCapture(e.pointerId); } catch (err) {}
                     }
-                    stopWhoosh();
                     runInertia();
                 };
                 viewport.addEventListener('pointerup', endDrag);

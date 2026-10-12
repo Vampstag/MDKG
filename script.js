@@ -746,127 +746,6 @@ function initNavbar() {
 // =========================================
 // 18. SEAMLESS PAGE TRANSITION
 // =========================================
-// Synthesized (no mp3 asset) via Web Audio API, same approach already used elsewhere
-// on the site (see playLockFeedback in portfolio.js) rather than adding a new audio
-// dependency for two one-off sounds. One shared AudioContext, created lazily on first
-// actual use — browsers require a user gesture before audio can play, and a link click
-// (the exit sound's trigger) satisfies that; the arrival sound on the next page relies
-// on the browser still considering the session "activated" from that same click, which
-// is standard behavior but not guaranteed on every browser, so both sounds are wrapped
-// in try/catch and silently no-op if audio can't play — the transition itself must
-// never depend on sound succeeding.
-let __pageTransitionAudioCtx = null;
-function getPageTransitionAudioCtx() {
-    if (__pageTransitionAudioCtx) return __pageTransitionAudioCtx;
-    // No transition sound on phones and tablets (touch or narrow viewport): both sounds
-    // are skipped because every caller bails out when this returns null.
-    if (window.matchMedia('(max-width: 767px), (pointer: coarse)').matches) return null;
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return null;
-    __pageTransitionAudioCtx = new AudioContextClass();
-    return __pageTransitionAudioCtx;
-}
-
-// Filtered white noise, not an oscillator tone — a sine/oscillator sweep reads as a
-// musical pitch bend (a "digital beep"), which is exactly the "aneh, mencolok, digital"
-// character that didn't work here. Real whoosh sounds (wind, air movement, fabric) are
-// noise-based: broadband white noise pushed through a lowpass filter whose cutoff
-// frequency sweeps down over the sound's duration is the standard technique for a
-// natural, breathy, LOW-weighted whoosh with no discernible pitch at all.
-function createNoiseBuffer(ctx, durationSeconds) {
-    const bufferSize = Math.ceil(ctx.sampleRate * durationSeconds);
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-    }
-    return buffer;
-}
-
-// Exit sound: a low, breathy whoosh sweeping downward in tone — signals "leaving"
-// as an unobtrusive texture under the overlay's own swipe, not a sound anyone should
-// consciously register.
-function playPageExitSfx() {
-    try {
-        const ctx = getPageTransitionAudioCtx();
-        if (!ctx) return;
-        const duration = 0.4;
-        const noise = ctx.createBufferSource();
-        noise.buffer = createNoiseBuffer(ctx, duration);
-
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        // Sweeping the cutoff down (not up) is what gives this its "heavy/low" weight —
-        // it opens with some air/texture and settles into a dull, low rumble rather than
-        // brightening toward a hiss.
-        filter.frequency.setValueAtTime(900, ctx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + duration);
-        filter.Q.value = 0.7;
-
-        const gain = ctx.createGain();
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-
-        // Quiet, quick attack and a longer soft tail — kept low enough (peak 0.05) that
-        // it sits under the visual transition as texture, not a sound effect in its
-        // own right.
-        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.05, ctx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-
-        noise.start(ctx.currentTime);
-        noise.stop(ctx.currentTime + duration);
-    } catch (e) { /* audio is a nicety, never block navigation on it */ }
-}
-
-// Arrival sound: the same low noise-whoosh technique, mirrored — a short breath
-// settling in, marking "you've landed" without a rising pitch that would read as a
-// notification chime.
-function playPageArrivalSfx() {
-    try {
-        const ctx = getPageTransitionAudioCtx();
-        if (!ctx) return;
-        const duration = 0.3;
-        const noise = ctx.createBufferSource();
-        noise.buffer = createNoiseBuffer(ctx, duration);
-
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(120, ctx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(500, ctx.currentTime + 0.12);
-        filter.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + duration);
-        filter.Q.value = 0.7;
-
-        const gain = ctx.createGain();
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-
-        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.04, ctx.currentTime + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-
-        noise.start(ctx.currentTime);
-        noise.stop(ctx.currentTime + duration);
-    } catch (e) { /* audio is a nicety, never block navigation on it */ }
-}
-
-// Arrival fires once per page load, right as this page's own preloader finishes (every
-// page on the site dispatches 'preloaderDone' — see each page's inline preloader
-// script) — that's the moment the visual transition actually completes from the
-// visitor's side, not DOMContentLoaded, which fires earlier while the overlay is
-// typically still covering the screen.
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.body.classList.contains('preloader-active')) {
-        window.addEventListener('preloaderDone', playPageArrivalSfx, { once: true });
-    } else {
-        // No preloader on this page (or it already finished before this script ran) —
-        // play immediately rather than waiting on an event that will never fire.
-        playPageArrivalSfx();
-    }
-});
-
 function initPageTransitions() {
     if (typeof gsap === 'undefined') return;
 
@@ -909,7 +788,6 @@ function initPageTransitions() {
 
         e.preventDefault();
 
-        playPageExitSfx();
 
         // [NEW] Narrative transition: if the clicked link (or an ancestor, e.g. a project
         // card) carries a data-accent-color, tint the overlay with it instead of always
