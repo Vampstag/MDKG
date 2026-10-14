@@ -74,12 +74,12 @@ terjadi beberapa kali sesi ini. Checklist tiap edit script.js: naikkan v, sebutk
 user kalau perlu hard refresh.
 
 Berlaku juga untuk `style.css?v=N`, `portfolio.js?v=N`, `widget.js?v=N`, dan
-`assets/js/case-study.js?v=N`. Semua halaman harus pakai versi yang SAMA untuk file
+`js/case-study.js?v=N`. Semua halaman harus pakai versi yang SAMA untuk file
 yang sama — pernah kejadian `widget.js` ter-pin di 7 halaman tapi polos di 6 halaman
 lain, jadi perubahannya cuma sampai ke separuh situs.
 
 ## 9. Case study — JS bersama, bukan copy-paste inline
-`assets/js/case-study.js` memegang preloader, hero entrance, essence reveal, dan
+`js/case-study.js` memegang preloader, hero entrance, essence reveal, dan
 sticky-nav scrollspy untuk SEMUA halaman di `portfolio/`. Dulu keempatnya di-copy
 inline ke tiap halaman (~1.300 baris duplikat); dua halaman diam-diam ketinggalan
 versi lama dan baru ketahuan waktu di-diff.
@@ -87,7 +87,7 @@ versi lama dan baru ketahuan waktu di-diff.
 Bikin case study baru: copy `_template-case-study.html`, lalu
 - set `<body data-hero-image="../assets/images/project/<slug>/<hero>.webp">` —
   ini yang dipakai preloader buat nge-gate LCP-nya; jangan hardcode di JS lagi.
-- muat `<script defer src="../assets/js/case-study.js?v=N"></script>` setelah
+- muat `<script defer src="../js/case-study.js?v=N"></script>` setelah
   `widget.js`.
 Tiap init-nya feature-detect sendiri, jadi halaman yang nggak punya section tertentu
 tinggal skip — nggak perlu diapa-apain.

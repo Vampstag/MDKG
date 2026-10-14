@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Path relatif (bukan absolut dari root domain) agar tetap jalan meski dev server-nya
     // di-root-kan ke folder parent (mis. Live Server dibuka dari luar vampstag-portfolio/),
     // bukan cuma saat di-deploy dengan domain root persis di folder ini.
-    const isJournalSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
+    const isJournalSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
     const journalDataPath = (isJournalSubPage ? '../' : '') + 'data/journal.json';
     const journalPromise = fetch(journalDataPath).then(r => r.json()).catch(() => []);
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const journalGrid = document.getElementById('journal-grid');
 
         // Otomatis menyesuaikan path folder
-        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
+        const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
         const prefix = isSubPage ? '../' : '';
 
         // 1. Render untuk Halaman Home (Ambil 3 teratas)
@@ -419,9 +419,9 @@ function loadNavbar() {
     const container = document.getElementById('navbar-container');
     if (!container) return Promise.resolve();
     // choose path relative to current location; case study pages are one level deep
-    let url = 'navbar.html?v=2';
-    if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
-        url = '../navbar.html?v=2';
+    let url = 'partials/navbar.html?v=2';
+    if (/\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname)) {
+        url = '../partials/navbar.html?v=2';
     }
     return fetch(url)
         .then(resp => resp.text())
@@ -443,7 +443,7 @@ function loadNavbar() {
                 }
 
             // fix relative link paths when the page is inside a subfolder
-            if (window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/')) {
+            if (/\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname)) {
                 container.querySelectorAll('a').forEach(link => {
                     const href = link.getAttribute('href');
                     if (href && !href.startsWith('http') && !href.startsWith('../') && !href.startsWith('/')) {
@@ -496,11 +496,11 @@ function loadFooter() {
     // Don't interfere if the page has its own preloader logic (like index.html) that loads footer
     if (!container || document.getElementById('preloader')) return Promise.resolve();
 
-    let url = 'footer.html';
-    const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
+    let url = 'partials/footer.html';
+    const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
     
     if (isSubPage) {
-        url = '../footer.html';
+        url = '../partials/footer.html';
     }
 
     return fetch(url)

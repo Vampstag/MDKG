@@ -88,12 +88,12 @@
         }
         </script>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/css/mdkg.webflow.shared.4d3ebba11.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="css/style.css?v=163">
+        <link rel="stylesheet" href="../css/style.css?v=163">
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
         <script>document.documentElement.classList.add("js-reveal");</script>
-        <link rel="stylesheet" href="widget.css?v=15">
+        <link rel="stylesheet" href="../css/widget.css?v=15">
         
         <style>
             /* Anti-Flicker Inline CSS */
@@ -157,7 +157,7 @@
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                const footerPromise = fetch('footer.html').then(response => response.text());
+                const footerPromise = fetch('/partials/footer.html').then(response => response.text());
                 const counter = document.getElementById('counter');
                 const bar = document.getElementById('bar');
                 const preloader = document.getElementById('preloader');
@@ -300,25 +300,25 @@
                             <div class="services-sticky__visual-col">
                                 <div class="services-sticky__visual">
                                     <div class="services-sticky__image is-active" data-target="svc-1">
-                                        <img src="assets/images/project/torch/bts-1.webp" alt="Video Production" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch/bts-1.webp" alt="Video Production" loading="lazy" decoding="async">
                                     </div>
                                     <div class="services-sticky__image" data-target="svc-2">
-                                        <img src="assets/images/project/torch/bts-4.webp" alt="Editing &amp; Motion" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch/bts-4.webp" alt="Editing &amp; Motion" loading="lazy" decoding="async">
                                     </div>
                                     <div class="services-sticky__image services-sticky__image--fade-cycle" data-target="svc-3">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
-                                        <img src="assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-1.webp" alt="Graded frame still" loading="lazy" decoding="async" class="is-active">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-2.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-3.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-4.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-5.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-6.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-7.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-8.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-9.webp" alt="Graded frame still" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch-prestachill/stacked-card-torch-10.webp" alt="Graded frame still" loading="lazy" decoding="async">
                                     </div>
                                     <div class="services-sticky__image" data-target="svc-4">
-                                        <img src="assets/images/project/torch/bts-2.webp" alt="Concept Development" loading="lazy" decoding="async">
+                                        <img src="../assets/images/project/torch/bts-2.webp" alt="Concept Development" loading="lazy" decoding="async">
                                     </div>
                                 </div>
                             </div>
@@ -348,21 +348,21 @@
                             <div class="marquee-track">
                                 <!-- Set 1 -->
                                 <div class="marquee-content">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
                                 </div>
                                 <!-- Set 2 (Exact Duplicate for seamless infinite loop) -->
                                 <div class="marquee-content" aria-hidden="true">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
-                                    <img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async">
+                                    <img src="../assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -921,9 +921,9 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         
         <!-- Custom Logic -->
-        <script defer src="script.js?v=65"></script>
-        <script defer src="custom.js"></script>
-        <script defer src="widget.js?v=1.14"></script>
+        <script defer src="../js/script.js?v=65"></script>
+        <script defer src="../js/custom.js"></script>
+        <script defer src="../js/widget.js?v=1.14"></script>
         
         <script>
             // [NEW] Services Essence: per-word reveal scrubbed to scroll position.

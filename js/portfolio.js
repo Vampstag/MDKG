@@ -27,6 +27,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
             {
+                id: 15,
+                title: "Asritektur Web Revitalization",
+                year: "2026",
+                category: "Art Direction · Web Design",
+                industry: "Architecture",
+                roles: ["Art Direction", "Web Design"],
+                link: "",
+                clientName: "Asritektur",
+                description: "Rebuilding the website’s direction, structure, and user experience to better communicate Asritektur’s services, showcase its projects, and support ongoing brand growth.",
+                brandInfo: "Indonesian architecture & interior design studio, offering flexible, remote-friendly design services nationwide.",
+                image: "../assets/images/project/asritektur/web/cover-web-asritektur.png",
+                srcset: "",
+                ongoing: true
+            },
+            {
                 id: 14,
                 title: "Asritektur",
                 year: "2026",
@@ -161,6 +176,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 brandInfo: "Established in 2022, Tsukamie is a Halal-certified Asian fusion noodle bar in Bandung that positions itself as a lifestyle ecosystem rather than just an F&B brand.",
                 image: "../assets/images/project/tsukamie/tsukamie1.webp",
                 srcset: ""
+            },
+            {
+                id: 6,
+                title: "Studio Berka",
+                year: "2026",
+                category: "Web Design",
+                industry: "Architecture",
+                roles: ["Web Design"],
+                link: "",
+                clientName: "Studio Berka",
+                description: "Web design and UX strategy for an architecture studio. Built to earn trust and make pricing feel transparent.",
+                brandInfo: "Studio Berka is an architecture and interior design studio based in Bandung, handling everything from planning and construction to custom furniture.",
+                image: "../assets/images/project/berka/cover-web-berka.webp",
+                srcset: "",
+                ongoing: true
             },
             
         ];

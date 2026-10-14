@@ -6,7 +6,7 @@
       1. Drop the media into assets/images/project/asritektur/ and assets/videos/project/asritektur/
          (names listed in the MEDIA FILES comment below; until then each slot shows its file name).
          Photos: WebP, long edge 1800px, quality ~80. Reel: H.264 MP4, 720x1280.
-      2. Record the VO from vo-scripts/asritektur-vo-script.md and save it as
+      2. Record the VO from docs/vo-scripts/asritektur-vo-script.md and save it as
          assets/audio/vo-asritektur.mp3 (the player in Overview is silent until it exists).
       3. Remove the robots noindex meta, drop `ongoing` and `openable` for id 14 in portfolio.js once
          the work is done, and add the page to sitemap.xml.
@@ -106,7 +106,7 @@
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
         <script>document.documentElement.classList.add("js-reveal");</script>
-        <link rel="stylesheet" href="../widget.css?v=15">
+        <link rel="stylesheet" href="../css/widget.css?v=15">
 
         <style>
             /* ---------- Missing-media placeholder ----------
@@ -388,7 +388,7 @@
                             </div>
                             <div class="about-main-content">
                                 <!-- Audio Narrator Player: VO at assets/audio/vo-asritektur.mp3
-                                     (script: vo-scripts/asritektur-vo-script.md). The player JS
+                                     (script: docs/vo-scripts/asritektur-vo-script.md). The player JS
                                      (initAudioNarrator in script.js) picks up any
                                      .audio-narrator-wrapper automatically. -->
                                 <div class="audio-narrator-wrapper">
@@ -613,10 +613,10 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
 
-        <script defer src="../script.js?v=65"></script>
-        <script defer src="../custom.js"></script>
-        <script defer src="../widget.js?v=1.14"></script>
-        <script defer src="../assets/js/case-study.js?v=2"></script>
+        <script defer src="../js/script.js?v=65"></script>
+        <script defer src="../js/custom.js"></script>
+        <script defer src="../js/widget.js?v=1.14"></script>
+        <script defer src="../js/case-study.js?v=2"></script>
 
         <script>
             // Page-specific: missing-media placeholders, the carousel cycle and the reel player.

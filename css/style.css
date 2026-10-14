@@ -1384,7 +1384,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Tablet & Mobile (Portrait & Landscape) - Hide CTA, Show Burger */
 @media (max-width: 991px) {
-    /* The navbar element carries data-collapse="medium" (see navbar.html), which makes
+    /* The navbar element carries data-collapse="medium" (see partials/navbar.html), which makes
        Webflow's own `.w-nav[data-collapse="medium"] .w-nav-menu { display: none }` rule
        (specificity 0,2,0, in the same max-width:991px breakpoint) a real competitor for
        .desktop-cta since it also carries .w-nav-menu in the markup. Matching that attribute

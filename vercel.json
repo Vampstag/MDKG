@@ -6,6 +6,21 @@
       "source": "/journal/making-things-people-notice",
       "destination": "/journal/the-things-people-dont-say",
       "permanent": true
+    },
+    {
+      "source": "/about.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/library.html",
+      "destination": "/library",
+      "permanent": true
     }
   ],
   "headers": [
@@ -17,12 +32,6 @@
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }
-      ]
-    },
-    {
-      "source": "/audio/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }
       ]

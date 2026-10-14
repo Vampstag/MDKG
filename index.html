@@ -161,7 +161,7 @@
             document.addEventListener("DOMContentLoaded", () => {
                 // [OPTIMIZATION] Start fetching footer immediately (Parallel Loading)
                 // Don't wait for animation to finish.
-                const footerPromise = fetch('footer.html').then(response => response.text());
+                const footerPromise = fetch('/partials/footer.html').then(response => response.text());
 
                 // The preloader now waits on real asset signals instead of only a fake
                 // progress-bar timer: footer fetch (above) and the 3D hero title's font
@@ -320,7 +320,7 @@
         </script>
         <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
         <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
-        <link rel="stylesheet" href="widget.css?v=15">
+        <link rel="stylesheet" href="css/widget.css?v=15">
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
                 "currencyCode": "USD",
@@ -663,15 +663,15 @@
                             <div class="marquee-track" id="logo-marquee-track">
                                 <!-- Set 1 -->
                                 <div class="marquee-content">
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
@@ -680,15 +680,15 @@
                                 </div>
                                 <!-- Set 2 (Exact Duplicate for seamless infinite loop) -->
                                 <div class="marquee-content" aria-hidden="true">
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/ngaliwet-raos/logo-ngaliwet.webp" alt="Ngaliwet Raos" class="marquee-logo logo-ngaliwet" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/asritektur/logo-utama.png" alt="Asritektur" class="marquee-logo logo-asritektur" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/home/TORCH LOGO-01.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
-                                    <div class="marquee-item"><img src="assets/images/project/berka/logo_berka_typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/home/torch-logo.svg" alt="Torch" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
+                                    <div class="marquee-item"><img src="assets/images/project/berka/logo-berka-typeface.webp" alt="Studio Berka" class="marquee-logo logo-berka" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/tsukamie/logo-tsukamie.webp" alt="Tsukamie" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/pink-roulette/logo-pink-roulette.png" alt="Pink Roulette" class="marquee-logo logo-pink-roulette" loading="lazy" decoding="async" draggable="false"></div>
                                     <div class="marquee-item"><img src="assets/images/project/andrea-bocelli/logo-bocelli.webp" alt="Andrea Bocelli" class="marquee-logo" loading="lazy" decoding="async" draggable="false"></div>
@@ -835,9 +835,9 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="script.js?v=65"></script>
-        <script defer src="custom.js"></script>
-        <script defer src="widget.js?v=1.14"></script>
+        <script defer src="js/script.js?v=65"></script>
+        <script defer src="js/custom.js"></script>
+        <script defer src="js/widget.js?v=1.14"></script>
         <script>
             // [NEW] Site Essence reveal. Desktop keeps the per-word reveal scrubbed to scroll
             // position (scrubbing is what makes it reverse cleanly on scroll-up). Mobile gets

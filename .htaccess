@@ -5,6 +5,9 @@ ErrorDocument 404 /404.html
 # 0. REDIRECT SLUG LAMA (301, JAGA SEO SAAT GANTI NAMA ARTIKEL)
 # ==============================================================================
 Redirect 301 /journal/making-things-people-notice /journal/the-things-people-dont-say
+Redirect 301 /about.html /about
+Redirect 301 /services.html /services
+Redirect 301 /library.html /library
 
 # ==============================================================================
 # 1. ATURAN ROUTING & URL BERSIH (CLEAN URL & SEO HTTPS)
@@ -64,7 +67,7 @@ Redirect 301 /journal/making-things-people-notice /journal/the-things-people-don
     ExpiresByType audio/mpeg "access plus 1 year"
     
     # CSS & JavaScript 1 hari (dulu 1 bulan). Tidak semua file punya ?v= (custom.js,
-    # components.css, dll), jadi cache sebulan membuat edit tidak terlihat berminggu-minggu.
+    # css/widget.css, dll), jadi cache sebulan membuat edit tidak terlihat berminggu-minggu.
     ExpiresByType text/css "access plus 1 day"
     ExpiresByType application/javascript "access plus 1 day"
     ExpiresByType application/x-javascript "access plus 1 day"

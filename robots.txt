@@ -13,6 +13,8 @@ Disallow: /assets/videos/
 # Mencegah indexing file konfigurasi atau draft (jika ada)
 Disallow: /drafts/
 Disallow: /private/
+Disallow: /docs/
+Disallow: /_archive/
 Disallow: /*.json$
 
 # Tautan ke Sitemap untuk Google Search Console

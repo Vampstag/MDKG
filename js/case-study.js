@@ -26,7 +26,7 @@
         const preloader = document.getElementById('preloader');
         if (!preloader) return;
 
-        const footerPromise = fetch('../footer.html').then((response) => response.text());
+        const footerPromise = fetch('/partials/footer.html').then((response) => response.text());
 
         // Set per page via <body data-hero-image="...">; without it the hero
         // simply isn't part of the gate, rather than blocking on a bad URL.

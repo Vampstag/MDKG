@@ -16,13 +16,13 @@ const widgetConfig = {
     // DAFTAR LAGU (PLAYLIST)
     // Tambahkan lagu baru dengan format: { src: 'file.mp3', title: 'Judul', artist: 'Band', cover: 'gambar.jpg' },
     playlist: [
-        { src: 'audio/bgmusic.mp3', title: 'Smells Like Teen Spirit', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        { src: 'audio/bgmusic2.mp3', title: 'Come As You Are', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        { src: 'audio/bgmusic3.mp3', title: 'Something In The Way', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        { src: 'audio/bgmusic4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
-        { src: 'audio/Tarot.mp3', title: 'Tarot', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
-        { src: 'audio/Arteri.mp3', title: 'Arteri', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
-        { src: 'audio/o,Tuan.mp3', title: 'O, Tuan', artist: '.Feast', cover: 'assets/images/cover-feast.webp' }
+        { src: 'assets/audio/music/bgmusic-1.mp3', title: 'Smells Like Teen Spirit', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'assets/audio/music/bgmusic-2.mp3', title: 'Come As You Are', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'assets/audio/music/bgmusic-3.mp3', title: 'Something In The Way', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'assets/audio/music/bgmusic-4.mp3', title: 'Lithium', artist: 'Nirvana', cover: 'assets/images/cover-nirvana.webp' },
+        { src: 'assets/audio/music/tarot.mp3', title: 'Tarot', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'assets/audio/music/arteri.mp3', title: 'Arteri', artist: '.Feast', cover: 'assets/images/cover-feast.webp' },
+        { src: 'assets/audio/music/o-tuan.mp3', title: 'O, Tuan', artist: '.Feast', cover: 'assets/images/cover-feast.webp' }
     ]
 };
 //#endregion
@@ -44,10 +44,10 @@ class MdkgWidget {
         this.currentVolume = savedVolume !== null ? parseFloat(savedVolume) : (options.initialVolume !== undefined ? options.initialVolume : 0.4);
         
         // Playlist Setup
-        const rawPlaylist = options.playlist || [{ src: 'audio/bgmusic.mp3' }];
+        const rawPlaylist = options.playlist || [{ src: 'assets/audio/music/bgmusic-1.mp3' }];
         
         // [FIX] Otomatis perbaiki path audio jika dibuka dari dalam folder case-study
-        const isSubPage = window.location.pathname.includes('/case-study/') || window.location.pathname.includes('/study-case/') || window.location.pathname.includes('/journal/') || window.location.pathname.includes('/portfolio/');
+        const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
         const pathPrefix = isSubPage ? '../' : '';
         
         this.playlist = rawPlaylist.map(track => {
@@ -500,7 +500,7 @@ class MdkgWidget {
             if (nextBtn) nextBtn.addEventListener('click', playNext);
 
             // --- Playlist Panel ---
-            // [NEW] Lives in the navbar (see navbar.html, .nav-playlist-btn/.nav-playlist-panel),
+            // [NEW] Lives in the navbar (see partials/navbar.html, .nav-playlist-btn/.nav-playlist-panel),
             // not inside the floating player — moved out so the player itself stays compact.
             // Two instances exist in the DOM (desktop CTA row + mobile menu overlay, same
             // pattern as the two "Let's Talk" buttons) since only one is visible at a given
