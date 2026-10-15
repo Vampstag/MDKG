@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
@@ -318,60 +318,86 @@
                     <div class="global-padding">
                         <div class="wrapper-mobile-and-desktop">
                             <!-- Dropdown Filters -->
-                            <!-- reveal-stagger: search box and each dropdown wipe in sequence. The grid below
+                            <!-- reveal-stagger: the toolbar and the filter drawer wipe in sequence. The grid below
                                  is deliberately left out, it gets its own GSAP wipe in renderProjects(). -->
                             <div class="portfolio-filters-wrapper fade-in-section reveal-stagger reveal-no-clip">
-                                <!-- Search Bar — first item in the same row/system as the filter
-                                     dropdowns below, not a separate floating element above them. -->
-                                <div class="portfolio-search-container">
-                                    <div class="search-icon">
-                                        <svg width="100%" height="100%" viewBox="1.35 1.35 20.65 20.65" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <div class="portfolio-toolbar">
+                                    <!-- Search Bar — same row/system as the view toggle and Filter button. -->
+                                    <div class="portfolio-search-container">
+                                        <div class="search-icon">
+                                            <svg width="100%" height="100%" viewBox="1.35 1.35 20.65 20.65" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                        </div>
+                                        <input type="text" id="portfolio-search" class="search-input" placeholder="Search projects...">
+                                        <div class="clear-icon">
+                                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </div>
                                     </div>
-                                    <input type="text" id="portfolio-search" class="search-input" placeholder="Search projects...">
-                                    <div class="clear-icon">
-                                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+
+                                    <!-- Shows / hides the filter drawer below (accordion). -->
+                                    <button type="button" id="filter-toggle" class="filter-trigger" aria-expanded="false" aria-controls="portfolio-filter-drawer">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="17" x2="20" y2="17"></line><circle cx="9" cy="7" r="2.2" fill="#f9f9f9"></circle><circle cx="15" cy="17" r="2.2" fill="#f9f9f9"></circle></svg>
+                                        <span>Filter</span>
+                                        <span class="filter-count" hidden></span>
+                                        <svg class="filter-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                                    </button>
+
+                                    <!-- Grid / list view — icon-only on purpose. -->
+                                    <div class="view-toggle" role="group" aria-label="Portfolio layout">
+                                        <button type="button" class="view-btn selected" data-view="grid" aria-label="Grid view" aria-pressed="true">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+                                        </button>
+                                        <button type="button" class="view-btn" data-view="list" aria-label="List view" aria-pressed="false">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                                        </button>
                                     </div>
                                 </div>
-                                <select id="filter-industry" class="custom-select">
-                                    <option value="all">All Industries</option>
-                                    <option value="Beauty">Beauty</option>
-                                    <option value="Fashion">Fashion</option>
-                                    <option value="Architecture">Architecture</option>
-                                    <option value="F&B">F&B</option>
-                                    <option value="Live Event">Live Event</option>
-                                </select>
-                                
-                                <select id="filter-role" class="custom-select">
-                                    <option value="all">All Services</option>
-                                    <option value="Art Direction">Art Direction</option>
-                                    <option value="Content Strategy">Content Strategy</option>
-                                    <option value="Video Production">Video Production</option>
-                                    <option value="Photo Production">Photo Production</option>
-                                    <option value="Post Production">Post Production</option>
-                                    <option value="Social Content">Social Content</option>
-                                    <option value="Web Design">Web Design</option>
-                                </select>
-                                
-                                <select id="filter-year" class="custom-select">
-                                    <option value="all">All Years</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2024">2024</option>
-                                </select>
 
-                                <select id="sort-projects" class="custom-select">
-                                    <option value="latest">Latest</option>
-                                    <option value="oldest">Oldest</option>
-                                    <option value="az">A&ndash;Z</option>
-                                </select>
+                                <div id="portfolio-filter-drawer" class="portfolio-filter-drawer">
+                                    <div class="portfolio-filter-drawer-inner">
+                                        <div class="portfolio-filter-drawer-row">
+                                            <select id="filter-industry" class="custom-select">
+                                                <option value="all">All Industries</option>
+                                                <option value="Beauty">Beauty</option>
+                                                <option value="Fashion">Fashion</option>
+                                                <option value="Architecture">Architecture</option>
+                                                <option value="F&B">F&B</option>
+                                                <option value="Live Event">Live Event</option>
+                                            </select>
 
-                                <button id="reset-filters" class="reset-filters-btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-                                    Reset
-                                </button>
+                                            <select id="filter-role" class="custom-select">
+                                                <option value="all">All Services</option>
+                                                <option value="Art Direction">Art Direction</option>
+                                                <option value="Content Strategy">Content Strategy</option>
+                                                <option value="Video Production">Video Production</option>
+                                                <option value="Photo Production">Photo Production</option>
+                                                <option value="Post Production">Post Production</option>
+                                                <option value="Social Content">Social Content</option>
+                                                <option value="Web Design">Web Design</option>
+                                            </select>
+
+                                            <select id="filter-year" class="custom-select">
+                                                <option value="all">All Years</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                            </select>
+
+                                            <select id="sort-projects" class="custom-select">
+                                                <option value="latest">Latest</option>
+                                                <option value="oldest">Oldest</option>
+                                                <option value="az">A&ndash;Z</option>
+                                            </select>
+
+                                            <button id="reset-filters" class="reset-filters-btn">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                                Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Text Counter -->
+<!-- Text Counter -->
                             <div id="portfolio-results-count" class="portfolio-results-count"></div>
 
                             <!-- Dynamic Grid Container -->

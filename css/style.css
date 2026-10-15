@@ -1,4 +1,4 @@
-﻿/* #region 0. TYPOGRAPHY & VARIABLES */
+/* #region 0. TYPOGRAPHY & VARIABLES */
 /* =========================================
    0. TYPOGRAPHY & VARIABLES
    ========================================= */
@@ -1609,11 +1609,26 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* Dropdown Filters UI */
+/* Two stacked children: the always-visible toolbar (search, view toggle, Filter button) and the
+   filter drawer, an accordion that holds the dropdowns and stays closed until Filter is clicked. */
 .portfolio-filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px; /* Jarak ke grid portfolio */
+    /* Lifts the whole filter area (and the dropdown lists that hang out of the drawer) above the
+       grid below it. Every card/row there is its own stacking context (will-change: transform,
+       position: relative, the row-wide link overlay), and being later in the DOM they otherwise
+       paint over the open dropdown and take its clicks. Above the list's hover preview (60), below
+       the mobile menu (998) and navbar (1100). */
+    position: relative;
+    z-index: 70;
+}
+
+.portfolio-toolbar {
     display: flex;
     gap: 16px;
     justify-content: center;
-    margin-bottom: 40px; /* Jarak ke grid portfolio */
     flex-wrap: wrap;
 }
 
@@ -1643,6 +1658,125 @@ html.lenis, html.lenis body { height: auto; }
     box-shadow: none;
 }
 
+/* Filter toggle button */
+.filter-trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    height: 47px; /* Same height as the search bar so the toolbar sits flush in one row */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 18px;
+    background-color: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    border-radius: 0;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    transition: all 0.3s var(--ease-smooth);
+}
+.filter-trigger:hover,
+.filter-trigger:focus-visible,
+.filter-trigger[aria-expanded="true"] {
+    background-color: #fff;
+    border-color: #000;
+}
+
+.filter-count {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+}
+.filter-count[hidden] { display: none; }
+
+.filter-chevron {
+    color: var(--text-secondary-color);
+    transition: transform 0.4s var(--ease-smooth);
+}
+.filter-trigger[aria-expanded="true"] .filter-chevron {
+    transform: rotate(-180deg);
+    color: #000;
+}
+
+/* Filter drawer — accordion. grid-template-rows 0fr to 1fr animates the height without measuring it.
+   The inner box clips while collapsing/expanding, then JS adds .is-settled so the dropdown option
+   lists (absolutely positioned) are free to hang below the drawer instead of being clipped by it.
+   Opening: the height eases out first, then each dropdown fades/slides in one after another.
+   Closing: the dropdowns fade out together, quickly, while the height collapses. */
+.portfolio-filter-drawer {
+    --drawer-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.4s var(--drawer-ease), visibility 0s linear 0.4s;
+    width: 100%;
+}
+.portfolio-filter-drawer.is-open {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.6s var(--drawer-ease), visibility 0s;
+}
+.portfolio-filter-drawer-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+.portfolio-filter-drawer.is-open.is-settled .portfolio-filter-drawer-inner {
+    overflow: visible;
+}
+.portfolio-filter-drawer-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 16px;
+}
+.portfolio-filter-drawer .premium-dropdown {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.portfolio-filter-drawer.is-open .premium-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s var(--drawer-ease), transform 0.7s var(--drawer-ease);
+}
+.portfolio-filter-drawer.is-open .premium-dropdown:nth-of-type(1) { transition-delay: 0.08s; }
+.portfolio-filter-drawer.is-open .premium-dropdown:nth-of-type(2) { transition-delay: 0.14s; }
+.portfolio-filter-drawer.is-open .premium-dropdown:nth-of-type(3) { transition-delay: 0.20s; }
+.portfolio-filter-drawer.is-open .premium-dropdown:nth-of-type(4) { transition-delay: 0.26s; }
+
+/* Press feedback + badge pop */
+.filter-trigger,
+.view-btn { will-change: transform; }
+.filter-trigger { transition: background-color 0.3s var(--ease-smooth), border-color 0.3s var(--ease-smooth), transform 0.2s var(--ease-smooth); }
+.filter-trigger:active { transform: scale(0.96); }
+.view-btn:active { transform: scale(0.9); }
+.filter-count.pop { animation: filter-count-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes filter-count-pop {
+    0% { transform: scale(0.4); }
+    100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-filter-drawer,
+    .portfolio-filter-drawer.is-open,
+    .portfolio-filter-drawer .premium-dropdown,
+    .portfolio-filter-drawer.is-open .premium-dropdown { transition-duration: 0.01s; transition-delay: 0s; }
+    .filter-count.pop { animation: none; }
+}
 /* Premium Custom Dropdown */
 .premium-dropdown {
     position: relative;
@@ -1735,6 +1869,140 @@ html.lenis, html.lenis body { height: auto; }
     color: #fff;
     font-weight: 600;
 }
+
+@media (max-width: 600px) {
+    .portfolio-toolbar { flex-wrap: nowrap; gap: 12px; width: 100%; }
+    .portfolio-search-container { flex: 1 1 auto; max-width: none; width: auto; min-width: 0; }
+    .filter-trigger { padding: 0 14px; gap: 6px; }
+    .filter-trigger > span:not(.filter-count), .filter-chevron { display: none; }
+    .portfolio-filter-drawer-row { gap: 10px; }
+}
+
+/* View toggle — two icon-only buttons (grid / list), same 47px height as the search bar and Filter button. */
+.view-toggle {
+    display: flex;
+    flex-shrink: 0;
+    height: 47px;
+    border: 1px solid #e5e5e5;
+    background: #f9f9f9;
+}
+.view-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s var(--ease-smooth);
+}
+.view-btn svg { display: block; }
+.view-btn:hover,
+.view-btn:focus-visible { color: #111; background: #fff; }
+.view-btn.selected { background: #111; color: #fff; }
+
+/* List view — compact, scan-first rows (title, badges, year). The image is hidden and shows as a
+   floating preview next to the cursor on hover (see initViewToggle in portfolio.js). */
+.portfolio-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.portfolio-card-year { pointer-events: none; flex-shrink: 0; }
+.portfolio-card-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+#portfolio-grid.is-list {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+#portfolio-grid.is-list .blog-main-wrapper {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    transition: background-color 0.3s var(--ease-smooth);
+}
+#portfolio-grid.is-list .blog-main-wrapper:hover {
+    transform: none; /* The lift is a grid-card affordance; rows just tint */
+    background-color: #f9f9f9;
+}
+/* !important: portfolio.js writes `display: block` inline on .image-wrap, which a stylesheet rule can't beat. */
+#portfolio-grid.is-list .blog-main-wrapper > .image-wrap { display: none !important; }
+#portfolio-grid.is-list .client-info-accordion { display: none; }
+
+#portfolio-grid.is-list .blog-main-wrapper .margin-15px.right {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr) 90px;
+    align-items: center;
+    column-gap: 24px;
+    padding: 18px 16px;
+    background: transparent;
+}
+/* The head wrapper dissolves so title and year become grid cells of their own. */
+#portfolio-grid.is-list .portfolio-card-head { display: contents; }
+#portfolio-grid.is-list .portfolio-title-link { order: 1; font-size: 1.05rem; }
+#portfolio-grid.is-list .portfolio-card-badges { order: 2; }
+#portfolio-grid.is-list .portfolio-card-year { order: 3; text-align: right; }
+/* Whole row is the click target, not just the title text. */
+#portfolio-grid.is-list a.portfolio-title-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+@media (max-width: 767px) {
+    #portfolio-grid.is-list .blog-main-wrapper .margin-15px.right {
+        grid-template-columns: minmax(0, 1fr) auto;
+        row-gap: 8px;
+        padding: 14px 4px;
+    }
+    #portfolio-grid.is-list .portfolio-card-badges { order: 3; grid-column: 1 / -1; }
+    #portfolio-grid.is-list .portfolio-card-year { order: 2; }
+}
+
+/* Touch has no hover, so the list keeps a small thumbnail per row instead of the floating preview. */
+@media (hover: none) {
+    #portfolio-grid.is-list .blog-main-wrapper > .image-wrap {
+        display: block !important;
+        width: 64px;
+        flex: 0 0 64px;
+        margin-left: 4px;
+    }
+    #portfolio-grid.is-list .blog-main-wrapper > .image-wrap .portfolio-overlay,
+    #portfolio-grid.is-list .blog-main-wrapper > .image-wrap .button-icon-main,
+    #portfolio-grid.is-list .blog-main-wrapper > .image-wrap .ongoing-badge { display: none; }
+}
+
+/* Floating image preview that follows the cursor over list rows (desktop only). */
+.list-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f5f5f7;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    will-change: transform;
+}
+.list-preview.is-visible { opacity: 1; }
+.list-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Reset Filters Button */
 .reset-filters-btn {
@@ -1910,7 +2178,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 .blog-main-wrapper:hover .paralax-image {
-    transform: scale(1.05);
+    transform: scale(1.02); /* Was 1.05: enlarging the image under the overlay softened it further, so hover read blurrier */
 }
 
 .portfolio-overlay {
@@ -1919,7 +2187,11 @@ html.lenis, html.lenis body { height: auto; }
     left: 0;
     width: 100%;
     height: 100%;
+    /* Readability comes from blurring the image behind the copy (busy screenshots, e.g. a website
+       mockup with its own headline, bled through the text), not from darkening it. */
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.4) 100%);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1942,6 +2214,8 @@ html.lenis, html.lenis body { height: auto; }
     transform: translateY(20px);
     transition: transform 0.4s ease;
     font-weight: var(--body-copy-weight);
+    line-height: 1.5;
+    max-width: 52ch;
 }
 
 .blog-main-wrapper:hover .portfolio-description {

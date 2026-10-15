@@ -301,7 +301,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // Filter data
             const filteredData = projectsData.filter(item => {
                 // Pencocokan Search
-                const searchMatch = item.title.toLowerCase().includes(currentSearch.toLowerCase());
+                // Search covers the project title, the brand/client, and its services/badges (category, roles, industry)
+                const searchHaystack = [item.title, item.clientName, item.industry, item.category, ...(item.roles || [])]
+                    .filter(Boolean).join(' ').toLowerCase();
+                const searchMatch = searchHaystack.includes(currentSearch.toLowerCase());
 
                 // Logika pencocokan filter dropdown
                 const industryMatch = currentIndustry === 'all' || (item.industry && item.industry === currentIndustry);
@@ -404,11 +407,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                     </div>
                                 </${WrapperTag}>
                                 <div class="margin-15px right">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <div class="portfolio-card-head">
                                         <${WrapperTag} ${hrefAttr} class="text-block-3 portfolio-title-link">${project.title}</${WrapperTag}>
-                                        <div class="text-block-3" style="pointer-events: none; flex-shrink: 0;">${project.ongoing ? 'On-going' : project.year}</div>
+                                        <div class="text-block-3 portfolio-card-year">${project.ongoing ? 'On-going' : project.year}</div>
                                     </div>
-                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <div class="portfolio-card-badges">
                                         ${categoryBadgesHTML}
                                     </div>
                                     <div class="client-info-accordion">
@@ -588,22 +591,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (yearFilter) yearFilter.value = 'all';
                 if (sortFilter) sortFilter.value = 'latest';
 
-                // [NEW] Sinkronisasi Reset pada UI Premium Dropdown
-                document.querySelectorAll('.premium-dropdown').forEach(wrapper => {
-                    const select = wrapper.previousElementSibling;
-                    if(select) {
-                        const defaultValue = select.id === 'sort-projects' ? 'latest' : 'all';
-                        const text = select.options[select.selectedIndex].text;
-                        wrapper.querySelector('span').textContent = text;
-                        wrapper.querySelectorAll('.premium-dropdown-option').forEach(opt => {
-                            if (opt.dataset.value === defaultValue) {
-                                opt.classList.add('selected');
-                            } else {
-                                opt.classList.remove('selected');
-                            }
-                        });
-                    }
-                });
+                // Sinkronisasi chip + badge jumlah pada dropdown Filter
+                syncFilterUI();
 
                 // 3. Reset tampilan Search Box HTML
                 if (searchInput) searchInput.value = '';
@@ -614,59 +603,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
         }
 
-        // [NEW] Premium Dropdown Engine (Auto-convert HTML Select)
-        function initPremiumDropdowns() {
-            const selects = document.querySelectorAll('.custom-select');
-            
+        // Filter drawer: the "Filter" button shows/hides (accordion) the row of dropdowns. The original
+        // <select>s stay in the DOM, hidden, as the source of truth for the change handlers and reset.
+        let syncFilterUI = () => {};
+
+        function initFilterDrawer() {
+            const trigger = document.getElementById('filter-toggle');
+            const drawer = document.getElementById('portfolio-filter-drawer');
+            if (!trigger || !drawer) return;
+
+            const selects = Array.from(document.querySelectorAll('.custom-select'));
+            const countEl = trigger.querySelector('.filter-count');
+
+            // --- Premium dropdowns (auto-converted from the <select>s) ---
             selects.forEach(select => {
-                // 1. Sembunyikan elemen bawaan OS
                 select.style.display = 'none';
-                
-                // 2. Buat pembungkus Premium
+
                 const wrapper = document.createElement('div');
                 wrapper.className = 'premium-dropdown';
-                
-                // 3. Buat UI Tombol Terpilih
+
                 const selected = document.createElement('div');
                 selected.className = 'premium-dropdown-selected';
                 selected.innerHTML = `<span>${select.options[select.selectedIndex].text}</span>
                                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
-                
-                // 4. Buat List Opsi
+
                 const optionsBox = document.createElement('div');
                 optionsBox.className = 'premium-dropdown-options';
-                
+
                 Array.from(select.options).forEach(option => {
                     const optEl = document.createElement('div');
                     optEl.className = 'premium-dropdown-option';
                     optEl.textContent = option.text;
                     optEl.dataset.value = option.value;
-                    
                     if (option.value === select.value) optEl.classList.add('selected');
-                    
+
                     optEl.addEventListener('click', () => {
-                        // Update elemen HTML aslinya
                         select.value = option.value;
-                        select.dispatchEvent(new Event('change')); // Trigger fungsi filter portofolio
-                        
-                        // Update Tampilan UI
-                        selected.querySelector('span').textContent = option.text;
-                        optionsBox.querySelectorAll('.premium-dropdown-option').forEach(el => el.classList.remove('selected'));
-                        optEl.classList.add('selected');
-                        
-                        wrapper.classList.remove('open'); // Tutup menu
+                        select.dispatchEvent(new Event('change')); // Triggers the portfolio filter
+                        syncFilterUI();
+                        wrapper.classList.remove('open');
                     });
-                    
                     optionsBox.appendChild(optEl);
                 });
-                
+
                 wrapper.appendChild(selected);
                 wrapper.appendChild(optionsBox);
-                
-                // Sisipkan ke dalam halaman
                 select.parentNode.insertBefore(wrapper, select.nextSibling);
-                
-                // Logika Buka/Tutup
+
                 selected.addEventListener('click', (e) => {
                     e.stopPropagation();
                     document.querySelectorAll('.premium-dropdown').forEach(d => {
@@ -675,11 +658,189 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     wrapper.classList.toggle('open');
                 });
             });
-            
-            // Tutup dropdown jika area luar layar diklik
             document.addEventListener('click', () => document.querySelectorAll('.premium-dropdown').forEach(d => d.classList.remove('open')));
+
+            // Re-reads every <select> into its dropdown (label + selected option) and the Filter badge.
+            // Also used by the Reset button after it has put the <select>s back to their defaults.
+            syncFilterUI = () => {
+                let activeCount = 0;
+                selects.forEach(select => {
+                    const wrapper = select.nextElementSibling;
+                    if (wrapper && wrapper.classList.contains('premium-dropdown')) {
+                        wrapper.querySelector('.premium-dropdown-selected span').textContent = select.options[select.selectedIndex].text;
+                        wrapper.querySelectorAll('.premium-dropdown-option').forEach(opt => {
+                            opt.classList.toggle('selected', opt.dataset.value === select.value);
+                        });
+                    }
+                    // Sort is an ordering, not a filter, so it doesn't count toward the badge.
+                    if (select.id !== 'sort-projects' && select.value !== 'all') activeCount++;
+                });
+                if (countEl) {
+                    const changed = countEl.textContent !== String(activeCount);
+                    countEl.textContent = activeCount;
+                    countEl.hidden = activeCount === 0;
+                    if (changed && activeCount > 0) {
+                        countEl.classList.remove('pop');
+                        void countEl.offsetWidth; // restart the animation
+                        countEl.classList.add('pop');
+                    }
+                }
+            };
+            syncFilterUI();
+
+            // --- Accordion show / hide ---
+            const setOpen = (open) => {
+                trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) {
+                    drawer.classList.add('is-open');
+                    // Let the height finish animating before the dropdown lists are allowed to overflow.
+                    setTimeout(() => { if (drawer.classList.contains('is-open')) drawer.classList.add('is-settled'); }, 620);
+                } else {
+                    drawer.classList.remove('is-settled', 'is-open');
+                    document.querySelectorAll('.premium-dropdown').forEach(d => d.classList.remove('open'));
+                }
+                setTimeout(() => { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, 480);
+            };
+            trigger.addEventListener('click', () => setOpen(trigger.getAttribute('aria-expanded') !== 'true'));
         }
-        initPremiumDropdowns();
+        initFilterDrawer();
+
+        // Grid / list view toggle (icon-only). Pure CSS switch via .is-list on the grid, so no re-render;
+        // the choice is remembered per browser. In list view the image is not shown in the row: a preview
+        // follows the cursor while a row is hovered (touch devices get a small thumbnail via CSS instead).
+        (function initViewToggle() {
+            const toggle = document.querySelector('.view-toggle');
+            if (!toggle || !gridContainer) return;
+            const buttons = toggle.querySelectorAll('.view-btn');
+            const KEY = 'mdkg-portfolio-view';
+            const canHover = window.matchMedia('(hover: hover)').matches;
+
+            const preview = document.createElement('div');
+            preview.className = 'list-preview';
+            preview.setAttribute('aria-hidden', 'true');
+            const previewImg = document.createElement('img');
+            previewImg.alt = '';
+            preview.appendChild(previewImg);
+            document.body.appendChild(preview);
+
+            let hoveredRow = null;
+            let targetX = 0, targetY = 0, curX = 0, curY = 0, rafId = null;
+
+            const place = () => {
+                const w = preview.offsetWidth, h = preview.offsetHeight;
+                // Sits to the right of the cursor, flipping left near the viewport edge, and stays on screen vertically.
+                const x = (targetX + 28 + w > window.innerWidth - 12) ? targetX - 28 - w : targetX + 28;
+                const y = Math.min(Math.max(targetY - h / 2, 12), window.innerHeight - h - 12);
+                return { x, y };
+            };
+            const tick = () => {
+                const { x, y } = place();
+                curX += (x - curX) * 0.18;
+                curY += (y - curY) * 0.18;
+                preview.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
+                rafId = hoveredRow ? requestAnimationFrame(tick) : null;
+            };
+            const hidePreview = () => {
+                hoveredRow = null;
+                preview.classList.remove('is-visible');
+            };
+
+            gridContainer.addEventListener('mouseover', (e) => {
+                if (!canHover || !gridContainer.classList.contains('is-list')) return;
+                const row = e.target.closest('.blog-main-wrapper');
+                if (!row || row === hoveredRow) return;
+                const img = row.querySelector('img.paralax-image');
+                if (!img) return;
+                hoveredRow = row;
+                previewImg.src = img.currentSrc || img.src;
+                previewImg.style.objectPosition = img.style.objectPosition || 'center';
+                // First frame snaps to the cursor so the preview doesn't fly in from the previous row.
+                if (!preview.classList.contains('is-visible')) {
+                    const { x, y } = place();
+                    curX = x; curY = y;
+                }
+                preview.classList.add('is-visible');
+                if (!rafId) rafId = requestAnimationFrame(tick);
+            });
+            gridContainer.addEventListener('mousemove', (e) => { targetX = e.clientX; targetY = e.clientY; });
+            gridContainer.addEventListener('mouseleave', hidePreview);
+            window.addEventListener('scroll', () => { if (hoveredRow && !hoveredRow.matches(':hover')) hidePreview(); }, { passive: true });
+
+            const applyView = (view) => {
+                gridContainer.classList.toggle('is-list', view === 'list');
+                if (view !== 'list') hidePreview();
+                buttons.forEach(btn => {
+                    const on = btn.dataset.view === view;
+                    btn.classList.toggle('selected', on);
+                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                });
+            };
+
+            let saved = 'grid';
+            try { saved = localStorage.getItem(KEY) === 'list' ? 'list' : 'grid'; } catch (e) {}
+            applyView(saved);
+
+            // Grid and list are different layouts, so the cards can't be tweened between them. Instead the
+            // current items fade out, the class flips while nothing is visible, and the new layout staggers in.
+            let currentView = saved;
+            let switchToken = 0;
+            const switchView = (view) => {
+                if (view === currentView) return;
+                currentView = view;
+                try { localStorage.setItem(KEY, view); } catch (e) {}
+                hidePreview();
+
+                const finish = () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); };
+                const items = Array.from(gridContainer.children);
+                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (reduceMotion || typeof gsap === 'undefined' || items.length === 0) {
+                    applyView(view);
+                    finish();
+                    return;
+                }
+
+                const token = ++switchToken;
+                // Buttons respond immediately; only the grid content waits for the exit tween.
+                buttons.forEach(btn => {
+                    const on = btn.dataset.view === view;
+                    btn.classList.toggle('selected', on);
+                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                });
+                gsap.killTweensOf(items);
+                // The cards' own CSS transform transition (hover lift) would lag behind the tween, so pause it.
+                items.forEach(el => { el.style.transition = 'none'; });
+                gsap.to(items, {
+                    opacity: 0,
+                    y: -12,
+                    duration: 0.22,
+                    stagger: 0.015,
+                    ease: 'power2.in',
+                    onComplete: () => {
+                        if (token !== switchToken) return;
+                        applyView(view);
+                        const next = Array.from(gridContainer.children);
+                        next.forEach(el => { el.style.transition = 'none'; });
+                        gsap.fromTo(next,
+                            { opacity: 0, y: view === 'list' ? 14 : 28 },
+                            {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.55,
+                                stagger: view === 'list' ? 0.03 : 0.05,
+                                ease: 'power3.out',
+                                clearProps: 'opacity,transform',
+                                onComplete: () => {
+                                    next.forEach(el => { el.style.transition = ''; });
+                                    finish();
+                                }
+                            }
+                        );
+                    }
+                });
+            };
+
+            buttons.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
+        })();
     };
     
     // Run initialization
