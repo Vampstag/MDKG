@@ -2,9 +2,9 @@
 <!--
     Ciara Brosnan for Pink Roulette. Live: linked from the portfolio grid (portfolio.js id 12),
     indexable, listed in sitemap.xml.
-      1. The photos are compressed WebP in pink-roulette/ (card-model.webp, catalog-1.webp, ...). They
+      1. The photos are compressed WebP in pink-roulette/ (hero-pink-roulette.jpg, card-pink-roulette.jpg, catalog-1.webp, ...). They
          are your selected frames. To swap one, export a frame as WebP
-         (long edge 1800px, 2400px for card-model.webp, quality ~80) and overwrite
+         (long edge 1800px, 2400px for the hero, quality ~80) and overwrite
          the file with the same name; no HTML change needed. Raw exports live in pink-roulette/edited/
          (git-ignored).
       2. Still to do: record the VO from docs/vo-scripts/pink-roulette-vo-script.md and save it as
@@ -21,10 +21,10 @@
         <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." name="description"/>
         <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="og:title"/>
         <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="og:description"/>
-        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" property="og:image"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-pink-roulette.jpg" property="og:image"/>
         <meta content="Ciara Brosnan for Pink Roulette | Portfolio" property="twitter:title"/>
         <meta content="Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face." property="twitter:description"/>
-        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp" name="twitter:image"/>
+        <meta content="https://hellodimas.my.id/assets/images/project/pink-roulette/card-pink-roulette.jpg" name="twitter:image"/>
         <meta property="og:url" content="https://hellodimas.my.id/portfolio/pink-roulette"/>
         <meta property="og:site_name" content="MDKG Portfolio"/>
         <meta property="og:locale" content="en_US"/>
@@ -65,7 +65,7 @@
             "name": "Pink Roulette"
           },
           "description": "Photo production and post-production for Pink Roulette's Everyday Beauty Companion campaign, introducing Ciara Brosnan as the brand's new face.",
-          "image": "https://hellodimas.my.id/assets/images/project/pink-roulette/card-model.webp",
+          "image": "https://hellodimas.my.id/assets/images/project/pink-roulette/card-pink-roulette.jpg",
           "url": "https://hellodimas.my.id/portfolio/pink-roulette",
           "keywords": "Pink Roulette, Ciara Brosnan, Everyday Beauty Companion, skincare, beauty photography, photo production, post production, photo editing, digital imaging, photo case study"
         }
@@ -100,7 +100,7 @@
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
         <script>document.documentElement.classList.add("js-reveal");</script>
-        <link rel="preload" as="image" href="../assets/images/project/pink-roulette/card-model.webp?v=2" fetchpriority="high">
+        <link rel="preload" as="image" href="../assets/images/project/pink-roulette/hero-pink-roulette.jpg" fetchpriority="high">
         <link rel="stylesheet" href="../css/widget.css?v=15">
 
         <style>
@@ -142,8 +142,8 @@
                 text-transform: uppercase;
                 color: #B76A84;
             }
-            /* The Photo Booth sits slightly above the art's centre; 44% (not 50%) shifts the image down a touch so the gap above and below the window is even. */
-            .ed-hero .ed-hero-media img { object-position: 50% 44%; }
+            /* Portrait-ish source photo cropped to a wide band: 30% keeps the headband and face in frame instead of centring on the torso. */
+            .ed-hero .ed-hero-media img { object-position: 50% 30%; }
             /* Hero photo placeholder: same treatment as a missing .pr-frame. */
             .ed-hero-media.is-missing { background: #F6E9ED; }
             .ed-hero-media.is-missing img { opacity: 0; }
@@ -384,7 +384,7 @@
             @media (max-width: 767px) { #counter { font-size: 20vw; } .corner-text { font-size: 9px; } .top-corners, .bottom-corners { width: calc(100% - 40px); left: 20px; right: 20px; } .top-corners { top: 20px; } .bottom-corners { bottom: 25px; } }
         </style>
     </head>
-    <body class="body-2" style="--page-accent: #E07A9B;" data-hero-image="../assets/images/project/pink-roulette/card-model.webp?v=2">
+    <body class="body-2" style="--page-accent: #E07A9B;" data-hero-image="../assets/images/project/pink-roulette/hero-pink-roulette.jpg">
         <div id="preloader">
             <div class="top-corners">
                 <div class="corner-text">LOADING</div>
@@ -419,9 +419,9 @@
 
         <main class="body-wrapper">
             <!-- PHOTO FILES this page expects in assets/images/project/pink-roulette/
-                   card-model.webp (hero)      landscape 16:9; full-bleed under the hero, shared with the portfolio card.
-                                               Images are cached for a year: when you replace it, bump the ?v= on its src, preload,
-                                               data-hero-image and in portfolio.js.
+                   hero-pink-roulette.jpg (hero)   landscape; full-bleed under the hero, 2400px wide (the portfolio card uses card-pink-roulette.jpg).
+                                               Images are cached for a year: when you replace it, change the file name (or add a ?v= to) its src, preload,
+                                               and data-hero-image on this page.
                  Gallery mosaic (portraits are shown whole; squares are cropped from portraits):
                    catalog-1.webp           big portrait, row 1
                    catalog-2.webp, catalog-3.webp   squares stacked beside catalog-1
@@ -458,8 +458,8 @@
                     </div>
                 </div>
                 <!-- Full-bleed hero photo (same image as the portfolio card). -->
-                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;" data-file="card-model.webp">
-                    <img src="../assets/images/project/pink-roulette/card-model.webp?v=2" alt="Ciara Brosnan for Pink Roulette" fetchpriority="high" decoding="async">
+                <figure class="ed-hero-media cs-anim-el" style="opacity: 0;" data-file="hero-pink-roulette.jpg">
+                    <img src="../assets/images/project/pink-roulette/hero-pink-roulette.jpg" alt="Ciara Brosnan for Pink Roulette" fetchpriority="high" decoding="async">
                 </figure>
             </section>
 

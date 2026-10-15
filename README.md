@@ -1,6 +1,6 @@
 # MDKG Portfolio
 
-Personal portfolio website for M. Dimas K. G., a Visual Creative specializing in Cinematic Video Production, Content Systems, and Web Experiences.
+Personal portfolio website for M. Dimas K. G., a Digital Creative specializing in Cinematic Video Production, Content Systems, and Web Experiences.
 
 ## Live Site
 🌍 [hellodimas.my.id](https://hellodimas.my.id)

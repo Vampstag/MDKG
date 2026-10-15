@@ -1264,7 +1264,7 @@ function initInteractiveHero() {
 //#endregion
 
 /**
- * Renders "Visual Creative" as real extruded 3D geometry in a WebGL canvas layered over the
+ * Renders "Digital Creative" as real extruded 3D geometry in a WebGL canvas layered over the
  * hero's <h1> text — lit, rotating gently toward the mouse. The <h1> itself is never
  * removed: it's the accessible/SEO copy and the automatic fallback if WebGL, the font, or
  * any Three.js dependency isn't available. Every failure path below simply leaves the
@@ -1365,7 +1365,7 @@ function initHero3DTitle(onReady) {
             'assets/fonts/helvetiker_regular.typeface.json', // Regular, not Bold — reads lighter/more editorial
             (font) => {
                 const group = new THREE.Group();
-                const lines = ['Visual', 'Creative'];
+                const lines = ['Digital', 'Creative'];
                 const lineSize = 13; // Sized up for more presence, still comfortably inside the canvas's 130% headroom
                 const lineGap = 15.5;
 

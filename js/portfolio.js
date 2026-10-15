@@ -27,8 +27,32 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // 2. Portfolio Filter System (Dynamic & Optimized)
         const projectsData = [
             {
+                id: 16,
+                title: "Royale Heritage",
+                year: "2026",
+                category: "Motion Design",
+                industry: "Beauty",
+                roles: ["Motion Design"],
+                link: "",
+                clientName: "PT Royale Heritage Innv",
+                description: "A month of social motion across four brands, turning existing static designs into 40 animated pieces with a distinct motion language for each brand.",
+                brandInfo: "PT Royale Heritage Innv is a dynamic Indonesian beauty and lifestyle company managing a fast-growing brand portfolio that includes Pink Roulette (skincare), Noomi Matcha (matcha treatments), Gelluna (fragrances), and Kerys (hair care).",
+                // One photo per brand (Gelluna, Noomi Matcha, Kerys, Pink Roulette). The card cross-fades
+                // through them (see `images` handling in the card template + the cycle timer below);
+                // `image` is the first frame and the fallback when motion is reduced.
+                image: "../assets/images/project/royale-heritage/card-gelluna.jpg",
+                images: [
+                    { src: "../assets/images/project/royale-heritage/card-gelluna.jpg", position: "center 35%" },
+                    { src: "../assets/images/project/royale-heritage/card-noomi-matcha.jpg", position: "center" },
+                    { src: "../assets/images/project/royale-heritage/card-kerys.jpg", position: "center 0%" },
+                    { src: "../assets/images/project/royale-heritage/card-pink-roulette.jpg", position: "center 30%" }
+                ],
+                srcset: "",
+                ongoing: true
+            },
+            {
                 id: 15,
-                title: "Asritektur Web Revitalization",
+                title: "Asritektur Website",
                 year: "2026",
                 category: "Art Direction · Web Design",
                 industry: "Architecture",
@@ -85,7 +109,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 clientName: "Pink Roulette",
                 description: "Photography and motion introducing Pink Roulette’s new face, Ciara Brosnan, alongside its latest products.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
-                image: "../assets/images/project/pink-roulette/card-model.webp?v=2",
+                image: "../assets/images/project/pink-roulette/card-pink-roulette.jpg",
+                imagePosition: "center 30%",
                 srcset: ""
             },
             // Hidden for now — Dunkin Donuts (id 11) card, per request.
@@ -179,7 +204,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             },
             {
                 id: 6,
-                title: "Studio Berka",
+                title: "Studio Berka Website",
                 year: "2026",
                 category: "Web Design",
                 industry: "Architecture",
@@ -316,8 +341,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // [NEW] Urutkan hasil sesuai pilihan sort
             filteredData.sort((a, b) => {
-                // On-going projects always lead, regardless of sort mode (latest/oldest/A-Z)
-                const ongoingDiff = (b.ongoing ? 1 : 0) - (a.ongoing ? 1 : 0);
+                // Cards a visitor can open lead; locked on-going ones (no `openable`) always sit at the
+                // bottom, regardless of sort mode (latest/oldest/A-Z). Within each group the chosen
+                // sort applies below. An on-going project with `openable: true` counts as open.
+                const isLocked = (p) => !!p.ongoing && !p.openable;
+                const ongoingDiff = (isLocked(a) ? 1 : 0) - (isLocked(b) ? 1 : 0);
                 if (ongoingDiff !== 0) return ongoingDiff;
 
                 if (currentSort === 'az') {
@@ -368,8 +396,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         const ongoingClass = (project.ongoing && !project.openable) ? 'is-ongoing' : '';
                         const categoryBadgesHTML = (project.category || '').split('·').map(cat => `<div class="portfolio-card-category-badge">${cat.trim()}</div>`).join('');
 
+                        // Multi-image cards (project.images): the main <img> below is frame 1, these are the
+                        // rest, stacked on top and faded in turn by the cycle timer.
+                        const cycleImages = project.images || [];
+                        const cycleImagesHTML = cycleImages.slice(1).map(img => `
+                                    <img src="${img.src}" alt="" loading="lazy" decoding="async" width="800" height="600"
+                                         class="paralax-image portfolio-cycle-img" aria-hidden="true"
+                                         style="object-position: ${img.position || 'center'};">`).join('');
+                        const mainPosition = cycleImages.length ? (cycleImages[0].position || 'center') : (project.imagePosition || 'center');
+
                         const itemHTML = `
-                            <div class="blog-main-wrapper ${ongoingClass}">
+                            <div class="blog-main-wrapper ${ongoingClass}" ${cycleImages.length > 1 ? 'data-cycle="true"' : ''}>
                                 <${WrapperTag} ${hrefAttr} class="image-wrap auto full-ratio w-inline-block" style="aspect-ratio: 4/3; background-color: #f5f5f7; display: block;">
                                     <div class="button-icon-main" style="z-index: 5; ${!isClickable ? 'display: none;' : ''}">
                                         <div class="buton-icon-svg w-embed">
@@ -389,8 +426,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                          width="800"
                                          height="600"
                                          class="paralax-image main img-loading"
-                                         style="width: 100%; height: 100%; object-fit: cover; object-position: ${project.imagePosition || 'center'};"
+                                         style="width: 100%; height: 100%; object-fit: cover; object-position: ${mainPosition};"
                                          onload="this.classList.remove('img-loading'); this.classList.add('img-loaded'); this.previousElementSibling.style.opacity='0';">
+                                    ${cycleImagesHTML}
                                     ${badgeHTML}
                                     <div class="portfolio-overlay">
                                         <p class="portfolio-description">${project.description}</p>
@@ -482,6 +520,26 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // Initialize with default category
         renderProjects('normal');
+
+        // Cross-fade cycle for multi-image cards. One shared timer walks every [data-cycle] card
+        // (so re-rendering the grid never leaves stray intervals behind): frame 0 is the main
+        // <img>, frames 1+ are the .portfolio-cycle-img layers, shown via .is-active.
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const CYCLE_MS = 3000;
+            setInterval(() => {
+                if (document.hidden) return;
+                document.querySelectorAll('[data-cycle]').forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.bottom < 0 || rect.top > window.innerHeight) return; // off-screen: don't advance
+                    const layers = card.querySelectorAll('.portfolio-cycle-img');
+                    if (!layers.length) return;
+                    const current = Array.from(layers).findIndex(l => l.classList.contains('is-active')); // -1 = main image showing
+                    layers.forEach(l => l.classList.remove('is-active'));
+                    const next = current + 1; // wraps back to -1 (main image) after the last layer
+                    if (next < layers.length) layers[next].classList.add('is-active');
+                });
+            }, CYCLE_MS);
+        }
 
         // Debounce helper function
         function debounce(func, wait) {
@@ -718,10 +776,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
             const preview = document.createElement('div');
             preview.className = 'list-preview';
             preview.setAttribute('aria-hidden', 'true');
-            const previewImg = document.createElement('img');
-            previewImg.alt = '';
-            preview.appendChild(previewImg);
+            // Two stacked layers so a multi-frame card (project.images) can cross-fade while its row is hovered.
+            const previewLayers = [document.createElement('img'), document.createElement('img')];
+            previewLayers.forEach(l => { l.alt = ''; preview.appendChild(l); });
             document.body.appendChild(preview);
+
+            const PREVIEW_CYCLE_MS = 1500; // faster than the grid card's 3s: a hover is brief
+            let cycleTimer = null;
+            let activeLayer = 0;
+            const stopCycle = () => { clearInterval(cycleTimer); cycleTimer = null; };
+            const showFrame = (frame, instant) => {
+                const next = instant ? 0 : activeLayer ^ 1;
+                const layer = previewLayers[next];
+                layer.src = frame.src;
+                layer.style.objectPosition = frame.position || 'center';
+                if (instant) previewLayers[1].classList.remove('is-on');
+                else previewLayers[activeLayer].classList.remove('is-on');
+                layer.classList.add('is-on');
+                activeLayer = next;
+            };
+            // Frame 0 is the card's main <img>; frames 1+ are its .portfolio-cycle-img layers (same order as project.images).
+            const rowFrames = (row) => {
+                const main = row.querySelector('img.paralax-image:not(.portfolio-cycle-img)');
+                if (!main) return [];
+                const frames = [{ src: main.currentSrc || main.src, position: main.style.objectPosition }];
+                row.querySelectorAll('.portfolio-cycle-img').forEach(i => frames.push({ src: i.currentSrc || i.src, position: i.style.objectPosition }));
+                return frames;
+            };
 
             let hoveredRow = null;
             let targetX = 0, targetY = 0, curX = 0, curY = 0, rafId = null;
@@ -742,6 +823,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             };
             const hidePreview = () => {
                 hoveredRow = null;
+                stopCycle();
                 preview.classList.remove('is-visible');
             };
 
@@ -749,11 +831,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (!canHover || !gridContainer.classList.contains('is-list')) return;
                 const row = e.target.closest('.blog-main-wrapper');
                 if (!row || row === hoveredRow) return;
-                const img = row.querySelector('img.paralax-image');
-                if (!img) return;
+                const frames = rowFrames(row);
+                if (!frames.length) return;
                 hoveredRow = row;
-                previewImg.src = img.currentSrc || img.src;
-                previewImg.style.objectPosition = img.style.objectPosition || 'center';
+                stopCycle();
+                showFrame(frames[0], true);
+                if (frames.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    let i = 0;
+                    cycleTimer = setInterval(() => { i = (i + 1) % frames.length; showFrame(frames[i], false); }, PREVIEW_CYCLE_MS);
+                }
                 // First frame snaps to the cursor so the preview doesn't fly in from the previous row.
                 if (!preview.classList.contains('is-visible')) {
                     const { x, y } = place();

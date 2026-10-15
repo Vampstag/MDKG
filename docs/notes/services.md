@@ -1,5 +1,5 @@
 # Layanan & Daftar Harga (Services & Rate Card)
-**M. Dimas K. G. | Visual Creative**
+**M. Dimas K. G. | Digital Creative**
 
 *Harga transparan, hasil akhir yang jelas, dan kolaborasi langsung. Tanpa lapisan birokrasi yang tidak perlu.*
 

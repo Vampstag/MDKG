@@ -1,4 +1,4 @@
-# VO Script: Asritektur Web Revitalization Case Study (TEMPLATE)
+# VO Script: Asritektur Website Case Study (TEMPLATE)
 Target length: ~25-35 seconds. Tone: direct, first person, matter-of-fact, no hype-reel delivery. Matches the page's "Listen to Project" narrator slot at `#overview` (audio file: `assets/audio/vo-asritektur-web.mp3`).
 
 Only says what the page says. Fill every {{...}} from the final page copy, then record. No separate Challenge segment: the real problem opens [Creative Approach].

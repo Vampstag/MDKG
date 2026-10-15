@@ -2002,7 +2002,9 @@ html.lenis, html.lenis body { height: auto; }
     will-change: transform;
 }
 .list-preview.is-visible { opacity: 1; }
-.list-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Two stacked layers: multi-frame cards cross-fade between them (see initViewToggle in portfolio.js). */
+.list-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.6s ease; }
+.list-preview img.is-on { opacity: 1; }
 
 /* Reset Filters Button */
 .reset-filters-btn {
@@ -2175,6 +2177,23 @@ html.lenis, html.lenis body { height: auto; }
 
 .paralax-image {
     transition: transform 1.5s var(--ease-smooth);
+}
+
+/* Multi-image portfolio cards: extra frames sit on top of the main <img> and cross-fade in
+   one at a time (portfolio.js toggles .is-active). Only opacity animates here, so the hover
+   scale on .paralax-image above keeps working on every layer at once. */
+.blog-main-wrapper .portfolio-cycle-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1.5s var(--ease-smooth);
+    pointer-events: none;
+}
+.blog-main-wrapper .portfolio-cycle-img.is-active {
+    opacity: 1;
 }
 
 .blog-main-wrapper:hover .paralax-image {
@@ -9113,18 +9132,19 @@ a.social-icon:hover img {
 .flip-img, .flip-video { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* #endregion */
 
-/* #essence-quote ("Turning human insight / into visual stories / worth remembering."):
-   the inline clamp() in index.html keeps each authored <br> line to one visual line down
-   to phone width, but the longest line ("Turning human insight", bold/tight-tracked) can
-   still wrap to 2 lines on very narrow phones (~360px and under), turning the intended
-   3-line quote into 4. Shrinking further at that width keeps it to 3 lines everywhere. */
-@media (max-width: 380px) {
+/* #essence-quote ("Turning human insight / into video, content, and / digital experiences."):
+   the inline clamp() in index.html keeps each authored <br> line to one visual line on
+   tablet and desktop, but its 2.2rem floor is too big on phones: the longest line
+   ("into video, content, and", ~10.8em wide, bold/tight-tracked) then overflows the
+   column at ~390px and wraps, turning the intended 3-line quote into 4+. Scaling with the
+   viewport (7.8vw) up to 430px keeps it to 3 lines on phones. */
+@media (max-width: 430px) {
     /* !important required: #essence-quote carries an inline style="font-size: clamp(...)"
        in the HTML (e.g. torch-x-gundam.html), and an inline style's specificity (1,0,0,0)
        beats any external stylesheet selector regardless of id/class count — this is one of
        the few cases where !important is the only way to override it from here. */
     #essence-quote {
-        font-size: 1.9rem !important;
+        font-size: 7.8vw !important;
     }
 }
 

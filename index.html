@@ -11,13 +11,13 @@
              the race before #preloader's first paint. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        <title>M. Dimas K. G. | Visual Creative</title>
-        <meta content="Bandung-based visual creative in video, photography, and art direction. I start with who's watching and how they should feel, then build the craft from there." name="description"/>
-        <meta content="M. Dimas K. G. | Visual Creative" property="og:title"/>
-        <meta content="Bandung-based visual creative in video, photography, and art direction. I start with who's watching and how they should feel, then build the craft from there." property="og:description"/>
+        <title>M. Dimas K. G. | Digital Creative</title>
+        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." name="description"/>
+        <meta content="M. Dimas K. G. | Digital Creative" property="og:title"/>
+        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
-        <meta content="M. Dimas K. G. | Visual Creative" property="twitter:title"/>
-        <meta content="Bandung-based visual creative in video, photography, and art direction. I start with who's watching and how they should feel, then build the craft from there." property="twitter:description"/>
+        <meta content="M. Dimas K. G. | Digital Creative" property="twitter:title"/>
+        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
         <meta property="og:url" content="https://hellodimas.my.id/"/>
         <meta property="og:site_name" content="MDKG Portfolio"/>
@@ -62,10 +62,10 @@
           "@type": "Person",
           "name": "M. Dimas K. G.",
           "alternateName": "Dimas",
-          "jobTitle": "Visual Creative",
+          "jobTitle": "Digital Creative",
           "url": "https://hellodimas.my.id",
           "image": "https://hellodimas.my.id/assets/images/open-graphimage.png",
-          "description": "Bandung-based visual creative working across video, photography, and design, building craft around who's watching and how they should feel.",
+          "description": "Bandung-based digital creative working across video, content, and web, building craft around who's watching and how they should feel.",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Bandung",
@@ -135,7 +135,7 @@
              had already measured layout (hero carousel, ScrollTrigger pins) against unstyled
              markup, and on a slow first visit the preloader could lift before it landed at all,
              so the page looked broken until a refresh pulled it from cache. -->
-        <link rel="stylesheet" href="css/style.css?v=163">
+        <link rel="stylesheet" href="css/style.css?v=166">
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -366,13 +366,13 @@
                         
                         <!-- LAYER 1: Static Text (Background) -->
                         <div class="hero-static-layer">
-                            <!-- [NEW] 3D title canvas: initHero3DTitle() in script.js renders "Visual Creative"
+                            <!-- [NEW] 3D title canvas: initHero3DTitle() in script.js renders "Digital Creative"
                                  as real extruded WebGL geometry here and hides the h1 below once it succeeds.
                                  The h1 stays in the DOM as the accessible/SEO text and as the fallback for
                                  browsers without WebGL support — see the try/catch guard in that function. -->
                             <canvas id="hero-3d-title-canvas" class="hero-3d-title-canvas" aria-hidden="true"></canvas>
                             <h1 class="hero-huge-title">
-                                Visual<br>Creative
+                                Digital<br>Creative
                             </h1>
                         </div>
 
@@ -455,7 +455,7 @@
                     <div class="global-padding" style="position: relative;">
 
                         <blockquote id="essence-quote" style="position: relative; z-index: 3; font-family: var(--font-primary); font-size: clamp(2.2rem, 8vw, 7rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; text-align: center; max-width: 24ch; margin: 0 auto; color: #111; word-break: keep-all;">
-                            Turning human insight<br>into visual stories<br>worth telling.
+                            Turning human insight<br>into video, content, and<br>digital experiences.
                         </blockquote>
                     </div>
                 </div>
@@ -831,11 +831,11 @@
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-        <!-- [NEW] Three.js for the hero's 3D title (see initHero3DTitle in script.js) -->
+        <!-- [NEW] Three.js for the hero's 3D title (see initHero3DTitle in script.js).
+             THREE.FontLoader and THREE.TextGeometry are part of the r128 core build, so no
+             separate loader scripts are needed (the old jsdelivr examples/js/ URLs 404'd). -->
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FontLoader.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/TextGeometry.js"></script>
-        <script defer src="js/script.js?v=65"></script>
+        <script defer src="js/script.js?v=66"></script>
         <script defer src="js/custom.js"></script>
         <script defer src="js/widget.js?v=1.14"></script>
         <script>
