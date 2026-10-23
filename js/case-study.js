@@ -19,7 +19,7 @@
      * Gated on the page's genuine heavy assets (hero image, showreel video
      * metadata, footer fetch), not a fixed-duration timer. The bar climbs fast
      * to HOLD_AT for feel, then actually waits there until those settle. Each
-     * asset has a 4s cap so one stalled request can't strand the page behind
+     * asset has a 2.5s cap (3s for the footer) so one stalled request can't strand the page behind
      * the overlay.
      * ------------------------------------------------------------------- */
     function initPreloader() {
@@ -27,6 +27,8 @@
         if (!preloader) return;
 
         const footerPromise = fetch('/partials/footer.html').then((response) => response.text());
+        // fetch() has no timeout of its own; without this a hung footer request keeps the overlay up forever.
+        const footerGate = Promise.race([footerPromise.catch(() => {}), new Promise((resolve) => setTimeout(resolve, 3000))]);
 
         // Set per page via <body data-hero-image="...">; without it the hero
         // simply isn't part of the gate, rather than blocking on a bad URL.
@@ -38,7 +40,7 @@
             if (heroImg.complete) { resolve(); return; }
             heroImg.onload = resolve;
             heroImg.onerror = resolve;
-            setTimeout(resolve, 4000);
+            setTimeout(resolve, 2500);
         });
 
         const showreelVideoPromise = new Promise((resolve) => {
@@ -47,7 +49,7 @@
             if (video.readyState >= 1) { resolve(); return; }
             video.addEventListener('loadedmetadata', resolve, { once: true });
             video.addEventListener('error', resolve, { once: true });
-            setTimeout(resolve, 4000);
+            setTimeout(resolve, 2500);
         });
 
         const counter = document.getElementById('counter');
@@ -58,7 +60,7 @@
         let currentProgress = 0;
         const HOLD_AT = 90;
         let assetsSettled = false;
-        Promise.all([footerPromise, heroImagePromise, showreelVideoPromise]).then(() => {
+        Promise.all([footerGate, heroImagePromise, showreelVideoPromise]).then(() => {
             assetsSettled = true;
         });
 
@@ -249,11 +251,121 @@
         );
     }
 
+    /* ---------------------------------------------------------------------
+     * Approach slider
+     *
+     * Swipe strip for the Creative Approach clips (.approach-slider; styles in
+     * style.css, "Approach slider"). Controls hide themselves when everything
+     * already fits, so an item with a single clip shows no dead arrows.
+     * ------------------------------------------------------------------- */
+    function initApproachSliders() {
+        const sliders = document.querySelectorAll('.approach-slider');
+        if (!sliders.length) return;
+
+        if (typeof Swiper === 'undefined') {
+            setTimeout(initApproachSliders, 50);
+            return;
+        }
+
+        sliders.forEach((el) => {
+            if (el.swiper) return;
+            const scope = el.closest('.solution-video-player') || el.parentElement;
+            const controls = scope.querySelector('.approach-slider-controls');
+
+            const swiper = new Swiper(el, {
+                slidesPerView: 'auto',
+                spaceBetween: 24,
+                grabCursor: true,
+                speed: 450,
+                keyboard: { enabled: true },
+                // The clips are tall and the page scrolls vertically: favour page scroll
+                // on a mostly-vertical drag instead of holding it for the slider.
+                touchAngle: 25,
+                threshold: 5,
+                // Re-measure when slide contents resize (videos load, fonts settle).
+                observer: true,
+                observeParents: true,
+                observeSlideChildren: true,
+                pagination: { el: scope.querySelector('.swiper-pagination'), clickable: true },
+                navigation: {
+                    prevEl: scope.querySelector('.approach-nav-prev'),
+                    nextEl: scope.querySelector('.approach-nav-next')
+                },
+                breakpoints: { 768: { spaceBetween: 32 } }
+            });
+
+            const syncLock = () => { if (controls) controls.hidden = swiper.isLocked; };
+            swiper.on('lock', syncLock);
+            swiper.on('unlock', syncLock);
+            syncLock();
+            requestAnimationFrame(() => { swiper.update(); syncLock(); });
+            window.addEventListener('load', () => { swiper.update(); syncLock(); });
+
+            // A clip that slides out of view shouldn't keep playing behind the next one.
+            swiper.on('slideChange', () => {
+                el.querySelectorAll('video').forEach((v) => { if (!v.paused) v.pause(); });
+            });
+        });
+    }
+
+    /* ---------------------------------------------------------------------
+     * Reel pair ("From Teaser to Story" pattern)
+     *
+     * .teaser-story-slider holds two vertical reels: side by side and static on
+     * desktop, one-at-a-time swipeable on phones. Swiper is only instantiated
+     * below the 768px breakpoint and torn down again if the viewport grows past
+     * it, so desktop never has swipe/drag behaviour on the pair. Shared by
+     * Torch x Gundam and Andrea Bocelli (it used to live inline in Gundam).
+     * ------------------------------------------------------------------- */
+    function initTeaserStorySlider() {
+        const el = document.querySelector('.teaser-story-slider');
+        if (!el) return;
+
+        if (typeof Swiper === 'undefined') {
+            setTimeout(initTeaserStorySlider, 50);
+            return;
+        }
+
+        const mq = window.matchMedia('(max-width: 767px)');
+        let instance = null;
+
+        const sync = () => {
+            if (mq.matches && !instance) {
+                instance = new Swiper(el, {
+                    slidesPerView: 1,
+                    pagination: { el: '.teaser-story-pagination', clickable: true },
+                    // The reels are tall (9:16) in a normal scrolling page. touchAngle
+                    // narrows the horizontal-swipe cone so a mostly-vertical drag is read
+                    // as page scroll immediately instead of being held for evaluation, and
+                    // threshold adds a small dead zone before Swiper claims the gesture.
+                    touchAngle: 25,
+                    threshold: 5,
+                    observer: true,
+                    observeParents: true
+                });
+                // If the container was measured at 0 width at init (section not laid out
+                // yet), Swiper falls back to a placeholder slide size that blew up the
+                // second reel; re-measure once layout has settled.
+                requestAnimationFrame(() => instance?.update());
+                setTimeout(() => instance?.update(), 300);
+                // Same auto-advancing pill pagination as the other sliders; holds still while a reel plays.
+                window.initEditorialAutoplay?.(instance);
+            } else if (!mq.matches && instance) {
+                instance.destroy(true, true);
+                instance = null;
+            }
+        };
+        sync();
+        mq.addEventListener('change', sync);
+    }
+
     function init() {
         initPreloader();
         initStickyNav();
         initEssenceReveal();
         initHero();
+        initApproachSliders();
+        initTeaserStorySlider();
     }
 
     if (document.readyState === 'loading') {

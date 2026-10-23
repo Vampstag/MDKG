@@ -37,4 +37,4 @@ Sebagai sebuah keberhasilan kampanye secara kolektif, penceritaan visual yang ku
 ### Kutipan / Nilai Utama
 > *"I don't just shoot and edit to make things look pretty. Every visual choice, from lighting to pacing, is made to serve the story we're trying to tell and the goals we want to hit."*
 
-**Tautan Proyek:** [Lihat Video & Detail Kampanye](/portfolio/torch-x-gundam)
+**Tautan Proyek:** [Lihat Video & Detail Kampanye](/portfolio/2026/torch-x-gundam)

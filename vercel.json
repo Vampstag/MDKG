@@ -21,7 +21,18 @@
       "source": "/library.html",
       "destination": "/library",
       "permanent": true
-    }
+    },
+    { "source": "/portfolio/torch-x-gundam", "destination": "/portfolio/2026/torch-x-gundam", "permanent": true },
+    { "source": "/portfolio/torch-prestachill", "destination": "/portfolio/2026/torch-prestachill", "permanent": true },
+    { "source": "/portfolio/torch-main-cantik", "destination": "/portfolio/2026/torch-main-cantik", "permanent": true },
+    { "source": "/portfolio/pink-roulette", "destination": "/portfolio/2026/pink-roulette", "permanent": true },
+    { "source": "/portfolio/andrea-bocelli-romanza-indonesia", "destination": "/portfolio/2026/andrea-bocelli-romanza-indonesia", "permanent": true },
+    { "source": "/portfolio/asritektur-web", "destination": "/portfolio/2026/asritektur-web", "permanent": true },
+    { "source": "/portfolio/asritektur", "destination": "/portfolio/2026/asritektur", "permanent": true },
+    { "source": "/portfolio/studio-berka", "destination": "/portfolio/2026/studio-berka", "permanent": true },
+    { "source": "/portfolio/ngaliwet-raos", "destination": "/portfolio/2026/ngaliwet-raos", "permanent": true },
+    { "source": "/portfolio/tsukamie", "destination": "/portfolio/2025/tsukamie", "permanent": true },
+    { "source": "/portfolio/:year(20\\d{2})", "destination": "/portfolio", "permanent": true }
   ],
   "headers": [
     {

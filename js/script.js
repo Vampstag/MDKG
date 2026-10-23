@@ -3,6 +3,15 @@
 // 1. CORE SETUP & EVENT LISTENERS
 // =========================================
 
+// Pages below the site root load shared files (partials, data, audio) relative to themselves.
+// Most sub-pages are one folder deep (journal/x, portfolio/index); case studies live in
+// portfolio/<year>/ and are two deep, so they need one more "../".
+window.MDKG_ROOT_PREFIX = (function () {
+    const p = window.location.pathname;
+    if (/\/portfolio\/\d{4}\//.test(p)) return '../../';
+    return /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(p) ? '../' : '';
+})();
+
 // [NEW] PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -67,8 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Path relatif (bukan absolut dari root domain) agar tetap jalan meski dev server-nya
     // di-root-kan ke folder parent (mis. Live Server dibuka dari luar vampstag-portfolio/),
     // bukan cuma saat di-deploy dengan domain root persis di folder ini.
-    const isJournalSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
-    const journalDataPath = (isJournalSubPage ? '../' : '') + 'data/journal.json';
+    const journalDataPath = window.MDKG_ROOT_PREFIX + 'data/journal.json';
     const journalPromise = fetch(journalDataPath).then(r => r.json()).catch(() => []);
 
     function injectJournalSchema(journalData) {
@@ -99,8 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const journalGrid = document.getElementById('journal-grid');
 
         // Otomatis menyesuaikan path folder
-        const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
-        const prefix = isSubPage ? '../' : '';
+        const prefix = window.MDKG_ROOT_PREFIX;
 
         // 1. Render untuk Halaman Home (Ambil 3 teratas)
         if (homeGrid) {
@@ -418,11 +425,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadNavbar() {
     const container = document.getElementById('navbar-container');
     if (!container) return Promise.resolve();
-    // choose path relative to current location; case study pages are one level deep
-    let url = 'partials/navbar.html?v=2';
-    if (/\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname)) {
-        url = '../partials/navbar.html?v=2';
-    }
+    // choose path relative to current location (case studies are two folders deep)
+    const url = window.MDKG_ROOT_PREFIX + 'partials/navbar.html?v=2';
     return fetch(url)
         .then(resp => resp.text())
         .then(html => {
@@ -443,11 +447,11 @@ function loadNavbar() {
                 }
 
             // fix relative link paths when the page is inside a subfolder
-            if (/\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname)) {
+            if (window.MDKG_ROOT_PREFIX) {
                 container.querySelectorAll('a').forEach(link => {
                     const href = link.getAttribute('href');
                     if (href && !href.startsWith('http') && !href.startsWith('../') && !href.startsWith('/')) {
-                        link.setAttribute('href', '../' + href);
+                        link.setAttribute('href', window.MDKG_ROOT_PREFIX + href);
                     }
                 });
             }
@@ -496,12 +500,8 @@ function loadFooter() {
     // Don't interfere if the page has its own preloader logic (like index.html) that loads footer
     if (!container || document.getElementById('preloader')) return Promise.resolve();
 
-    let url = 'partials/footer.html';
-    const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
-    
-    if (isSubPage) {
-        url = '../partials/footer.html';
-    }
+    const isSubPage = window.MDKG_ROOT_PREFIX !== '';
+    const url = window.MDKG_ROOT_PREFIX + 'partials/footer.html';
 
     return fetch(url)
         .then(resp => resp.text())
@@ -527,8 +527,8 @@ function loadFooter() {
                     const href = el.getAttribute('href');
                     const src = el.getAttribute('src');
                     // Fix links that are relative (not http, mailto, hash, or already corrected)
-                    if (href && !href.match(/^(http|#|mailto:|\.\.\/|\/)/)) el.setAttribute('href', '../' + href);
-                    if (src && !src.match(/^(http|data:|\.\.\/|\/)/)) el.setAttribute('src', '../' + src);
+                    if (href && !href.match(/^(http|#|mailto:|\.\.\/|\/)/)) el.setAttribute('href', window.MDKG_ROOT_PREFIX + href);
+                    if (src && !src.match(/^(http|data:|\.\.\/|\/)/)) el.setAttribute('src', window.MDKG_ROOT_PREFIX + src);
                 });
             }
 
@@ -3794,22 +3794,10 @@ function initClipPathReveal() {
  */
 function initTabTitleSwitch() {
     const originalTitle = document.title;
-    const favicon = document.getElementById('favicon');
-
-    if (!favicon) return; // Exit if favicon element is not found
-
-    const originalFavicon = favicon.href;
-    // NOTE: You need to create this 'away' favicon image and place it in the correct path.
-    const awayFavicon = 'assets/images/favicon-away.png'; 
-
+    // Title only. This used to swap the favicon too, to an assets/images/favicon-away.png that
+    // was never created, which blanked the tab icon whenever the tab lost focus.
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            document.title = 'Hey, come back! 👋';
-            favicon.href = awayFavicon;
-        } else {
-            document.title = originalTitle;
-            favicon.href = originalFavicon;
-        }
+        document.title = document.hidden ? 'Hey, come back! 👋' : originalTitle;
     });
 }
 //#endregion

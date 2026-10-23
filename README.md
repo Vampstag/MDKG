@@ -22,8 +22,10 @@ Personal portfolio website for M. Dimas K. G., a Digital Creative specializing i
 ├── services/index.html     /services
 ├── library/index.html      /library
 ├── journal/                /journal (index + articles)
-├── portfolio/              /portfolio (index + one file per case study)
-│   └── _template-case-study.html   Copy this to start a new case study
+├── portfolio/              /portfolio (the grid page)
+│   ├── 2026/               /portfolio/2026/<slug>, one file per case study, grouped by year
+│   ├── 2025/               /portfolio/2025/<slug>
+│   └── _template-case-study.html   Copy into portfolio/<year>/ to start a new case study
 ├── partials/               navbar.html, footer.html (fetched into every page)
 ├── css/                    style.css (site), widget.css (music widget)
 ├── js/                     script.js (site), portfolio.js (grid data),
@@ -50,3 +52,9 @@ This repository is hooked to a live server. Any pushes to the `main` branch will
 *Designed and developed to reflect cinematic pacing and thoughtful visual execution.*
 
 &copy; 2025 M. Dimas K. G.
+
+## Adding a case study
+1. Copy `portfolio/_template-case-study.html` to `portfolio/<year>/<slug>.html` (create the year folder if new) and fill in the `{{...}}` placeholders, including `{{YEAR}}`.
+2. Add its card to `js/portfolio.js` (`year` and `link: "/portfolio/<year>/<slug>"`) and its URL to `sitemap.xml`.
+3. Pages in `portfolio/<year>/` sit two folders deep, so shared files are referenced as `../../assets/...`; `script.js` and `widget.js` handle that depth through `window.MDKG_ROOT_PREFIX`.
+4. Old flat URLs (`/portfolio/<slug>`) are 301-redirected to the year URLs in `.htaccess` and `vercel.json`. Keep those when renaming or moving a page again.

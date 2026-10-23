@@ -47,8 +47,10 @@ class MdkgWidget {
         const rawPlaylist = options.playlist || [{ src: 'assets/audio/music/bgmusic-1.mp3' }];
         
         // [FIX] Otomatis perbaiki path audio jika dibuka dari dalam folder case-study
-        const isSubPage = /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname);
-        const pathPrefix = isSubPage ? '../' : '';
+        // Set by script.js; the fallback covers pages that load widget.js without it.
+        const pathPrefix = window.MDKG_ROOT_PREFIX ??
+            (/\/portfolio\/\d{4}\//.test(window.location.pathname) ? '../../'
+                : /\/(case-study|study-case|journal|portfolio|about|services|library)\//.test(window.location.pathname) ? '../' : '');
         
         this.playlist = rawPlaylist.map(track => {
             let src = track.src;

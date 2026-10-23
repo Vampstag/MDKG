@@ -9,6 +9,13 @@ Redirect 301 /about.html /about
 Redirect 301 /services.html /services
 Redirect 301 /library.html /library
 
+# Case studies moved from /portfolio/<slug> to /portfolio/<year>/<slug> (keeps links and Google's index).
+# RedirectMatch with anchors so /portfolio/asritektur does not also swallow /portfolio/asritektur-web.
+RedirectMatch 301 ^/portfolio/(torch-x-gundam|torch-prestachill|torch-main-cantik|pink-roulette|andrea-bocelli-romanza-indonesia|asritektur-web|asritektur|studio-berka|ngaliwet-raos)(\.html)?/?$ /portfolio/2026/$1
+RedirectMatch 301 ^/portfolio/(tsukamie)(\.html)?/?$ /portfolio/2025/$1
+# A bare year folder has no page of its own; send it to the grid.
+RedirectMatch 301 ^/portfolio/(20[0-9][0-9])/?$ /portfolio
+
 # ==============================================================================
 # 1. ATURAN ROUTING & URL BERSIH (CLEAN URL & SEO HTTPS)
 # ==============================================================================
@@ -62,6 +69,8 @@ Redirect 301 /library.html /library
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 month"
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 month"
     ExpiresByType video/mp4 "access plus 1 year"
     ExpiresByType video/webm "access plus 1 year"
     ExpiresByType audio/mpeg "access plus 1 year"

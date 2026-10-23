@@ -2652,7 +2652,8 @@ html.lenis, html.lenis body { height: auto; }
    so a slider without autoplay (reduced motion) just shows a solid black pill. */
 .bits-slider .swiper-pagination-bullet,
 .solution-slider .swiper-pagination-bullet,
-.teaser-story-slider .swiper-pagination-bullet {
+.teaser-story-slider .swiper-pagination-bullet,
+.approach-slider-controls .swiper-pagination-bullet {
     position: relative;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.2);
@@ -2666,7 +2667,8 @@ html.lenis, html.lenis body { height: auto; }
 
 .bits-slider .swiper-pagination-bullet-active,
 .solution-slider .swiper-pagination-bullet-active,
-.teaser-story-slider .swiper-pagination-bullet-active {
+.teaser-story-slider .swiper-pagination-bullet-active,
+.approach-slider-controls .swiper-pagination-bullet-active {
     background: rgba(0, 0, 0, 0.2);
     width: 32px;
     border-radius: 4px; /* Pill shape once stretched wide: a full 50% would just round the short ends */
@@ -2674,7 +2676,8 @@ html.lenis, html.lenis body { height: auto; }
 
 .bits-slider .swiper-pagination-bullet-active::after,
 .solution-slider .swiper-pagination-bullet-active::after,
-.teaser-story-slider .swiper-pagination-bullet-active::after {
+.teaser-story-slider .swiper-pagination-bullet-active::after,
+.approach-slider-controls .swiper-pagination-bullet-active::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -9313,3 +9316,155 @@ a.social-icon:hover img {
 @media (min-width: 992px) {
     .ed-hero ~ section .credits-grid { column-gap: 24px; }
 }
+
+/* #region Approach slider
+   Creative Approach visuals as a swipeable strip: text on top, then clips of mixed
+   proportions (16:9 film, 9:16 reels) at one shared height so they read as a filmstrip. The
+   next slide peeks in at the right edge to signal there is more. Controls (editorial pill
+   pagination + two round arrows) sit below instead of over the footage. Markup and init:
+   andrea-bocelli-romanza-indonesia.html, initApproachSliders in case-study.js. */
+.approach-slider {
+    --approach-h: clamp(380px, 46vw, 600px);
+    width: 100%;
+    overflow: hidden;
+}
+/* Grid items default to min-width:auto, so the track grew to the full width of every slide
+   (and Swiper saw nothing to scroll). Let the column, not the slides, set the width. */
+.solution-video-player:has(> .approach-slider),
+.approach-slider { min-width: 0; max-width: 100%; }
+.approach-slider .swiper-slide {
+    /* Width comes from the shared height and the clip's ratio, not from the video's intrinsic
+       size: Swiper measures slides at init, before a not-yet-loaded <video> has one. */
+    width: calc(var(--approach-h) * 9 / 16);
+    max-width: 100%;
+    height: var(--approach-h);
+}
+.approach-slider .swiper-slide:has(.approach-hero-film) { width: calc(var(--approach-h) * 16 / 9); }
+.approach-slider .video-player-wrapper,
+.approach-slider .video-player-wrapper.is-reel,
+.approach-slider .video-player-wrapper.approach-hero-film {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+}
+.approach-slider .video-player-wrapper.is-reel { aspect-ratio: 9 / 16; }
+.approach-slider .video-player-wrapper.approach-hero-film { aspect-ratio: 16 / 9; }
+.approach-slider .video-element { display: block; }
+@media (max-width: 767px) {
+    .approach-slider { --approach-h: min(68vh, 520px); }
+    .approach-slider .swiper-wrapper { align-items: center; } /* the 16:9 film is shorter than the reels; centre it instead of leaving a gap under it */
+    /* A 16:9 clip at the reel height would be wider than the screen: let it fill the width. */
+    .approach-slider .swiper-slide:has(.approach-hero-film) { width: 100%; height: auto; }
+    .approach-slider .video-player-wrapper.approach-hero-film { width: 100%; height: auto; }
+}
+.approach-slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 36px;
+}
+.approach-slider-controls[hidden] { display: none; }
+.approach-slider-controls .swiper-pagination {
+    position: static;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.approach-slider-nav { display: flex; gap: 12px; }
+.approach-nav {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(17, 17, 17, 0.18);
+    background: transparent;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth), border-color 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
+}
+.approach-nav:hover { background: #111; color: #fff; border-color: #111; }
+.approach-nav:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+.approach-nav.swiper-button-disabled { opacity: 0.25; pointer-events: none; }
+/* #endregion */
+
+
+
+
+/* #region Approach editorial composition
+   Creative Approach as a zig-zag: every statement sits directly beside its own visual so the
+   reading path is unambiguous (Torch x Gundam's alternating rhythm, with Prestachill's scale
+   and empty space). Desktop, 12 columns: row 1 has the statement on the left and the 16:9 film
+   (.approach-editorial-film, with its .approach-slider) on the right; row 2 has the reel pair
+   (.approach-editorial-reels, the .teaser-story-slider) on the left and its statement on the
+   right, dropped to the reels' bottom edge. One large statement per visual, no titles or
+   numbers. Below 992px it stacks in DOM order (statement, film, statement, reels). Items fade in
+   via the is-visible observer in the page's solution script. */
+.approach-editorial {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+}
+.approach-editorial-item {
+    min-width: 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.approach-editorial-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* On a phone each statement reads as the lead-in to the visual below it, so the gap to the
+   next pair is larger than the gap inside a pair. */
+.approach-editorial-text--reels { margin-top: 24px; }
+/* 16:9 clips fill the film column one at a time. */
+.approach-editorial-film .approach-slider .swiper-slide:has(.approach-hero-film) {
+    width: 100%;
+    height: auto;
+}
+.approach-editorial-film .approach-slider .video-player-wrapper.approach-hero-film {
+    width: 100%;
+    height: auto;
+}
+@media (min-width: 992px) {
+    .approach-editorial {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: 32px;
+        row-gap: clamp(112px, 12vw, 192px);
+    }
+    .approach-editorial-text--reels { margin-top: 0; }
+    .approach-editorial-text--film {
+        grid-column: 1 / 5;
+        grid-row: 1;
+        align-self: start;
+    }
+    .approach-editorial-film {
+        grid-column: 6 / 13;
+        grid-row: 1;
+    }
+    .approach-editorial-reels {
+        grid-column: 1 / 6;
+        grid-row: 2;
+    }
+    .approach-editorial-text--reels {
+        grid-column: 8 / 12;
+        grid-row: 2;
+        align-self: end;
+    }
+    /* The two reels share their column evenly. */
+    .approach-editorial-reels .teaser-story-slider .swiper-wrapper { gap: 16px; }
+    .approach-editorial-reels .teaser-story-slider .swiper-slide { width: calc((100% - 16px) / 2); }
+    .approach-editorial-reels .teaser-story-slider .video-player-wrapper.is-reel {
+        width: 100%;
+        max-width: none;
+    }
+}
+/* #endregion */
+

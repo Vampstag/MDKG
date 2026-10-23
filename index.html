@@ -11,13 +11,13 @@
              the race before #preloader's first paint. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        <title>M. Dimas K. G. | Digital Creative</title>
-        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." name="description"/>
-        <meta content="M. Dimas K. G. | Digital Creative" property="og:title"/>
-        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." property="og:description"/>
+        <title>M. Dimas K. G. | Digital Creative: Video, Motion & Web, Bandung</title>
+        <meta content="Bandung-based digital creative in video, motion, and web. I start with who's watching and how they should feel, then build the craft from there." name="description"/>
+        <meta content="M. Dimas K. G. | Digital Creative: Video, Motion & Web, Bandung" property="og:title"/>
+        <meta content="Bandung-based digital creative in video, motion, and web. I start with who's watching and how they should feel, then build the craft from there." property="og:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" property="og:image"/>
-        <meta content="M. Dimas K. G. | Digital Creative" property="twitter:title"/>
-        <meta content="Bandung-based digital creative in video, content, and web. I start with who's watching and how they should feel, then build the craft from there." property="twitter:description"/>
+        <meta content="M. Dimas K. G. | Digital Creative: Video, Motion & Web, Bandung" property="twitter:title"/>
+        <meta content="Bandung-based digital creative in video, motion, and web. I start with who's watching and how they should feel, then build the craft from there." property="twitter:description"/>
         <meta content="https://hellodimas.my.id/assets/images/open-graphimage.png" name="twitter:image"/>
         <meta property="og:url" content="https://hellodimas.my.id/"/>
         <meta property="og:site_name" content="MDKG Portfolio"/>
@@ -56,6 +56,16 @@
 
           gtag('config', 'G-57RMNL3S4P');
         </script>
+        <!-- Tells Google which name to show above the result (site name) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "M. Dimas K. G.",
+          "alternateName": ["MDKG", "MDKG Portfolio"],
+          "url": "https://hellodimas.my.id/"
+        }
+        </script>
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -65,7 +75,7 @@
           "jobTitle": "Digital Creative",
           "url": "https://hellodimas.my.id",
           "image": "https://hellodimas.my.id/assets/images/open-graphimage.png",
-          "description": "Bandung-based digital creative working across video, content, and web, building craft around who's watching and how they should feel.",
+          "description": "Bandung-based digital creative working across video, motion, and web, building craft around who's watching and how they should feel.",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Bandung",
@@ -135,7 +145,7 @@
              had already measured layout (hero carousel, ScrollTrigger pins) against unstyled
              markup, and on a slow first visit the preloader could lift before it landed at all,
              so the page looked broken until a refresh pulled it from cache. -->
-        <link rel="stylesheet" href="css/style.css?v=166">
+        <link rel="stylesheet" href="css/style.css?v=167">
         <!-- Sets the flag the scroll-reveal CSS is scoped to (see SCROLL REVEAL CONTRACT in
              style.css). Inline and before first paint so revealed content never flashes; if
              this or script.js fails, the page renders fully visible instead of blank. -->
@@ -318,8 +328,9 @@
                 ("ontouchstart"in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
             }(window, document);
         </script>
-        <link id="favicon" href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173702790dddc188071e_favicon.png" rel="shortcut icon" type="image/x-icon"/>
-        <link href="https://cdn.prod.website-files.com/6933c25a0996b0f96f5c2bc3/6939173b132ad27a1b8886b4_webclip.png" rel="apple-touch-icon"/>
+        <link rel="icon" href="/favicon.ico" sizes="48x48"/>
+        <link rel="icon" type="image/png" href="/assets/icons/icon-192.png" sizes="192x192"/>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
         <link rel="stylesheet" href="css/widget.css?v=15">
         <script type="text/javascript">
             window.__WEBFLOW_CURRENCY_SETTINGS = {
@@ -609,7 +620,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="/portfolio/torch-x-gundam" class="work-card">
+                            <a href="/portfolio/2026/torch-x-gundam" class="work-card">
                                 <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
                                     <img src="assets/images/project/torch/torch-model-backpack.webp" alt="Torch x Gundam" class="work-card__image" loading="lazy" decoding="async">
                                     <!-- Existing Overlay -->
@@ -630,7 +641,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="/portfolio/torch-prestachill" class="work-card">
+                            <a href="/portfolio/2026/torch-prestachill" class="work-card">
                                 <div class="work-card__image-wrapper" style="background-color: #f5f5f7;">
                                     <img src="assets/images/project/torch-prestachill/prestachill-main-model.webp" alt="Torch Prestachill" class="work-card__image" loading="lazy" decoding="async">
                                     <div class="work-card__overlay">
@@ -835,9 +846,9 @@
              THREE.FontLoader and THREE.TextGeometry are part of the r128 core build, so no
              separate loader scripts are needed (the old jsdelivr examples/js/ URLs 404'd). -->
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script defer src="js/script.js?v=66"></script>
+        <script defer src="js/script.js?v=68"></script>
         <script defer src="js/custom.js"></script>
-        <script defer src="js/widget.js?v=1.14"></script>
+        <script defer src="js/widget.js?v=1.15"></script>
         <script>
             // [NEW] Site Essence reveal. Desktop keeps the per-word reveal scrubbed to scroll
             // position (scrubbing is what makes it reverse cleanly on scroll-up). Mobile gets

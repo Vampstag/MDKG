@@ -34,4 +34,4 @@ Konsistensi kualitas visual dan rutinitas output bulanan berdampak langsung pada
 ### Proses Kreatif
 > *"People can feel when something is made with care. By focusing on atmosphere and narrative rhythm, I create work that respects the viewer's time and builds genuine trust with your audience."*
 
-**Tautan Proyek:** [Lihat Detail Proyek](/portfolio/tsukamie)
+**Tautan Proyek:** [Lihat Detail Proyek](/portfolio/2025/tsukamie)

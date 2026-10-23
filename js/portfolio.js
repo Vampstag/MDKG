@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Post Production",
                 industry: "Fashion",
                 roles: ["Post Production"],
-                link: "/portfolio/torch-main-cantik",
+                link: "/portfolio/2026/torch-main-cantik",
                 clientName: "Torch",
                 description: "Shaping the edit and visual tone of Torch's “Main Cantik” women's collection campaign.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Photo Production · Post Production",
                 industry: "Beauty",
                 roles: ["Photo Production", "Post Production"],
-                link: "/portfolio/pink-roulette",
+                link: "/portfolio/2026/pink-roulette",
                 clientName: "Pink Roulette",
                 description: "Photography and motion introducing Pink Roulette’s new face, Ciara Brosnan, alongside its latest products.",
                 brandInfo: "A local beauty and lifestyle brand established in 2018, offering a variety of skincare and makeup products in Indonesia.",
@@ -148,10 +148,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 id: 9,
                 title: "Andrea Bocelli World Tour",
                 year: "2026",
-                category: "Post Production",
+                category: "Post Production · Motion Design",
                 industry: "Live Event",
-                roles: ["Post Production"],
-                link: "/portfolio/andrea-bocelli-romanza-indonesia",
+                roles: ["Post Production", "Motion Design"],
+                link: "/portfolio/2026/andrea-bocelli-romanza-indonesia",
                 clientName: "Andrea Bocelli",
                 description: "Post-production across video editing and motion design for Andrea Bocelli’s Romanza 30th Anniversary World Tour in Indonesia.",
                 brandInfo: "Andrea Bocelli is set to return to Indonesia for two special concerts in Borobudur and JIExpo, Jakarta, as part of his worldwide tour celebrating 30 years of Romanza, the landmark album that helped establish his global career.",
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Video Production · Post Production",
                 industry: "Fashion",
                 roles: ["Video Production", "Post Production"],
-                link: "/portfolio/torch-prestachill",
+                link: "/portfolio/2026/torch-prestachill",
                 clientName: "Torch",
                 description: "Organic short-form video for Torch's PrestaChill campaign. A reminder to students to celebrate their small wins.",
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Video Production · Post Production",
                 industry: "Fashion", // [NEW] Properti Industri
                 roles: ["Video Production", "Post Production"], // [NEW] Properti Layanan/Role (bisa lebih dari satu)
-                link: "/portfolio/torch-x-gundam", // Ganti dengan link detail proyek jika ada
+                link: "/portfolio/2026/torch-x-gundam", // Ganti dengan link detail proyek jika ada
                 clientName: "Torch",
                 description: "Cinematic video production and visual execution for Torch's biggest IP collaboration, collectively driving over 1.82M organic views.", // Ganti dengan deskripsi proyek
                 brandInfo: "Torch is a local Indonesian brand founded in Bandung, specializing in durable and stylish bags, apparel, and accessories designed for everyday use and travel.",
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 category: "Video Production · Photo Production · Post Production · Social Content",
                 industry: "F&B",
                 roles: ["Video Production", "Photo Production", "Post Production", "Social Content"],
-                link: "/portfolio/tsukamie",
+                link: "/portfolio/2025/tsukamie",
                 clientName: "Tsukamie",
                 description: "Social media content and digital marketing that grew an F&B brand's reach by +10,896%.",
                 brandInfo: "Established in 2022, Tsukamie is a Halal-certified Asian fusion noodle bar in Bandung that positions itself as a lifestyle ecosystem rather than just an F&B brand.",
